@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Eye, EyeOff, Mail, Lock, Shield, ArrowRight, AlertCircle } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -124,7 +123,7 @@ export default function LoginPage() {
             <form onSubmit={handleSubmit} className="space-y-6">
               {errors.submit && (
                 <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-center">
-                  <AlertCircle className="w-5 h-5 text-red-500 mr-3 flex-shrink-0" />
+                  <span className="text-red-500 mr-3 text-lg">🚨</span>
                   <span className="text-red-700 text-sm">{errors.submit}</span>
                 </div>
               )}
@@ -138,9 +137,13 @@ export default function LoginPage() {
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
-                      errors.email ? 'border-red-300 bg-red-50' : 'border-slate-300'
-                    }`}
+                  className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:outline-none transition-all ${
+                    errors.email ? 'border-red-300 bg-red-50' : 'border-slate-300'
+                  }`}
+                  style={{ 
+                    '--tw-ring-color': '#4CB3A9',
+                    focusBorderColor: '#4CB3A9'
+                  } as any}
                     placeholder="Enter your email"
                   />
                 </div>
@@ -158,9 +161,13 @@ export default function LoginPage() {
                     name="password"
                     value={formData.password}
                     onChange={handleInputChange}
-                    className={`w-full pl-10 pr-12 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
-                      errors.password ? 'border-red-300 bg-red-50' : 'border-slate-300'
-                    }`}
+                  className={`w-full pl-10 pr-12 py-3 border rounded-xl focus:outline-none transition-all ${
+                    errors.password ? 'border-red-300 bg-red-50' : 'border-slate-300'
+                  }`}
+                  style={{ 
+                    '--tw-ring-color': '#4CB3A9',
+                    focusBorderColor: '#4CB3A9'
+                  } as any}
                     placeholder="Enter your password"
                   />
                   <button
@@ -192,20 +199,21 @@ export default function LoginPage() {
                 </Link>
               </div>
 
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="w-full bg-gradient-to-r from-blue-600 to-amber-500 text-white py-3 px-6 rounded-xl font-medium hover:from-blue-700 hover:to-amber-600 transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
-              >
-                {isLoading ? (
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                ) : (
-                  <>
-                    Sign In
-                    <ArrowRight className="w-5 h-5 ml-2" />
-                  </>
-                )}
-              </button>
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full text-white py-3 px-6 rounded-xl font-medium transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                  style={{ background: 'linear-gradient(135deg, #CCA404 0%, #4CB3A9 100%)' }}
+                >
+                  {isLoading ? (
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    <>
+                      Sign In
+                      <span className="ml-2">→</span>
+                    </>
+                  )}
+                </button>
             </form>
 
             <div className="mt-8 text-center">

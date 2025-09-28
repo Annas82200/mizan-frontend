@@ -47,25 +47,26 @@ export function ClientProvider({ children }: { children: React.ReactNode }) {
 
   const loadClients = async () => {
     try {
-      // Try to load from backend first
+      // Always load from localStorage first for immediate UI
+      const savedClients = localStorage.getItem('mizan-clients');
+      if (savedClients) {
+        const parsedClients = JSON.parse(savedClients);
+        console.log('📱 Loaded clients from localStorage:', parsedClients.length);
+        setClients(parsedClients);
+      }
+
+      // Then try to sync with backend
       const response = await fetch('https://mizan-backend-production.up.railway.app/api/superadmin/clients');
       if (response.ok) {
         const data = await response.json();
-        setClients(data.clients || []);
-      } else {
-        // Fallback to localStorage
-        const savedClients = localStorage.getItem('mizan-clients');
-        if (savedClients) {
-          setClients(JSON.parse(savedClients));
+        if (data.clients && data.clients.length > 0) {
+          console.log('🔄 Synced with backend clients:', data.clients.length);
+          setClients(data.clients);
+          localStorage.setItem('mizan-clients', JSON.stringify(data.clients));
         }
       }
     } catch (error) {
-      console.error('Failed to load clients:', error);
-      // Fallback to localStorage
-      const savedClients = localStorage.getItem('mizan-clients');
-      if (savedClients) {
-        setClients(JSON.parse(savedClients));
-      }
+      console.error('Backend sync failed, using localStorage:', error);
     }
   };
 
@@ -81,9 +82,10 @@ export function ClientProvider({ children }: { children: React.ReactNode }) {
       if (response.ok) {
         const data = await response.json();
         const newClient = data.client;
-        setClients(prev => [...prev, newClient]);
-        // Also save to localStorage as backup
-        localStorage.setItem('mizan-clients', JSON.stringify([...clients, newClient]));
+        const updatedClients = [...clients, newClient];
+        setClients(updatedClients);
+        localStorage.setItem('mizan-clients', JSON.stringify(updatedClients));
+        console.log('✅ Client saved to backend and localStorage:', newClient.name);
         return;
       }
     } catch (error) {
