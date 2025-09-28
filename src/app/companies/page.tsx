@@ -33,12 +33,12 @@ export default function CompaniesPage() {
       <section className="py-20 md:py-32 px-6">
         <div className="max-w-6xl mx-auto text-center">
           {/* Logo */}
-          <div className="mb-12 opacity-0 animate-[fadeInUp_0.8s_ease-out_0.2s_forwards]">
+          <div className="mb-12">
             <img src="/logo.png" alt="Mizan" className="w-20 h-20 mx-auto drop-shadow-xl" />
           </div>
           
           {/* Hero Typography */}
-          <div className="mb-8 opacity-0 animate-[fadeInUp_0.8s_ease-out_0.4s_forwards]">
+          <div className="mb-8">
             <h1 className="text-5xl md:text-6xl font-extralight leading-tight tracking-tight mb-4" style={{ color: '#3F3D56' }}>
               AI-Powered 
             </h1>
@@ -48,7 +48,7 @@ export default function CompaniesPage() {
             </h1>
           </div>
           
-          <div className="mb-16 opacity-0 animate-[fadeInUp_0.8s_ease-out_0.6s_forwards]">
+          <div className="mb-16">
             <p className="text-xl md:text-2xl font-light max-w-4xl mx-auto leading-relaxed" style={{ color: '#545454' }}>
               Transform your organization with sophisticated AI analysis of culture, 
               structure, and performance using our proprietary frameworks and cutting-edge technology.
@@ -60,7 +60,7 @@ export default function CompaniesPage() {
       {/* Services Overview - Apple Style */}
       <section className="py-24 px-6 bg-slate-50">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-20 opacity-0 animate-[fadeInUp_0.8s_ease-out_0.8s_forwards]">
+          <div className="text-center mb-20">
             <h2 className="text-4xl md:text-5xl font-extralight mb-6 leading-tight" style={{ color: '#3F3D56' }}>
               Our AI-Powered Services
             </h2>
@@ -69,7 +69,7 @@ export default function CompaniesPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 opacity-0 animate-[fadeInUp_0.8s_ease-out_1.0s_forwards]">
+          <div className="grid md:grid-cols-3 gap-8">
             {/* Structure Analysis - FREE */}
             <div className="bg-white rounded-3xl p-8 hover:shadow-2xl transition-all duration-500 border border-slate-200 shadow-lg hover:scale-[1.02]">
               <div className="text-center mb-8">
