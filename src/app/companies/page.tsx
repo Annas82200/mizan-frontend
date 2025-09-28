@@ -1,139 +1,165 @@
+"use client";
+
 import React from 'react';
 import Link from 'next/link';
-import { ArrowRight, CheckCircle, Building2, Users, Target, BarChart3 } from 'lucide-react';
 
 export default function CompaniesPage() {
   return (
-    <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <nav className="bg-white border-b border-slate-200 px-6 py-4">
+    <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #f8fafc 0%, rgba(76, 179, 169, 0.05) 100%)' }}>
+      {/* Navigation - Apple Style */}
+      <nav className="backdrop-blur-sm bg-white/80 border-b border-slate-200/50 px-6 py-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-3">
-            <img src="/logo.png" alt="Mizan" className="w-8 h-8" />
-            <span className="text-xl font-light text-slate-800">Mizan</span>
+            <img src="/logo.png" alt="Mizan" className="w-8 h-8 drop-shadow-md" />
+            <span className="text-xl font-extralight" style={{ color: '#3F3D56' }}>Mizan</span>
           </Link>
           <div className="flex items-center space-x-8">
-            <Link href="/companies/about" className="text-slate-600 hover:text-slate-900">About</Link>
-            <Link href="/companies/pricing" className="text-slate-600 hover:text-slate-900">Pricing</Link>
-            <Link href="/companies/demo" className="text-slate-600 hover:text-slate-900">Demo</Link>
-            <Link href="/auth/login" className="text-slate-600 hover:text-slate-900">Login</Link>
+            <Link href="/companies/about" className="font-light hover:opacity-60 transition-opacity" style={{ color: '#545454' }}>About</Link>
+            <Link href="/companies/pricing" className="font-light hover:opacity-60 transition-opacity" style={{ color: '#545454' }}>Pricing</Link>
+            <Link href="/companies/demo" className="font-light hover:opacity-60 transition-opacity" style={{ color: '#545454' }}>Demo</Link>
+            <Link 
+              href="/auth/login" 
+              className="px-6 py-2 rounded-full font-light text-white hover:opacity-90 transition-all duration-200"
+              style={{ background: 'linear-gradient(135deg, #CCA404 0%, #4CB3A9 100%)' }}
+            >
+              Login
+            </Link>
           </div>
         </div>
       </nav>
 
-      {/* Hero */}
-      <section className="py-20 px-6">
+      {/* Apple-inspired Hero */}
+      <section className="py-20 md:py-32 px-6">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-6xl font-light mb-8" style={{ color: '#3F3D56' }}>AI-Powered Organizational Intelligence</h1>
-          <p className="text-xl mb-16 max-w-4xl mx-auto" style={{ color: '#545454' }}>
-            Transform your organization with sophisticated AI analysis of culture, 
-            structure, and performance using our proprietary frameworks and cutting-edge technology.
-          </p>
+          {/* Logo */}
+          <div className="mb-12 opacity-0 animate-[fadeInUp_0.8s_ease-out_0.2s_forwards]">
+            <img src="/logo.png" alt="Mizan" className="w-20 h-20 mx-auto drop-shadow-xl" />
+          </div>
+          
+          {/* Hero Typography */}
+          <div className="mb-8 opacity-0 animate-[fadeInUp_0.8s_ease-out_0.4s_forwards]">
+            <h1 className="text-5xl md:text-6xl font-extralight leading-tight tracking-tight mb-4" style={{ color: '#3F3D56' }}>
+              AI-Powered 
+            </h1>
+            <h1 className="text-5xl md:text-6xl font-extralight leading-tight tracking-tight" 
+                style={{ background: 'linear-gradient(135deg, #CCA404 0%, #4CB3A9 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              Organizational Intelligence
+            </h1>
+          </div>
+          
+          <div className="mb-16 opacity-0 animate-[fadeInUp_0.8s_ease-out_0.6s_forwards]">
+            <p className="text-xl md:text-2xl font-light max-w-4xl mx-auto leading-relaxed" style={{ color: '#545454' }}>
+              Transform your organization with sophisticated AI analysis of culture, 
+              structure, and performance using our proprietary frameworks and cutting-edge technology.
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* Services Overview */}
-      <section className="py-20 px-6 bg-slate-50">
+      {/* Services Overview - Apple Style */}
+      <section className="py-24 px-6" style={{ background: 'linear-gradient(135deg, rgba(204, 164, 4, 0.03) 0%, rgba(76, 179, 169, 0.03) 100%)' }}>
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-light text-slate-900 mb-6">Our AI-Powered Services</h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+          <div className="text-center mb-20 opacity-0 animate-[fadeInUp_0.8s_ease-out_0.8s_forwards]">
+            <h2 className="text-4xl md:text-5xl font-extralight mb-6 leading-tight" style={{ color: '#3F3D56' }}>
+              Our AI-Powered Services
+            </h2>
+            <p className="text-xl font-light max-w-3xl mx-auto leading-relaxed" style={{ color: '#545454' }}>
               Comprehensive organizational analysis through three specialized AI agents
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-12">
+          <div className="grid md:grid-cols-3 gap-8 opacity-0 animate-[fadeInUp_0.8s_ease-out_1.0s_forwards]">
             {/* Structure Analysis - FREE */}
-            <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-green-200">
-              <div className="text-center mb-6">
-                <div className="w-16 h-16 bg-green-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <Building2 className="w-8 h-8 text-white" />
+            <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-8 hover:bg-white/80 transition-all duration-500 border border-white/50 shadow-xl hover:shadow-2xl hover:scale-[1.02]">
+              <div className="text-center mb-8">
+                <div className="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6" style={{ background: 'linear-gradient(135deg, #4CB3A9 0%, #CCA404 100%)' }}>
+                  <span className="text-3xl">🏗️</span>
                 </div>
-                <div className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium mb-4">
+                <div className="px-4 py-2 rounded-full text-sm font-medium mb-4" style={{ backgroundColor: '#4CB3A9', color: 'white' }}>
                   FREE FOREVER
                 </div>
-                <h3 className="text-2xl font-light text-slate-900 mb-2">Structure Analysis</h3>
-                <p className="text-slate-600 font-light">
+                <h3 className="text-2xl font-extralight mb-3" style={{ color: '#3F3D56' }}>Structure Analysis</h3>
+                <p className="font-light leading-relaxed" style={{ color: '#545454' }}>
                   AI-powered organizational structure assessment and strategic alignment analysis
                 </p>
               </div>
-              <div className="space-y-3 text-sm text-slate-600">
+              <div className="space-y-4 text-sm font-light" style={{ color: '#545454' }}>
                 <div className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+                  <span className="text-lg mr-3">✅</span>
                   <span>Organizational chart analysis</span>
                 </div>
                 <div className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+                  <span className="text-lg mr-3">✅</span>
                   <span>Strategic alignment assessment</span>
                 </div>
                 <div className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+                  <span className="text-lg mr-3">✅</span>
                   <span>Structure optimization recommendations</span>
                 </div>
                 <div className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+                  <span className="text-lg mr-3">✅</span>
                   <span>Span of control analysis</span>
                 </div>
               </div>
             </div>
 
             {/* Culture Analysis */}
-            <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
-              <div className="text-center mb-6">
-                <div className="w-16 h-16 bg-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <Users className="w-8 h-8 text-white" />
+            <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-8 hover:bg-white/80 transition-all duration-500 border border-white/50 shadow-xl hover:shadow-2xl hover:scale-[1.02]">
+              <div className="text-center mb-8">
+                <div className="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6" style={{ background: 'linear-gradient(135deg, #CCA404 0%, #4CB3A9 100%)' }}>
+                  <span className="text-3xl">🎯</span>
                 </div>
-                <h3 className="text-2xl font-light text-slate-900 mb-2">Culture Analysis</h3>
-                <p className="text-slate-600 font-light">
+                <h3 className="text-2xl font-extralight mb-3" style={{ color: '#3F3D56' }}>Culture Analysis</h3>
+                <p className="font-light leading-relaxed" style={{ color: '#545454' }}>
                   Deep cultural assessment using our proprietary 7-Cylinders Framework
                 </p>
               </div>
-              <div className="space-y-3 text-sm text-slate-600">
+              <div className="space-y-4 text-sm font-light" style={{ color: '#545454' }}>
                 <div className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-blue-500 mr-2 flex-shrink-0" />
+                  <span className="text-lg mr-3">✅</span>
                   <span>Employee culture surveys</span>
                 </div>
                 <div className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-blue-500 mr-2 flex-shrink-0" />
+                  <span className="text-lg mr-3">✅</span>
                   <span>Values alignment mapping</span>
                 </div>
                 <div className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-blue-500 mr-2 flex-shrink-0" />
+                  <span className="text-lg mr-3">✅</span>
                   <span>Culture health metrics</span>
                 </div>
                 <div className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-blue-500 mr-2 flex-shrink-0" />
+                  <span className="text-lg mr-3">✅</span>
                   <span>Personalized employee insights</span>
                 </div>
               </div>
             </div>
 
             {/* Skills Analysis */}
-            <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
-              <div className="text-center mb-6">
-                <div className="w-16 h-16 bg-amber-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <Target className="w-8 h-8 text-white" />
+            <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-8 hover:bg-white/80 transition-all duration-500 border border-white/50 shadow-xl hover:shadow-2xl hover:scale-[1.02]">
+              <div className="text-center mb-8">
+                <div className="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6" style={{ background: 'linear-gradient(135deg, #4CB3A9 0%, #CCA404 100%)' }}>
+                  <span className="text-3xl">🎓</span>
                 </div>
-                <h3 className="text-2xl font-light text-slate-900 mb-2">Skills Analysis</h3>
-                <p className="text-slate-600 font-light">
+                <h3 className="text-2xl font-extralight mb-3" style={{ color: '#3F3D56' }}>Skills Analysis</h3>
+                <p className="font-light leading-relaxed" style={{ color: '#545454' }}>
                   Strategic skills gap analysis and capability mapping for future readiness
                 </p>
               </div>
-              <div className="space-y-3 text-sm text-slate-600">
+              <div className="space-y-4 text-sm font-light" style={{ color: '#545454' }}>
                 <div className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-amber-500 mr-2 flex-shrink-0" />
+                  <span className="text-lg mr-3">✅</span>
                   <span>Skills gap identification</span>
                 </div>
                 <div className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-amber-500 mr-2 flex-shrink-0" />
+                  <span className="text-lg mr-3">✅</span>
                   <span>Strategic capability mapping</span>
                 </div>
                 <div className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-amber-500 mr-2 flex-shrink-0" />
+                  <span className="text-lg mr-3">✅</span>
                   <span>Future skills forecasting</span>
                 </div>
                 <div className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-amber-500 mr-2 flex-shrink-0" />
+                  <span className="text-lg mr-3">✅</span>
                   <span>Learning and development plans</span>
                 </div>
               </div>
