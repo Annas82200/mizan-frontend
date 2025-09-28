@@ -371,6 +371,172 @@ export const MizanIcons = {
         strokeWidth="1.5" 
       />
     </svg>
+  ),
+
+  // Additional Platform Features
+  Performance: ({ className = "w-6 h-6", color = "#3F3D56" }: { className?: string; color?: string }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path 
+        d="M3 12L7 8L11 12L17 6L21 10" 
+        stroke={color} 
+        strokeWidth="1.5" 
+        strokeLinecap="round" 
+        strokeLinejoin="round" 
+      />
+      <rect 
+        x="3" 
+        y="18" 
+        width="2" 
+        height="4" 
+        rx="0.5" 
+        stroke={color} 
+        strokeWidth="1.5" 
+      />
+      <rect 
+        x="7" 
+        y="14" 
+        width="2" 
+        height="8" 
+        rx="0.5" 
+        stroke={color} 
+        strokeWidth="1.5" 
+      />
+      <rect 
+        x="11" 
+        y="16" 
+        width="2" 
+        height="6" 
+        rx="0.5" 
+        stroke={color} 
+        strokeWidth="1.5" 
+      />
+      <rect 
+        x="15" 
+        y="12" 
+        width="2" 
+        height="10" 
+        rx="0.5" 
+        stroke={color} 
+        strokeWidth="1.5" 
+      />
+      <rect 
+        x="19" 
+        y="15" 
+        width="2" 
+        height="7" 
+        rx="0.5" 
+        stroke={color} 
+        strokeWidth="1.5" 
+      />
+    </svg>
+  ),
+
+  Engagement: ({ className = "w-6 h-6", color = "#4CB3A9" }: { className?: string; color?: string }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle 
+        cx="9" 
+        cy="7" 
+        r="4" 
+        stroke={color} 
+        strokeWidth="1.5" 
+      />
+      <path 
+        d="M1 21V19C1 16.7909 2.79086 15 5 15H13C15.2091 15 17 16.7909 17 19V21" 
+        stroke={color} 
+        strokeWidth="1.5" 
+        strokeLinecap="round" 
+      />
+      <path 
+        d="M16 3.13C16.8604 3.35031 17.623 3.85071 18.1676 4.55232C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89318 18.7122 8.75608 18.1676 9.45769C17.623 10.1593 16.8604 10.6597 16 10.88" 
+        stroke={color} 
+        strokeWidth="1.5" 
+        strokeLinecap="round" 
+        strokeLinejoin="round" 
+      />
+      <path 
+        d="M22 21V19C21.9949 18.1172 21.6979 17.2681 21.1553 16.5739C20.6126 15.8797 19.8548 15.3811 19 15.15" 
+        stroke={color} 
+        strokeWidth="1.5" 
+        strokeLinecap="round" 
+        strokeLinejoin="round" 
+      />
+    </svg>
+  ),
+
+  Recognition: ({ className = "w-6 h-6", color = "#CCA404" }: { className?: string; color?: string }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path 
+        d="M17 3C17 3 21 5 21 9S17 15 17 15C17 15 13 11 13 9S17 3 17 3Z" 
+        stroke={color} 
+        strokeWidth="1.5" 
+        strokeLinecap="round" 
+        strokeLinejoin="round" 
+      />
+      <path 
+        d="M7 3C7 3 11 5 11 9S7 15 7 15C7 15 3 11 3 9S7 3 7 3Z" 
+        stroke={color} 
+        strokeWidth="1.5" 
+        strokeLinecap="round" 
+        strokeLinejoin="round" 
+      />
+      <circle 
+        cx="12" 
+        cy="20" 
+        r="1" 
+        fill={color} 
+      />
+      <path 
+        d="M7 15L12 19L17 15" 
+        stroke={color} 
+        strokeWidth="1.5" 
+        strokeLinecap="round" 
+        strokeLinejoin="round" 
+      />
+    </svg>
+  ),
+
+  Benchmarking: ({ className = "w-6 h-6", color = "#3F3D56" }: { className?: string; color?: string }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect 
+        x="3" 
+        y="3" 
+        width="18" 
+        height="18" 
+        rx="2" 
+        stroke={color} 
+        strokeWidth="1.5" 
+      />
+      <path 
+        d="M9 9L15 15" 
+        stroke={color} 
+        strokeWidth="1.5" 
+        strokeLinecap="round" 
+      />
+      <path 
+        d="M15 9L9 15" 
+        stroke={color} 
+        strokeWidth="1.5" 
+        strokeLinecap="round" 
+      />
+      <rect 
+        x="7" 
+        y="7" 
+        width="4" 
+        height="4" 
+        rx="1" 
+        stroke={color} 
+        strokeWidth="1.5" 
+      />
+      <rect 
+        x="13" 
+        y="13" 
+        width="4" 
+        height="4" 
+        rx="1" 
+        stroke={color} 
+        strokeWidth="1.5" 
+      />
+    </svg>
   )
 };
 

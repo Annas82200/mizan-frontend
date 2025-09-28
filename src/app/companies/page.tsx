@@ -182,7 +182,7 @@ export default function CompaniesPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="text-center p-6 rounded-xl bg-slate-50 opacity-75">
               <div className="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <BarChart3 className="w-6 h-6 text-white" />
+                <MizanIcons.Performance className="w-6 h-6" color="white" />
               </div>
               <h3 className="font-medium text-slate-900 mb-2">Performance Analytics</h3>
               <p className="text-sm text-slate-600">Advanced performance tracking and analytics</p>
@@ -190,7 +190,7 @@ export default function CompaniesPage() {
 
             <div className="text-center p-6 rounded-xl bg-slate-50 opacity-75">
               <div className="w-12 h-12 bg-indigo-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <Users className="w-6 h-6 text-white" />
+                <MizanIcons.Engagement className="w-6 h-6" color="white" />
               </div>
               <h3 className="font-medium text-slate-900 mb-2">Engagement Monitoring</h3>
               <p className="text-sm text-slate-600">Real-time employee engagement insights</p>
@@ -198,7 +198,7 @@ export default function CompaniesPage() {
 
             <div className="text-center p-6 rounded-xl bg-slate-50 opacity-75">
               <div className="w-12 h-12 bg-rose-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <Target className="w-6 h-6 text-white" />
+                <MizanIcons.Recognition className="w-6 h-6" color="white" />
               </div>
               <h3 className="font-medium text-slate-900 mb-2">Recognition Systems</h3>
               <p className="text-sm text-slate-600">AI-powered recognition and rewards</p>
@@ -206,7 +206,7 @@ export default function CompaniesPage() {
 
             <div className="text-center p-6 rounded-xl bg-slate-50 opacity-75">
               <div className="w-12 h-12 bg-teal-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <Building2 className="w-6 h-6 text-white" />
+                <MizanIcons.Benchmarking className="w-6 h-6" color="white" />
               </div>
               <h3 className="font-medium text-slate-900 mb-2">Benchmarking</h3>
               <p className="text-sm text-slate-600">Industry benchmarking and comparisons</p>
