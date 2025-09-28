@@ -209,7 +209,7 @@ export default function DataManagementPage() {
                 disabled={!selectedClient || !surveyData.employeeEmails}
                 className="w-full bg-blue-600 text-white py-3 px-6 rounded-xl font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
               >
-                <Send className="w-4 h-4 mr-2" />
+                <span className="mr-2">📧</span>
                 Send Culture Survey
               </button>
 
