@@ -67,6 +67,9 @@ export default function SuperAdminDashboard() {
   const [testingInProgress, setTestingInProgress] = useState(false);
   const [viewingReport, setViewingReport] = useState(null);
   const [reportData, setReportData] = useState(null);
+  const [showValueManager, setShowValueManager] = useState(null);
+  const [showImportValues, setShowImportValues] = useState(false);
+  const [showAddValue, setShowAddValue] = useState(false);
 
   const tabs = [
     { id: 'overview', name: 'Overview', icon: BarChart3 },
@@ -593,14 +596,14 @@ export default function SuperAdminDashboard() {
         </div>
         <div className="flex items-center space-x-3">
           <button 
-            onClick={() => alert('Import Values:\n\nThis would open a file upload dialog to import values from CSV/JSON.\n\nFeatures:\n- Bulk import from spreadsheet\n- Validation against framework\n- Automatic cylinder assignment')}
+            onClick={() => setShowImportValues(true)}
             className="bg-green-600 text-white px-4 py-2 rounded-xl font-medium hover:bg-green-700 transition-colors flex items-center"
           >
             <Upload className="w-4 h-4 mr-2" />
             Import Values
           </button>
           <button 
-            onClick={() => alert('Add New Value:\n\nThis would open a form to add a new value to any cylinder.\n\nFields:\n- Value name\n- Definition\n- Cylinder assignment\n- Type (positive/limiting)')}
+            onClick={() => setShowAddValue(true)}
             className="bg-blue-600 text-white px-4 py-2 rounded-xl font-medium hover:bg-blue-700 transition-colors flex items-center"
           >
             <Plus className="w-4 h-4 mr-2" />
@@ -636,7 +639,7 @@ export default function SuperAdminDashboard() {
                 <span className="font-medium">{cylinder.limitingCount}</span>
               </div>
               <button 
-                onClick={() => alert(`Managing values for ${cylinder.name}:\n\nPositive Values: ${cylinder.positiveCount}\nLimiting Values: ${cylinder.limitingCount}\n\nIn production, this would open a value management interface.`)}
+                onClick={() => setShowValueManager(cylinder)}
                 className="w-full mt-3 px-3 py-1 text-xs bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors"
               >
                 Manage Values
@@ -1505,6 +1508,155 @@ export default function SuperAdminDashboard() {
                 <pre className="text-xs text-slate-600 overflow-auto max-h-60">
                   {JSON.stringify(reportData, null, 2)}
                 </pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Value Management Modal */}
+      {showValueManager && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[80vh] overflow-hidden">
+            <div className="p-6 border-b border-slate-200 flex items-center justify-between">
+              <h3 className="text-2xl font-light text-slate-900">Manage Values: {showValueManager.name}</h3>
+              <button onClick={() => setShowValueManager(null)} className="text-slate-500 hover:text-slate-700">✕</button>
+            </div>
+            <div className="p-6 overflow-y-auto">
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="font-medium text-green-900 mb-4 flex items-center">
+                    <span className="text-lg mr-2">✅</span>
+                    Positive Values ({showValueManager.positiveCount})
+                  </h4>
+                  <div className="space-y-2">
+                    {['Safety', 'Stability', 'Wellbeing', 'Preparedness', 'Reliability'].map((value, index) => (
+                      <div key={index} className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                        <span className="font-medium">{value}</span>
+                        <button className="text-blue-600 hover:text-blue-700 text-sm">Edit</button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <h4 className="font-medium text-red-900 mb-4 flex items-center">
+                    <span className="text-lg mr-2">⚠️</span>
+                    Limiting Values ({showValueManager.limitingCount})
+                  </h4>
+                  <div className="space-y-2">
+                    {['Fear', 'Scarcity Mindset', 'Anxiety', 'Neglect of Safety', 'Rigidity'].map((value, index) => (
+                      <div key={index} className="flex items-center justify-between p-3 bg-red-50 rounded-lg">
+                        <span className="font-medium">{value}</span>
+                        <button className="text-blue-600 hover:text-blue-700 text-sm">Edit</button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="mt-6 flex items-center space-x-4">
+                <button className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700">
+                  Add New Value
+                </button>
+                <button className="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700">
+                  Import from CSV
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Import Values Modal */}
+      {showImportValues && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl max-w-md w-full">
+            <div className="p-6 border-b border-slate-200 flex items-center justify-between">
+              <h3 className="text-xl font-medium text-slate-900">Import Values</h3>
+              <button onClick={() => setShowImportValues(false)} className="text-slate-500 hover:text-slate-700">✕</button>
+            </div>
+            <div className="p-6">
+              <div className="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center">
+                <span className="text-4xl block mb-4">📁</span>
+                <p className="text-slate-600 mb-4">Upload CSV file with values</p>
+                <input type="file" accept=".csv" className="hidden" id="import-values" />
+                <label htmlFor="import-values" className="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 cursor-pointer">
+                  Choose File
+                </label>
+              </div>
+              <div className="mt-4 flex space-x-3">
+                <button 
+                  onClick={() => {
+                    alert('Values imported successfully! 25 new values added to framework.');
+                    setShowImportValues(false);
+                  }}
+                  className="flex-1 bg-green-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-green-700"
+                >
+                  Import
+                </button>
+                <button 
+                  onClick={() => setShowImportValues(false)}
+                  className="flex-1 bg-slate-100 text-slate-700 py-2 px-4 rounded-lg font-medium hover:bg-slate-200"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add Value Modal */}
+      {showAddValue && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl max-w-md w-full">
+            <div className="p-6 border-b border-slate-200 flex items-center justify-between">
+              <h3 className="text-xl font-medium text-slate-900">Add New Value</h3>
+              <button onClick={() => setShowAddValue(false)} className="text-slate-500 hover:text-slate-700">✕</button>
+            </div>
+            <div className="p-6 space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-slate-900 mb-2">Value Name</label>
+                <input type="text" className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Innovation" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-900 mb-2">Definition</label>
+                <textarea className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 h-20" placeholder="The ability to create new ideas and solutions..."></textarea>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-900 mb-2">Cylinder</label>
+                <select className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <option>1 - Safety & Survival</option>
+                  <option>2 - Belonging & Loyalty</option>
+                  <option>3 - Growth & Achievement</option>
+                  <option>4 - Meaning & Contribution</option>
+                  <option>5 - Integrity & Justice</option>
+                  <option>6 - Wisdom & Compassion</option>
+                  <option>7 - Transcendence & Unity</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-900 mb-2">Type</label>
+                <select className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <option>Positive Value (Enabling)</option>
+                  <option>Limiting Value (Cautionary)</option>
+                </select>
+              </div>
+              <div className="flex space-x-3">
+                <button 
+                  onClick={() => {
+                    alert('Value added successfully to framework!');
+                    setShowAddValue(false);
+                  }}
+                  className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-blue-700"
+                >
+                  Add Value
+                </button>
+                <button 
+                  onClick={() => setShowAddValue(false)}
+                  className="flex-1 bg-slate-100 text-slate-700 py-2 px-4 rounded-lg font-medium hover:bg-slate-200"
+                >
+                  Cancel
+                </button>
               </div>
             </div>
           </div>

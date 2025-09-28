@@ -38,6 +38,13 @@ export function ClientProvider({ children }: { children: React.ReactNode }) {
     loadClients();
   }, []);
 
+  // Save clients to localStorage whenever clients change
+  useEffect(() => {
+    if (clients.length > 0) {
+      localStorage.setItem('mizan-clients', JSON.stringify(clients));
+    }
+  }, [clients]);
+
   const loadClients = async () => {
     try {
       // Try to load from backend first
