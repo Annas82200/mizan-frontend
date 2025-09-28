@@ -112,8 +112,8 @@ export default function LoginPage() {
           {/* Left Column - Login Form */}
           <div className="max-w-md mx-auto w-full">
             <div className="text-center mb-8">
-              <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-amber-500 rounded-3xl flex items-center justify-center mx-auto mb-6 text-4xl">
-                🔐
+              <div className="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6" style={{ background: 'linear-gradient(135deg, #CCA404 0%, #3F3D56 100%)' }}>
+                <MizanIcons.Shield className="w-10 h-10" color="white" />
               </div>
               <h1 className="text-4xl font-extralight text-slate-900 mb-4">Welcome Back</h1>
               <p className="text-slate-600 font-light">

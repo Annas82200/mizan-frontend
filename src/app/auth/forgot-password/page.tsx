@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { MizanIcons } from '../../../components/icons/mizan-custom-icons';
 
 export default function ForgotPasswordPage() {
   return (
@@ -7,7 +8,7 @@ export default function ForgotPasswordPage() {
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-amber-500 rounded-3xl flex items-center justify-center mx-auto mb-6 text-4xl">
-            🔐
+            <MizanIcons.Lock className="w-8 h-8" color="white" />
           </div>
           <h1 className="text-3xl font-extralight text-slate-900 mb-4">Reset Password</h1>
           <p className="text-slate-600 font-light">
