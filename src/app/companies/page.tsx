@@ -24,8 +24,8 @@ export default function CompaniesPage() {
       {/* Hero */}
       <section className="py-20 px-6">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-6xl font-light text-slate-900 mb-8">AI-Powered Organizational Intelligence</h1>
-          <p className="text-xl text-slate-600 mb-16 max-w-4xl mx-auto">
+          <h1 className="text-6xl font-light mb-8" style={{ color: '#3F3D56' }}>AI-Powered Organizational Intelligence</h1>
+          <p className="text-xl mb-16 max-w-4xl mx-auto" style={{ color: '#545454' }}>
             Transform your organization with sophisticated AI analysis of culture, 
             structure, and performance using our proprietary frameworks and cutting-edge technology.
           </p>

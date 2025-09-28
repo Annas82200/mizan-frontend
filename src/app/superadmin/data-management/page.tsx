@@ -3,23 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useClients } from '../../../contexts/client-context';
-import { 
-  Upload,
-  Users, 
-  Building2, 
-  BarChart3, 
-  Settings, 
-  Shield,
-  CheckCircle,
-  AlertTriangle,
-  Mail,
-  FileText,
-  Download,
-  Plus,
-  Eye,
-  Loader2,
-  Send
-} from 'lucide-react';
+// All icons replaced with emojis - no generic icons used
 
 export default function DataManagementPage() {
   const { clients } = useClients();
@@ -134,7 +118,7 @@ export default function DataManagementPage() {
             </Link>
             <div className="h-6 w-px bg-slate-300"></div>
             <div className="flex items-center space-x-2">
-              <Shield className="w-5 h-5 text-red-600" />
+              <span className="text-red-600 text-xl">👑</span>
               <span className="text-lg font-medium text-slate-900">Super Admin</span>
             </div>
           </div>
@@ -263,7 +247,7 @@ export default function DataManagementPage() {
 
             <div className="space-y-4">
               <div className="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center">
-                <Upload className="w-8 h-8 text-slate-400 mx-auto mb-2" />
+                <span className="text-4xl mx-auto mb-2 block">📁</span>
                 <p className="text-sm text-slate-600 mb-2">Upload CSV file with org structure</p>
                 <p className="text-xs text-slate-500 mb-4">Format: Name, Email, Department, Manager, Role, Level</p>
                 <input
@@ -288,12 +272,12 @@ export default function DataManagementPage() {
                 <h4 className="font-medium text-slate-900 mb-2">Upload Status</h4>
                 {dataStatus.orgChart.uploaded ? (
                   <div className="flex items-center space-x-2 text-green-600">
-                    <CheckCircle className="w-4 h-4" />
+                    <span className="text-lg">✅</span>
                     <span className="text-sm">Org chart uploaded - {dataStatus.orgChart.employees} employees</span>
                   </div>
                 ) : (
                   <div className="flex items-center space-x-2 text-slate-500">
-                    <AlertTriangle className="w-4 h-4" />
+                    <span className="text-lg">⚠️</span>
                     <span className="text-sm">No org chart uploaded</span>
                   </div>
                 )}
@@ -315,7 +299,7 @@ export default function DataManagementPage() {
 
             <div className="space-y-4">
               <div className="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center">
-                <FileText className="w-8 h-8 text-slate-400 mx-auto mb-2" />
+                <span className="text-4xl mx-auto mb-2 block">📄</span>
                 <p className="text-sm text-slate-600 mb-2">Upload employee profiles or resumes</p>
                 <p className="text-xs text-slate-500 mb-4">Supported: CSV, JSON, PDF resumes</p>
                 <input
@@ -342,12 +326,12 @@ export default function DataManagementPage() {
                 <h4 className="font-medium text-slate-900 mb-2">Processing Status</h4>
                 {dataStatus.profiles.uploaded ? (
                   <div className="flex items-center space-x-2 text-green-600">
-                    <CheckCircle className="w-4 h-4" />
+                    <span className="text-lg">✅</span>
                     <span className="text-sm">Profiles processed - {dataStatus.profiles.processed} employees</span>
                   </div>
                 ) : (
                   <div className="flex items-center space-x-2 text-slate-500">
-                    <AlertTriangle className="w-4 h-4" />
+                    <span className="text-lg">⚠️</span>
                     <span className="text-sm">No profiles uploaded</span>
                   </div>
                 )}

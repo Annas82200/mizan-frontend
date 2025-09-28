@@ -29,9 +29,9 @@ export default function AboutPage() {
       <section className="py-32 px-6 bg-gradient-to-br from-slate-50 to-blue-50">
         <div className="max-w-6xl mx-auto text-center">
           <img src="/logo.png" alt="Mizan Logo" className="w-24 h-24 mx-auto mb-8 drop-shadow-xl" />
-          <h1 className="text-6xl font-extralight text-slate-900 mb-8 leading-tight tracking-tight">
+          <h1 className="text-6xl font-extralight mb-8 leading-tight tracking-tight" style={{ color: '#3F3D56' }}>
             The Story Behind
-            <span className="block bg-gradient-to-r from-blue-600 to-amber-500 bg-clip-text text-transparent">
+            <span className="block" style={{ background: 'linear-gradient(135deg, #CCA404 0%, #4CB3A9 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               Mizan
             </span>
           </h1>
