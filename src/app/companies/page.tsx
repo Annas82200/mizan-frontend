@@ -312,7 +312,7 @@ export default function CompaniesPage() {
                 <ul className="space-y-2 mb-8">
                   {tier.features.map((feature, idx) => (
                     <li key={idx} className="flex items-center text-sm">
-                      <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                      <MizanIcons.Success className="w-4 h-4 mr-2" color="#22c55e" />
                       {feature}
                     </li>
                   ))}
