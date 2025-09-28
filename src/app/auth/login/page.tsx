@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { MizanIcons } from '../../../components/icons/mizan-custom-icons';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -123,7 +124,7 @@ export default function LoginPage() {
             <form onSubmit={handleSubmit} className="space-y-6">
               {errors.submit && (
                 <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-center">
-                  <span className="text-red-500 mr-3 text-lg">🚨</span>
+                  <MizanIcons.Warning className="w-5 h-5 mr-3 flex-shrink-0" color="#dc2626" />
                   <span className="text-red-700 text-sm">{errors.submit}</span>
                 </div>
               )}
@@ -131,7 +132,9 @@ export default function LoginPage() {
               <div>
                 <label className="block text-sm font-medium text-slate-900 mb-2">Email Address</label>
                 <div className="relative">
-                  <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400">📧</span>
+                  <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
+                    <MizanIcons.Email className="w-5 h-5" color="#94a3b8" />
+                  </div>
                   <input
                     type="email"
                     name="email"
@@ -155,7 +158,9 @@ export default function LoginPage() {
               <div>
                 <label className="block text-sm font-medium text-slate-900 mb-2">Password</label>
                 <div className="relative">
-                  <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400">🔒</span>
+                  <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
+                    <MizanIcons.Lock className="w-5 h-5" color="#94a3b8" />
+                  </div>
                   <input
                     type={showPassword ? 'text' : 'password'}
                     name="password"
@@ -175,7 +180,10 @@ export default function LoginPage() {
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600"
                   >
-                    <span>{showPassword ? '🙈' : '👁️'}</span>
+                    {showPassword ? 
+                      <MizanIcons.EyeClosed className="w-5 h-5" color="#94a3b8" /> : 
+                      <MizanIcons.EyeOpen className="w-5 h-5" color="#94a3b8" />
+                    }
                   </button>
                 </div>
                 {errors.password && (
@@ -210,7 +218,7 @@ export default function LoginPage() {
                   ) : (
                     <>
                       Sign In
-                      <span className="ml-2">→</span>
+                      <MizanIcons.ArrowRight className="w-5 h-5 ml-2" color="white" />
                     </>
                   )}
                 </button>

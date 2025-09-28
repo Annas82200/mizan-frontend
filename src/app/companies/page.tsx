@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { MizanIcons } from '../../components/icons/mizan-custom-icons';
 
 export default function CompaniesPage() {
   return (
@@ -73,7 +74,7 @@ export default function CompaniesPage() {
             <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-8 hover:bg-white/80 transition-all duration-500 border border-white/50 shadow-xl hover:shadow-2xl hover:scale-[1.02]">
               <div className="text-center mb-8">
                 <div className="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6" style={{ background: 'linear-gradient(135deg, #4CB3A9 0%, #CCA404 100%)' }}>
-                  <span className="text-3xl">🏗️</span>
+                  <MizanIcons.Structure className="w-10 h-10" color="white" />
                 </div>
                 <div className="px-4 py-2 rounded-full text-sm font-medium mb-4" style={{ backgroundColor: '#4CB3A9', color: 'white' }}>
                   FREE FOREVER
@@ -85,19 +86,19 @@ export default function CompaniesPage() {
               </div>
               <div className="space-y-4 text-sm font-light" style={{ color: '#545454' }}>
                 <div className="flex items-center">
-                  <span className="text-lg mr-3">✅</span>
+                  <MizanIcons.Success className="w-5 h-5 mr-3 flex-shrink-0" color="#4CB3A9" />
                   <span>Organizational chart analysis</span>
                 </div>
                 <div className="flex items-center">
-                  <span className="text-lg mr-3">✅</span>
+                  <MizanIcons.Success className="w-5 h-5 mr-3 flex-shrink-0" color="#4CB3A9" />
                   <span>Strategic alignment assessment</span>
                 </div>
                 <div className="flex items-center">
-                  <span className="text-lg mr-3">✅</span>
+                  <MizanIcons.Success className="w-5 h-5 mr-3 flex-shrink-0" color="#4CB3A9" />
                   <span>Structure optimization recommendations</span>
                 </div>
                 <div className="flex items-center">
-                  <span className="text-lg mr-3">✅</span>
+                  <MizanIcons.Success className="w-5 h-5 mr-3 flex-shrink-0" color="#4CB3A9" />
                   <span>Span of control analysis</span>
                 </div>
               </div>
@@ -107,7 +108,7 @@ export default function CompaniesPage() {
             <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-8 hover:bg-white/80 transition-all duration-500 border border-white/50 shadow-xl hover:shadow-2xl hover:scale-[1.02]">
               <div className="text-center mb-8">
                 <div className="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6" style={{ background: 'linear-gradient(135deg, #CCA404 0%, #4CB3A9 100%)' }}>
-                  <span className="text-3xl">🎯</span>
+                  <MizanIcons.Culture className="w-10 h-10" color="white" />
                 </div>
                 <h3 className="text-2xl font-extralight mb-3" style={{ color: '#3F3D56' }}>Culture Analysis</h3>
                 <p className="font-light leading-relaxed" style={{ color: '#545454' }}>
@@ -116,19 +117,19 @@ export default function CompaniesPage() {
               </div>
               <div className="space-y-4 text-sm font-light" style={{ color: '#545454' }}>
                 <div className="flex items-center">
-                  <span className="text-lg mr-3">✅</span>
+                  <MizanIcons.Success className="w-5 h-5 mr-3 flex-shrink-0" color="#CCA404" />
                   <span>Employee culture surveys</span>
                 </div>
                 <div className="flex items-center">
-                  <span className="text-lg mr-3">✅</span>
+                  <MizanIcons.Success className="w-5 h-5 mr-3 flex-shrink-0" color="#CCA404" />
                   <span>Values alignment mapping</span>
                 </div>
                 <div className="flex items-center">
-                  <span className="text-lg mr-3">✅</span>
+                  <MizanIcons.Success className="w-5 h-5 mr-3 flex-shrink-0" color="#CCA404" />
                   <span>Culture health metrics</span>
                 </div>
                 <div className="flex items-center">
-                  <span className="text-lg mr-3">✅</span>
+                  <MizanIcons.Success className="w-5 h-5 mr-3 flex-shrink-0" color="#CCA404" />
                   <span>Personalized employee insights</span>
                 </div>
               </div>
@@ -138,7 +139,7 @@ export default function CompaniesPage() {
             <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-8 hover:bg-white/80 transition-all duration-500 border border-white/50 shadow-xl hover:shadow-2xl hover:scale-[1.02]">
               <div className="text-center mb-8">
                 <div className="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6" style={{ background: 'linear-gradient(135deg, #4CB3A9 0%, #CCA404 100%)' }}>
-                  <span className="text-3xl">🎓</span>
+                  <MizanIcons.Skills className="w-10 h-10" color="white" />
                 </div>
                 <h3 className="text-2xl font-extralight mb-3" style={{ color: '#3F3D56' }}>Skills Analysis</h3>
                 <p className="font-light leading-relaxed" style={{ color: '#545454' }}>
@@ -147,19 +148,19 @@ export default function CompaniesPage() {
               </div>
               <div className="space-y-4 text-sm font-light" style={{ color: '#545454' }}>
                 <div className="flex items-center">
-                  <span className="text-lg mr-3">✅</span>
+                  <MizanIcons.Success className="w-5 h-5 mr-3 flex-shrink-0" color="#4CB3A9" />
                   <span>Skills gap identification</span>
                 </div>
                 <div className="flex items-center">
-                  <span className="text-lg mr-3">✅</span>
+                  <MizanIcons.Success className="w-5 h-5 mr-3 flex-shrink-0" color="#4CB3A9" />
                   <span>Strategic capability mapping</span>
                 </div>
                 <div className="flex items-center">
-                  <span className="text-lg mr-3">✅</span>
+                  <MizanIcons.Success className="w-5 h-5 mr-3 flex-shrink-0" color="#4CB3A9" />
                   <span>Future skills forecasting</span>
                 </div>
                 <div className="flex items-center">
-                  <span className="text-lg mr-3">✅</span>
+                  <MizanIcons.Success className="w-5 h-5 mr-3 flex-shrink-0" color="#4CB3A9" />
                   <span>Learning and development plans</span>
                 </div>
               </div>
