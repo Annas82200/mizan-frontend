@@ -144,8 +144,8 @@ export default function LoginPage() {
                     errors.email ? 'border-red-300 bg-red-50' : 'border-slate-300'
                   }`}
                   style={{ 
-                    '--tw-ring-color': '#4CB3A9',
-                    focusBorderColor: '#4CB3A9'
+                    '--tw-ring-color': '#3F3D56',
+                    focusBorderColor: '#3F3D56'
                   } as any}
                     placeholder="Enter your email"
                   />
@@ -170,8 +170,8 @@ export default function LoginPage() {
                     errors.password ? 'border-red-300 bg-red-50' : 'border-slate-300'
                   }`}
                   style={{ 
-                    '--tw-ring-color': '#4CB3A9',
-                    focusBorderColor: '#4CB3A9'
+                    '--tw-ring-color': '#3F3D56',
+                    focusBorderColor: '#3F3D56'
                   } as any}
                     placeholder="Enter your password"
                   />
@@ -211,7 +211,7 @@ export default function LoginPage() {
                   type="submit"
                   disabled={isLoading}
                   className="w-full text-white py-3 px-6 rounded-xl font-medium transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
-                  style={{ background: 'linear-gradient(135deg, #CCA404 0%, #4CB3A9 100%)' }}
+                  style={{ background: 'linear-gradient(135deg, #CCA404 0%, #3F3D56 100%)' }}
                 >
                   {isLoading ? (
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -251,25 +251,34 @@ export default function LoginPage() {
             </p>
 
             <div className="space-y-6">
-              <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
-                <h3 className="font-medium text-blue-900 mb-3">🔐 Secure Access</h3>
-                <p className="text-sm text-blue-800 leading-relaxed">
+              <div className="bg-slate-50 border border-slate-200 rounded-xl p-6">
+                <div className="flex items-center mb-3">
+                  <MizanIcons.Shield className="w-5 h-5 mr-2" color="#3F3D56" />
+                  <h3 className="font-medium" style={{ color: '#3F3D56' }}>Secure Access</h3>
+                </div>
+                <p className="text-sm leading-relaxed" style={{ color: '#545454' }}>
                   Your login credentials provide access to role-specific dashboards with 
                   subscription-based features and organizational intelligence tools.
                 </p>
               </div>
 
-              <div className="bg-green-50 border border-green-200 rounded-xl p-6">
-                <h3 className="font-medium text-green-900 mb-3">📊 AI-Powered Insights</h3>
-                <p className="text-sm text-green-800 leading-relaxed">
+              <div className="bg-slate-50 border border-slate-200 rounded-xl p-6">
+                <div className="flex items-center mb-3">
+                  <MizanIcons.Dashboard className="w-5 h-5 mr-2" color="#3F3D56" />
+                  <h3 className="font-medium" style={{ color: '#3F3D56' }}>AI-Powered Insights</h3>
+                </div>
+                <p className="text-sm leading-relaxed" style={{ color: '#545454' }}>
                   Access comprehensive analysis of your organization's culture, structure, 
                   skills, engagement, and performance through our advanced AI agents.
                 </p>
               </div>
 
-              <div className="bg-amber-50 border border-amber-200 rounded-xl p-6">
-                <h3 className="font-medium text-amber-900 mb-3">🎯 Subscription Features</h3>
-                <p className="text-sm text-amber-800 leading-relaxed">
+              <div className="bg-slate-50 border border-slate-200 rounded-xl p-6">
+                <div className="flex items-center mb-3">
+                  <MizanIcons.Skills className="w-5 h-5 mr-2" color="#CCA404" />
+                  <h3 className="font-medium" style={{ color: '#3F3D56' }}>Subscription Features</h3>
+                </div>
+                <p className="text-sm leading-relaxed" style={{ color: '#545454' }}>
                   Features available depend on your subscription tier. Upgrade anytime 
                   to unlock advanced analytics and enterprise capabilities.
                 </p>

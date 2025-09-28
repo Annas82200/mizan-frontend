@@ -6,7 +6,7 @@ import { MizanIcons } from '../../components/icons/mizan-custom-icons';
 
 export default function CompaniesPage() {
   return (
-    <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #f8fafc 0%, rgba(76, 179, 169, 0.05) 100%)' }}>
+    <div className="min-h-screen bg-white">
       {/* Navigation - Apple Style */}
       <nav className="backdrop-blur-sm bg-white/80 border-b border-slate-200/50 px-6 py-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
@@ -21,7 +21,7 @@ export default function CompaniesPage() {
             <Link 
               href="/auth/login" 
               className="px-6 py-2 rounded-full font-light text-white hover:opacity-90 transition-all duration-200"
-              style={{ background: 'linear-gradient(135deg, #CCA404 0%, #4CB3A9 100%)' }}
+              style={{ background: 'linear-gradient(135deg, #CCA404 0%, #3F3D56 100%)' }}
             >
               Login
             </Link>
@@ -43,7 +43,7 @@ export default function CompaniesPage() {
               AI-Powered 
             </h1>
             <h1 className="text-5xl md:text-6xl font-extralight leading-tight tracking-tight" 
-                style={{ background: 'linear-gradient(135deg, #CCA404 0%, #4CB3A9 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                style={{ background: 'linear-gradient(135deg, #CCA404 0%, #3F3D56 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               Organizational Intelligence
             </h1>
           </div>
@@ -58,7 +58,7 @@ export default function CompaniesPage() {
       </section>
 
       {/* Services Overview - Apple Style */}
-      <section className="py-24 px-6" style={{ background: 'linear-gradient(135deg, rgba(204, 164, 4, 0.03) 0%, rgba(76, 179, 169, 0.03) 100%)' }}>
+      <section className="py-24 px-6 bg-slate-50">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-20 opacity-0 animate-[fadeInUp_0.8s_ease-out_0.8s_forwards]">
             <h2 className="text-4xl md:text-5xl font-extralight mb-6 leading-tight" style={{ color: '#3F3D56' }}>
@@ -71,12 +71,12 @@ export default function CompaniesPage() {
 
           <div className="grid md:grid-cols-3 gap-8 opacity-0 animate-[fadeInUp_0.8s_ease-out_1.0s_forwards]">
             {/* Structure Analysis - FREE */}
-            <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-8 hover:bg-white/80 transition-all duration-500 border border-white/50 shadow-xl hover:shadow-2xl hover:scale-[1.02]">
+            <div className="bg-white rounded-3xl p-8 hover:shadow-2xl transition-all duration-500 border border-slate-200 shadow-lg hover:scale-[1.02]">
               <div className="text-center mb-8">
-                <div className="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6" style={{ background: 'linear-gradient(135deg, #4CB3A9 0%, #CCA404 100%)' }}>
+                <div className="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6" style={{ background: 'linear-gradient(135deg, #3F3D56 0%, #CCA404 100%)' }}>
                   <MizanIcons.Structure className="w-10 h-10" color="white" />
                 </div>
-                <div className="px-4 py-2 rounded-full text-sm font-medium mb-4" style={{ backgroundColor: '#4CB3A9', color: 'white' }}>
+                <div className="px-4 py-2 rounded-full text-sm font-medium mb-4" style={{ backgroundColor: '#545454', color: 'white' }}>
                   FREE FOREVER
                 </div>
                 <h3 className="text-2xl font-extralight mb-3" style={{ color: '#3F3D56' }}>Structure Analysis</h3>
@@ -86,28 +86,28 @@ export default function CompaniesPage() {
               </div>
               <div className="space-y-4 text-sm font-light" style={{ color: '#545454' }}>
                 <div className="flex items-center">
-                  <MizanIcons.Success className="w-5 h-5 mr-3 flex-shrink-0" color="#4CB3A9" />
+                  <MizanIcons.Success className="w-5 h-5 mr-3 flex-shrink-0" color="#3F3D56" />
                   <span>Organizational chart analysis</span>
                 </div>
                 <div className="flex items-center">
-                  <MizanIcons.Success className="w-5 h-5 mr-3 flex-shrink-0" color="#4CB3A9" />
+                  <MizanIcons.Success className="w-5 h-5 mr-3 flex-shrink-0" color="#3F3D56" />
                   <span>Strategic alignment assessment</span>
                 </div>
                 <div className="flex items-center">
-                  <MizanIcons.Success className="w-5 h-5 mr-3 flex-shrink-0" color="#4CB3A9" />
+                  <MizanIcons.Success className="w-5 h-5 mr-3 flex-shrink-0" color="#3F3D56" />
                   <span>Structure optimization recommendations</span>
                 </div>
                 <div className="flex items-center">
-                  <MizanIcons.Success className="w-5 h-5 mr-3 flex-shrink-0" color="#4CB3A9" />
+                  <MizanIcons.Success className="w-5 h-5 mr-3 flex-shrink-0" color="#3F3D56" />
                   <span>Span of control analysis</span>
                 </div>
               </div>
             </div>
 
             {/* Culture Analysis */}
-            <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-8 hover:bg-white/80 transition-all duration-500 border border-white/50 shadow-xl hover:shadow-2xl hover:scale-[1.02]">
+            <div className="bg-white rounded-3xl p-8 hover:shadow-2xl transition-all duration-500 border border-slate-200 shadow-lg hover:scale-[1.02]">
               <div className="text-center mb-8">
-                <div className="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6" style={{ background: 'linear-gradient(135deg, #CCA404 0%, #4CB3A9 100%)' }}>
+                <div className="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6" style={{ background: 'linear-gradient(135deg, #CCA404 0%, #3F3D56 100%)' }}>
                   <MizanIcons.Culture className="w-10 h-10" color="white" />
                 </div>
                 <h3 className="text-2xl font-extralight mb-3" style={{ color: '#3F3D56' }}>Culture Analysis</h3>
@@ -136,9 +136,9 @@ export default function CompaniesPage() {
             </div>
 
             {/* Skills Analysis */}
-            <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-8 hover:bg-white/80 transition-all duration-500 border border-white/50 shadow-xl hover:shadow-2xl hover:scale-[1.02]">
+            <div className="bg-white rounded-3xl p-8 hover:shadow-2xl transition-all duration-500 border border-slate-200 shadow-lg hover:scale-[1.02]">
               <div className="text-center mb-8">
-                <div className="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6" style={{ background: 'linear-gradient(135deg, #4CB3A9 0%, #CCA404 100%)' }}>
+                <div className="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6" style={{ background: 'linear-gradient(135deg, #3F3D56 0%, #CCA404 100%)' }}>
                   <MizanIcons.Skills className="w-10 h-10" color="white" />
                 </div>
                 <h3 className="text-2xl font-extralight mb-3" style={{ color: '#3F3D56' }}>Skills Analysis</h3>
@@ -148,19 +148,19 @@ export default function CompaniesPage() {
               </div>
               <div className="space-y-4 text-sm font-light" style={{ color: '#545454' }}>
                 <div className="flex items-center">
-                  <MizanIcons.Success className="w-5 h-5 mr-3 flex-shrink-0" color="#4CB3A9" />
+                  <MizanIcons.Success className="w-5 h-5 mr-3 flex-shrink-0" color="#3F3D56" />
                   <span>Skills gap identification</span>
                 </div>
                 <div className="flex items-center">
-                  <MizanIcons.Success className="w-5 h-5 mr-3 flex-shrink-0" color="#4CB3A9" />
+                  <MizanIcons.Success className="w-5 h-5 mr-3 flex-shrink-0" color="#3F3D56" />
                   <span>Strategic capability mapping</span>
                 </div>
                 <div className="flex items-center">
-                  <MizanIcons.Success className="w-5 h-5 mr-3 flex-shrink-0" color="#4CB3A9" />
+                  <MizanIcons.Success className="w-5 h-5 mr-3 flex-shrink-0" color="#3F3D56" />
                   <span>Future skills forecasting</span>
                 </div>
                 <div className="flex items-center">
-                  <MizanIcons.Success className="w-5 h-5 mr-3 flex-shrink-0" color="#4CB3A9" />
+                  <MizanIcons.Success className="w-5 h-5 mr-3 flex-shrink-0" color="#3F3D56" />
                   <span>Learning and development plans</span>
                 </div>
               </div>
