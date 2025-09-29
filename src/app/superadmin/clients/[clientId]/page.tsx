@@ -28,6 +28,8 @@ export default function ClientPage() {
   const [client, setClient] = useState(null);
   const [activeTab, setActiveTab] = useState('overview');
   const [analysisResults, setAnalysisResults] = useState({});
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedClient, setEditedClient] = useState(null);
   const [dataStatus, setDataStatus] = useState({
     culture: { hasData: false, required: 'Employee surveys', status: 'missing' },
     structure: { hasData: false, required: 'Org chart', status: 'missing' },
@@ -49,6 +51,7 @@ export default function ClientPage() {
 
   const tabs = [
     { id: 'overview', name: 'Overview', icon: Eye },
+    { id: 'edit', name: 'Edit Client', icon: Settings },
     { id: 'data', name: 'Data Collection', icon: Upload },
     { id: 'analysis', name: 'Analysis', icon: Brain },
     { id: 'reports', name: 'Reports', icon: BarChart3 }
@@ -194,6 +197,48 @@ export default function ClientPage() {
           `🔍 Data would be validated and indexed`);
   };
 
+  const startEditing = () => {
+    setEditedClient({ ...client });
+    setIsEditing(true);
+  };
+
+  const cancelEditing = () => {
+    setEditedClient(null);
+    setIsEditing(false);
+  };
+
+  const saveClient = async () => {
+    try {
+      // In production, this would update the backend
+      console.log('Saving client:', editedClient);
+      
+      // Update local state
+      setClient(editedClient);
+      setIsEditing(false);
+      setEditedClient(null);
+      
+      alert('✅ Client updated successfully!');
+    } catch (error) {
+      alert('❌ Failed to update client: ' + error.message);
+    }
+  };
+
+  const handleInputChange = (field, value) => {
+    setEditedClient(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const handleValuesChange = (valuesString) => {
+    // Convert comma-separated string to array
+    const values = valuesString.split(',').map(v => v.trim()).filter(v => v);
+    setEditedClient(prev => ({
+      ...prev,
+      values: values
+    }));
+  };
+
   if (!client) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
@@ -204,6 +249,156 @@ export default function ClientPage() {
       </div>
     );
   }
+
+  const renderEditTab = () => (
+    <div className="space-y-8">
+      <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-medium text-slate-900">Edit Client Information</h2>
+          <div className="flex space-x-3">
+            {!isEditing ? (
+              <button
+                onClick={startEditing}
+                className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+              >
+                <Settings className="w-4 h-4" />
+                <span>Edit Client</span>
+              </button>
+            ) : (
+              <>
+                <button
+                  onClick={cancelEditing}
+                  className="flex items-center space-x-2 bg-slate-100 text-slate-700 px-4 py-2 rounded-lg hover:bg-slate-200"
+                >
+                  <span>Cancel</span>
+                </button>
+                <button
+                  onClick={saveClient}
+                  className="flex items-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700"
+                >
+                  <span>Save Changes</span>
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+
+        {isEditing ? (
+          <div className="space-y-6">
+            <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">Company Name</label>
+                <input
+                  type="text"
+                  value={editedClient.name}
+                  onChange={(e) => handleInputChange('name', e.target.value)}
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">Email</label>
+                <input
+                  type="email"
+                  value={editedClient.email}
+                  onChange={(e) => handleInputChange('email', e.target.value)}
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">Industry</label>
+                <input
+                  type="text"
+                  value={editedClient.industry}
+                  onChange={(e) => handleInputChange('industry', e.target.value)}
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">Number of Employees</label>
+                <input
+                  type="number"
+                  value={editedClient.employees}
+                  onChange={(e) => handleInputChange('employees', e.target.value)}
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-2">Vision</label>
+              <textarea
+                value={editedClient.vision || ''}
+                onChange={(e) => handleInputChange('vision', e.target.value)}
+                rows={3}
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Enter company vision..."
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-2">Mission</label>
+              <textarea
+                value={editedClient.mission || ''}
+                onChange={(e) => handleInputChange('mission', e.target.value)}
+                rows={3}
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Enter company mission..."
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-2">Strategy</label>
+              <textarea
+                value={editedClient.strategy || ''}
+                onChange={(e) => handleInputChange('strategy', e.target.value)}
+                rows={3}
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Enter company strategy..."
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-2">Company Values (comma-separated)</label>
+              <input
+                type="text"
+                value={editedClient.values ? editedClient.values.join(', ') : ''}
+                onChange={(e) => handleValuesChange(e.target.value)}
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Innovation, Collaboration, Excellence, Integrity"
+              />
+            </div>
+
+            <div className="bg-blue-50 p-4 rounded-lg">
+              <h3 className="font-medium text-blue-900 mb-2">CSV Structure File Upload</h3>
+              <p className="text-sm text-blue-700 mb-3">
+                Upload a CSV file with your organizational structure (departments, roles, reporting lines)
+              </p>
+              <input
+                type="file"
+                accept=".csv"
+                className="w-full px-3 py-2 border border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  if (file) {
+                    alert(`📁 CSV file selected: ${file.name}\n\n✅ File would be processed and organizational structure would be updated`);
+                  }
+                }}
+              />
+            </div>
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <Settings className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-slate-900 mb-2">Ready to Edit</h3>
+            <p className="text-slate-600 mb-6">Click "Edit Client" to modify client information</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 
   const renderOverviewTab = () => (
     <div className="space-y-8">
@@ -554,6 +749,7 @@ export default function ClientPage() {
       {/* Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {activeTab === 'overview' && renderOverviewTab()}
+        {activeTab === 'edit' && renderEditTab()}
         {activeTab === 'data' && renderDataCollectionTab()}
         {activeTab === 'analysis' && renderAnalysisTab()}
         {activeTab === 'reports' && renderReportsTab()}
