@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useClient } from '../../../contexts/client-context';
 import { 
   Users, 
   Building2, 
@@ -35,11 +36,7 @@ import {
 
 export default function SuperAdminDashboard() {
   const [activeTab, setActiveTab] = useState('overview');
-  const [clients, setClients] = useState([
-    { id: 1, name: 'Acme Corp', email: 'admin@acme.com', plan: 'Pro+', status: 'active', employees: 250, lastActive: '2 hours ago', mrr: 2000 },
-    { id: 2, name: 'Tech Innovations', email: 'hr@techinnovations.com', plan: 'Pro', status: 'active', employees: 85, lastActive: '1 day ago', mrr: 79 },
-    { id: 3, name: 'Global Solutions', email: 'ops@globalsolutions.com', plan: 'Enterprise', status: 'trial', employees: 500, lastActive: '3 hours ago', mrr: 0 },
-  ]);
+  const { clients, addClient, updateClient, deleteClient } = useClient();
 
   const [systemMetrics, setSystemMetrics] = useState({
     totalClients: 47,
@@ -70,6 +67,65 @@ export default function SuperAdminDashboard() {
   const [showValueManager, setShowValueManager] = useState(null);
   const [showImportValues, setShowImportValues] = useState(false);
   const [showAddValue, setShowAddValue] = useState(false);
+  
+  // Framework Management Functions - Real Backend Integration
+  const importValues = async (file) => {
+    try {
+      const formData = new FormData();
+      formData.append('valuesFile', file);
+      
+      const response = await fetch('https://mizan-backend-production.up.railway.app/api/framework/import-values', {
+        method: 'POST',
+        body: formData
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        alert(`✅ Successfully imported ${result.importedCount} values to the framework!`);
+        setShowImportValues(false);
+      } else {
+        throw new Error('Import failed');
+      }
+    } catch (error) {
+      alert('❌ Failed to import values. Please check the file format.');
+    }
+  };
+  
+  const addNewValue = async (valueName, valueDefinition, cylinder) => {
+    try {
+      const response = await fetch('https://mizan-backend-production.up.railway.app/api/framework/add-value', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: valueName, definition: valueDefinition, cylinder })
+      });
+      
+      if (response.ok) {
+        alert(`✅ Value "${valueName}" added successfully to ${cylinder}!`);
+        setShowAddValue(false);
+      } else {
+        throw new Error('Add value failed');
+      }
+    } catch (error) {
+      alert('❌ Failed to add value. Please try again.');
+    }
+  };
+  
+  const updateFramework = async () => {
+    try {
+      const response = await fetch('https://mizan-backend-production.up.railway.app/api/framework/update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      
+      if (response.ok) {
+        alert('✅ Framework updated successfully! New definitions and relationships loaded.');
+      } else {
+        throw new Error('Framework update failed');
+      }
+    } catch (error) {
+      alert('❌ Framework update failed. Please try again later.');
+    }
+  };
 
   const tabs = [
     { id: 'overview', name: 'Overview', icon: BarChart3 },
@@ -257,17 +313,20 @@ export default function SuperAdminDashboard() {
       const data = await response.json();
       console.log('✅ Client created successfully:', data.client);
       
-      // Add to local state
-      setClients([...clients, {
-        id: data.client.id,
+      // Use the context method to properly persist the client
+      await addClient({
         name: data.client.name,
         email: data.client.email,
-        plan: data.client.plan.charAt(0).toUpperCase() + data.client.plan.slice(1),
-        status: data.client.status,
+        plan: data.client.plan,
         employees: data.client.employees,
-        lastActive: 'Just now',
-        mrr: data.client.mrr
-      }]);
+        industry: newClient.industry,
+        strategy: newClient.strategy,
+        vision: newClient.vision,
+        mission: newClient.mission,
+        values: newClient.values,
+        departments: newClient.departments,
+        roles: newClient.roles
+      });
       
       setNewClient({ 
         name: '', 
@@ -283,6 +342,9 @@ export default function SuperAdminDashboard() {
         roles: ''
       });
       setShowAddClient(false);
+      
+      // Show success feedback
+      alert('✅ Client created successfully and will persist after refresh!');
     } catch (error) {
       console.error('Failed to create client:', error);
       console.error('Failed to create client:', error.message);
@@ -1586,8 +1648,12 @@ export default function SuperAdminDashboard() {
               <div className="mt-4 flex space-x-3">
                 <button 
                   onClick={() => {
-                    console.log('Values imported successfully! 25 new values added to framework.');
-                    setShowImportValues(false);
+                    const fileInput = document.getElementById('import-values') as HTMLInputElement;
+                    if (fileInput?.files?.[0]) {
+                      importValues(fileInput.files[0]);
+                    } else {
+                      alert('Please select a CSV file first');
+                    }
                   }}
                   className="flex-1 bg-green-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-green-700"
                 >
