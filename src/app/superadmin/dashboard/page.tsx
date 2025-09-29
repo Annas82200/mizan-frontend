@@ -285,7 +285,7 @@ export default function SuperAdminDashboard() {
       setShowAddClient(false);
     } catch (error) {
       console.error('Failed to create client:', error);
-      alert('Failed to create client: ' + error.message);
+      console.error('Failed to create client:', error.message);
     }
   };
 
@@ -497,13 +497,13 @@ export default function SuperAdminDashboard() {
             </div>
             <div className="flex items-center space-x-2">
               <button 
-                onClick={() => alert('Filter Clients:\n\nAvailable filters:\n- By subscription plan\n- By status (active/trial/inactive)\n- By employee count\n- By last activity\n- By MRR range')}
+                onClick={() => console.log('Filter functionality would be implemented here')}
                 className="p-2 text-slate-500 hover:text-slate-700"
               >
                 <Filter className="w-4 h-4" />
               </button>
               <button 
-                onClick={() => alert('Download Reports:\n\nAvailable downloads:\n- Client list (CSV)\n- Revenue report (PDF)\n- Usage analytics (Excel)\n- Analysis summary (PDF)')}
+                onClick={() => console.log('Download Reports:\n\nAvailable downloads:\n- Client list (CSV)\n- Revenue report (PDF)\n- Usage analytics (Excel)\n- Analysis summary (PDF)')}
                 className="p-2 text-slate-500 hover:text-slate-700"
               >
                 <Download className="w-4 h-4" />
@@ -559,19 +559,19 @@ export default function SuperAdminDashboard() {
                   <td className="py-4 px-6">
                     <div className="flex items-center space-x-2">
                       <button 
-                        onClick={() => alert(`View Client: ${client.name}\n\nDetails:\n- Plan: ${client.plan}\n- Employees: ${client.employees}\n- MRR: $${client.mrr}\n- Status: ${client.status}\n- Last Active: ${client.lastActive}\n\nThis would open detailed client dashboard.`)}
+                        onClick={() => console.log(`View Client: ${client.name}\n\nDetails:\n- Plan: ${client.plan}\n- Employees: ${client.employees}\n- MRR: $${client.mrr}\n- Status: ${client.status}\n- Last Active: ${client.lastActive}\n\nThis would open detailed client dashboard.`)}
                         className="p-1 text-slate-500 hover:text-blue-600"
                       >
                         <Eye className="w-4 h-4" />
                       </button>
                       <button 
-                        onClick={() => alert(`Edit Client: ${client.name}\n\nThis would open a form to edit:\n- Company details\n- Subscription plan\n- Contact information\n- Access permissions`)}
+                        onClick={() => console.log(`Edit Client: ${client.name}\n\nThis would open a form to edit:\n- Company details\n- Subscription plan\n- Contact information\n- Access permissions`)}
                         className="p-1 text-slate-500 hover:text-amber-600"
                       >
                         <Edit className="w-4 h-4" />
                       </button>
                       <button 
-                        onClick={() => alert(`Client Actions: ${client.name}\n\nAvailable actions:\n- Suspend account\n- Reset password\n- View analysis history\n- Download reports\n- Send survey invitations`)}
+                        onClick={() => console.log(`Client Actions: ${client.name}\n\nAvailable actions:\n- Suspend account\n- Reset password\n- View analysis history\n- Download reports\n- Send survey invitations`)}
                         className="p-1 text-slate-500 hover:text-red-600"
                       >
                         <MoreHorizontal className="w-4 h-4" />
@@ -658,7 +658,7 @@ export default function SuperAdminDashboard() {
               <p className="text-sm text-blue-700">Enhanced semantic matching and new value relationships</p>
             </div>
             <button 
-              onClick={() => alert('Framework Update:\n\nThis would update the framework to version 2.1.0 with:\n- Enhanced semantic matching\n- New value relationships\n- Improved analysis algorithms\n\nUpdate requires system maintenance window.')}
+              onClick={() => console.log('Framework Update:\n\nThis would update the framework to version 2.1.0 with:\n- Enhanced semantic matching\n- New value relationships\n- Improved analysis algorithms\n\nUpdate requires system maintenance window.')}
               className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
             >
               Update
@@ -677,7 +677,7 @@ export default function SuperAdminDashboard() {
           <p className="text-slate-600">Monitor and configure AI agents performance</p>
         </div>
         <button 
-          onClick={() => alert('Model Retraining:\n\nThis would initiate retraining of all AI models with:\n- Latest organizational data\n- Updated framework definitions\n- Enhanced analysis algorithms\n\nEstimated time: 2-4 hours\nDowntime required: 30 minutes')}
+          onClick={() => console.log('Model Retraining:\n\nThis would initiate retraining of all AI models with:\n- Latest organizational data\n- Updated framework definitions\n- Enhanced analysis algorithms\n\nEstimated time: 2-4 hours\nDowntime required: 30 minutes')}
           className="bg-green-600 text-white px-4 py-2 rounded-xl font-medium hover:bg-green-700 transition-colors flex items-center"
         >
           <RefreshCw className="w-4 h-4 mr-2" />
@@ -726,7 +726,7 @@ export default function SuperAdminDashboard() {
               </div>
             </div>
             <button 
-              onClick={() => alert(`Configure ${agent.name}:\n\nCurrent Status: ${agent.status}\nAccuracy: ${agent.accuracy}%\nRequests: ${agent.requests}\n\nConfiguration Options:\n- Adjust accuracy threshold\n- Set request limits\n- Update training parameters\n- Configure response format`)}
+              onClick={() => console.log(`Configure ${agent.name}:\n\nCurrent Status: ${agent.status}\nAccuracy: ${agent.accuracy}%\nRequests: ${agent.requests}\n\nConfiguration Options:\n- Adjust accuracy threshold\n- Set request limits\n- Update training parameters\n- Configure response format`)}
               className="w-full mt-4 px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-sm font-medium transition-colors"
             >
               Configure Agent
@@ -1251,13 +1251,13 @@ export default function SuperAdminDashboard() {
           </div>
           <div className="flex items-center space-x-4">
             <button 
-              onClick={() => alert('System Notifications:\n\nRecent notifications:\n- 3 new client registrations\n- AI model training completed\n- System update available\n- 2 support tickets pending')}
+              onClick={() => console.log('System Notifications:\n\nRecent notifications:\n- 3 new client registrations\n- AI model training completed\n- System update available\n- 2 support tickets pending')}
               className="p-2 text-slate-500 hover:text-slate-700"
             >
               <Mail className="w-5 h-5" />
             </button>
             <button 
-              onClick={() => alert('System Settings:\n\nQuick access to:\n- Environment configuration\n- Security settings\n- API rate limits\n- Backup management\n- Maintenance mode')}
+              onClick={() => console.log('System Settings:\n\nQuick access to:\n- Environment configuration\n- Security settings\n- API rate limits\n- Backup management\n- Maintenance mode')}
               className="p-2 text-slate-500 hover:text-slate-700"
             >
               <Settings className="w-5 h-5" />
@@ -1324,7 +1324,7 @@ export default function SuperAdminDashboard() {
                     <h3 className="font-medium text-slate-900">Configuration</h3>
                   </div>
                   <button 
-                    onClick={() => alert('System Configuration:\n\n- Environment variables\n- Database settings\n- API configurations\n- Security policies\n- Rate limiting')}
+                    onClick={() => console.log('System Configuration:\n\n- Environment variables\n- Database settings\n- API configurations\n- Security policies\n- Rate limiting')}
                     className="w-full bg-blue-100 text-blue-700 py-2 px-4 rounded-lg font-medium hover:bg-blue-200"
                   >
                     Manage Config
@@ -1337,7 +1337,7 @@ export default function SuperAdminDashboard() {
                     <h3 className="font-medium text-slate-900">Monitoring</h3>
                   </div>
                   <button 
-                    onClick={() => alert('System Monitoring:\n\n- Server performance\n- API response times\n- Error rates\n- Database performance\n- User activity')}
+                    onClick={() => console.log('System Monitoring:\n\n- Server performance\n- API response times\n- Error rates\n- Database performance\n- User activity')}
                     className="w-full bg-green-100 text-green-700 py-2 px-4 rounded-lg font-medium hover:bg-green-200"
                   >
                     View Metrics
@@ -1350,7 +1350,7 @@ export default function SuperAdminDashboard() {
                     <h3 className="font-medium text-slate-900">Security</h3>
                   </div>
                   <button 
-                    onClick={() => alert('Security Management:\n\n- Access logs\n- Failed login attempts\n- API key management\n- User permissions\n- Audit trails')}
+                    onClick={() => console.log('Security Management:\n\n- Access logs\n- Failed login attempts\n- API key management\n- User permissions\n- Audit trails')}
                     className="w-full bg-red-100 text-red-700 py-2 px-4 rounded-lg font-medium hover:bg-red-200"
                   >
                     Security Panel
@@ -1586,7 +1586,7 @@ export default function SuperAdminDashboard() {
               <div className="mt-4 flex space-x-3">
                 <button 
                   onClick={() => {
-                    alert('Values imported successfully! 25 new values added to framework.');
+                    console.log('Values imported successfully! 25 new values added to framework.');
                     setShowImportValues(false);
                   }}
                   className="flex-1 bg-green-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-green-700"
@@ -1644,7 +1644,7 @@ export default function SuperAdminDashboard() {
               <div className="flex space-x-3">
                 <button 
                   onClick={() => {
-                    alert('Value added successfully to framework!');
+                    console.log('Value added successfully to framework!');
                     setShowAddValue(false);
                   }}
                   className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-blue-700"

@@ -42,7 +42,7 @@ const CylinderFramework = () => {
       name: "Purpose",
       definition: "Connecting to contribution, storytelling, and service",
       ethical: "Serve Others",
-      color: "#4CB3A9"
+      color: "#3F3D56"
     },
     {
       level: 6,
@@ -168,19 +168,19 @@ const CylinderFramework = () => {
             refY="3.5" 
             orient="auto"
           >
-            <polygon points="0 0, 10 3.5, 0 7" fill="#4CB3A9" />
+            <polygon points="0 0, 10 3.5, 0 7" fill="#3F3D56" />
           </marker>
         </defs>
         <path
           d="M 100 480 Q 50 300 100 120"
-          stroke="#4CB3A9"
+          stroke="#3F3D56"
           strokeWidth="3"
           fill="none"
           strokeDasharray="5,5"
           markerEnd="url(#arrowhead)"
           opacity="0.6"
         />
-        <text x="40" y="300" className="text-sm" fill="#4CB3A9" transform="rotate(-90 40 300)">
+        <text x="40" y="300" className="text-sm" fill="#3F3D56" transform="rotate(-90 40 300)">
           Evolution Path
         </text>
       </svg>
@@ -203,7 +203,7 @@ const EmployeeReportPreview = () => (
         <h5 className="font-medium text-[#3F3D56]">Personal Values Alignment</h5>
         <p className="text-sm text-[#545454]">How your values map to the organization</p>
       </div>
-      <div className="border-l-4 border-[#4CB3A9] pl-4">
+      <div className="border-l-4 border-[#3F3D56] pl-4">
         <h5 className="font-medium text-[#3F3D56]">Current vs Desired Culture</h5>
         <p className="text-sm text-[#545454]">Gap analysis and recommendations</p>
       </div>
@@ -224,7 +224,7 @@ const OrgReportPreview = () => (
         <h5 className="font-medium text-[#3F3D56]">Culture Health Score</h5>
         <p className="text-sm text-[#545454]">Overall alignment with strategy</p>
       </div>
-      <div className="border-l-4 border-[#4CB3A9] pl-4">
+      <div className="border-l-4 border-[#3F3D56] pl-4">
         <h5 className="font-medium text-[#3F3D56]">Values Heat Map</h5>
         <p className="text-sm text-[#545454]">Department and team analysis</p>
       </div>
@@ -247,7 +247,7 @@ export default function CultureAnalysisLanding() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-[#CCA404]/5 to-[#4CB3A9]/5">
+      <section className="relative overflow-hidden bg-gradient-to-br from-[#CCA404]/5 to-[#3F3D56]/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -480,7 +480,7 @@ export default function CultureAnalysisLanding() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-br from-[#CCA404]/10 to-[#4CB3A9]/10">
+      <section className="py-20 bg-gradient-to-br from-[#CCA404]/10 to-[#3F3D56]/10">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold text-[#3F3D56] mb-6">
             Transform Culture from Liability to Asset

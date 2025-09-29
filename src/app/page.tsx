@@ -21,7 +21,7 @@ export default function HomePage() {
             Organizational
           </h1>
           <h1 className="text-6xl md:text-7xl font-extralight leading-tight tracking-tight" 
-              style={{ background: 'linear-gradient(135deg, #CCA404 0%, #4CB3A9 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              style={{ background: 'linear-gradient(135deg, #CCA404 0%, #3F3D56 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             Intelligence
           </h1>
         </div>

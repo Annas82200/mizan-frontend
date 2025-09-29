@@ -143,7 +143,7 @@ export const MizanIcons = {
     </svg>
   ),
 
-  Success: ({ className = "w-6 h-6", color = "#4CB3A9" }: { className?: string; color?: string }) => (
+  Success: ({ className = "w-6 h-6", color = "#3F3D56" }: { className?: string; color?: string }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle 
         cx="12" 
@@ -264,7 +264,7 @@ export const MizanIcons = {
     </svg>
   ),
 
-  Culture: ({ className = "w-6 h-6", color = "#4CB3A9" }: { className?: string; color?: string }) => (
+  Culture: ({ className = "w-6 h-6", color = "#CCA404" }: { className?: string; color?: string }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle 
         cx="12" 
@@ -431,7 +431,7 @@ export const MizanIcons = {
     </svg>
   ),
 
-  Engagement: ({ className = "w-6 h-6", color = "#4CB3A9" }: { className?: string; color?: string }) => (
+  Engagement: ({ className = "w-6 h-6", color = "#545454" }: { className?: string; color?: string }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle 
         cx="9" 

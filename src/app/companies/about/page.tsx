@@ -31,7 +31,7 @@ export default function AboutPage() {
           <img src="/logo.png" alt="Mizan Logo" className="w-24 h-24 mx-auto mb-8 drop-shadow-xl" />
           <h1 className="text-6xl font-extralight mb-8 leading-tight tracking-tight" style={{ color: '#3F3D56' }}>
             The Story Behind
-            <span className="block" style={{ background: 'linear-gradient(135deg, #CCA404 0%, #4CB3A9 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+            <span className="block" style={{ background: 'linear-gradient(135deg, #CCA404 0%, #3F3D56 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               Mizan
             </span>
           </h1>

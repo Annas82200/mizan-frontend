@@ -26,7 +26,7 @@ export default function DataManagementPage() {
 
   const sendSurvey = async () => {
     if (!selectedClient) {
-      alert('Please select a client first');
+      console.warn('No client selected for operation');
       return;
     }
 
@@ -55,17 +55,17 @@ export default function DataManagementPage() {
         surveys: { sent: emails.length, completed: 0, pending: emails.length }
       }));
 
-      alert(`Survey sent successfully to ${emails.length} employees!`);
+        console.log(`Survey sent successfully to ${emails.length} employees`);
       
     } catch (error) {
       console.error('Survey send error:', error);
-      alert('Failed to send survey: ' + error.message);
+      console.error('Failed to send survey:', error.message);
     }
   };
 
   const uploadOrgChart = async (file) => {
     if (!selectedClient) {
-      alert('Please select a client first');
+      console.warn('No client selected for operation');
       return;
     }
 
@@ -95,14 +95,14 @@ export default function DataManagementPage() {
           orgChart: { uploaded: true, employees: data.parsedData.totalEmployees }
         }));
 
-        alert(`Org chart uploaded successfully! ${data.parsedData.totalEmployees} employees processed.`);
+        console.log(`Org chart uploaded successfully! ${data.parsedData.totalEmployees} employees processed.`);
       };
       
       reader.readAsText(file);
       
     } catch (error) {
       console.error('Org chart upload error:', error);
-      alert('Failed to upload org chart: ' + error.message);
+      console.error('Failed to upload org chart:', error.message);
     }
   };
 

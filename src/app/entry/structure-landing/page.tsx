@@ -8,8 +8,8 @@ import { motion } from 'framer-motion';
 const StructureIcon = () => (
   <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
     <circle cx="32" cy="12" r="8" fill="#CCA404"/>
-    <circle cx="12" cy="32" r="8" fill="#4CB3A9"/>
-    <circle cx="52" cy="32" r="8" fill="#4CB3A9"/>
+    <circle cx="12" cy="32" r="8" fill="#3F3D56"/>
+    <circle cx="52" cy="32" r="8" fill="#3F3D56"/>
     <circle cx="22" cy="52" r="8" fill="#545454"/>
     <circle cx="42" cy="52" r="8" fill="#545454"/>
     <path d="M32 20V24M32 24L22 44M32 24L42 44" stroke="#3F3D56" strokeWidth="2"/>
@@ -20,7 +20,7 @@ const StructureIcon = () => (
 const AccuracyIcon = () => (
   <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
     <circle cx="24" cy="24" r="20" stroke="#CCA404" strokeWidth="2" fill="none"/>
-    <path d="M24 4C24 4 24 24 44 24" stroke="#4CB3A9" strokeWidth="3" strokeLinecap="round"/>
+    <path d="M24 4C24 4 24 24 44 24" stroke="#3F3D56" strokeWidth="3" strokeLinecap="round"/>
     <circle cx="24" cy="24" r="3" fill="#545454"/>
     <text x="24" y="40" textAnchor="middle" fill="#3F3D56" fontSize="10" fontWeight="bold">94%</text>
   </svg>
@@ -31,9 +31,9 @@ const DeliverableIcon = () => (
     <rect x="8" y="12" width="32" height="28" rx="2" stroke="#545454" strokeWidth="2" fill="none"/>
     <path d="M8 20H40" stroke="#545454" strokeWidth="2"/>
     <rect x="14" y="6" width="20" height="6" rx="1" fill="#CCA404"/>
-    <circle cx="16" cy="28" r="2" fill="#4CB3A9"/>
-    <circle cx="24" cy="28" r="2" fill="#4CB3A9"/>
-    <circle cx="32" cy="28" r="2" fill="#4CB3A9"/>
+    <circle cx="16" cy="28" r="2" fill="#3F3D56"/>
+    <circle cx="24" cy="28" r="2" fill="#3F3D56"/>
+    <circle cx="32" cy="28" r="2" fill="#3F3D56"/>
     <rect x="14" y="34" width="20" height="2" rx="1" fill="#E2E8F0"/>
   </svg>
 );
@@ -41,7 +41,7 @@ const DeliverableIcon = () => (
 const ProcessIcon = () => (
   <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
     <circle cx="12" cy="24" r="8" fill="#CCA404"/>
-    <circle cx="24" cy="24" r="8" fill="#4CB3A9"/>
+    <circle cx="24" cy="24" r="8" fill="#3F3D56"/>
     <circle cx="36" cy="24" r="8" fill="#545454"/>
     <path d="M20 24H28M16 24L8 24M32 24H40" stroke="#3F3D56" strokeWidth="2"/>
     <text x="12" y="28" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">1</text>
@@ -63,7 +63,7 @@ export default function StructureAnalysisLanding() {
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#CCA404]/5 to-[#4CB3A9]/5" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#CCA404]/5 to-[#3F3D56]/5" />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <motion.div 
@@ -305,7 +305,7 @@ export default function StructureAnalysisLanding() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-br from-[#CCA404]/10 to-[#4CB3A9]/10">
+      <section className="py-20 bg-gradient-to-br from-[#CCA404]/10 to-[#3F3D56]/10">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold text-[#3F3D56] mb-6">
             Ready to Optimize Your Structure?
