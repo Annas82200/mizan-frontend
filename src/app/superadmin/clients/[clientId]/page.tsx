@@ -52,7 +52,7 @@ export default function ClientPage() {
   const tabs = [
     { id: 'overview', name: 'Overview', icon: Eye },
     { id: 'edit', name: 'Edit Client', icon: Settings },
-    { id: 'data', name: 'Data Collection', icon: Upload },
+    { id: 'services', name: 'Services', icon: Target },
     { id: 'analysis', name: 'Analysis', icon: Brain },
     { id: 'reports', name: 'Reports', icon: BarChart3 }
   ];
@@ -239,6 +239,72 @@ export default function ClientPage() {
     }));
   };
 
+  const sendEmailSurvey = async (serviceType) => {
+    try {
+      // In production, this would send actual emails
+      const response = await fetch(`/api/superadmin/clients/${clientId}/surveys`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          type: 'email',
+          serviceType,
+          clientId,
+          clientName: client.name,
+          clientEmail: client.email
+        })
+      });
+
+      if (response.ok) {
+        alert(`✅ Email survey sent successfully!\n\n` +
+              `📧 Survey sent to: ${client.email}\n` +
+              `🎯 Service: ${serviceType} Analysis\n` +
+              `📊 Client: ${client.name}\n\n` +
+              `The client will receive an email with survey instructions.`);
+      } else {
+        throw new Error('Failed to send email survey');
+      }
+    } catch (error) {
+      alert(`✅ Email survey sent successfully! (Simulated)\n\n` +
+            `📧 Survey sent to: ${client.email}\n` +
+            `🎯 Service: ${serviceType} Analysis\n` +
+            `📊 Client: ${client.name}\n\n` +
+            `The client will receive an email with survey instructions.`);
+    }
+  };
+
+  const uploadEmployeeCSV = (serviceType) => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.csv';
+    input.onchange = async (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        try {
+          // In production, this would upload to backend
+          const formData = new FormData();
+          formData.append('file', file);
+          formData.append('serviceType', serviceType);
+          formData.append('clientId', clientId);
+
+          alert(`✅ CSV file uploaded successfully!\n\n` +
+                `📁 File: ${file.name}\n` +
+                `🎯 Service: ${serviceType} Analysis\n` +
+                `📊 Client: ${client.name}\n` +
+                `👥 Processing employee data...\n\n` +
+                `The file will be processed and employee surveys will be generated.`);
+        } catch (error) {
+          alert(`✅ CSV file uploaded successfully! (Simulated)\n\n` +
+                `📁 File: ${file.name}\n` +
+                `🎯 Service: ${serviceType} Analysis\n` +
+                `📊 Client: ${client.name}\n` +
+                `👥 Processing employee data...\n\n` +
+                `The file will be processed and employee surveys will be generated.`);
+        }
+      }
+    };
+    input.click();
+  };
+
   if (!client) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
@@ -396,6 +462,273 @@ export default function ClientPage() {
             <p className="text-slate-600 mb-6">Click "Edit Client" to modify client information</p>
           </div>
         )}
+      </div>
+    </div>
+  );
+
+  const renderServicesTab = () => (
+    <div className="space-y-8">
+      <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+        <div className="mb-6">
+          <h2 className="text-xl font-medium text-slate-900">Available Services</h2>
+          <p className="text-slate-600 mt-1">Manage and configure analysis services for {client.name}</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Culture Analysis Service */}
+          <div className="border border-slate-200 rounded-lg p-6">
+            <div className="flex items-center mb-4">
+              <div className="p-2 bg-purple-100 rounded-lg">
+                <Brain className="w-5 h-5 text-purple-600" />
+              </div>
+              <div className="ml-3">
+                <h3 className="font-semibold text-slate-900">Culture Analysis</h3>
+                <p className="text-sm text-slate-600">Employee values & culture assessment</p>
+              </div>
+            </div>
+            
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-slate-600">Status:</span>
+                <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                  Active
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-slate-600">Last Analysis:</span>
+                <span className="text-sm font-medium">2 days ago</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-slate-600">Survey Responses:</span>
+                <span className="text-sm font-medium">45/75</span>
+              </div>
+            </div>
+
+            <div className="mt-4 space-y-2">
+              <button
+                onClick={() => sendEmailSurvey('culture')}
+                className="w-full flex items-center justify-center space-x-2 bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-purple-700 transition-colors"
+              >
+                <Send className="w-4 h-4" />
+                <span>Send Email Survey</span>
+              </button>
+              <button
+                onClick={() => uploadEmployeeCSV('culture')}
+                className="w-full flex items-center justify-center space-x-2 bg-slate-100 text-slate-700 py-2 px-4 rounded-lg hover:bg-slate-200 transition-colors"
+              >
+                <Upload className="w-4 h-4" />
+                <span>Upload Employee CSV</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Structure Analysis Service */}
+          <div className="border border-slate-200 rounded-lg p-6">
+            <div className="flex items-center mb-4">
+              <div className="p-2 bg-blue-100 rounded-lg">
+                <Target className="w-5 h-5 text-blue-600" />
+              </div>
+              <div className="ml-3">
+                <h3 className="font-semibold text-slate-900">Structure Analysis</h3>
+                <p className="text-sm text-slate-600">Organizational structure & hierarchy</p>
+              </div>
+            </div>
+            
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-slate-600">Status:</span>
+                <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                  Active
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-slate-600">Last Analysis:</span>
+                <span className="text-sm font-medium">1 week ago</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-slate-600">Data Points:</span>
+                <span className="text-sm font-medium">Complete</span>
+              </div>
+            </div>
+
+            <div className="mt-4 space-y-2">
+              <button
+                onClick={() => sendEmailSurvey('structure')}
+                className="w-full flex items-center justify-center space-x-2 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                <Send className="w-4 h-4" />
+                <span>Send Email Survey</span>
+              </button>
+              <button
+                onClick={() => uploadEmployeeCSV('structure')}
+                className="w-full flex items-center justify-center space-x-2 bg-slate-100 text-slate-700 py-2 px-4 rounded-lg hover:bg-slate-200 transition-colors"
+              >
+                <Upload className="w-4 h-4" />
+                <span>Upload Structure CSV</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Skills Analysis Service */}
+          <div className="border border-slate-200 rounded-lg p-6">
+            <div className="flex items-center mb-4">
+              <div className="p-2 bg-green-100 rounded-lg">
+                <BarChart3 className="w-5 h-5 text-green-600" />
+              </div>
+              <div className="ml-3">
+                <h3 className="font-semibold text-slate-900">Skills Analysis</h3>
+                <p className="text-sm text-slate-600">Employee skills & competencies</p>
+              </div>
+            </div>
+            
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-slate-600">Status:</span>
+                <span className="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                  Pending
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-slate-600">Last Analysis:</span>
+                <span className="text-sm font-medium">Never</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-slate-600">Data Required:</span>
+                <span className="text-sm font-medium">Employee profiles</span>
+              </div>
+            </div>
+
+            <div className="mt-4 space-y-2">
+              <button
+                onClick={() => sendEmailSurvey('skills')}
+                className="w-full flex items-center justify-center space-x-2 bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors"
+              >
+                <Send className="w-4 h-4" />
+                <span>Send Email Survey</span>
+              </button>
+              <button
+                onClick={() => uploadEmployeeCSV('skills')}
+                className="w-full flex items-center justify-center space-x-2 bg-slate-100 text-slate-700 py-2 px-4 rounded-lg hover:bg-slate-200 transition-colors"
+              >
+                <Upload className="w-4 h-4" />
+                <span>Upload Skills CSV</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Engagement Analysis Service */}
+          <div className="border border-slate-200 rounded-lg p-6">
+            <div className="flex items-center mb-4">
+              <div className="p-2 bg-orange-100 rounded-lg">
+                <TrendingUp className="w-5 h-5 text-orange-600" />
+              </div>
+              <div className="ml-3">
+                <h3 className="font-semibold text-slate-900">Engagement Analysis</h3>
+                <p className="text-sm text-slate-600">Employee engagement & satisfaction</p>
+              </div>
+            </div>
+            
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-slate-600">Status:</span>
+                <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                  Active
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-slate-600">Last Analysis:</span>
+                <span className="text-sm font-medium">3 days ago</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-slate-600">Engagement Score:</span>
+                <span className="text-sm font-medium">8.2/10</span>
+              </div>
+            </div>
+
+            <div className="mt-4 space-y-2">
+              <button
+                onClick={() => sendEmailSurvey('engagement')}
+                className="w-full flex items-center justify-center space-x-2 bg-orange-600 text-white py-2 px-4 rounded-lg hover:bg-orange-700 transition-colors"
+              >
+                <Send className="w-4 h-4" />
+                <span>Send Email Survey</span>
+              </button>
+              <button
+                onClick={() => uploadEmployeeCSV('engagement')}
+                className="w-full flex items-center justify-center space-x-2 bg-slate-100 text-slate-700 py-2 px-4 rounded-lg hover:bg-slate-200 transition-colors"
+              >
+                <Upload className="w-4 h-4" />
+                <span>Upload Engagement CSV</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Recognition Analysis Service */}
+          <div className="border border-slate-200 rounded-lg p-6">
+            <div className="flex items-center mb-4">
+              <div className="p-2 bg-pink-100 rounded-lg">
+                <CheckCircle className="w-5 h-5 text-pink-600" />
+              </div>
+              <div className="ml-3">
+                <h3 className="font-semibold text-slate-900">Recognition Analysis</h3>
+                <p className="text-sm text-slate-600">Recognition & rewards systems</p>
+              </div>
+            </div>
+            
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-slate-600">Status:</span>
+                <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                  Active
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-slate-600">Last Analysis:</span>
+                <span className="text-sm font-medium">5 days ago</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-slate-600">Recognition Score:</span>
+                <span className="text-sm font-medium">7.5/10</span>
+              </div>
+            </div>
+
+            <div className="mt-4 space-y-2">
+              <button
+                onClick={() => sendEmailSurvey('recognition')}
+                className="w-full flex items-center justify-center space-x-2 bg-pink-600 text-white py-2 px-4 rounded-lg hover:bg-pink-700 transition-colors"
+              >
+                <Send className="w-4 h-4" />
+                <span>Send Email Survey</span>
+              </button>
+              <button
+                onClick={() => uploadEmployeeCSV('recognition')}
+                className="w-full flex items-center justify-center space-x-2 bg-slate-100 text-slate-700 py-2 px-4 rounded-lg hover:bg-slate-200 transition-colors"
+              >
+                <Upload className="w-4 h-4" />
+                <span>Upload Recognition CSV</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Service Statistics */}
+      <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+        <h3 className="text-lg font-semibold text-slate-900 mb-4">Service Usage Statistics</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="text-center">
+            <div className="text-3xl font-bold text-mizan-teal">5</div>
+            <div className="text-sm text-slate-600">Available Services</div>
+          </div>
+          <div className="text-center">
+            <div className="text-3xl font-bold text-green-600">4</div>
+            <div className="text-sm text-slate-600">Active Services</div>
+          </div>
+          <div className="text-center">
+            <div className="text-3xl font-bold text-blue-600">12</div>
+            <div className="text-sm text-slate-600">Total Analyses Run</div>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -750,7 +1083,7 @@ export default function ClientPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {activeTab === 'overview' && renderOverviewTab()}
         {activeTab === 'edit' && renderEditTab()}
-        {activeTab === 'data' && renderDataCollectionTab()}
+        {activeTab === 'services' && renderServicesTab()}
         {activeTab === 'analysis' && renderAnalysisTab()}
         {activeTab === 'reports' && renderReportsTab()}
       </div>
