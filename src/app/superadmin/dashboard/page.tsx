@@ -64,6 +64,66 @@ export default function SuperAdminDashboard() {
   const [testingInProgress, setTestingInProgress] = useState(false);
   const [viewingReport, setViewingReport] = useState(null);
   const [reportData, setReportData] = useState(null);
+  
+  // Report Viewing Function - Real Report Display
+  const viewClientReport = async (clientId, analysisType) => {
+    try {
+      const response = await fetch(`https://mizan-backend-production.up.railway.app/api/superadmin/clients/${clientId}/reports/${analysisType}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      
+      if (response.ok) {
+        const report = await response.json();
+        setReportData(report);
+        setViewingReport(`${analysisType}-${clientId}`);
+      } else {
+        alert('❌ Failed to load report. The analysis may not be completed yet.');
+      }
+    } catch (error) {
+      alert('❌ Failed to load report: ' + error.message);
+    }
+  };
+  
+  // Client Management Functions - Real CRUD Operations
+  const viewClientDetails = (client) => {
+    setSelectedClient(client);
+    alert(`👤 Client Details: ${client.name}\n\n` +
+          `📧 Email: ${client.email}\n` +
+          `💼 Plan: ${client.plan}\n` +
+          `👥 Employees: ${client.employees}\n` +
+          `📊 Status: ${client.status}\n` +
+          `💰 MRR: $${client.mrr}\n` +
+          `⏰ Last Active: ${client.lastActive}\n\n` +
+          `🎯 Strategy: ${client.strategy || 'Not specified'}\n` +
+          `👁️ Vision: ${client.vision || 'Not specified'}`);
+  };
+  
+  const editClient = async (client) => {
+    const newName = prompt('Edit Client Name:', client.name);
+    const newEmail = prompt('Edit Client Email:', client.email);
+    
+    if (newName && newEmail && (newName !== client.name || newEmail !== client.email)) {
+      try {
+        await updateClient(client.id, { name: newName, email: newEmail });
+        alert(`✅ Client "${newName}" updated successfully!`);
+      } catch (error) {
+        alert('❌ Failed to update client: ' + error.message);
+      }
+    }
+  };
+  
+  const deleteClientConfirm = async (client) => {
+    if (confirm(`⚠️ Are you sure you want to delete "${client.name}"?\n\nThis action cannot be undone.`)) {
+      try {
+        await deleteClient(client.id);
+        alert(`✅ Client "${client.name}" deleted successfully.`);
+      } catch (error) {
+        alert('❌ Failed to delete client: ' + error.message);
+      }
+    }
+  };
+  
   const [showValueManager, setShowValueManager] = useState(null);
   const [showImportValues, setShowImportValues] = useState(false);
   const [showAddValue, setShowAddValue] = useState(false);
@@ -621,20 +681,32 @@ export default function SuperAdminDashboard() {
                   <td className="py-4 px-6">
                     <div className="flex items-center space-x-2">
                       <button 
-                        onClick={() => console.log(`View Client: ${client.name}\n\nDetails:\n- Plan: ${client.plan}\n- Employees: ${client.employees}\n- MRR: $${client.mrr}\n- Status: ${client.status}\n- Last Active: ${client.lastActive}\n\nThis would open detailed client dashboard.`)}
+                        onClick={() => viewClientDetails(client)}
                         className="p-1 text-slate-500 hover:text-blue-600"
                       >
                         <Eye className="w-4 h-4" />
                       </button>
                       <button 
-                        onClick={() => console.log(`Edit Client: ${client.name}\n\nThis would open a form to edit:\n- Company details\n- Subscription plan\n- Contact information\n- Access permissions`)}
+                        onClick={() => editClient(client)}
                         className="p-1 text-slate-500 hover:text-amber-600"
                       >
                         <Edit className="w-4 h-4" />
                       </button>
                       <button 
-                        onClick={() => console.log(`Client Actions: ${client.name}\n\nAvailable actions:\n- Suspend account\n- Reset password\n- View analysis history\n- Download reports\n- Send survey invitations`)}
+                        onClick={() => {
+                          setSelectedClient(client);
+                          setActiveTab('demo'); // Switch to demo tab to run analysis
+                          alert(`🎯 Client "${client.name}" selected! Switch to Demo Services tab to run analysis.`);
+                        }}
+                        className="p-1 text-slate-500 hover:text-green-600"
+                        title="Run Analysis"
+                      >
+                        <TrendingUp className="w-4 h-4" />
+                      </button>
+                      <button 
+                        onClick={() => deleteClientConfirm(client)}
                         className="p-1 text-slate-500 hover:text-red-600"
+                        title="Delete Client"
                       >
                         <MoreHorizontal className="w-4 h-4" />
                       </button>
