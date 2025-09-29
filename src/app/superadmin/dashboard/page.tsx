@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useClient } from '../../../contexts/client-context';
+import { useClients } from '../../../contexts/client-context';
 import { 
   Users, 
   Building2, 
@@ -36,7 +36,7 @@ import {
 
 export default function SuperAdminDashboard() {
   const [activeTab, setActiveTab] = useState('overview');
-  const { clients, addClient, updateClient, deleteClient } = useClient();
+  const { clients, addClient, updateClient, deleteClient } = useClients();
 
   const [systemMetrics, setSystemMetrics] = useState({
     totalClients: 47,
