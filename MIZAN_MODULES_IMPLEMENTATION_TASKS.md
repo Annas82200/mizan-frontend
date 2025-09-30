@@ -291,6 +291,67 @@ This document provides a comprehensive, numbered task list for implementing all 
   - Suggest engagement strategies
   - Build reasoning prompts
 
+#### 1.2.9 Create Scenario-Based Game Engine Agent Base
+- **Status**: 🔴 Not Started
+- **Priority**: H
+- **Effort**: XL
+- **Dependencies**: 1.2.4
+- **Files**: `backend/services/agents/lxp/scenario-game-engine.ts`
+- **Description**: Implement base class for Scenario-Based Game Engine using Three Engine Agent System
+- **Key Components**:
+  - Extend ThreeEngineAgent base class
+  - Implement abstract methods for knowledge, data, and reasoning engines
+  - Set up multi-provider consensus mechanism
+  - Define agent configuration for game generation
+
+#### 1.2.10 Implement Knowledge Engine for Scenario Game Engine
+- **Status**: 🔴 Not Started
+- **Priority**: H
+- **Effort**: L
+- **Dependencies**: 1.2.9
+- **Files**: `backend/services/agents/lxp/scenario-game-engine.ts`
+- **Description**: Implement knowledge engine that loads game design frameworks
+- **Key Components**:
+  - Load scenario-based learning frameworks
+  - Load game design principles and mechanics
+  - Load decision tree and branching narrative structures
+  - Load role-playing and simulation methodologies
+  - Build knowledge prompts for AI providers
+  - Parse knowledge outputs
+
+#### 1.2.11 Implement Data Engine for Scenario Game Engine
+- **Status**: 🔴 Not Started
+- **Priority**: H
+- **Effort**: L
+- **Dependencies**: 1.2.10
+- **Files**: `backend/services/agents/lxp/scenario-game-engine.ts`
+- **Description**: Implement data engine that processes employee data for game personalization
+- **Key Components**:
+  - Process employee survey responses for scenario customization
+  - Process skills analysis results for game difficulty and focus
+  - Process performance results for targeted improvement scenarios
+  - Process role and department context for relevant scenarios
+  - Analyze learning preferences for game format selection
+  - Build data prompts incorporating knowledge context
+  - Parse data outputs
+
+#### 1.2.12 Implement Reasoning Engine for Scenario Game Engine
+- **Status**: 🔴 Not Started
+- **Priority**: H
+- **Effort**: XL
+- **Dependencies**: 1.2.11
+- **Files**: `backend/services/agents/lxp/scenario-game-engine.ts`
+- **Description**: Implement reasoning engine that creates personalized scenario-based games
+- **Key Components**:
+  - Synthesize knowledge frameworks with employee data
+  - Generate personalized scenario narratives
+  - Create decision points and branching paths
+  - Design game mechanics and scoring systems
+  - Adapt scenarios based on learning objectives
+  - Consider role-specific challenges and contexts
+  - Build reasoning prompts
+  - Parse and structure final game scenarios
+
 ---
 
 ### 1.3 Core Module Logic
@@ -299,7 +360,7 @@ This document provides a comprehensive, numbered task list for implementing all 
 - **Status**: 🔴 Not Started
 - **Priority**: H
 - **Effort**: L
-- **Dependencies**: 1.2.4, 1.2.8
+- **Dependencies**: 1.2.4, 1.2.8, 1.2.12
 - **Files**: `backend/services/modules/lxp/lxp-module.ts`
 - **Description**: Main orchestrator for LXP module
 - **Key Components**:
