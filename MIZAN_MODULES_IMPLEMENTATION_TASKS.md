@@ -629,11 +629,11 @@ This document provides a comprehensive, numbered task list for implementing all 
   - Assessment handling
 
 #### 1.6.3 API Endpoint Tests
-- **Status**: 🔴 Not Started
+- **Status**: ✅ Complete
 - **Priority**: M
 - **Effort**: M
 - **Dependencies**: 1.4.x (all endpoint tasks)
-- **Files**: `backend/routes/__tests__/lxp.test.ts`
+- **Files**: `backend/services/modules/lxp/__tests__/api/`
 - **Description**: Test all API endpoints
 - **Test Coverage**:
   - Learning path CRUD
