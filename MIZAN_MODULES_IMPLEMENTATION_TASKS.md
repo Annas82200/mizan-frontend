@@ -802,6 +802,55 @@ This document provides a comprehensive, numbered task list for implementing all 
   - createdAt (timestamp)
   - updatedAt (timestamp)
 
+#### 2.1.6 Create Performance Analytics Table
+- **Status**: ✅ Complete
+- **Priority**: M
+- **Effort**: S
+- **Dependencies**: 2.1.1-2.1.5
+- **Files**: `backend/db/schema/performance.ts`
+- **Description**: Store performance analytics and reporting data
+- **Fields**:
+  - id (uuid, primary key)
+  - tenantId (uuid, foreign key)
+  - employeeId (uuid, foreign key)
+  - periodStart (timestamp)
+  - periodEnd (timestamp)
+  - periodType (text)
+  - overallScore (decimal)
+  - goalAchievementRate (decimal)
+  - competencyScore (decimal)
+  - behaviorScore (decimal)
+  - totalGoals (integer)
+  - completedGoals (integer)
+  - overdueGoals (integer)
+  - averageGoalProgress (decimal)
+  - totalReviews (integer)
+  - averageReviewRating (decimal)
+  - reviewCompletionRate (decimal)
+  - totalFeedback (integer)
+  - averageFeedbackRating (decimal)
+  - feedbackResponseRate (decimal)
+  - improvementPlans (integer)
+  - completedImprovementPlans (integer)
+  - improvementSuccessRate (decimal)
+  - performanceTrend (text)
+  - goalTrend (text)
+  - competencyTrend (text)
+  - behaviorTrend (text)
+  - percentileRank (decimal)
+  - departmentRank (integer)
+  - teamRank (integer)
+  - performanceRisk (text)
+  - retentionRisk (text)
+  - developmentNeeds (jsonb)
+  - predictedPerformance (decimal)
+  - predictedRetention (decimal)
+  - predictedPromotion (decimal)
+  - tags (jsonb)
+  - notes (text)
+  - createdAt (timestamp)
+  - updatedAt (timestamp)
+
 ---
 
 ### 2.2 AI Agents Implementation
@@ -847,7 +896,7 @@ This document provides a comprehensive, numbered task list for implementing all 
   - Build data prompts
 
 #### 2.2.4 Implement Reasoning Engine for Goal Setter
-- **Status**: 🔴 Not Started
+- **Status**: ✅ Complete
 - **Priority**: H
 - **Effort**: L
 - **Dependencies**: 2.2.3
