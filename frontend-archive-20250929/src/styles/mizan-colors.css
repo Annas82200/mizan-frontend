@@ -1,0 +1,93 @@
+/* Mizan Color System */
+:root {
+  /* Primary Mizan Colors */
+  --mizan-dark: #3F3D56;     /* Dark purple-gray for headers, text */
+  --mizan-gold: #CCA404;     /* Gold for accents, highlights */
+  --mizan-gray: #545454;     /* Medium gray for secondary text */
+  --mizan-teal: #4CB3A9;     /* Teal for success, progress */
+  
+  /* Gradient Combinations */
+  --mizan-primary-gradient: linear-gradient(135deg, var(--mizan-dark) 0%, var(--mizan-gray) 100%);
+  --mizan-accent-gradient: linear-gradient(135deg, var(--mizan-gold) 0%, var(--mizan-teal) 100%);
+  --mizan-subtle-gradient: linear-gradient(135deg, rgba(63, 61, 86, 0.05) 0%, rgba(76, 179, 169, 0.05) 100%);
+  
+  /* Opacity Variations */
+  --mizan-dark-10: rgba(63, 61, 86, 0.1);
+  --mizan-dark-20: rgba(63, 61, 86, 0.2);
+  --mizan-dark-50: rgba(63, 61, 86, 0.5);
+  --mizan-gold-10: rgba(204, 164, 4, 0.1);
+  --mizan-gold-20: rgba(204, 164, 4, 0.2);
+  --mizan-teal-10: rgba(76, 179, 169, 0.1);
+  --mizan-teal-20: rgba(76, 179, 169, 0.2);
+}
+
+/* Mizan Component Classes */
+.mizan-card {
+  @apply bg-white border border-slate-200 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300;
+}
+
+.mizan-button-primary {
+  background: var(--mizan-accent-gradient);
+  @apply text-white px-6 py-3 rounded-xl font-medium hover:scale-[1.02] transition-all duration-200 shadow-lg hover:shadow-xl;
+}
+
+.mizan-button-secondary {
+  background: var(--mizan-primary-gradient);
+  @apply text-white px-6 py-3 rounded-xl font-medium hover:scale-[1.02] transition-all duration-200 shadow-lg hover:shadow-xl;
+}
+
+.mizan-text-primary {
+  color: var(--mizan-dark);
+}
+
+.mizan-text-secondary {
+  color: var(--mizan-gray);
+}
+
+.mizan-accent {
+  color: var(--mizan-gold);
+}
+
+.mizan-success {
+  color: var(--mizan-teal);
+}
+
+.mizan-bg-subtle {
+  background: var(--mizan-subtle-gradient);
+}
+
+/* Apple-Inspired Transitions */
+.mizan-transition {
+  @apply transition-all duration-300 ease-out;
+}
+
+.mizan-hover-lift {
+  @apply hover:scale-[1.02] hover:shadow-lg transition-all duration-200;
+}
+
+.mizan-smooth-appear {
+  animation: mizanAppear 0.6s ease-out;
+}
+
+@keyframes mizanAppear {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Apple-Style Focus States */
+.mizan-input {
+  @apply w-full px-4 py-3 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 transition-all duration-200;
+  focus:ring-color: var(--mizan-teal);
+  focus:border-color: var(--mizan-teal);
+}
+
+.mizan-input:focus {
+  border-color: var(--mizan-teal);
+  box-shadow: 0 0 0 2px rgba(76, 179, 169, 0.2);
+}
