@@ -36,101 +36,188 @@ The Mizan platform consists of:
 
 ---
 
-## 2. Core Engine Agents
+## 2. Three Engine Agent System
 
-### 2.1 Architect AI
-**Purpose**: Strategic decision-making and system orchestration
+### Overview
+Each analysis agent (Culture, Structure, Skills, Engagement, Recognition) and each module agent uses the **Three Engine Agent System** - a sophisticated AI architecture that combines three specialized engines to produce highly accurate and contextual insights.
+
+### 2.1 Knowledge Engine
+**Purpose**: Framework and expert knowledge processing
 
 **Responsibilities**:
-- Analyzes all incoming data from analysis engines
-- Determines which modules to activate based on trigger conditions
-- Prioritizes module execution based on urgency and dependencies
-- Maintains system-wide context and decision history
-- Provides strategic recommendations
+- Loads relevant frameworks (e.g., Mizan 7 Cylinders for culture)
+- Accesses expert knowledge and best practices
+- Provides theoretical foundation for analysis
+- Ensures analysis is grounded in proven methodologies
+- Applies domain expertise to the problem
 
-**AI Model**: Advanced LLM (Claude/GPT-4) for strategic reasoning
+**AI Model**: Advanced LLM with high knowledge retention (Claude/GPT-4)
 
-**Inputs**:
-- Unified analysis results from all 5 analysis engines
-- Triggered actions from trigger engine
-- Historical decision data
-- Organization context and goals
+**Configuration**:
+- Multiple AI providers for consensus
+- Temperature: Low (0.3-0.5) for accuracy
+- High token limit for comprehensive knowledge retrieval
 
-**Outputs**:
-- Module activation commands
-- Priority rankings
-- Strategic recommendations
-- Decision rationale
+**Process**:
+1. Receives input data and analysis requirements
+2. Loads relevant frameworks and methodologies
+3. Applies expert knowledge to the context
+4. Generates knowledge-based insights
+5. Outputs structured knowledge foundation
 
-**Integration Points**:
-- All 26 triggers feed into Architect AI
-- Architect AI activates all modules
-- Receives feedback from all modules
+**Example (Culture Analysis)**:
+- Loads Mizan 7 Cylinders framework
+- Applies organizational culture theory
+- References best practices in culture development
+- Provides framework-based interpretation
 
 ---
 
-### 2.2 Orchestrator Agent
-**Purpose**: Workflow coordination and execution management
+### 2.2 Data Engine
+**Purpose**: Tenant-specific data processing and analysis
 
 **Responsibilities**:
-- Coordinates module execution sequences
-- Manages dependencies between modules
-- Handles concurrent module operations
-- Monitors module status and progress
-- Manages resource allocation
-- Error handling and recovery
+- Processes actual organizational data
+- Analyzes quantitative and qualitative inputs
+- Identifies patterns and trends in data
+- Calculates metrics and scores
+- Contextualizes data within organizational reality
 
-**AI Model**: Workflow management AI with state tracking
+**AI Model**: Analytics-focused LLM with data processing capabilities
 
-**Inputs**:
-- Module activation commands from Architect AI
-- Module status updates
-- Resource availability data
-- Dependency requirements
+**Configuration**:
+- Multiple AI providers for data validation
+- Temperature: Medium (0.5-0.7) for balanced analysis
+- Optimized for structured data processing
 
-**Outputs**:
-- Module execution schedules
-- Workflow progress updates
-- Resource allocation plans
-- Error notifications
+**Process**:
+1. Receives knowledge engine output as context
+2. Processes tenant-specific data (surveys, metrics, etc.)
+3. Calculates scores and identifies patterns
+4. Validates data quality and consistency
+5. Outputs data-driven insights
 
-**Integration Points**:
-- Receives commands from Architect AI
-- Coordinates all 15 modules
-- Reports to Results Manager
+**Example (Culture Analysis)**:
+- Processes employee survey responses
+- Calculates cylinder scores
+- Identifies culture gaps and strengths
+- Analyzes alignment with stated values
 
 ---
 
-### 2.3 Results Manager Agent
-**Purpose**: Data aggregation, analysis, and reporting
+### 2.3 Reasoning Engine
+**Purpose**: Synthesis and actionable insight generation
 
 **Responsibilities**:
-- Collects results from all modules
-- Aggregates data across modules
-- Generates unified reports
-- Tracks KPIs and metrics
-- Provides insights and analytics
-- Maintains results history
+- Synthesizes knowledge and data outputs
+- Generates actionable recommendations
+- Connects insights to business outcomes
+- Prioritizes recommendations by impact
+- Creates coherent narrative from analysis
 
-**AI Model**: Analytics AI with pattern recognition
+**AI Model**: Advanced reasoning LLM (Claude Opus/GPT-4)
 
-**Inputs**:
-- Module output data
-- Historical results
-- Performance metrics
-- User feedback
+**Configuration**:
+- Multiple AI providers for reasoning consensus
+- Temperature: Medium-High (0.7-0.8) for creative insights
+- High token limit for comprehensive recommendations
 
-**Outputs**:
-- Unified reports
-- Analytics dashboards
-- Trend analysis
-- Recommendations
-- Historical comparisons
+**Process**:
+1. Receives both knowledge and data engine outputs
+2. Synthesizes theoretical framework with actual data
+3. Generates actionable recommendations
+4. Prioritizes actions by impact and feasibility
+5. Outputs final analysis with recommendations
 
-**Integration Points**:
-- Receives data from all 15 modules
-- Provides feedback to Architect AI
-- Generates reports for end-users
+**Example (Culture Analysis)**:
+- Combines framework knowledge with survey data
+- Identifies specific culture interventions needed
+- Recommends prioritized action plans
+- Connects culture improvements to business outcomes
+
+---
+
+### 2.4 Three Engine Integration Flow
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    INPUT DATA                                │
+│  (Surveys, Metrics, Organizational Context)                 │
+└─────────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────────┐
+│              KNOWLEDGE ENGINE                                │
+│  • Loads frameworks (e.g., Mizan 7 Cylinders)              │
+│  • Applies expert knowledge                                  │
+│  • Provides theoretical foundation                           │
+│  → Output: Framework-based context                          │
+└─────────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────────┐
+│              DATA ENGINE                                     │
+│  • Processes actual organizational data                      │
+│  • Uses knowledge engine output as context                   │
+│  • Calculates scores and metrics                            │
+│  → Output: Data-driven insights                             │
+└─────────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────────┐
+│              REASONING ENGINE                                │
+│  • Synthesizes knowledge + data                             │
+│  • Uses both previous outputs                                │
+│  • Generates actionable recommendations                      │
+│  → Output: Final analysis with recommendations              │
+└─────────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────────┐
+│              FINAL OUTPUT                                    │
+│  • Comprehensive analysis                                    │
+│  • High confidence (averaged across engines)                 │
+│  • Actionable recommendations                                │
+│  • Prioritized action items                                  │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### 2.5 Consensus Mechanism
+
+Each engine uses **multiple AI providers** (Claude, GPT-4, Cohere) and achieves consensus:
+- Each provider generates a response
+- Responses are compared for similarity
+- Consensus score calculated (threshold: typically 0.8)
+- Final output selected based on highest agreement
+- Confidence score reflects consensus level
+
+**Benefits**:
+- **Accuracy**: Multiple models validate each output
+- **Reliability**: Reduces hallucinations and errors
+- **Robustness**: Continues working even if one provider fails
+- **Quality**: Only high-consensus outputs are used
+
+---
+
+### 2.6 How Modules Use the Three Engine System
+
+Each module in the Mizan platform leverages the Three Engine Agent System:
+
+**Analysis Modules** (Culture, Structure, Skills, etc.):
+- Knowledge Engine: Loads relevant frameworks
+- Data Engine: Processes survey/organizational data
+- Reasoning Engine: Generates insights and recommendations
+
+**Action Modules** (LXP, Performance Management, Hiring, etc.):
+- Knowledge Engine: Loads best practices for that domain
+- Data Engine: Processes module-specific data (courses, performance, candidates)
+- Reasoning Engine: Generates personalized actions and recommendations
+
+**Example: LXP Module**
+- **Knowledge Engine**: Loads learning science, instructional design best practices
+- **Data Engine**: Processes employee skills, learning history, preferences
+- **Reasoning Engine**: Creates personalized learning paths, recommends courses
+
+**Example: Hiring Module**
+- **Knowledge Engine**: Loads recruitment best practices, culture fit assessment methods
+- **Data Engine**: Processes candidate applications, structure requirements, culture values
+- **Reasoning Engine**: Ranks candidates, recommends hiring decisions
 
 ---
 
@@ -408,10 +495,18 @@ LXP Dashboard
     └── Effectiveness Metrics
 ```
 
-### Integration with 3 Engine Agents
-- **Architect AI**: Receives module activation, provides learning strategy
-- **Orchestrator**: Manages learning path execution, coordinates with other modules
-- **Results Manager**: Collects learning outcomes, generates effectiveness reports
+### Integration with Three Engine Agent System
+The LXP module uses the Three Engine Agent System through its AI agents:
+
+**Learning Path Designer Agent**:
+- **Knowledge Engine**: Loads instructional design frameworks, learning science best practices, curriculum design methodologies
+- **Data Engine**: Processes employee skill gaps, learning history, preferences, job requirements
+- **Reasoning Engine**: Creates personalized learning paths, recommends optimal courses, adapts based on progress
+
+**Learning Progress Tracker Agent**:
+- **Knowledge Engine**: Loads learning analytics frameworks, retention science, engagement best practices
+- **Data Engine**: Processes course completion data, assessment results, time spent, engagement metrics
+- **Reasoning Engine**: Identifies struggling learners, recommends interventions, optimizes learning paths
 
 ---
 
@@ -562,10 +657,23 @@ Performance Management Dashboard
     └── Team Performance
 ```
 
-### Integration with 3 Engine Agents
-- **Architect AI**: Determines review timing, prioritizes performance issues
-- **Orchestrator**: Coordinates review cycles, manages dependencies with LXP
-- **Results Manager**: Aggregates performance data, generates organization-wide reports
+### Integration with Three Engine Agent System
+The Performance Management module uses the Three Engine Agent System through its AI agents:
+
+**Performance Goal Setter Agent**:
+- **Knowledge Engine**: Loads SMART goal frameworks, OKR methodologies, performance management best practices
+- **Data Engine**: Processes organizational objectives, employee capabilities, role requirements, historical performance
+- **Reasoning Engine**: Creates aligned performance goals, sets realistic targets, adjusts based on priorities
+
+**Performance Analyzer Agent**:
+- **Knowledge Engine**: Loads performance analytics frameworks, benchmarking methodologies, KPI best practices
+- **Data Engine**: Processes performance metrics, goal achievement data, trend data, comparative data
+- **Reasoning Engine**: Identifies performance patterns, predicts outcomes, compares against benchmarks
+
+**Performance Coach Agent**:
+- **Knowledge Engine**: Loads coaching methodologies, behavioral psychology, development frameworks
+- **Data Engine**: Processes performance gaps, employee strengths, development history, feedback data
+- **Reasoning Engine**: Generates improvement recommendations, coaching tips, development plans
 
 ---
 
@@ -714,10 +822,18 @@ Hiring Dashboard
     └── Offer Analytics
 ```
 
-### Integration with 3 Engine Agents
-- **Architect AI**: Receives hiring needs from structure analysis, provides strategic hiring priorities
-- **Orchestrator**: Manages recruitment workflow, coordinates with onboarding
-- **Results Manager**: Tracks hiring metrics, analyzes recruitment effectiveness
+### Integration with Three Engine Agent System
+The Hiring module uses the Three Engine Agent System through its AI agents:
+
+**Recruitment Strategist Agent**:
+- **Knowledge Engine**: Loads recruitment best practices, sourcing strategies, labor market insights, hiring frameworks
+- **Data Engine**: Processes structure analysis data, hiring needs, budget constraints, organizational context
+- **Reasoning Engine**: Creates hiring strategies, job descriptions, sourcing plans, recruitment timelines
+
+**Candidate Assessor Agent**:
+- **Knowledge Engine**: Loads competency frameworks, Mizan 7 Cylinders for culture fit, assessment methodologies
+- **Data Engine**: Processes candidate applications, resumes, assessments, interview feedback, reference checks
+- **Reasoning Engine**: Evaluates culture fit, ranks candidates, generates hiring recommendations, predicts success
 
 ---
 
@@ -864,10 +980,18 @@ Onboarding Dashboard
     └── Contact Directory
 ```
 
-### Integration with 3 Engine Agents
-- **Architect AI**: Receives new hire trigger, personalizes onboarding approach
-- **Orchestrator**: Manages onboarding timeline, coordinates with LXP and Performance Baseline
-- **Results Manager**: Tracks onboarding effectiveness, analyzes integration success
+### Integration with Three Engine Agent System
+The Onboarding module uses the Three Engine Agent System through its AI agents:
+
+**Onboarding Coordinator Agent**:
+- **Knowledge Engine**: Loads onboarding best practices, employee integration frameworks, new hire success factors
+- **Data Engine**: Processes new hire information, role requirements, team structure, organizational context
+- **Reasoning Engine**: Creates personalized onboarding plans, schedules activities, tracks progress, identifies issues
+
+**Integration Coach Agent**:
+- **Knowledge Engine**: Loads Mizan 7 Cylinders framework, cultural integration methods, team dynamics principles
+- **Data Engine**: Processes company culture values, team dynamics, new hire background, integration feedback
+- **Reasoning Engine**: Facilitates cultural orientation, provides integration coaching, identifies challenges, recommends support
 
 ---
 
@@ -1019,10 +1143,18 @@ Retention Intervention Dashboard
     └── Cost of Turnover
 ```
 
-### Integration with 3 Engine Agents
-- **Architect AI**: Receives flight risk predictions, prioritizes high-risk cases
-- **Orchestrator**: Coordinates interventions across multiple departments
-- **Results Manager**: Tracks retention effectiveness, measures ROI of interventions
+### Integration with Three Engine Agent System
+The Retention Intervention module uses the Three Engine Agent System through its AI agents:
+
+**Flight Risk Analyzer Agent**:
+- **Knowledge Engine**: Loads turnover prediction models, employee engagement frameworks, retention risk factors
+- **Data Engine**: Processes engagement data, performance history, compensation data, survey responses, behavioral indicators
+- **Reasoning Engine**: Predicts flight risk likelihood, identifies risk factors, segments risk levels, tracks trends
+
+**Retention Strategist Agent**:
+- **Knowledge Engine**: Loads retention strategies, motivation theories, stay interview methodologies, intervention frameworks
+- **Data Engine**: Processes root cause data, employee preferences, organizational constraints, intervention history
+- **Reasoning Engine**: Designs personalized interventions, prioritizes actions, recommends specific strategies, measures effectiveness
 
 ---
 
@@ -1166,10 +1298,18 @@ Talent Management Dashboard
     └── Talent Trends
 ```
 
-### Integration with 3 Engine Agents
-- **Architect AI**: Receives performance and structure triggers, aligns talent strategy
-- **Orchestrator**: Coordinates development activities, manages succession planning
-- **Results Manager**: Tracks talent development effectiveness, measures talent ROI
+### Integration with Three Engine Agent System
+The Talent Management module uses the Three Engine Agent System through its AI agents:
+
+**Talent Identifier Agent**:
+- **Knowledge Engine**: Loads talent identification frameworks, potential assessment models, high-performer characteristics
+- **Data Engine**: Processes performance data, skills assessments, leadership indicators, growth trajectory data
+- **Reasoning Engine**: Identifies high performers and high-potential employees, segments talent pools, predicts future success
+
+**Career Developer Agent**:
+- **Knowledge Engine**: Loads career development frameworks, succession planning models, leadership development paths
+- **Data Engine**: Processes employee aspirations, capabilities, organizational needs, development history
+- **Reasoning Engine**: Creates career development plans, identifies opportunities, recommends stretch assignments, plans progression
 
 ---
 
@@ -1321,10 +1461,18 @@ Succession Planning Dashboard
     └── Succession Success Rate
 ```
 
-### Integration with 3 Engine Agents
-- **Architect AI**: Receives performance and gap predictions, prioritizes succession needs
-- **Orchestrator**: Coordinates succession development, manages transitions
-- **Results Manager**: Tracks succession effectiveness, measures organizational continuity
+### Integration with Three Engine Agent System
+The Succession Planning module uses the Three Engine Agent System through its AI agents:
+
+**Succession Planner Agent**:
+- **Knowledge Engine**: Loads succession planning frameworks, organizational continuity models, critical position identification methods
+- **Data Engine**: Processes organizational structure, position criticality data, vacancy risks, incumbent timelines
+- **Reasoning Engine**: Identifies critical positions, creates succession plans, maps succession pipelines, manages timing
+
+**Leadership Developer Agent**:
+- **Knowledge Engine**: Loads leadership competency frameworks, executive development models, transition management practices
+- **Data Engine**: Processes successor assessments, competency gaps, readiness levels, development progress
+- **Reasoning Engine**: Designs leadership development programs, recommends experiences, tracks readiness, prepares transitions
 
 ---
 
@@ -1459,10 +1607,13 @@ Reward Dashboard
     └── Thank You Notes
 ```
 
-### Integration with 3 Engine Agents
-- **Architect AI**: Receives culture and performance triggers, determines reward appropriateness
-- **Orchestrator**: Coordinates reward delivery, manages approval workflows
-- **Results Manager**: Tracks recognition patterns, measures reward effectiveness
+### Integration with Three Engine Agent System
+The Reward module uses the Three Engine Agent System through its AI agent:
+
+**Reward Strategist Agent**:
+- **Knowledge Engine**: Loads motivation science, recognition best practices, reward psychology, Mizan 7 Cylinders values
+- **Data Engine**: Processes achievement data, employee preferences, recognition history, performance scores, culture alignment
+- **Reasoning Engine**: Designs appropriate rewards, personalizes recognition, determines reward types, measures impact, optimizes effectiveness
 
 ---
 
