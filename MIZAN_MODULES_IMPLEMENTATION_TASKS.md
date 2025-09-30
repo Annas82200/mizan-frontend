@@ -1002,11 +1002,11 @@ This document provides a comprehensive, numbered task list for implementing all 
   - Build data prompts
 
 #### 2.2.12 Implement Reasoning Engine for Coach
-- **Status**: 🔴 Not Started
+- **Status**: ✅ Complete
 - **Priority**: H
 - **Effort**: L
 - **Dependencies**: 2.2.11
-- **Files**: `backend/services/agents/performance/coach.ts`
+- **Files**: `backend/services/agents/performance/performance-coach.ts`
 - **Description**: Generate coaching recommendations
 - **Key Components**:
   - Generate improvement recommendations
