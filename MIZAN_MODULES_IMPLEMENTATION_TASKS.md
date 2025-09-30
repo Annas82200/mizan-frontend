@@ -1033,16 +1033,21 @@ This document provides a comprehensive, numbered task list for implementing all 
   - State management
 
 #### 2.3.2 Implement Trigger Response Handlers
-- **Status**: 🔴 Not Started
+- **Status**: ✅ Complete
 - **Priority**: H
 - **Effort**: M
 - **Dependencies**: 2.3.1
-- **Files**: `backend/services/modules/performance/performance-module.ts`
-- **Description**: Handle all 3 trigger types
+- **Files**: `backend/services/modules/performance/core/trigger-handlers.ts`
+- **Description**: Handle all 8 trigger types
 - **Trigger Handlers**:
-  1. lxp_completed_performance - Training completion
-  2. annual_performance_review_due - Annual review
-  3. training_completion - Training assessment
+  1. lxp_training_completion - Training completion assessment
+  2. onboarding_completion - Performance baseline setup
+  3. annual_performance_review_due - Annual review
+  4. quarterly_check_in_due - Quarterly check-in
+  5. probation_period_ending - Probation review
+  6. goal_setting_required - Goal setting workflow
+  7. performance_improvement_needed - Improvement plan
+  8. coaching_requested - Coaching program
 
 #### 2.3.3 Implement Goal Setting Workflow
 - **Status**: 🔴 Not Started
