@@ -41,33 +41,48 @@ export default function LoginPage() {
 
     setLoading(true);
 
-    // Simulate API call - replace with actual backend endpoint
-    setTimeout(() => {
-      setLoginSuccess(true);
-      setLoading(false);
-      // In production, redirect based on user role:
-      // window.location.href = '/dashboard/admin' or '/dashboard/superadmin' or '/dashboard/employee'
-    }, 1500);
+    try {
+      // Call the backend API
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+      const response = await fetch(`${apiUrl}/api/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
 
-    // In production, replace with:
-    // try {
-    //   const response = await api.auth.login({
-    //     email: formData.email,
-    //     password: formData.password
-    //   });
-    //
-    //   // Store token
-    //   localStorage.setItem('token', response.token);
-    //
-    //   // Redirect based on role
-    //   if (response.user.role === 'superadmin') window.location.href = '/dashboard/superadmin';
-    //   else if (response.user.role === 'admin') window.location.href = '/dashboard/admin';
-    //   else window.location.href = '/dashboard/employee';
-    // } catch (error: any) {
-    //   setErrors({ general: error.message || 'Login failed' });
-    // } finally {
-    //   setLoading(false);
-    // }
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Login failed');
+      }
+
+      const data = await response.json();
+
+      // Store token
+      localStorage.setItem('mizan_auth_token', data.token);
+
+      // Show success message
+      setLoginSuccess(true);
+
+      // Redirect based on role after 1 second
+      setTimeout(() => {
+        if (data.user.role === 'superadmin') {
+          window.location.href = '/dashboard/superadmin';
+        } else if (data.user.role === 'admin') {
+          window.location.href = '/dashboard/admin';
+        } else {
+          window.location.href = '/dashboard/employee';
+        }
+      }, 1000);
+
+    } catch (error: any) {
+      setErrors({ general: error.message || 'Login failed. Please check your credentials.' });
+      setLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

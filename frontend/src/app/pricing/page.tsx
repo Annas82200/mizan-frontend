@@ -1,19 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { Menu, X, Check, ArrowRight, HelpCircle, Sparkles } from 'lucide-react';
+import React, { useState } from 'react';
+import { Check, ArrowRight, HelpCircle, Sparkles } from 'lucide-react';
+import Navigation from '@/components/Navigation';
 
 export default function MizanPricing() {
-  const [scrollY, setScrollY] = useState(0);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [billingCycle, setBillingCycle] = useState('annual');
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
-
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const tiers = [
     {
@@ -165,41 +158,7 @@ export default function MizanPricing() {
   return (
     <div className="bg-white text-gray-900 min-h-screen">
       {/* Navigation */}
-      <nav className={`fixed top-0 w-full z-50 smooth-transition ${
-        scrollY > 20 ? 'bg-white/80 backdrop-blur-xl shadow-sm border-b border-gray-100' : 'bg-transparent'
-      }`}>
-        <div className="max-w-7xl mx-auto px-8 py-5">
-          <div className="flex items-center justify-between">
-            <div className="text-2xl font-semibold tracking-tight text-mizan-primary">
-              Mizan
-            </div>
-
-            <div className="hidden lg:flex items-center space-x-10 text-sm font-medium">
-              <a href="/" className="text-mizan-primary hover:opacity-60 smooth-transition">Home</a>
-              <a href="/platform" className="text-mizan-primary hover:opacity-60 smooth-transition">Platform</a>
-              <a href="/services" className="text-mizan-primary hover:opacity-60 smooth-transition">Services</a>
-              <a href="#why" className="text-mizan-primary hover:opacity-60 smooth-transition">Why Mizan</a>
-              <a href="/pricing" className="text-mizan-gold hover:opacity-60 smooth-transition">Pricing</a>
-              <a href="#blog" className="text-mizan-primary hover:opacity-60 smooth-transition">Blog</a>
-              <a href="#resources" className="text-mizan-primary hover:opacity-60 smooth-transition">Resources</a>
-            </div>
-
-            <div className="hidden lg:flex items-center space-x-6">
-              <a href="/login" className="text-sm font-medium text-mizan-secondary hover:opacity-60 smooth-transition">Login</a>
-              <button className="px-6 py-2.5 text-sm font-semibold rounded-full smooth-transition hover:shadow-lg hover:scale-105 bg-mizan-gold text-white">
-                Request a Demo
-              </button>
-            </div>
-
-            <button
-              className="lg:hidden text-mizan-primary"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-        </div>
-      </nav>
+      <Navigation activePage="pricing" />
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-8">

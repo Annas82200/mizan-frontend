@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronDown, Menu, X, ArrowRight } from 'lucide-react';
+import { ChevronDown, ArrowRight } from 'lucide-react';
 import { StructureIcon, CultureIcon, SkillsIcon, SparkleIcon } from '@/components/icons';
+import Navigation from '@/components/Navigation';
 
 export default function MizanHome() {
   const [scrollY, setScrollY] = useState(0);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   const heroRef = useRef<HTMLElement>(null);
 
@@ -23,55 +23,7 @@ export default function MizanHome() {
   return (
     <div className="bg-white text-gray-900 min-h-screen">
       {/* Navigation */}
-      <nav className={`fixed top-0 w-full z-50 smooth-transition ${
-        scrollY > 20 ? 'bg-white/80 backdrop-blur-xl shadow-sm border-b border-gray-100' : 'bg-transparent'
-      }`}>
-        <div className="max-w-7xl mx-auto px-8 py-5">
-          <div className="flex items-center justify-between">
-            <div className="text-2xl font-semibold tracking-tight text-mizan-primary">
-              Mizan
-            </div>
-
-            <div className="hidden lg:flex items-center space-x-10 text-sm font-medium">
-              <a href="#platform" className="text-mizan-primary hover:opacity-60 smooth-transition">Platform</a>
-              <a href="#services" className="text-mizan-primary hover:opacity-60 smooth-transition">Services</a>
-              <a href="#why" className="text-mizan-primary hover:opacity-60 smooth-transition">Why Mizan</a>
-              <a href="#pricing" className="text-mizan-primary hover:opacity-60 smooth-transition">Pricing</a>
-              <a href="#blog" className="text-mizan-primary hover:opacity-60 smooth-transition">Blog</a>
-              <a href="#resources" className="text-mizan-primary hover:opacity-60 smooth-transition">Resources</a>
-            </div>
-
-            <div className="hidden lg:flex items-center space-x-6">
-              <a href="/login" className="text-sm font-medium text-mizan-secondary hover:opacity-60 smooth-transition">Login</a>
-              <button className="px-6 py-2.5 text-sm font-semibold rounded-full smooth-transition hover:shadow-lg hover:scale-105 bg-mizan-gold text-white">
-                Request a Demo
-              </button>
-            </div>
-
-            <button
-              className="lg:hidden text-mizan-primary"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-
-          {mobileMenuOpen && (
-            <div className="lg:hidden mt-6 pb-6 space-y-5 border-t border-gray-100 pt-6">
-              <a href="#platform" className="block text-base font-medium text-mizan-primary">Platform</a>
-              <a href="#services" className="block text-base font-medium text-mizan-primary">Services</a>
-              <a href="#why" className="block text-base font-medium text-mizan-primary">Why Mizan</a>
-              <a href="#pricing" className="block text-base font-medium text-mizan-primary">Pricing</a>
-              <a href="#blog" className="block text-base font-medium text-mizan-primary">Blog</a>
-              <a href="#resources" className="block text-base font-medium text-mizan-primary">Resources</a>
-              <a href="/login" className="block text-base font-medium text-mizan-secondary">Login</a>
-              <button className="w-full px-6 py-3 text-sm font-semibold rounded-full bg-mizan-gold text-white">
-                Request a Demo
-              </button>
-            </div>
-          )}
-        </div>
-      </nav>
+      <Navigation activePage="home" />
 
       {/* Hero Section */}
       <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden" style={{ paddingTop: '80px' }}>

@@ -1,85 +1,17 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import { Menu, X, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { EthicsIcon, MultiAgentIcon, MeasurableIcon, TransparencyIcon } from '@/components/icons';
+import Navigation from '@/components/Navigation';
 
 export default function WhyMizanPage() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-mizan-background font-sans">
       {/* Navigation */}
-      <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link href="/" className="flex items-center space-x-2">
-              <span className="text-2xl font-bold font-display text-mizan-primary">Mizan</span>
-            </Link>
-
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
-              <Link href="/platform" className="text-mizan-secondary hover:text-mizan-primary smooth-transition">
-                Platform
-              </Link>
-              <Link href="/services" className="text-mizan-secondary hover:text-mizan-primary smooth-transition">
-                Services
-              </Link>
-              <Link href="/why" className="text-mizan-primary font-semibold">
-                Why Mizan?
-              </Link>
-              <Link href="/pricing" className="text-mizan-secondary hover:text-mizan-primary smooth-transition">
-                Pricing
-              </Link>
-              <Link href="/login" className="text-mizan-secondary hover:text-mizan-primary smooth-transition">
-                Login
-              </Link>
-              <Link
-                href="/signup"
-                className="bg-mizan-gold text-white px-6 py-2 rounded-lg hover:bg-mizan-gold-light smooth-transition"
-              >
-                Get Started
-              </Link>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button
-              className="md:hidden p-2"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-
-          {/* Mobile Menu */}
-          {mobileMenuOpen && (
-            <div className="md:hidden py-4 space-y-3">
-              <Link href="/platform" className="block text-mizan-secondary hover:text-mizan-primary smooth-transition">
-                Platform
-              </Link>
-              <Link href="/services" className="block text-mizan-secondary hover:text-mizan-primary smooth-transition">
-                Services
-              </Link>
-              <Link href="/why" className="block text-mizan-primary font-semibold">
-                Why Mizan?
-              </Link>
-              <Link href="/pricing" className="block text-mizan-secondary hover:text-mizan-primary smooth-transition">
-                Pricing
-              </Link>
-              <Link href="/login" className="block text-mizan-secondary hover:text-mizan-primary smooth-transition">
-                Login
-              </Link>
-              <Link
-                href="/signup"
-                className="block w-full text-center bg-mizan-gold text-white px-6 py-2 rounded-lg hover:bg-mizan-gold-light smooth-transition"
-              >
-                Get Started
-              </Link>
-            </div>
-          )}
-        </div>
-      </nav>
+      <Navigation activePage="why" />
 
       {/* Hero Section */}
       <section className="pt-20 pb-16 px-4">
