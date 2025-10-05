@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { ChevronDown, ArrowRight } from 'lucide-react';
 import { StructureIcon, CultureIcon, SkillsIcon, SparkleIcon } from '@/components/icons';
 import Navigation from '@/components/Navigation';
@@ -68,13 +69,13 @@ export default function MizanHome() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-20">
-            <button className="group px-8 py-4 text-base font-semibold rounded-full smooth-transition hover:shadow-2xl hover:scale-105 flex items-center justify-center space-x-2 bg-mizan-gold text-white">
+            <Link href="/login" className="group px-8 py-4 text-base font-semibold rounded-full smooth-transition hover:shadow-2xl hover:scale-105 flex items-center justify-center space-x-2 bg-mizan-gold text-white">
               <span>Free Structure Scan</span>
               <ArrowRight size={18} className="group-hover:translate-x-1 smooth-transition" />
-            </button>
-            <button className="px-8 py-4 text-base font-semibold rounded-full smooth-transition hover:shadow-lg border-2 border-mizan-primary text-mizan-primary bg-white">
+            </Link>
+            <Link href="/demo" className="px-8 py-4 text-base font-semibold rounded-full smooth-transition hover:shadow-lg border-2 border-mizan-primary text-mizan-primary bg-white">
               Request a Demo
-            </button>
+            </Link>
           </div>
 
           <div className="animate-bounce" style={{ opacity: 1 - heroProgress }}>
@@ -259,10 +260,10 @@ export default function MizanHome() {
           <p className="text-xl mb-12 text-white/90 font-light">
             Start with a free structure scan. No credit card required.
           </p>
-          <button className="group px-10 py-5 text-lg font-semibold rounded-full smooth-transition hover:shadow-2xl hover:scale-105 inline-flex items-center space-x-3 bg-mizan-primary text-white">
+          <Link href="/login" className="group px-10 py-5 text-lg font-semibold rounded-full smooth-transition hover:shadow-2xl hover:scale-105 inline-flex items-center space-x-3 bg-mizan-primary text-white">
             <span>Run a Free Structure Scan</span>
             <ArrowRight size={20} className="group-hover:translate-x-1 smooth-transition" />
-          </button>
+          </Link>
         </div>
       </section>
 
@@ -273,9 +274,9 @@ export default function MizanHome() {
             © 2025 Mizan. Aligning structure, culture & skills.
           </p>
           <div className="flex justify-center space-x-8 text-sm">
-            <a href="#" className="text-mizan-secondary hover:opacity-60 smooth-transition">Privacy</a>
-            <a href="#" className="text-mizan-secondary hover:opacity-60 smooth-transition">Terms</a>
-            <a href="#" className="text-mizan-secondary hover:opacity-60 smooth-transition">Security</a>
+            <Link href="/privacy" className="text-mizan-secondary hover:opacity-60 smooth-transition">Privacy</Link>
+            <Link href="/terms" className="text-mizan-secondary hover:opacity-60 smooth-transition">Terms</Link>
+            <Link href="/security" className="text-mizan-secondary hover:opacity-60 smooth-transition">Security</Link>
           </div>
         </div>
       </footer>

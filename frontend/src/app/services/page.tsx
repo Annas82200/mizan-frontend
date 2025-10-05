@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { ArrowRight, CheckCircle2, MessageCircle } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import { WorkshopIcon, AdvisoryIcon, RolloutIcon, EnablementIcon } from '@/components/icons';
@@ -146,10 +147,10 @@ export default function MizanServices() {
             Expert guidance for organizational change. We help you design, implement, and sustain high-performing cultures.
           </p>
 
-          <button className="group px-8 py-4 text-base font-semibold rounded-full smooth-transition hover:shadow-2xl hover:scale-105 inline-flex items-center space-x-2 bg-mizan-gold text-white">
+          <Link href="/demo" className="group px-8 py-4 text-base font-semibold rounded-full smooth-transition hover:shadow-2xl hover:scale-105 inline-flex items-center space-x-2 bg-mizan-gold text-white">
             <span>Schedule Consultation</span>
             <ArrowRight size={18} className="group-hover:translate-x-1 smooth-transition" />
-          </button>
+          </Link>
         </div>
       </section>
 
@@ -370,13 +371,13 @@ export default function MizanServices() {
             Schedule a consultation to discuss your challenges and explore how we can help.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="group px-10 py-5 text-lg font-semibold rounded-full smooth-transition hover:shadow-2xl hover:scale-105 inline-flex items-center justify-center space-x-3 bg-mizan-primary text-white">
+            <Link href="/demo" className="group px-10 py-5 text-lg font-semibold rounded-full smooth-transition hover:shadow-2xl hover:scale-105 inline-flex items-center justify-center space-x-3 bg-mizan-primary text-white">
               <span>Schedule Consultation</span>
               <ArrowRight size={20} className="group-hover:translate-x-1 smooth-transition" />
-            </button>
-            <button className="px-10 py-5 text-lg font-semibold rounded-full smooth-transition hover:shadow-lg border-2 border-white text-white bg-transparent">
+            </Link>
+            <Link href="/resources" className="px-10 py-5 text-lg font-semibold rounded-full smooth-transition hover:shadow-lg border-2 border-white text-white bg-transparent">
               Download Service Guide
-            </button>
+            </Link>
           </div>
         </div>
       </section>
@@ -388,9 +389,9 @@ export default function MizanServices() {
             © 2025 Mizan. Aligning structure, culture & skills.
           </p>
           <div className="flex justify-center space-x-8 text-sm">
-            <a href="#" className="text-mizan-secondary hover:opacity-60 smooth-transition">Privacy</a>
-            <a href="#" className="text-mizan-secondary hover:opacity-60 smooth-transition">Terms</a>
-            <a href="#" className="text-mizan-secondary hover:opacity-60 smooth-transition">Security</a>
+            <Link href="/privacy" className="text-mizan-secondary hover:opacity-60 smooth-transition">Privacy</Link>
+            <Link href="/terms" className="text-mizan-secondary hover:opacity-60 smooth-transition">Terms</Link>
+            <Link href="/security" className="text-mizan-secondary hover:opacity-60 smooth-transition">Security</Link>
           </div>
         </div>
       </footer>

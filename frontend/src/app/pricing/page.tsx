@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { Check, ArrowRight, HelpCircle, Sparkles } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 
@@ -267,8 +268,15 @@ export default function MizanPricing() {
                   </p>
                 </div>
 
-                <button
-                  className="w-full px-6 py-3 rounded-full text-sm font-semibold smooth-transition hover:shadow-lg hover:scale-105 mb-8"
+                <Link
+                  href={
+                    tier.cta === "Start Free Scan" ? "/login" :
+                    tier.cta === "Start 14-Day Trial" ? "/login" :
+                    tier.cta === "Request Demo" ? "/demo" :
+                    tier.cta === "Talk to Sales" ? "/demo" :
+                    "/login"
+                  }
+                  className="w-full px-6 py-3 rounded-full text-sm font-semibold smooth-transition hover:shadow-lg hover:scale-105 mb-8 flex items-center justify-center"
                   style={{
                     background: tier.highlighted ? '#CCA404' : 'white',
                     color: tier.highlighted ? 'white' : '#3F3D56',
@@ -276,7 +284,7 @@ export default function MizanPricing() {
                   }}
                 >
                   {tier.cta}
-                </button>
+                </Link>
 
                 <div className="space-y-3">
                   {tier.features.slice(0, 7).map((feature, idx) => (
@@ -386,13 +394,13 @@ export default function MizanPricing() {
             Start with a free Structure Scan. No credit card required. See your org clearly in minutes.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="group px-10 py-5 text-lg font-semibold rounded-full smooth-transition hover:shadow-2xl hover:scale-105 inline-flex items-center justify-center space-x-3 bg-mizan-primary text-white">
+            <Link href="/login" className="group px-10 py-5 text-lg font-semibold rounded-full smooth-transition hover:shadow-2xl hover:scale-105 inline-flex items-center justify-center space-x-3 bg-mizan-primary text-white">
               <span>Start Free Scan</span>
               <ArrowRight size={20} className="group-hover:translate-x-1 smooth-transition" />
-            </button>
-            <button className="px-10 py-5 text-lg font-semibold rounded-full smooth-transition hover:shadow-lg border-2 border-white text-white bg-transparent">
+            </Link>
+            <Link href="/demo" className="px-10 py-5 text-lg font-semibold rounded-full smooth-transition hover:shadow-lg border-2 border-white text-white bg-transparent">
               Talk to Sales
-            </button>
+            </Link>
           </div>
         </div>
       </section>
@@ -404,9 +412,9 @@ export default function MizanPricing() {
             © 2025 Mizan. Aligning structure, culture & skills.
           </p>
           <div className="flex justify-center space-x-8 text-sm">
-            <a href="#" className="text-mizan-secondary hover:opacity-60 smooth-transition">Privacy</a>
-            <a href="#" className="text-mizan-secondary hover:opacity-60 smooth-transition">Terms</a>
-            <a href="#" className="text-mizan-secondary hover:opacity-60 smooth-transition">Security</a>
+            <Link href="/privacy" className="text-mizan-secondary hover:opacity-60 smooth-transition">Privacy</Link>
+            <Link href="/terms" className="text-mizan-secondary hover:opacity-60 smooth-transition">Terms</Link>
+            <Link href="/security" className="text-mizan-secondary hover:opacity-60 smooth-transition">Security</Link>
           </div>
         </div>
       </footer>

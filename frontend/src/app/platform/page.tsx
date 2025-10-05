@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { ArrowRight, Upload, Brain, BarChart3, Shield, Zap, CheckCircle2 } from 'lucide-react';
 import { AgentIcon, EntropyIcon, AlignmentIcon } from '@/components/icons';
 import Navigation from '@/components/Navigation';
@@ -43,10 +44,10 @@ export default function MizanPlatform() {
             Our AI agents analyze structure, culture, and skills simultaneously—revealing patterns invisible to traditional assessments.
           </p>
 
-          <button className="group px-8 py-4 text-base font-semibold rounded-full smooth-transition hover:shadow-2xl hover:scale-105 inline-flex items-center space-x-2 bg-mizan-gold text-white">
+          <Link href="/demo" className="group px-8 py-4 text-base font-semibold rounded-full smooth-transition hover:shadow-2xl hover:scale-105 inline-flex items-center space-x-2 bg-mizan-gold text-white">
             <span>See It In Action</span>
             <ArrowRight size={18} className="group-hover:translate-x-1 smooth-transition" />
-          </button>
+          </Link>
         </div>
       </section>
 
@@ -299,10 +300,10 @@ export default function MizanPlatform() {
           <p className="text-xl mb-12 text-white/90 font-light">
             Start with a free structure analysis. No credit card required.
           </p>
-          <button className="group px-10 py-5 text-lg font-semibold rounded-full smooth-transition hover:shadow-2xl hover:scale-105 inline-flex items-center space-x-3 bg-mizan-primary text-white">
+          <Link href="/login" className="group px-10 py-5 text-lg font-semibold rounded-full smooth-transition hover:shadow-2xl hover:scale-105 inline-flex items-center space-x-3 bg-mizan-primary text-white">
             <span>Get Started Free</span>
             <ArrowRight size={20} className="group-hover:translate-x-1 smooth-transition" />
-          </button>
+          </Link>
         </div>
       </section>
 
@@ -313,9 +314,9 @@ export default function MizanPlatform() {
             © 2025 Mizan. Aligning structure, culture & skills.
           </p>
           <div className="flex justify-center space-x-8 text-sm">
-            <a href="#" className="text-mizan-secondary hover:opacity-60 smooth-transition">Privacy</a>
-            <a href="#" className="text-mizan-secondary hover:opacity-60 smooth-transition">Terms</a>
-            <a href="#" className="text-mizan-secondary hover:opacity-60 smooth-transition">Security</a>
+            <Link href="/privacy" className="text-mizan-secondary hover:opacity-60 smooth-transition">Privacy</Link>
+            <Link href="/terms" className="text-mizan-secondary hover:opacity-60 smooth-transition">Terms</Link>
+            <Link href="/security" className="text-mizan-secondary hover:opacity-60 smooth-transition">Security</Link>
           </div>
         </div>
       </footer>
