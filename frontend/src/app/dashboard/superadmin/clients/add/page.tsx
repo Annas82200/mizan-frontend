@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, ArrowRight, Check, Upload, FileText, Building2, Target, Lightbulb, TrendingUp, Heart, Users } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, Upload, FileText, Building2, Target, Lightbulb, TrendingUp, Heart, Users, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
 
 interface FormData {
