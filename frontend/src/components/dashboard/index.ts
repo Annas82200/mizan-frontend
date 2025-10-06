@@ -6,3 +6,4 @@ export { ChartWrapper } from './ChartWrapper';
 export { DashboardLayout } from './DashboardLayout';
 export { Sidebar } from './Sidebar';
 export { TopNavbar } from './TopNavbar';
+export { TenantSelector, EmployeeSelector } from './TenantSelector';
