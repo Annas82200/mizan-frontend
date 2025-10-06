@@ -381,9 +381,30 @@ export default function FrameworkConfigPage() {
   };
 
   const handleSaveChanges = async () => {
-    // TODO: Send to backend API
-    console.log('Saving framework configuration:', cylinders);
-    alert('Framework configuration saved! (Backend API integration pending)');
+    try {
+      const token = localStorage.getItem('mizan_auth_token');
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+
+      const response = await fetch(`${apiUrl}/api/framework`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ cylinders })
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to save framework');
+      }
+
+      const result = await response.json();
+      alert(`Framework configuration saved successfully! Version ${result.version}`);
+    } catch (error: any) {
+      console.error('Save error:', error);
+      alert(`Error saving framework: ${error.message}`);
+    }
   };
 
   const getCylinderIcon = (index: number) => {
