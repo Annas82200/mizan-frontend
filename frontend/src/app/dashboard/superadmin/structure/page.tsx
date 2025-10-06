@@ -616,14 +616,36 @@ export default function StructureAnalysisPage() {
           {/* Export Button */}
           <div className="flex justify-end space-x-3">
             <button
-              onClick={() => {
-                const dataStr = JSON.stringify(results, null, 2);
-                const dataBlob = new Blob([dataStr], { type: 'application/json' });
-                const url = URL.createObjectURL(dataBlob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = `structure-analysis-${selectedTenant?.name}-${new Date().toISOString().split('T')[0]}.json`;
-                link.click();
+              onClick={async () => {
+                try {
+                  const response = await fetch('http://localhost:3001/api/export/structure', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'Authorization': `Bearer ${localStorage.getItem('mizan_auth_token')}`
+                    },
+                    body: JSON.stringify({
+                      analysisData: results,
+                      tenantName: selectedTenant?.name || 'Organization'
+                    })
+                  });
+
+                  if (!response.ok) {
+                    throw new Error('Export failed');
+                  }
+
+                  const html = await response.text();
+
+                  // Open in new window
+                  const newWindow = window.open('', '_blank');
+                  if (newWindow) {
+                    newWindow.document.write(html);
+                    newWindow.document.close();
+                  }
+                } catch (error) {
+                  console.error('Export error:', error);
+                  alert('Failed to export results. Please try again.');
+                }
               }}
               className="px-6 py-3 border-2 border-mizan-primary text-mizan-primary rounded-xl hover:bg-mizan-primary hover:text-white transition-all duration-400 flex items-center space-x-2"
             >
