@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Search, Filter, Download, X, Mail, Phone, MapPin, Calendar } from 'lucide-react';
+import { Search, Filter, Download, X, Mail, Phone, MapPin, Calendar, Plus } from 'lucide-react';
 import { BuildingIcon } from '@/components/icons';
+import Link from 'next/link';
 
 interface Admin {
   name: string;
@@ -215,13 +216,22 @@ export default function TenantManagement() {
     <div className="min-h-screen p-8 bg-mizan-background">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
-        <div>
-          <h1 className="font-display text-4xl font-semibold mb-2 text-mizan-primary">
-            Tenant Management
-          </h1>
-          <p className="text-lg text-mizan-secondary">
-            Manage all {allTenants.length} organizations on the platform
-          </p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="font-display text-4xl font-semibold mb-2 text-mizan-primary">
+              Tenant Management
+            </h1>
+            <p className="text-lg text-mizan-secondary">
+              Manage all {allTenants.length} organizations on the platform
+            </p>
+          </div>
+          <Link
+            href="/dashboard/superadmin/clients/add"
+            className="px-6 py-3 bg-mizan-gold text-white rounded-xl hover:bg-mizan-gold/90 transition-all duration-400 flex items-center space-x-2 shadow-lg hover:shadow-xl"
+          >
+            <Plus className="w-5 h-5" />
+            <span className="font-semibold">Add New Client</span>
+          </Link>
         </div>
 
         {/* Search & Filters */}
