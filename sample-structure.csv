@@ -1,0 +1,11 @@
+Name,Email,Title,Department,Manager Email
+Sarah Johnson,sarah@company.com,CEO,Executive,
+Michael Chen,michael@company.com,CTO,Engineering,sarah@company.com
+Emily Rodriguez,emily@company.com,VP Engineering,Engineering,michael@company.com
+David Kim,david@company.com,Senior Engineer,Engineering,emily@company.com
+Jessica Martinez,jessica@company.com,Software Engineer,Engineering,emily@company.com
+Robert Taylor,robert@company.com,CFO,Finance,sarah@company.com
+Amanda White,amanda@company.com,Finance Manager,Finance,robert@company.com
+James Brown,james@company.com,VP Sales,Sales,sarah@company.com
+Lisa Anderson,lisa@company.com,Sales Manager,Sales,james@company.com
+Christopher Lee,chris@company.com,Account Executive,Sales,lisa@company.com
