@@ -1,59 +1,99 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Activity, CheckCircle2, AlertCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Activity, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 import { APIIcon, PerformanceIcon, AgentIcon } from '@/components/icons';
+import { superadminService } from '@/services/dashboard.service';
+
+interface UsageStats {
+  dau: number;
+  wau: number;
+  mau: number;
+  featureAdoption: {
+    [key: string]: number;
+  };
+}
+
+interface ApiStats {
+  totalCalls: number;
+  avgResponseTime: number;
+  p95ResponseTime: number;
+  p99ResponseTime: number;
+  errorRate: number;
+  topEndpoints?: Array<{
+    endpoint: string;
+    calls: number;
+    avgTime: number;
+    errors: number;
+  }>;
+}
+
+interface AgentStat {
+  name: string;
+  symbol: string;
+  usage: number;
+  avgTime: number;
+  errors: number;
+}
+
+interface PerformanceMetric {
+  metric: string;
+  current: number;
+  target: number;
+  unit: string;
+  status: string;
+}
 
 export default function SystemAnalytics() {
   const [timeRange, setTimeRange] = useState('24h');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Mock data - replace with API calls
-  const usageStats = {
-    dau: 2847,
-    wau: 6521,
-    mau: 8453,
-    featureAdoption: {
-      structureAnalysis: 92,
-      cultureAssessment: 78,
-      skillsMapping: 85,
-      performanceReviews: 67,
-      learningPaths: 54
+  const [usageStats, setUsageStats] = useState<UsageStats>({
+    dau: 0,
+    wau: 0,
+    mau: 0,
+    featureAdoption: {}
+  });
+  const [apiStats, setApiStats] = useState<ApiStats>({
+    totalCalls: 0,
+    avgResponseTime: 0,
+    p95ResponseTime: 0,
+    p99ResponseTime: 0,
+    errorRate: 0,
+    topEndpoints: []
+  });
+  const [agentStats, setAgentStats] = useState<AgentStat[]>([]);
+  const [performanceMetrics, setPerformanceMetrics] = useState<PerformanceMetric[]>([]);
+
+  useEffect(() => {
+    fetchAnalyticsData();
+  }, [timeRange]);
+
+  const fetchAnalyticsData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      // Fetch all analytics data in parallel
+      const [usage, api, agents, performance] = await Promise.all([
+        superadminService.getUsageStats({ timeRange }),
+        superadminService.getApiStats({ timeRange }),
+        superadminService.getAgentStats({ timeRange }),
+        superadminService.getPerformanceMetrics({ timeRange })
+      ]);
+
+      setUsageStats(usage);
+      setApiStats(api);
+      setAgentStats(agents.agents || []);
+      setPerformanceMetrics(performance.metrics || []);
+    } catch (err: any) {
+      console.error('Error fetching analytics:', err);
+      setError(err.message || 'Failed to load analytics data');
+    } finally {
+      setLoading(false);
     }
   };
-
-  const apiStats = {
-    totalCalls: 1245000,
-    avgResponseTime: 245,
-    p95ResponseTime: 680,
-    p99ResponseTime: 1250,
-    errorRate: 0.3
-  };
-
-  const topEndpoints = [
-    { endpoint: '/api/admin/overview', calls: 245000, avgTime: 180, errors: 0.1 },
-    { endpoint: '/api/admin/structure/analyze', calls: 185000, avgTime: 3200, errors: 0.5 },
-    { endpoint: '/api/admin/employees', calls: 167000, avgTime: 220, errors: 0.2 },
-    { endpoint: '/api/employee/dashboard', calls: 142000, avgTime: 150, errors: 0.1 },
-    { endpoint: '/api/admin/culture/results', calls: 98000, avgTime: 890, errors: 0.4 }
-  ];
-
-  const agentStats = [
-    { name: 'Structure Agent', symbol: '⬢', usage: 18543, avgTime: 3.2, errors: 0.3 },
-    { name: 'Culture Agent', symbol: '△', usage: 15231, avgTime: 2.8, errors: 0.2 },
-    { name: 'Skills Agent', symbol: '□', usage: 14892, avgTime: 2.1, errors: 0.1 },
-    { name: 'Performance Agent', symbol: '◇', usage: 12045, avgTime: 1.9, errors: 0.2 },
-    { name: 'Engagement Agent', symbol: '◉', usage: 10234, avgTime: 1.5, errors: 0.1 },
-    { name: 'Benchmarking Agent', symbol: '⬡', usage: 8945, avgTime: 2.5, errors: 0.3 },
-    { name: 'Recognition Agent', symbol: '▽', usage: 7821, avgTime: 1.2, errors: 0.1 }
-  ];
-
-  const performanceMetrics = [
-    { metric: 'API Response Time', current: 245, target: 200, unit: 'ms', status: 'warning' },
-    { metric: 'Database Query Time', current: 45, target: 50, unit: 'ms', status: 'good' },
-    { metric: 'Job Queue Size', current: 23, target: 50, unit: 'jobs', status: 'good' },
-    { metric: 'Error Rate', current: 0.3, target: 0.5, unit: '%', status: 'good' },
-    { metric: 'Uptime', current: 99.8, target: 99.5, unit: '%', status: 'good' }
-  ];
 
   const getStatusIcon = (status: string) => {
     switch(status) {
@@ -63,6 +103,41 @@ export default function SystemAnalytics() {
       default: return <Activity size={18} className="text-mizan-secondary" />;
     }
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen p-8 bg-mizan-background flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 animate-spin text-mizan-gold mx-auto mb-4" />
+          <p className="text-mizan-secondary">Loading analytics...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen p-8 bg-mizan-background">
+        <div className="max-w-7xl mx-auto">
+          <div className="bg-red-50 border border-red-200 rounded-2xl p-8">
+            <div className="flex items-start space-x-4">
+              <AlertCircle className="w-6 h-6 text-red-600 flex-shrink-0 mt-1" />
+              <div>
+                <h2 className="text-xl font-semibold text-red-900 mb-2">Error Loading Analytics</h2>
+                <p className="text-red-800">{error}</p>
+                <button
+                  onClick={fetchAnalyticsData}
+                  className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                >
+                  Try Again
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen p-8 bg-mizan-background">
@@ -244,7 +319,7 @@ export default function SystemAnalytics() {
                 </tr>
               </thead>
               <tbody>
-                {topEndpoints.map((endpoint, i) => (
+                {(apiStats.topEndpoints || []).map((endpoint, i) => (
                   <tr key={i} className="border-t border-gray-200">
                     <td className="px-6 py-4">
                       <code className="text-sm font-sans text-mizan-primary">

@@ -1,117 +1,86 @@
 'use client';
 
-import React, { useState } from 'react';
-import { TrendingUp, Users, DollarSign, Activity, ArrowRight, AlertCircle, CheckCircle2, Clock } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { TrendingUp, Users, DollarSign, Activity, ArrowRight, AlertCircle, CheckCircle2, Clock, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 
 // Import shared components
 import { StatCard } from '@/components/dashboard/StatCard';
+import { superadminService } from '@/services/dashboard.service';
+
+interface Stats {
+  totalTenants: number;
+  totalUsers: number;
+  monthlyRevenue: number;
+  platformHealth: number;
+}
+
+interface Tenant {
+  id: string;
+  name: string;
+  plan: string;
+  employeeCount: number | null;
+  status: string;
+  updatedAt: string;
+}
+
+interface RevenueData {
+  month: string;
+  mrr: number;
+  arr: number;
+}
+
+interface ActivityItem {
+  id: number;
+  type: string;
+  text: string;
+  time: string;
+  icon: string;
+}
 
 export default function SuperadminHome() {
   const [timeRange, setTimeRange] = useState('30d');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Mock data - replace with API calls
-  const stats = {
-    totalTenants: 247,
-    totalUsers: 8453,
-    monthlyRevenue: 124500,
-    platformHealth: 98.7
+  const [stats, setStats] = useState<Stats>({
+    totalTenants: 0,
+    totalUsers: 0,
+    monthlyRevenue: 0,
+    platformHealth: 0
+  });
+  const [tenants, setTenants] = useState<Tenant[]>([]);
+  const [revenueData, setRevenueData] = useState<RevenueData[]>([]);
+  const [activities, setActivities] = useState<ActivityItem[]>([]);
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, [timeRange]);
+
+  const fetchDashboardData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      // Fetch all data in parallel
+      const [statsResponse, tenantsResponse, revenueResponse, activityResponse] = await Promise.all([
+        superadminService.getStats(),
+        superadminService.getTenants({ limit: 5 }),
+        superadminService.getRevenue({ timeRange }),
+        superadminService.getActivity({ limit: 5 })
+      ]);
+
+      setStats(statsResponse);
+      setTenants(tenantsResponse.tenants || []);
+      setRevenueData(revenueResponse.data || []);
+      setActivities(activityResponse.activities || []);
+    } catch (err: any) {
+      console.error('Error fetching dashboard data:', err);
+      setError(err.message || 'Failed to load dashboard data');
+    } finally {
+      setLoading(false);
+    }
   };
-
-  const tenants = [
-    {
-      id: 1,
-      name: 'Acme Corporation',
-      plan: 'Enterprise',
-      employees: 2450,
-      mrr: 49000,
-      status: 'Active',
-      lastActive: '2 hours ago'
-    },
-    {
-      id: 2,
-      name: 'TechStart Inc',
-      plan: 'Growth',
-      employees: 680,
-      mrr: 8500,
-      status: 'Active',
-      lastActive: '5 hours ago'
-    },
-    {
-      id: 3,
-      name: 'Global Dynamics',
-      plan: 'Scale',
-      employees: 3200,
-      mrr: 64000,
-      status: 'Active',
-      lastActive: '1 day ago'
-    },
-    {
-      id: 4,
-      name: 'Innovation Labs',
-      plan: 'Starter',
-      employees: 125,
-      mrr: 833,
-      status: 'Trial',
-      lastActive: '3 hours ago'
-    },
-    {
-      id: 5,
-      name: 'Retail Solutions',
-      plan: 'Growth',
-      employees: 450,
-      mrr: 5625,
-      status: 'Active',
-      lastActive: '6 hours ago'
-    }
-  ];
-
-  const revenueData = [
-    { month: 'Jan', mrr: 95000, arr: 1140000 },
-    { month: 'Feb', mrr: 102000, arr: 1224000 },
-    { month: 'Mar', mrr: 108500, arr: 1302000 },
-    { month: 'Apr', mrr: 115000, arr: 1380000 },
-    { month: 'May', mrr: 119800, arr: 1437600 },
-    { month: 'Jun', mrr: 124500, arr: 1494000 }
-  ];
-
-  const activities = [
-    {
-      id: 1,
-      type: 'signup',
-      text: 'New tenant signed up: Innovation Labs',
-      time: '15 minutes ago',
-      icon: '◉'
-    },
-    {
-      id: 2,
-      type: 'upgrade',
-      text: 'TechStart Inc upgraded from Starter to Growth',
-      time: '2 hours ago',
-      icon: '△'
-    },
-    {
-      id: 3,
-      type: 'support',
-      text: 'Support ticket opened by Acme Corporation',
-      time: '4 hours ago',
-      icon: '□'
-    },
-    {
-      id: 4,
-      type: 'alert',
-      text: 'High API usage detected for Global Dynamics',
-      time: '6 hours ago',
-      icon: '◇'
-    },
-    {
-      id: 5,
-      type: 'signup',
-      text: 'New tenant signed up: Retail Solutions',
-      time: '1 day ago',
-      icon: '◉'
-    }
-  ];
 
   const getStatusColor = (status: string) => {
     switch(status) {
@@ -130,6 +99,53 @@ export default function SuperadminHome() {
       default: return '#545454';
     }
   };
+
+  const getTimeAgo = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+    if (seconds < 60) return 'Just now';
+    if (seconds < 3600) return `${Math.floor(seconds / 60)} minutes ago`;
+    if (seconds < 86400) return `${Math.floor(seconds / 3600)} hours ago`;
+    if (seconds < 604800) return `${Math.floor(seconds / 86400)} days ago`;
+    return date.toLocaleDateString();
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen p-8 bg-mizan-background flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 animate-spin text-mizan-gold mx-auto mb-4" />
+          <p className="text-mizan-secondary">Loading dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen p-8 bg-mizan-background">
+        <div className="max-w-7xl mx-auto">
+          <div className="bg-red-50 border border-red-200 rounded-2xl p-8">
+            <div className="flex items-start space-x-4">
+              <AlertCircle className="w-6 h-6 text-red-600 flex-shrink-0 mt-1" />
+              <div>
+                <h2 className="text-xl font-semibold text-red-900 mb-2">Error Loading Dashboard</h2>
+                <p className="text-red-800">{error}</p>
+                <button
+                  onClick={fetchDashboardData}
+                  className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                >
+                  Try Again
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen p-8 bg-mizan-background">
@@ -258,7 +274,7 @@ export default function SuperadminHome() {
                                 {tenant.name}
                               </p>
                               <p className="text-xs text-mizan-secondary">
-                                Last active {tenant.lastActive}
+                                Last active {getTimeAgo(tenant.updatedAt)}
                               </p>
                             </div>
                           </td>
@@ -271,10 +287,10 @@ export default function SuperadminHome() {
                             </span>
                           </td>
                           <td className="px-6 py-4 text-sm text-mizan-secondary">
-                            {tenant.employees.toLocaleString()}
+                            {tenant.employeeCount ? tenant.employeeCount.toLocaleString() : 'N/A'}
                           </td>
                           <td className="px-6 py-4 text-sm font-medium text-mizan-primary">
-                            ${(tenant.mrr / 1000).toFixed(1)}K
+                            -
                           </td>
                           <td className="px-6 py-4">
                             <span
