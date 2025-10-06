@@ -65,7 +65,7 @@ export default function MizanHome() {
 
           <p className="text-base md:text-lg mb-14 font-normal max-w-2xl mx-auto leading-relaxed text-mizan-secondary/70">
             Transform organizational chaos into measurable alignment<br className="hidden md:block" />
-            with our universal 7-level framework
+            with our universal 7-cylinder framework
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-20">
@@ -219,18 +219,18 @@ export default function MizanHome() {
             {/* Framework visualization */}
             <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl p-10 border border-gray-100">
               <h4 className="text-2xl font-semibold mb-8 text-center text-mizan-primary">
-                7-Level Ethical Framework
+                7-Cylinder Ethical Framework
               </h4>
               <div className="space-y-3">
                 {[
-                  "Safety & Survival",
-                  "Belonging & Loyalty",
-                  "Growth & Achievement",
-                  "Meaning & Contribution",
-                  "Integrity & Justice",
+                  "Transcendence & Unity",
                   "Wisdom & Compassion",
-                  "Transcendence & Unity"
-                ].map((level, i) => (
+                  "Integrity & Justice",
+                  "Meaning & Contribution",
+                  "Growth & Achievement",
+                  "Belonging & Loyalty",
+                  "Safety & Survival"
+                ].map((cylinder, i) => (
                   <div
                     key={i}
                     className="flex items-center space-x-4 bg-white rounded-2xl p-5 hover:shadow-md smooth-transition border border-gray-100 group"
@@ -240,9 +240,9 @@ export default function MizanHome() {
                            borderColor: i === 3 ? '#CCA404' : '#3F3D56',
                            color: i === 3 ? '#CCA404' : '#3F3D56'
                          }}>
-                      {i + 1}
+                      {7 - i}
                     </div>
-                    <span className="text-base font-medium text-mizan-primary">{level}</span>
+                    <span className="text-base font-medium text-mizan-primary">{cylinder}</span>
                   </div>
                 ))}
               </div>

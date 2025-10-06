@@ -17,7 +17,7 @@ export default function WhyMizanPage() {
       <section className="pt-20 pb-16 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-5xl md:text-6xl font-bold font-display text-mizan-primary mb-6">
-            Why Mizan? 🎯
+            Why Mizan?
           </h1>
           <p className="text-xl text-mizan-secondary leading-relaxed">
             Because your organization deserves better than surface-level insights and checkbox compliance.
@@ -33,14 +33,14 @@ export default function WhyMizanPage() {
       <section className="py-16 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold font-display text-mizan-primary text-center mb-16">
-            Four Core Differentiators 🌟
+            Four Core Differentiators
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
             {/* Ethics First */}
             <div className="p-8 border-2 border-mizan-gold rounded-xl hover-lift smooth-transition">
               <EthicsIcon className="w-16 h-16 mb-4 text-mizan-gold" />
               <h3 className="text-2xl font-bold text-mizan-primary mb-4">
-                1️⃣ Ethics-First AI
+                Ethics-First AI
               </h3>
               <p className="text-mizan-secondary leading-relaxed mb-4">
                 Our AI isn't just powerful—it's <span className="font-semibold text-mizan-gold">grounded in virtue ethics</span>.
@@ -58,7 +58,7 @@ export default function WhyMizanPage() {
             <div className="p-8 border-2 border-mizan-gold rounded-xl hover-lift smooth-transition">
               <MultiAgentIcon className="w-16 h-16 mb-4 text-mizan-gold" />
               <h3 className="text-2xl font-bold text-mizan-primary mb-4">
-                2️⃣ Multi-Agent Architecture
+                Multi-Agent Architecture
               </h3>
               <p className="text-mizan-secondary leading-relaxed mb-4">
                 Unlike single-model systems, we use <span className="font-semibold text-mizan-gold">7 specialized AI agents</span>
@@ -76,11 +76,11 @@ export default function WhyMizanPage() {
             <div className="p-8 border-2 border-mizan-gold rounded-xl hover-lift smooth-transition">
               <MeasurableIcon className="w-16 h-16 mb-4 text-mizan-gold" />
               <h3 className="text-2xl font-bold text-mizan-primary mb-4">
-                3️⃣ Measurable Impact
+                Measurable Impact
               </h3>
               <p className="text-mizan-secondary leading-relaxed mb-4">
                 We don't just give you reports—we give you <span className="font-semibold text-mizan-gold">actionable metrics</span>
-                at all 7 levels of organizational consciousness. Track entropy, alignment, and progress
+                at all 7 cylinders of organizational consciousness. Track entropy, alignment, and progress
                 across Safety, Belonging, Esteem, Autonomy, Mastery, Purpose, and Transcendence.
               </p>
               <div className="bg-mizan-background p-4 rounded-lg">
@@ -94,7 +94,7 @@ export default function WhyMizanPage() {
             <div className="p-8 border-2 border-mizan-gold rounded-xl hover-lift smooth-transition">
               <TransparencyIcon className="w-16 h-16 mb-4 text-mizan-gold" />
               <h3 className="text-2xl font-bold text-mizan-primary mb-4">
-                4️⃣ Radical Transparency
+                Radical Transparency
               </h3>
               <p className="text-mizan-secondary leading-relaxed mb-4">
                 Every AI decision is <span className="font-semibold text-mizan-gold">fully explainable</span>.
@@ -115,22 +115,22 @@ export default function WhyMizanPage() {
       <section className="py-16 px-4">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold font-display text-mizan-primary text-center mb-6">
-            The 7 Levels of Organizational Consciousness 🎚️
+            The 7 Cylinders of Organizational Consciousness
           </h2>
           <p className="text-center text-mizan-secondary mb-12 max-w-3xl mx-auto">
-            Most HR tools focus on Level 1-3. We measure all seven, because true organizational
-            excellence requires addressing every level of human need.
+            Most HR tools focus on Cylinder 1-3. We measure all seven, because true organizational
+            excellence requires addressing every cylinder of human need.
           </p>
 
           <div className="space-y-6">
             {[
-              { level: 1, name: "Safety", emoji: "🛡️", color: "border-red-400", description: "Physical & psychological security, compliance, risk management" },
-              { level: 2, name: "Belonging", emoji: "🤝", color: "border-orange-400", description: "Inclusion, relationships, team cohesion, social connection" },
-              { level: 3, name: "Esteem", emoji: "🏆", color: "border-yellow-400", description: "Recognition, achievement, performance, competence" },
-              { level: 4, name: "Autonomy", emoji: "🦅", color: "border-green-400", description: "Agency, decision-making, empowerment, ownership" },
-              { level: 5, name: "Mastery", emoji: "🎯", color: "border-blue-400", description: "Skill development, expertise, continuous learning, growth" },
-              { level: 6, name: "Purpose", emoji: "🌟", color: "border-indigo-400", description: "Meaningful work, mission alignment, contribution to society" },
-              { level: 7, name: "Transcendence", emoji: "✨", color: "border-purple-400", description: "Self-actualization, wisdom, legacy, systemic impact" }
+              { level: 7, name: "Transcendence", symbol: "◇", color: "border-purple-400", description: "Self-actualization, wisdom, legacy, systemic impact" },
+              { level: 6, name: "Purpose", symbol: "▽", color: "border-indigo-400", description: "Meaningful work, mission alignment, contribution to society" },
+              { level: 5, name: "Mastery", symbol: "⬡", color: "border-blue-400", description: "Skill development, expertise, continuous learning, growth" },
+              { level: 4, name: "Autonomy", symbol: "□", color: "border-green-400", description: "Agency, decision-making, empowerment, ownership" },
+              { level: 3, name: "Esteem", symbol: "△", color: "border-yellow-400", description: "Recognition, achievement, performance, competence" },
+              { level: 2, name: "Belonging", symbol: "○", color: "border-orange-400", description: "Inclusion, relationships, team cohesion, social connection" },
+              { level: 1, name: "Safety", symbol: "⬢", color: "border-red-400", description: "Physical & psychological security, compliance, risk management" }
             ].map((item) => (
               <div
                 key={item.level}
@@ -138,10 +138,10 @@ export default function WhyMizanPage() {
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-4">
-                    <span className="text-3xl">{item.emoji}</span>
+                    <span className="text-3xl font-light text-mizan-primary">{item.symbol}</span>
                     <div>
                       <h3 className="text-xl font-bold text-mizan-primary">
-                        Level {item.level}: {item.name}
+                        Cylinder {item.level}: {item.name}
                       </h3>
                       <p className="text-mizan-secondary">{item.description}</p>
                     </div>
@@ -158,7 +158,7 @@ export default function WhyMizanPage() {
       <section className="py-16 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold font-display text-mizan-primary text-center mb-12">
-            Mizan vs. Traditional Tools 📊
+            Mizan vs. Traditional Tools
           </h2>
 
           <div className="overflow-x-auto">
@@ -175,7 +175,7 @@ export default function WhyMizanPage() {
                   { feature: "AI Approach", typical: "Single general-purpose model", mizan: "7 specialized expert agents" },
                   { feature: "Ethical Framework", typical: "Compliance-focused", mizan: "Virtue ethics (7 Cylinders)" },
                   { feature: "Transparency", typical: "Black box algorithms", mizan: "Fully explainable decisions" },
-                  { feature: "Scope", typical: "Focuses on 1-3 levels", mizan: "All 7 levels of consciousness" },
+                  { feature: "Scope", typical: "Focuses on 1-3 cylinders", mizan: "All 7 cylinders of consciousness" },
                   { feature: "Metrics", typical: "Engagement, productivity", mizan: "Entropy, alignment, flourishing" },
                   { feature: "Recommendations", typical: "Generic best practices", mizan: "Context-aware, ethical guidance" },
                   { feature: "Human Development", typical: "Skills training", mizan: "Holistic growth across all levels" },
@@ -197,7 +197,7 @@ export default function WhyMizanPage() {
       <section className="py-16 px-4">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold font-display text-mizan-primary text-center mb-6">
-            Different Views for Different Roles 👥
+            Different Views for Different Roles
           </h2>
           <p className="text-center text-mizan-secondary mb-12 max-w-3xl mx-auto">
             Everyone gets exactly what they need, nothing they don't. Our role-aware dashboards
@@ -207,12 +207,12 @@ export default function WhyMizanPage() {
           <div className="grid md:grid-cols-2 gap-8">
             {/* Executives */}
             <div className="p-8 bg-white rounded-xl border-2 border-gray-200 hover:border-mizan-gold smooth-transition">
-              <div className="text-4xl mb-4">👔</div>
+              <div className="text-4xl mb-4 font-light text-mizan-primary">○</div>
               <h3 className="text-2xl font-bold text-mizan-primary mb-4">For Executives</h3>
               <ul className="space-y-2 text-mizan-secondary">
                 <li className="flex items-start">
                   <CheckCircle2 className="text-mizan-gold mr-2 mt-1 flex-shrink-0" size={20} />
-                  <span>Strategic org-wide metrics across all 7 levels</span>
+                  <span>Strategic org-wide metrics across all 7 cylinders</span>
                 </li>
                 <li className="flex items-start">
                   <CheckCircle2 className="text-mizan-gold mr-2 mt-1 flex-shrink-0" size={20} />
@@ -231,7 +231,7 @@ export default function WhyMizanPage() {
 
             {/* HR Leaders */}
             <div className="p-8 bg-white rounded-xl border-2 border-gray-200 hover:border-mizan-gold smooth-transition">
-              <div className="text-4xl mb-4">🎯</div>
+              <div className="text-4xl mb-4 font-light text-mizan-primary">△</div>
               <h3 className="text-2xl font-bold text-mizan-primary mb-4">For HR Leaders</h3>
               <ul className="space-y-2 text-mizan-secondary">
                 <li className="flex items-start">
@@ -255,7 +255,7 @@ export default function WhyMizanPage() {
 
             {/* Managers */}
             <div className="p-8 bg-white rounded-xl border-2 border-gray-200 hover:border-mizan-gold smooth-transition">
-              <div className="text-4xl mb-4">🧭</div>
+              <div className="text-4xl mb-4 font-light text-mizan-primary">□</div>
               <h3 className="text-2xl font-bold text-mizan-primary mb-4">For Managers</h3>
               <ul className="space-y-2 text-mizan-secondary">
                 <li className="flex items-start">
@@ -279,12 +279,12 @@ export default function WhyMizanPage() {
 
             {/* Employees */}
             <div className="p-8 bg-white rounded-xl border-2 border-gray-200 hover:border-mizan-gold smooth-transition">
-              <div className="text-4xl mb-4">🌱</div>
+              <div className="text-4xl mb-4 font-light text-mizan-primary">◇</div>
               <h3 className="text-2xl font-bold text-mizan-primary mb-4">For Employees</h3>
               <ul className="space-y-2 text-mizan-secondary">
                 <li className="flex items-start">
                   <CheckCircle2 className="text-mizan-gold mr-2 mt-1 flex-shrink-0" size={20} />
-                  <span>Personal growth dashboard across all 7 levels</span>
+                  <span>Personal growth dashboard across all 7 cylinders</span>
                 </li>
                 <li className="flex items-start">
                   <CheckCircle2 className="text-mizan-gold mr-2 mt-1 flex-shrink-0" size={20} />
@@ -308,25 +308,25 @@ export default function WhyMizanPage() {
       <section className="py-16 px-4 bg-gradient-to-br from-mizan-primary to-mizan-secondary text-white">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold font-display mb-8">
-            The Bottom Line 💡
+            The Bottom Line
           </h2>
           <div className="grid md:grid-cols-3 gap-8 mb-12">
             <div className="p-6 bg-white/10 rounded-xl backdrop-blur-sm">
-              <div className="text-4xl mb-4">🧠</div>
+              <div className="text-4xl mb-4 font-light text-white">○</div>
               <h3 className="text-xl font-bold mb-2">Smarter AI</h3>
               <p className="text-white/90">
                 Multi-agent architecture beats single-model systems every time
               </p>
             </div>
             <div className="p-6 bg-white/10 rounded-xl backdrop-blur-sm">
-              <div className="text-4xl mb-4">🎯</div>
+              <div className="text-4xl mb-4 font-light text-white">△</div>
               <h3 className="text-xl font-bold mb-2">Deeper Insights</h3>
               <p className="text-white/90">
-                7 levels of consciousness, not just surface metrics
+                7 cylinders of consciousness, not just surface metrics
               </p>
             </div>
             <div className="p-6 bg-white/10 rounded-xl backdrop-blur-sm">
-              <div className="text-4xl mb-4">⚖️</div>
+              <div className="text-4xl mb-4 font-light text-white">□</div>
               <h3 className="text-xl font-bold mb-2">Ethical Foundation</h3>
               <p className="text-white/90">
                 Virtue ethics built into every recommendation

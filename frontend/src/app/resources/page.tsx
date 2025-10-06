@@ -171,7 +171,17 @@ export default function ResourcesPage() {
   const regularResources = filteredResources.filter(r => !r.featured);
 
   const handleDownload = (resource: any) => {
-    alert(`Downloading: "${resource.title}"\n\nIn production, this would:\n1. Track download analytics\n2. Trigger PDF download from your backend/CDN\n3. Optional: Require email capture for gated content`);
+    // For now, direct users to demo/contact for access
+    // In production, this would download from /documents/{resource-id}.pdf
+    const confirmed = window.confirm(
+      `Access to "${resource.title}"\n\n` +
+      `This resource is available to demo participants and customers.\n\n` +
+      `Would you like to request access by scheduling a demo?`
+    );
+
+    if (confirmed) {
+      window.location.href = '/demo';
+    }
   };
 
   return (

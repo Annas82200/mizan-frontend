@@ -174,7 +174,7 @@ export default function MizanPlatform() {
                 Alignment Tracking
               </h3>
               <p className="text-lg leading-relaxed text-mizan-secondary">
-                Alignment means behavior matches intention. Culture matches values. Skills match strategy. We measure gaps across all seven levels of your organization.
+                Alignment means behavior matches intention. Culture matches values. Skills match strategy. We measure gaps across all seven cylinders of your organization.
               </p>
               <div className="space-y-4">
                 {[
@@ -199,23 +199,23 @@ export default function MizanPlatform() {
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="font-display text-5xl font-semibold mb-6 text-mizan-primary">
-              The 7-Level Framework
+              The 7-Cylinder Framework
             </h2>
             <p className="text-xl font-light leading-relaxed text-mizan-secondary">
-              Every organization operates across these seven interconnected levels. We analyze all of them.
+              Every organization operates across these seven interconnected cylinders. We analyze all of them.
             </p>
           </div>
 
           <div className="bg-white rounded-3xl p-12 border border-gray-100">
             <div className="space-y-4">
               {[
-                { level: 1, name: "Safety & Survival", desc: "Security, Stability, Preservation of Life" },
-                { level: 2, name: "Belonging & Loyalty", desc: "Trust, Community, Family & Brotherhood" },
-                { level: 3, name: "Growth & Achievement", desc: "Performance, Motivation, Striving with Excellence" },
-                { level: 4, name: "Meaning & Contribution", desc: "Purpose, Legacy, Service" },
-                { level: 5, name: "Integrity & Justice", desc: "Ethics, Truth, Justice & Accountability" },
+                { level: 7, name: "Transcendence & Unity", desc: "Alignment, Awakening, Unity of Being" },
                 { level: 6, name: "Wisdom & Compassion", desc: "Leadership, Empathy, Mercy & Knowledge" },
-                { level: 7, name: "Transcendence & Unity", desc: "Alignment, Awakening, Unity of Being" }
+                { level: 5, name: "Integrity & Justice", desc: "Ethics, Truth, Justice & Accountability" },
+                { level: 4, name: "Meaning & Contribution", desc: "Purpose, Legacy, Service" },
+                { level: 3, name: "Growth & Achievement", desc: "Performance, Motivation, Striving with Excellence" },
+                { level: 2, name: "Belonging & Loyalty", desc: "Trust, Community, Family & Brotherhood" },
+                { level: 1, name: "Safety & Survival", desc: "Security, Stability, Preservation of Life" }
               ].map((item, i) => (
                 <div
                   key={i}

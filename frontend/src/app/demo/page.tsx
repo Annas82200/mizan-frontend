@@ -140,7 +140,7 @@ export default function DemoPage() {
                   <div>
                     <h3 className="font-semibold mb-2 text-mizan-primary">7-Cylinder Framework in Action</h3>
                     <p className="text-sm text-mizan-secondary">
-                      Understand how the framework measures alignment across all levels of your organization
+                      Understand how the framework measures alignment across all cylinders of your organization
                     </p>
                   </div>
                 </div>

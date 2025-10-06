@@ -20,7 +20,7 @@ export default function MizanPricing() {
         { text: "Structure analysis", included: true },
         { text: "Single CSV upload", included: true },
         { text: "Entropy score report (PDF)", included: true },
-        { text: "7-level framework visualization", included: true },
+        { text: "7-cylinder framework visualization", included: true },
         { text: "Basic org chart", included: true },
         { text: "Culture analysis", included: false },
         { text: "Skills analysis", included: false },
