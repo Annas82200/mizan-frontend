@@ -247,7 +247,7 @@ export default function SystemAnalytics() {
                 {topEndpoints.map((endpoint, i) => (
                   <tr key={i} className="border-t border-gray-200">
                     <td className="px-6 py-4">
-                      <code className="text-sm font-mono text-mizan-primary">
+                      <code className="text-sm font-sans text-mizan-primary">
                         {endpoint.endpoint}
                       </code>
                     </td>
