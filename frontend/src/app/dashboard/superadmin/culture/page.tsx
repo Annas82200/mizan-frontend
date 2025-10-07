@@ -19,6 +19,25 @@ import {
 } from 'lucide-react';
 import { TenantSelector } from '@/components/dashboard';
 
+// Helper to format rich text with subtitles
+const formatDescription = (text: string) => {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+
+  return parts.map((part, index) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      const content = part.slice(2, -2);
+      return (
+        <span key={index} className="block mt-4 mb-2 text-xs font-semibold text-mizan-gold uppercase tracking-wider">
+          {content}
+        </span>
+      );
+    }
+    return part.split('\n').map((line, lineIdx) => (
+      line.trim() ? <span key={`${index}-${lineIdx}`} className="block">{line}</span> : null
+    ));
+  });
+};
+
 // 7-Cylinder Framework
 const CYLINDERS = [
   {
@@ -508,7 +527,9 @@ export default function CultureAnalysisPage() {
                         </span>
                       </div>
                       <h4 className="text-lg font-semibold text-mizan-primary mb-2">{rec.title}</h4>
-                      <p className="text-sm text-mizan-secondary mb-3">{rec.description}</p>
+                      <div className="text-sm text-mizan-secondary mb-3 leading-relaxed">
+                        {formatDescription(rec.description)}
+                      </div>
                       <div className="space-y-2">
                         <p className="text-sm font-medium text-mizan-primary">Action Items:</p>
                         <ul className="space-y-1">
