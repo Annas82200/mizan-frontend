@@ -73,9 +73,7 @@ export function IndividualEmployeeView({ tenantId, tenantName }: IndividualEmplo
       setLoading(true);
       setError(null);
 
-      // TODO: Replace with actual endpoint to get employees with survey status
-      // For now, mock data structure
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/employees?tenantId=${tenantId}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/culture-assessment/employees?tenantId=${tenantId}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('mizan_auth_token')}`
         }
