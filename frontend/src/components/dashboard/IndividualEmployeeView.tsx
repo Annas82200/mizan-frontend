@@ -99,26 +99,66 @@ export function IndividualEmployeeView({ tenantId, tenantName }: IndividualEmplo
       setError(null);
       setSelectedEmployee(employee);
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/analyses/culture`, {
-        method: 'POST',
+      // Check if employee has completed survey
+      if (!employee.hasCompletedSurvey) {
+        throw new Error('Employee has not completed the culture survey yet');
+      }
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/culture-assessment/report/employee/${employee.id}`, {
+        method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('mizan_auth_token')}`
-        },
-        body: JSON.stringify({
-          tenantId,
-          targetType: 'individual',
-          targetId: employee.id
-        })
+        }
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to analyze employee');
+        throw new Error(errorData.error || 'Failed to load employee report');
       }
 
-      const analysisData = await response.json();
-      setAnalysis(analysisData);
+      const data = await response.json();
+
+      // Transform backend report structure to frontend expected structure
+      const transformedAnalysis: EmployeeAnalysis = {
+        employeeId: data.report.employeeId,
+        employeeName: data.report.employeeName,
+        personalValuesInterpretation: {
+          strengths: data.report.personalValues?.dominantCylinders?.map((c: any) => c.name) || [],
+          limitingFactors: [], // Extract from analysis if available
+          meaning: data.report.personalValues?.interpretation || 'Analysis in progress...'
+        },
+        alignmentAnalysis: {
+          personalVsCurrent: {
+            gap: 100 - (data.report.alignment?.personalVsCurrent || 0),
+            interpretation: data.report.alignment?.gaps?.join('. ') || 'No significant gaps identified',
+            retentionRisk: data.report.alignment?.personalVsCurrent >= 70 ? 'low' :
+                          data.report.alignment?.personalVsCurrent >= 50 ? 'medium' : 'high'
+          },
+          personalVsDesired: {
+            gap: 0,
+            interpretation: data.report.experienceGap?.analysis || 'Analysis in progress...',
+            growthOpportunities: data.report.experienceGap?.priorities || []
+          }
+        },
+        engagementAnalysis: {
+          score: data.report.engagement?.score || 0,
+          interpretation: data.report.engagement?.interpretation || data.report.engagement?.analysis || '',
+          factors: data.report.engagement?.factors || []
+        },
+        recognitionAnalysis: {
+          score: data.report.recognition?.score || 0,
+          interpretation: data.report.recognition?.interpretation || data.report.recognition?.analysis || '',
+          impact: data.report.recognition?.impact || ''
+        },
+        recommendations: data.report.alignment?.recommendations?.map((rec: any) => ({
+          category: 'Development',
+          title: typeof rec === 'string' ? rec : rec.title,
+          description: typeof rec === 'string' ? rec : rec.description || '',
+          actionItems: typeof rec === 'string' ? [] : rec.actionItems || []
+        })) || []
+      };
+
+      setAnalysis(transformedAnalysis);
     } catch (err: any) {
       console.error('Employee analysis error:', err);
       setError(err.message || 'Failed to analyze employee');
