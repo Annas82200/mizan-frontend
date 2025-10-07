@@ -90,6 +90,11 @@ export default function SurveyPage() {
       }
 
       setSubmitted(true);
+
+      // Redirect to report page after 3 seconds
+      setTimeout(() => {
+        window.location.href = `/survey/${token}/report`;
+      }, 3000);
     } catch (err: any) {
       console.error('Survey submission error:', err);
       setError(err.message || 'Failed to submit survey');
