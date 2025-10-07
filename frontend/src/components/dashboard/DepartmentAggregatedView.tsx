@@ -80,29 +80,75 @@ export function DepartmentAggregatedView({ tenantId, tenantName }: DepartmentAgg
       setAnalyzing(true);
       setError(null);
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/analyses/culture`, {
-        method: 'POST',
+      // Use the company report endpoint
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/culture-assessment/report/company`, {
+        method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('mizan_auth_token')}`
-        },
-        body: JSON.stringify({
-          tenantId,
-          targetType: selectedDepartment === 'all' ? 'company' : 'department',
-          targetId: selectedDepartment === 'all' ? undefined : selectedDepartment
-        })
+        }
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to run analysis');
+        throw new Error(errorData.error || 'Failed to load analysis');
       }
 
-      const analysisData = await response.json();
-      setAnalysis(analysisData);
+      const data = await response.json();
+
+      // Transform the backend report structure to frontend expected structure
+      const report = data.report || {};
+
+      const transformedAnalysis: DepartmentAnalysis = {
+        entropyScore: report.entropyScore || 0,
+        verdict: report.overallVerdict || 'Analysis in progress...',
+        intendedCulture: {
+          description: report.intendedCulture?.interpretation || 'No company values defined yet',
+          values: report.intendedCulture?.values || [],
+          dominantCylinders: report.intendedCulture?.cylinders || []
+        },
+        currentReality: {
+          description: report.currentReality?.interpretation || 'Gathering employee feedback...',
+          values: report.currentReality?.values || [],
+          dominantCylinders: report.currentReality?.cylinders || []
+        },
+        desiredCulture: {
+          description: report.desiredCulture?.interpretation || 'Analyzing employee aspirations...',
+          values: report.desiredCulture?.values || [],
+          dominantCylinders: report.desiredCulture?.cylinders || []
+        },
+        gapAnalyses: {
+          intendedVsCurrent: {
+            gap: report.gaps?.intendedVsCurrent?.score || 0,
+            interpretation: report.gaps?.intendedVsCurrent?.analysis || 'Analysis in progress...',
+            criticalIssues: report.gaps?.intendedVsCurrent?.issues || []
+          },
+          intendedVsDesired: {
+            gap: report.gaps?.intendedVsDesired?.score || 0,
+            interpretation: report.gaps?.intendedVsDesired?.analysis || 'Analysis in progress...',
+            criticalIssues: report.gaps?.intendedVsDesired?.issues || []
+          },
+          currentVsDesired: {
+            gap: report.gaps?.currentVsDesired?.score || 0,
+            interpretation: report.gaps?.currentVsDesired?.analysis || 'Analysis in progress...',
+            criticalIssues: report.gaps?.currentVsDesired?.issues || []
+          }
+        },
+        engagement: {
+          average: report.engagement?.average || 0,
+          interpretation: report.engagement?.interpretation || ''
+        },
+        recognition: {
+          average: report.recognition?.average || 0,
+          interpretation: report.recognition?.interpretation || ''
+        },
+        threats: report.threats || [],
+        strategicRecommendations: report.recommendations || []
+      };
+
+      setAnalysis(transformedAnalysis);
     } catch (err: any) {
       console.error('Department analysis error:', err);
-      setError(err.message || 'Failed to run analysis');
+      setError(err.message || 'Failed to load analysis');
     } finally {
       setAnalyzing(false);
     }
