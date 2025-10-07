@@ -44,6 +44,7 @@ export function SurveyManagementView({ tenantId, tenantName }: SurveyManagementV
           'Authorization': `Bearer ${localStorage.getItem('mizan_auth_token')}`
         },
         body: JSON.stringify({
+          tenantId,
           campaignName,
           expiryDays
         })

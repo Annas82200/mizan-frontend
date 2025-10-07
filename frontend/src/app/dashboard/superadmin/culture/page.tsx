@@ -8,7 +8,6 @@ import {
   TrendingUp,
   Lightbulb,
   Scale,
-  Handshake,
   Target,
   AlertCircle,
   Loader2,
@@ -38,14 +37,14 @@ const formatDescription = (text: string) => {
   });
 };
 
-// 7-Cylinder Framework
+// 7-Cylinder Framework - Approved Configuration
 const CYLINDERS = [
   {
     id: 7,
-    name: 'Vision & Purpose',
-    nameArabic: 'الرؤية والهدف',
+    name: 'Transcendence & Unity',
+    nameArabic: 'التسامي والوحدة',
     icon: Target,
-    ethicalPrinciple: 'Universal Benefit (المصلحة العامة)',
+    ethicalPrinciple: 'Unity of Being',
     color: '#CCA404',
     bgColor: 'bg-amber-50',
     borderColor: 'border-amber-300',
@@ -53,66 +52,66 @@ const CYLINDERS = [
   },
   {
     id: 6,
-    name: 'Collaboration & Unity',
-    nameArabic: 'التعاون والوحدة',
-    icon: Handshake,
-    ethicalPrinciple: 'Community Welfare (حفظ الجماعة)',
-    color: '#3F3D56',
-    bgColor: 'bg-indigo-50',
-    borderColor: 'border-indigo-300',
-    textColor: 'text-indigo-700'
+    name: 'Wisdom & Compassion',
+    nameArabic: 'الحكمة والرحمة',
+    icon: Lightbulb,
+    ethicalPrinciple: 'Mercy and Knowledge',
+    color: '#8b5cf6',
+    bgColor: 'bg-purple-50',
+    borderColor: 'border-purple-300',
+    textColor: 'text-purple-700'
   },
   {
     id: 5,
     name: 'Integrity & Justice',
     nameArabic: 'النزاهة والعدالة',
     icon: Scale,
-    ethicalPrinciple: 'Fairness & Honor (حفظ العرض)',
-    color: '#3F3D56',
-    bgColor: 'bg-purple-50',
-    borderColor: 'border-purple-300',
-    textColor: 'text-purple-700'
+    ethicalPrinciple: 'Justice and Accountability',
+    color: '#3b82f6',
+    bgColor: 'bg-blue-50',
+    borderColor: 'border-blue-300',
+    textColor: 'text-blue-700'
   },
   {
     id: 4,
-    name: 'Creativity & Innovation',
-    nameArabic: 'الإبداع والابتكار',
-    icon: Lightbulb,
-    ethicalPrinciple: 'Intellectual Growth (حفظ العقل)',
-    color: '#CCA404',
-    bgColor: 'bg-yellow-50',
-    borderColor: 'border-yellow-300',
-    textColor: 'text-yellow-700'
+    name: 'Meaning & Contribution',
+    nameArabic: 'المعنى والمساهمة',
+    icon: Heart,
+    ethicalPrinciple: 'Service',
+    color: '#22c55e',
+    bgColor: 'bg-green-50',
+    borderColor: 'border-green-300',
+    textColor: 'text-green-700'
   },
   {
     id: 3,
     name: 'Growth & Achievement',
     nameArabic: 'النمو والإنجاز',
     icon: TrendingUp,
-    ethicalPrinciple: 'Prosperity (حفظ المال)',
-    color: '#3F3D56',
-    bgColor: 'bg-green-50',
-    borderColor: 'border-green-300',
-    textColor: 'text-green-700'
+    ethicalPrinciple: 'Striving with Excellence',
+    color: '#eab308',
+    bgColor: 'bg-yellow-50',
+    borderColor: 'border-yellow-300',
+    textColor: 'text-yellow-700'
   },
   {
     id: 2,
     name: 'Belonging & Loyalty',
     nameArabic: 'الانتماء والولاء',
     icon: UsersIcon,
-    ethicalPrinciple: 'Family & Community (حفظ النسل)',
-    color: '#CCA404',
-    bgColor: 'bg-blue-50',
-    borderColor: 'border-blue-300',
-    textColor: 'text-blue-700'
+    ethicalPrinciple: 'Human Dignity',
+    color: '#f97316',
+    bgColor: 'bg-orange-50',
+    borderColor: 'border-orange-300',
+    textColor: 'text-orange-700'
   },
   {
     id: 1,
     name: 'Safety & Survival',
     nameArabic: 'الأمان والبقاء',
     icon: Shield,
-    ethicalPrinciple: 'Preservation of Life (حفظ النفس)',
-    color: '#3F3D56',
+    ethicalPrinciple: 'Preservation of Life',
+    color: '#ef4444',
     bgColor: 'bg-red-50',
     borderColor: 'border-red-300',
     textColor: 'text-red-700'
@@ -332,25 +331,49 @@ export default function CultureAnalysisPage() {
               <h2 className="text-2xl font-bold text-mizan-primary">The Mizan 7-Cylinder Framework</h2>
             </div>
             <p className="text-mizan-secondary mb-6">
-              A values-based cultural assessment system rooted in Islamic ethics (Maqasid al-Shariah),
-              measuring organizational health across seven consciousness levels.
+              A values-based cultural assessment system rooted in Islamic ethics (Maqasid al-Shariah), measuring organizational health across seven consciousness levels.
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {CYLINDERS.map((cylinder) => {
+
+            {/* First Row - 4 Cylinders */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+              {CYLINDERS.slice(0, 4).map((cylinder) => {
                 const Icon = cylinder.icon;
                 return (
                   <div
                     key={cylinder.id}
-                    className={`${cylinder.bgColor} ${cylinder.borderColor} border-2 rounded-xl p-4 transition-all duration-300 hover:shadow-lg`}
+                    className={`${cylinder.bgColor} ${cylinder.borderColor} border-2 rounded-xl p-5 transition-all duration-300 hover:shadow-lg`}
                   >
-                    <div className="flex items-center space-x-2 mb-2">
-                      <Icon className={`w-5 h-5 ${cylinder.textColor}`} />
+                    <div className="flex items-center space-x-2 mb-3">
+                      <Icon className={`w-6 h-6 ${cylinder.textColor}`} />
                       <span className={`text-xs font-bold ${cylinder.textColor}`}>
                         CYLINDER {cylinder.id}
                       </span>
                     </div>
-                    <h3 className="font-semibold text-mizan-primary text-sm mb-1">{cylinder.name}</h3>
-                    <p className="text-xs text-mizan-secondary mb-2">{cylinder.nameArabic}</p>
+                    <h3 className="font-bold text-mizan-primary mb-1">{cylinder.name}</h3>
+                    <p className="text-sm text-mizan-secondary mb-2">{cylinder.nameArabic}</p>
+                    <p className="text-xs text-mizan-secondary italic">{cylinder.ethicalPrinciple}</p>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Second Row - 3 Cylinders */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {CYLINDERS.slice(4, 7).map((cylinder) => {
+                const Icon = cylinder.icon;
+                return (
+                  <div
+                    key={cylinder.id}
+                    className={`${cylinder.bgColor} ${cylinder.borderColor} border-2 rounded-xl p-5 transition-all duration-300 hover:shadow-lg`}
+                  >
+                    <div className="flex items-center space-x-2 mb-3">
+                      <Icon className={`w-6 h-6 ${cylinder.textColor}`} />
+                      <span className={`text-xs font-bold ${cylinder.textColor}`}>
+                        CYLINDER {cylinder.id}
+                      </span>
+                    </div>
+                    <h3 className="font-bold text-mizan-primary mb-1">{cylinder.name}</h3>
+                    <p className="text-sm text-mizan-secondary mb-2">{cylinder.nameArabic}</p>
                     <p className="text-xs text-mizan-secondary italic">{cylinder.ethicalPrinciple}</p>
                   </div>
                 );
