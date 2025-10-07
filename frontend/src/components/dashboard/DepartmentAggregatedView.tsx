@@ -80,8 +80,8 @@ export function DepartmentAggregatedView({ tenantId, tenantName }: DepartmentAgg
       setAnalyzing(true);
       setError(null);
 
-      // Use the company report endpoint
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/culture-assessment/report/company`, {
+      // Use the company report endpoint with tenantId
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/culture-assessment/report/company?tenantId=${tenantId}`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('mizan_auth_token')}`
