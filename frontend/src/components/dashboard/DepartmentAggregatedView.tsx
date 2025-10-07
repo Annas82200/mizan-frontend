@@ -15,6 +15,7 @@ interface DepartmentAnalysis {
   healthySurveyQuestion: string;
   overallAssessment: string;
   entropyScore: number;
+  healthScore: number;
   intendedCulture: {
     values: string[];
     interpretation: string;
@@ -105,6 +106,7 @@ export function DepartmentAggregatedView({ tenantId, tenantName }: DepartmentAgg
         healthySurveyQuestion: report.healthySurveyQuestion || 'Is your culture healthy?',
         overallAssessment: report.overallVerdict || 'Analysis in progress...',
         entropyScore: report.entropyScore || 0,
+        healthScore: report.healthScore || (report.entropyScore ? 100 - report.entropyScore : 0),
         intendedCulture: {
           values: report.intendedCulture?.values || [],
           interpretation: report.intendedCulture?.interpretation || 'No company values defined yet',
@@ -246,7 +248,7 @@ export function DepartmentAggregatedView({ tenantId, tenantName }: DepartmentAgg
       {analysis && (
         <div className="space-y-6">
           {/* Overall Assessment */}
-          <div className={`rounded-2xl p-6 border-2 ${getEntropyColor(analysis.entropyScore).bg} ${getEntropyColor(analysis.entropyScore).border}`}>
+          <div className={`rounded-2xl p-6 border-2 ${getEntropyColor(analysis.healthScore).bg} ${getEntropyColor(analysis.healthScore).border}`}>
             <div className="flex items-start justify-between mb-4">
               <div className="flex-1">
                 <h3 className="text-xl font-bold font-display text-mizan-primary mb-2">
@@ -256,8 +258,8 @@ export function DepartmentAggregatedView({ tenantId, tenantName }: DepartmentAgg
               </div>
               <div className="text-center">
                 <p className="text-sm text-mizan-secondary mb-1">Cultural Health</p>
-                <p className={`text-4xl font-bold ${getEntropyColor(analysis.entropyScore).text}`}>
-                  {analysis.entropyScore}
+                <p className={`text-4xl font-bold ${getEntropyColor(analysis.healthScore).text}`}>
+                  {analysis.healthScore}
                 </p>
                 <p className="text-xs text-mizan-secondary">out of 100</p>
               </div>
