@@ -17,7 +17,7 @@ import {
   Download,
   RefreshCw
 } from 'lucide-react';
-import { TenantSelector } from '@/components/dashboard';
+import { TenantSelector, SurveyManagementView, IndividualEmployeeView, DepartmentAggregatedView } from '@/components/dashboard';
 
 // Helper to format rich text with subtitles
 const formatDescription = (text: string) => {
@@ -163,8 +163,11 @@ interface Tenant {
   userCount?: number;
 }
 
+type ViewMode = 'analysis' | 'survey-management' | 'individual' | 'aggregated';
+
 export default function CultureAnalysisPage() {
   const [selectedTenant, setSelectedTenant] = useState<Tenant | null>(null);
+  const [viewMode, setViewMode] = useState<ViewMode>('analysis');
   const [analyzing, setAnalyzing] = useState(false);
   const [results, setResults] = useState<CultureAnalysisOutput | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -256,8 +259,74 @@ export default function CultureAnalysisPage() {
         />
       </div>
 
-      {/* 7-Cylinder Framework Overview */}
-      <div className="bg-gradient-to-br from-mizan-primary/5 to-mizan-gold/5 rounded-2xl p-8 border border-mizan-gold/20">
+      {/* Tab Navigation */}
+      {selectedTenant && (
+        <div className="bg-white rounded-2xl p-2 shadow-sm border border-gray-100">
+          <div className="flex space-x-2">
+            <button
+              onClick={() => setViewMode('analysis')}
+              className={`flex-1 px-6 py-3 rounded-xl font-medium transition-all duration-400 ${
+                viewMode === 'analysis'
+                  ? 'bg-mizan-gold text-white shadow-md'
+                  : 'text-mizan-secondary hover:bg-gray-50'
+              }`}
+            >
+              Organization Analysis
+            </button>
+            <button
+              onClick={() => setViewMode('survey-management')}
+              className={`flex-1 px-6 py-3 rounded-xl font-medium transition-all duration-400 ${
+                viewMode === 'survey-management'
+                  ? 'bg-mizan-gold text-white shadow-md'
+                  : 'text-mizan-secondary hover:bg-gray-50'
+              }`}
+            >
+              Survey Management
+            </button>
+            <button
+              onClick={() => setViewMode('individual')}
+              className={`flex-1 px-6 py-3 rounded-xl font-medium transition-all duration-400 ${
+                viewMode === 'individual'
+                  ? 'bg-mizan-gold text-white shadow-md'
+                  : 'text-mizan-secondary hover:bg-gray-50'
+              }`}
+            >
+              Individual Employees
+            </button>
+            <button
+              onClick={() => setViewMode('aggregated')}
+              className={`flex-1 px-6 py-3 rounded-xl font-medium transition-all duration-400 ${
+                viewMode === 'aggregated'
+                  ? 'bg-mizan-gold text-white shadow-md'
+                  : 'text-mizan-secondary hover:bg-gray-50'
+              }`}
+            >
+              Department View
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Survey Management View */}
+      {selectedTenant && viewMode === 'survey-management' && (
+        <SurveyManagementView tenantId={selectedTenant.id} tenantName={selectedTenant.name} />
+      )}
+
+      {/* Individual Employee View */}
+      {selectedTenant && viewMode === 'individual' && (
+        <IndividualEmployeeView tenantId={selectedTenant.id} tenantName={selectedTenant.name} />
+      )}
+
+      {/* Department Aggregated View */}
+      {selectedTenant && viewMode === 'aggregated' && (
+        <DepartmentAggregatedView tenantId={selectedTenant.id} tenantName={selectedTenant.name} />
+      )}
+
+      {/* Organization Analysis View */}
+      {selectedTenant && viewMode === 'analysis' && (
+        <>
+          {/* 7-Cylinder Framework Overview */}
+          <div className="bg-gradient-to-br from-mizan-primary/5 to-mizan-gold/5 rounded-2xl p-8 border border-mizan-gold/20">
         <div className="flex items-center space-x-3 mb-6">
           <Heart className="w-8 h-8 text-mizan-gold" />
           <h2 className="text-2xl font-bold text-mizan-primary">The Mizan 7-Cylinder Framework</h2>
@@ -579,6 +648,7 @@ export default function CultureAnalysisPage() {
             </button>
           </div>
         </div>
+        </>
       )}
 
       {/* Empty State */}
