@@ -99,50 +99,52 @@ export function DepartmentAggregatedView({ tenantId, tenantName }: DepartmentAgg
       const report = data.report || {};
 
       const transformedAnalysis: DepartmentAnalysis = {
+        department: selectedDepartment === 'all' ? 'Organization' : selectedDepartment,
+        employeeCount: report.totalEmployees || 0,
+        responseRate: report.responseRate || 0,
+        healthySurveyQuestion: report.healthySurveyQuestion || 'Is your culture healthy?',
+        overallAssessment: report.overallVerdict || 'Analysis in progress...',
         entropyScore: report.entropyScore || 0,
-        verdict: report.overallVerdict || 'Analysis in progress...',
         intendedCulture: {
-          description: report.intendedCulture?.interpretation || 'No company values defined yet',
           values: report.intendedCulture?.values || [],
-          dominantCylinders: report.intendedCulture?.cylinders || []
+          interpretation: report.intendedCulture?.interpretation || 'No company values defined yet',
+          cylindersEmphasized: report.intendedCulture?.cylinders || []
         },
         currentReality: {
-          description: report.currentReality?.interpretation || 'Gathering employee feedback...',
           values: report.currentReality?.values || [],
-          dominantCylinders: report.currentReality?.cylinders || []
+          interpretation: report.currentReality?.interpretation || 'Gathering employee feedback...',
+          healthyCylinders: report.currentReality?.healthyCylinders || [],
+          unhealthyCylinders: report.currentReality?.unhealthyCylinders || []
         },
-        desiredCulture: {
-          description: report.desiredCulture?.interpretation || 'Analyzing employee aspirations...',
-          values: report.desiredCulture?.values || [],
-          dominantCylinders: report.desiredCulture?.cylinders || []
-        },
-        gapAnalyses: {
+        gapAnalysis: {
           intendedVsCurrent: {
-            gap: report.gaps?.intendedVsCurrent?.score || 0,
+            gap: report.gaps?.intendedVsCurrent?.score?.toString() || '0',
             interpretation: report.gaps?.intendedVsCurrent?.analysis || 'Analysis in progress...',
-            criticalIssues: report.gaps?.intendedVsCurrent?.issues || []
+            affectedCylinders: report.gaps?.intendedVsCurrent?.affectedCylinders || []
           },
           intendedVsDesired: {
-            gap: report.gaps?.intendedVsDesired?.score || 0,
+            gap: report.gaps?.intendedVsDesired?.score?.toString() || '0',
             interpretation: report.gaps?.intendedVsDesired?.analysis || 'Analysis in progress...',
-            criticalIssues: report.gaps?.intendedVsDesired?.issues || []
+            misalignment: report.gaps?.intendedVsDesired?.misalignment || false
           },
           currentVsDesired: {
-            gap: report.gaps?.currentVsDesired?.score || 0,
+            gap: report.gaps?.currentVsDesired?.score?.toString() || '0',
             interpretation: report.gaps?.currentVsDesired?.analysis || 'Analysis in progress...',
-            criticalIssues: report.gaps?.currentVsDesired?.issues || []
+            urgentChanges: report.gaps?.currentVsDesired?.urgentChanges || []
           }
         },
         engagement: {
-          average: report.engagement?.average || 0,
-          interpretation: report.engagement?.interpretation || ''
+          averageScore: report.engagement?.average || 0,
+          interpretation: report.engagement?.interpretation || '',
+          byDepartment: report.engagement?.byDepartment || []
         },
         recognition: {
-          average: report.recognition?.average || 0,
-          interpretation: report.recognition?.interpretation || ''
+          averageScore: report.recognition?.average || 0,
+          interpretation: report.recognition?.interpretation || '',
+          byDepartment: report.recognition?.byDepartment || []
         },
-        threats: report.threats || [],
-        strategicRecommendations: report.recommendations || []
+        threatsAndRisks: report.threats || [],
+        recommendations: report.recommendations || []
       };
 
       setAnalysis(transformedAnalysis);
