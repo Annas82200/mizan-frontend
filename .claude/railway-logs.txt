@@ -1,57 +1,243 @@
-2025-10-07T18:36:54.000000000Z [inf]  Starting Container
-2025-10-07T18:36:59.338890219Z [inf]  [2025-10-07T18:36:58.850Z] [Mizan] INFO: Culture Integration initialized 
-2025-10-07T18:36:59.338906080Z [inf]  [2025-10-07T18:36:58.851Z] [Mizan] INFO: Structure Integration initialized 
-2025-10-07T18:36:59.338915931Z [inf]  🌐 CORS configured for origins: [
-2025-10-07T18:36:59.338952063Z [inf]  🌐 Environment: production
-2025-10-07T18:36:59.338969885Z [inf]  🔍 Testing database connection...
-2025-10-07T18:36:59.339000514Z [inf]    'http://localhost:3000',
-2025-10-07T18:36:59.339021366Z [inf]    'https://mizan.work',
-2025-10-07T18:36:59.339031045Z [inf]    'https://www.mizan.work',
-2025-10-07T18:36:59.339040320Z [inf]    'https://mizan-platform-final.vercel.app',
-2025-10-07T18:36:59.339048609Z [inf]    'https://mizan-frontend-ten.vercel.app'
-2025-10-07T18:36:59.339056853Z [inf]  ]
-2025-10-07T18:36:59.339066144Z [inf]  🔧 CLIENT_URL environment variable: https://mizan.work
-2025-10-07T18:36:59.339074186Z [inf]  🚀 Mizan Platform Server v2.0.0 running on port 8080
-2025-10-07T18:36:59.339080875Z [inf]  📊 Features: Three-Engine AI, Multi-Provider Consensus, 7 AI Agents
-2025-10-07T18:36:59.339091304Z [inf]  🔗 Health check: http://localhost:8080/health
-2025-10-07T18:43:29.434263614Z [inf]  🎯 COMPANY REPORT - Endpoint hit for tenant: 1ce32fe3-6788-44e9-82c5-fb799a0501ab
-2025-10-07T18:43:29.434270035Z [inf]  🎯 COMPANY REPORT - Code version: 2025-10-07-v5
-2025-10-07T18:43:29.434280644Z [inf]  🎯 COMPANY REPORT - Returning cached report from: 2025-10-07T17:45:05.613Z
-2025-10-07T18:44:49.426225529Z [inf]  [Culture Survey] Distributing for tenantId: 1ce32fe3-6788-44e9-82c5-fb799a0501ab
-2025-10-07T18:44:49.426246483Z [inf]  [Culture Survey] Requested by user: anna@mizan.com role: superadmin
-2025-10-07T18:44:49.426257488Z [inf]  [Culture Survey] Found employees: 12
-2025-10-07T18:44:49.426264090Z [inf]  [Culture Survey] Sample employee: {
-2025-10-07T18:44:49.426271540Z [inf]    id: 'e5bbdc20-9681-407b-9018-e2c09a5ffeaf',
-2025-10-07T18:44:49.426279766Z [inf]    email: 'aisha.karim@horizoncare.com',
-2025-10-07T18:44:49.426286828Z [inf]    name: 'Aisha Karim',
-2025-10-07T18:44:49.426294656Z [inf]    role: 'employee'
-2025-10-07T18:44:49.426308195Z [inf]  }
-2025-10-07T18:44:49.426313918Z [inf]  ✅ Distributed culture survey to 12 employees
-2025-10-07T18:46:09.437722182Z [err]  Gemini invocation failed: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [404 Not Found] models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
-2025-10-07T18:46:09.437734938Z [err]      at _makeRequestInternal (file:///app/node_modules/@google/generative-ai/dist/index.mjs:351:19)
-2025-10-07T18:46:09.437745595Z [err]      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-2025-10-07T18:46:09.437754847Z [err]      at async generateContent (file:///app/node_modules/@google/generative-ai/dist/index.mjs:750:22)
-2025-10-07T18:46:09.437762069Z [err]      at AIProviderRouter.invokeGemini (/app/services/ai-providers/router.ts:167:22)
-2025-10-07T18:46:09.437772208Z [err]      at EnsembleAI.callProviderSafely (/app/services/ai-providers/ensemble.ts:65:30)
-2025-10-07T18:46:09.437780592Z [err]      at async Promise.all (index 2)
-2025-10-07T18:46:09.437795584Z [err]      at EnsembleAI.call (/app/services/ai-providers/ensemble.ts:31:23)
-2025-10-07T18:46:09.437797462Z [err]      at _makeRequestInternal (file:///app/node_modules/@google/generative-ai/dist/index.mjs:351:19)
-2025-10-07T18:46:09.437803592Z [err]      at CultureAgent.analyzeIndividualEmployee (/app/services/agents/culture-agent.ts:179:22)
-2025-10-07T18:46:09.437812147Z [err]      at Timeout._onTimeout (/app/routes/culture-assessment.ts:800:31) {
-2025-10-07T18:46:09.437812155Z [err]      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-2025-10-07T18:46:09.437821891Z [err]    status: 404,
-2025-10-07T18:46:09.437823926Z [err]      at async generateContent (file:///app/node_modules/@google/generative-ai/dist/index.mjs:750:22)
-2025-10-07T18:46:09.437831093Z [err]    statusText: 'Not Found',
-2025-10-07T18:46:09.437834472Z [err]      at AIProviderRouter.invokeGemini (/app/services/ai-providers/router.ts:167:22)
-2025-10-07T18:46:09.437839039Z [err]    errorDetails: undefined
-2025-10-07T18:46:09.437844924Z [err]      at EnsembleAI.callProviderSafely (/app/services/ai-providers/ensemble.ts:65:30)
-2025-10-07T18:46:09.437847258Z [err]  }
-2025-10-07T18:46:09.437854395Z [err]  Provider gemini failed: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [404 Not Found] models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
-2025-10-07T18:46:09.437858037Z [err]      at async Promise.all (index 2)
-2025-10-07T18:46:09.437867537Z [err]      at EnsembleAI.call (/app/services/ai-providers/ensemble.ts:31:23)
-2025-10-07T18:46:09.437874664Z [err]      at CultureAgent.analyzeIndividualEmployee (/app/services/agents/culture-agent.ts:179:22)
-2025-10-07T18:46:09.437880999Z [err]      at Timeout._onTimeout (/app/routes/culture-assessment.ts:800:31) {
-2025-10-07T18:46:09.437887913Z [err]    status: 404,
-2025-10-07T18:46:09.437895610Z [err]    statusText: 'Not Found',
-2025-10-07T18:46:09.437903392Z [err]    errorDetails: undefined
-2025-10-07T18:46:09.437910634Z [err]  }
+2025-10-07T20:14:53.000000000Z [inf]  Starting Container
+2025-10-07T20:14:57.184746529Z [inf]  [2025-10-07T20:14:57.111Z] [Mizan] INFO: Culture Integration initialized 
+2025-10-07T20:14:57.184754587Z [inf]  [2025-10-07T20:14:57.113Z] [Mizan] INFO: Structure Integration initialized 
+2025-10-07T20:14:57.184761682Z [inf]  🌐 CORS configured for origins: [
+2025-10-07T20:14:57.184768795Z [inf]    'http://localhost:3000',
+2025-10-07T20:14:57.184774562Z [inf]    'https://mizan.work',
+2025-10-07T20:14:57.184780172Z [inf]    'https://www.mizan.work',
+2025-10-07T20:14:57.184785814Z [inf]    'https://mizan-platform-final.vercel.app',
+2025-10-07T20:14:57.184792085Z [inf]    'https://mizan-frontend-ten.vercel.app'
+2025-10-07T20:14:57.184798701Z [inf]  ]
+2025-10-07T20:14:57.184804783Z [inf]  🔧 CLIENT_URL environment variable: https://mizan.work
+2025-10-07T20:14:57.184810660Z [inf]  🚀 Mizan Platform Server v2.0.0 running on port 8080
+2025-10-07T20:14:57.184816725Z [inf]  📊 Features: Three-Engine AI, Multi-Provider Consensus, 7 AI Agents
+2025-10-07T20:14:57.184836765Z [inf]  🔗 Health check: http://localhost:8080/health
+2025-10-07T20:14:57.184844260Z [inf]  🌐 Environment: production
+2025-10-07T20:14:57.184850647Z [inf]  🔍 Testing database connection...
+2025-10-07T20:15:27.165903866Z [inf]  📊 Processing gap: Engineering Capacity
+2025-10-07T20:15:27.165912602Z [inf]  📊 Available departments: [ 'Operations', 'Engineering', 'Product', 'Sales', 'HR' ]
+2025-10-07T20:15:27.165917918Z [inf]  📊 Department counts: [
+2025-10-07T20:15:27.165922591Z [inf]    [ 'Operations', 2 ],
+2025-10-07T20:15:27.165928920Z [inf]    [ 'Engineering', 3 ],
+2025-10-07T20:15:27.165938929Z [inf]    [ 'Product', 2 ],
+2025-10-07T20:15:27.165943272Z [inf]    [ 'Sales', 3 ],
+2025-10-07T20:15:27.165947789Z [inf]    [ 'HR', 2 ]
+2025-10-07T20:15:27.165951876Z [inf]  ]
+2025-10-07T20:15:27.165961994Z [err]  Gemini invocation failed: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent: [404 Not Found] models/gemini-1.5-flash-latest is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+2025-10-07T20:15:27.165974208Z [err]      at _makeRequestInternal (file:///app/node_modules/@google/generative-ai/dist/index.mjs:351:19)
+2025-10-07T20:15:27.165978598Z [err]      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-10-07T20:15:27.165983326Z [err]      at async generateContent (file:///app/node_modules/@google/generative-ai/dist/index.mjs:750:22)
+2025-10-07T20:15:27.165987888Z [err]      at AIProviderRouter.invokeGemini (/app/services/ai-providers/router.ts:167:22)
+2025-10-07T20:15:27.165991655Z [err]      at EnsembleAI.callProviderSafely (/app/services/ai-providers/ensemble.ts:65:30)
+2025-10-07T20:15:27.166001964Z [err]      at async Promise.all (index 2)
+2025-10-07T20:15:27.166006386Z [err]      at EnsembleAI.call (/app/services/ai-providers/ensemble.ts:31:23)
+2025-10-07T20:15:27.166010872Z [err]      at StructureAgent.generateRichStructureAnalysis (/app/services/agents/structure-agent.ts:158:22)
+2025-10-07T20:15:27.166015236Z [err]      at <anonymous> (/app/routes/analyses.ts:533:22) {
+2025-10-07T20:15:27.166019657Z [err]    status: 404,
+2025-10-07T20:15:27.166034723Z [err]    statusText: 'Not Found',
+2025-10-07T20:15:27.166038344Z [err]    errorDetails: undefined
+2025-10-07T20:15:27.166043260Z [err]  }
+2025-10-07T20:15:27.166047565Z [err]  Provider gemini failed: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent: [404 Not Found] models/gemini-1.5-flash-latest is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+2025-10-07T20:15:27.166057065Z [err]      at _makeRequestInternal (file:///app/node_modules/@google/generative-ai/dist/index.mjs:351:19)
+2025-10-07T20:15:27.166060884Z [err]      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-10-07T20:15:27.166064426Z [err]      at async generateContent (file:///app/node_modules/@google/generative-ai/dist/index.mjs:750:22)
+2025-10-07T20:15:27.166068485Z [err]      at AIProviderRouter.invokeGemini (/app/services/ai-providers/router.ts:167:22)
+2025-10-07T20:15:27.166072598Z [err]      at EnsembleAI.callProviderSafely (/app/services/ai-providers/ensemble.ts:65:30)
+2025-10-07T20:15:27.166078844Z [err]      at async Promise.all (index 2)
+2025-10-07T20:15:27.166082719Z [err]      at EnsembleAI.call (/app/services/ai-providers/ensemble.ts:31:23)
+2025-10-07T20:15:27.166086473Z [err]      at StructureAgent.generateRichStructureAnalysis (/app/services/agents/structure-agent.ts:158:22)
+2025-10-07T20:15:27.166089849Z [err]      at <anonymous> (/app/routes/analyses.ts:533:22) {
+2025-10-07T20:15:27.166093906Z [err]    status: 404,
+2025-10-07T20:15:27.166106493Z [err]    statusText: 'Not Found',
+2025-10-07T20:15:27.166110416Z [err]    errorDetails: undefined
+2025-10-07T20:15:27.166114030Z [err]  }
+2025-10-07T20:15:47.173896391Z [err]  Provider openai confidence too low: 0.7999999999999999
+2025-10-07T20:15:48.341488907Z [err]  Provider mistral confidence too low: 0.7999999999999999
+2025-10-07T20:16:18.343953355Z [inf]  📊 Processing gap: Engineering Capacity
+2025-10-07T20:16:18.343960046Z [inf]  📊 Available departments: [ 'Operations', 'Engineering', 'Product', 'Sales', 'HR' ]
+2025-10-07T20:16:18.343965926Z [inf]  📊 Department counts: [
+2025-10-07T20:16:18.343971266Z [inf]    [ 'Operations', 2 ],
+2025-10-07T20:16:18.343977372Z [inf]    [ 'Engineering', 3 ],
+2025-10-07T20:16:18.343983535Z [inf]    [ 'Product', 2 ],
+2025-10-07T20:16:18.343990032Z [inf]    [ 'Sales', 3 ],
+2025-10-07T20:16:18.343997451Z [inf]    [ 'HR', 2 ]
+2025-10-07T20:16:18.344003156Z [inf]  ]
+2025-10-07T20:16:18.344008867Z [err]  Gemini invocation failed: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent: [404 Not Found] models/gemini-1.5-flash-latest is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+2025-10-07T20:16:18.344014136Z [err]      at _makeRequestInternal (file:///app/node_modules/@google/generative-ai/dist/index.mjs:351:19)
+2025-10-07T20:16:18.344021284Z [err]      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-10-07T20:16:18.344026855Z [err]      at async generateContent (file:///app/node_modules/@google/generative-ai/dist/index.mjs:750:22)
+2025-10-07T20:16:18.344032149Z [err]      at AIProviderRouter.invokeGemini (/app/services/ai-providers/router.ts:167:22)
+2025-10-07T20:16:18.344038121Z [err]      at EnsembleAI.callProviderSafely (/app/services/ai-providers/ensemble.ts:65:30)
+2025-10-07T20:16:18.344044317Z [err]      at async Promise.all (index 2)
+2025-10-07T20:16:18.344050496Z [err]      at EnsembleAI.call (/app/services/ai-providers/ensemble.ts:31:23)
+2025-10-07T20:16:18.344055876Z [err]      at StructureAgent.generateRichStructureAnalysis (/app/services/agents/structure-agent.ts:158:22)
+2025-10-07T20:16:18.344061748Z [err]      at <anonymous> (/app/routes/analyses.ts:533:22) {
+2025-10-07T20:16:18.344067557Z [err]    status: 404,
+2025-10-07T20:16:18.344074347Z [err]    statusText: 'Not Found',
+2025-10-07T20:16:18.344080447Z [err]    errorDetails: undefined
+2025-10-07T20:16:18.344086269Z [err]  }
+2025-10-07T20:16:18.344092558Z [err]  Provider gemini failed: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent: [404 Not Found] models/gemini-1.5-flash-latest is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+2025-10-07T20:16:18.344098267Z [err]      at _makeRequestInternal (file:///app/node_modules/@google/generative-ai/dist/index.mjs:351:19)
+2025-10-07T20:16:18.344103722Z [err]      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-10-07T20:16:18.344108879Z [err]      at async generateContent (file:///app/node_modules/@google/generative-ai/dist/index.mjs:750:22)
+2025-10-07T20:16:18.344115254Z [err]      at AIProviderRouter.invokeGemini (/app/services/ai-providers/router.ts:167:22)
+2025-10-07T20:16:18.344121076Z [err]      at EnsembleAI.callProviderSafely (/app/services/ai-providers/ensemble.ts:65:30)
+2025-10-07T20:16:18.344127042Z [err]      at async Promise.all (index 2)
+2025-10-07T20:16:18.344132785Z [err]      at EnsembleAI.call (/app/services/ai-providers/ensemble.ts:31:23)
+2025-10-07T20:16:18.344139807Z [err]      at StructureAgent.generateRichStructureAnalysis (/app/services/agents/structure-agent.ts:158:22)
+2025-10-07T20:16:18.344183564Z [err]      at <anonymous> (/app/routes/analyses.ts:533:22) {
+2025-10-07T20:16:18.344191776Z [err]    status: 404,
+2025-10-07T20:16:18.344198230Z [err]    statusText: 'Not Found',
+2025-10-07T20:16:18.344203813Z [err]    errorDetails: undefined
+2025-10-07T20:16:18.344209162Z [err]  }
+2025-10-07T20:16:48.396499761Z [err]  Provider openai confidence too low: 0.7999999999999999
+2025-10-07T20:16:48.396505404Z [err]  Provider mistral confidence too low: 0.5999999999999999
+2025-10-07T20:17:48.413601677Z [err]  Provider anthropic confidence too low: 0.5999999999999999
+2025-10-07T20:19:48.475941136Z [inf]  [Culture Survey] Distributing for tenantId: 1ce32fe3-6788-44e9-82c5-fb799a0501ab
+2025-10-07T20:19:48.475945793Z [inf]  [Culture Survey] Requested by user: anna@mizan.com role: superadmin
+2025-10-07T20:19:48.475950108Z [inf]  [Culture Survey] Found employees: 12
+2025-10-07T20:19:48.475957822Z [inf]  [Culture Survey] Sample employee: {
+2025-10-07T20:19:48.475961782Z [inf]    id: 'e5bbdc20-9681-407b-9018-e2c09a5ffeaf',
+2025-10-07T20:19:48.475969847Z [inf]    email: 'aisha.karim@horizoncare.com',
+2025-10-07T20:19:48.475974121Z [inf]    name: 'Aisha Karim',
+2025-10-07T20:19:48.475978600Z [inf]    role: 'employee'
+2025-10-07T20:19:48.475982927Z [inf]  }
+2025-10-07T20:19:48.475987170Z [inf]  ✅ Distributed culture survey to 12 employees
+2025-10-07T20:21:48.537140952Z [err]  Gemini invocation failed: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent: [404 Not Found] models/gemini-1.5-flash-latest is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+2025-10-07T20:21:48.537158448Z [err]      at _makeRequestInternal (file:///app/node_modules/@google/generative-ai/dist/index.mjs:351:19)
+2025-10-07T20:21:48.537164820Z [err]      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-10-07T20:21:48.537171489Z [err]      at async generateContent (file:///app/node_modules/@google/generative-ai/dist/index.mjs:750:22)
+2025-10-07T20:21:48.537177817Z [err]      at AIProviderRouter.invokeGemini (/app/services/ai-providers/router.ts:167:22)
+2025-10-07T20:21:48.537183622Z [err]      at EnsembleAI.callProviderSafely (/app/services/ai-providers/ensemble.ts:65:30)
+2025-10-07T20:21:48.537189783Z [err]      at async Promise.all (index 2)
+2025-10-07T20:21:48.537195747Z [err]      at EnsembleAI.call (/app/services/ai-providers/ensemble.ts:31:23)
+2025-10-07T20:21:48.537201548Z [err]      at CultureAgent.analyzeIndividualEmployee (/app/services/agents/culture-agent.ts:174:22)
+2025-10-07T20:21:48.537208906Z [err]      at Timeout._onTimeout (/app/routes/culture-assessment.ts:800:31) {
+2025-10-07T20:21:48.537215245Z [err]    status: 404,
+2025-10-07T20:21:48.537222398Z [err]    statusText: 'Not Found',
+2025-10-07T20:21:48.537228663Z [err]    errorDetails: undefined
+2025-10-07T20:21:48.537234070Z [err]  }
+2025-10-07T20:21:48.537239668Z [err]  Provider gemini failed: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent: [404 Not Found] models/gemini-1.5-flash-latest is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+2025-10-07T20:21:48.537245484Z [err]      at _makeRequestInternal (file:///app/node_modules/@google/generative-ai/dist/index.mjs:351:19)
+2025-10-07T20:21:48.537250741Z [err]      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-10-07T20:21:48.537256130Z [err]      at async generateContent (file:///app/node_modules/@google/generative-ai/dist/index.mjs:750:22)
+2025-10-07T20:21:48.537261860Z [err]      at AIProviderRouter.invokeGemini (/app/services/ai-providers/router.ts:167:22)
+2025-10-07T20:21:48.537267093Z [err]      at EnsembleAI.callProviderSafely (/app/services/ai-providers/ensemble.ts:65:30)
+2025-10-07T20:21:48.537275829Z [err]      at async Promise.all (index 2)
+2025-10-07T20:21:48.537281591Z [err]      at EnsembleAI.call (/app/services/ai-providers/ensemble.ts:31:23)
+2025-10-07T20:21:48.537287941Z [err]      at CultureAgent.analyzeIndividualEmployee (/app/services/agents/culture-agent.ts:174:22)
+2025-10-07T20:21:48.537294138Z [err]      at Timeout._onTimeout (/app/routes/culture-assessment.ts:800:31) {
+2025-10-07T20:21:48.537299515Z [err]    status: 404,
+2025-10-07T20:21:48.537305199Z [err]    statusText: 'Not Found',
+2025-10-07T20:21:48.537311309Z [err]    errorDetails: undefined
+2025-10-07T20:21:48.537319769Z [err]  }
+2025-10-07T20:22:08.537110728Z [err]  Provider anthropic confidence too low: 0.49999999999999994
+2025-10-07T20:22:08.537122311Z [err]  Failed to parse individual employee AI response: SyntaxError: Unexpected token 
+2025-10-07T20:22:08.537129091Z [err]   in JSON at position 37
+2025-10-07T20:22:08.537134432Z [err]      at JSON.parse (<anonymous>)
+2025-10-07T20:22:08.537140595Z [err]      at CultureAgent.analyzeIndividualEmployee (/app/services/agents/culture-agent.ts:198:29)
+2025-10-07T20:22:08.537144571Z [err]      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-10-07T20:22:08.537148511Z [err]      at Timeout._onTimeout (/app/routes/culture-assessment.ts:800:31)
+2025-10-07T20:22:08.537152314Z [err]  Raw response: ```json
+2025-10-07T20:22:08.537157034Z [err]  {
+2025-10-07T20:22:08.537160969Z [err]    "personalValuesInterpretation": "
+2025-10-07T20:22:08.537166463Z [err]    Your values reveal a powerful blend of loyalty, resilience, and ambition—qualities that make you a natural anchor for those around you. **Tribalism, Courage, and Discipline** suggest you thrive in environments where trust and structure create a sense of shared purpose, while **Stability and Safety** reflect your ability to cultivate security for yourself and others. Your appreciation for **Balance** indicates a mature understanding of sustainability, both in work and life, while **Pride** and **Greed** (when channeled positively) can drive you to excel and claim the recognition you deserve. That said, **Secrecy** and **Favoritism** may subtly limit your potential by creating barriers to openness or inclusivity—consider how transparency and fairness could amplify your influence even further. You’re built to lead with integrity while protecting what matters most; the key is ensuring your strengths serve your highest vision.",
+2025-10-07T20:22:08.537171061Z [err]  
+2025-10-07T20:22:08.537174928Z [err]    "strengths": [
+2025-10-07T20:22:08.537178610Z [err]      "Loyalty & Team Cohesion (Tribalism, Unity)",
+2025-10-07T20:22:08.537192605Z [err]      "Resilient Problem-Solving (Discipline, Courage)",
+2025-10-07T20:22:08.537196372Z [err]      "Stability Creation (Safety, Balance)",
+2025-10-07T20:22:08.537200333Z [err]      "Strategic Ambition (Pride, Greed as motivation)",
+2025-10-07T20:22:08.537204120Z [inf]      "Cultural Guardianship (Secrecy as discretion, Favoritism as advocacy)"
+2025-10-07T20:22:08.537208220Z [err]    ],
+2025-10-07T20:22:08.537212057Z [err]  
+2025-10-07T20:22:08.537216164Z [err]    "limitingFactors": [
+2025-10-07T20:22:08.537219764Z [err]      "Secrecy (could restrict collaboration or trust-building)",
+2025-10-07T20:22:08.537223491Z [inf]      "Favoritism (may unintentionally exclude diverse perspectives)"
+2025-10-07T20:22:08.537227139Z [err]    ],
+2025-10-07T20:22:08.537230823Z [err]  
+2025-10-07T20:22:08.537234551Z [err]    "visionForGrowth": "
+2025-10-07T20:22:08.537238211Z [err]    Your desired future pulses with a longing for **depth and harmony**—a life where **Wisdom, Purpose, and Transcendence** elevate your daily experience beyond the transactional. You’re seeking **Belonging** not just as a member, but as a architect of unity, where your contributions foster collective wellbeing. The pull toward **Service and Learning** suggests a soul hungry for growth that ripples outward, while **Respect** and **Balance** reflect your commitment to sustainability in success. Imagine a path where your disciplined strength becomes a bridge: connecting your tribal loyalty to broader impact, your courage to wiser risks, and your pride to legacy. This isn’t just aspiration—it’s the next evolution of who you already are.",
+2025-10-07T20:22:08.537241779Z [err]  
+2025-10-07T20:22:08.537246832Z [err]    "growthOpportunities": [
+2025-10-07T20:22:08.537250493Z [err]      "Mentorship: Share your **Discipline and Stability** to guide others while deepening your own **Wisdom** through teaching.",
+2025-10-07T20:22:08.537254048Z [err]      "Transparency Practice: Experiment with vulnerability in low-stakes settings to transform **Secrecy** into strategic openness.",
+2025-10-07T20:22:08.537257804Z [err]      "Purpose Mapping: Align daily tasks with **Service and Learning** by asking, *'How does this contribute to my larger vision?'*",
+2025-10-07T20:22:08.537261401Z [err]      "Boundary Design: Use your **Balance** strength to create rituals that protect your **Wellbeing** (e.g., 'focus hours,' reflection walks).",
+2025-10-07T20:22:08.537264982Z [inf]      "Unity Projects: Initiate or join cross-team efforts to satisfy **Tribalism** while expanding your **Belonging** beyond familiar circles."
+2025-10-07T20:22:08.537269105Z [err]    ],
+2025-10-07T20:22:08.537275001Z [err]  
+2025-10-07T20:22:08.537278610Z [err]    "reflectionQuestions": [
+2025-10-07T20:22:08.537282371Z [err]      {
+2025-10-07T20:22:08.537286692Z [err]        "question": "How could you leverage your **Discipline and Courage** this week to create a micro-moment of **Unity**—perhaps by recognizing a colleague’s effort or bridging two disconnected ideas in a meeting?",
+2025-10-07T20:22:08.537291460Z [err]        "purpose": "Activate strengths to foster connection and cultural health."
+2025-10-07T20:22:08.537296668Z [err]      },
+2025-10-07T20:22:08.537301793Z [err]      {
+2025-10-07T20:22:08.537307699Z [err]        "question": "What’s one small way to invite **Transcendence** into your routine? Maybe a 5-minute mindfulness pause, jotting down a daily 'purpose highlight,' or sharing a piece of **Wisdom** you’ve gained with someone who’d benefit?",
+2025-10-07T20:22:08.537313095Z [err]        "purpose": "Anchor desired values in immediate, tangible action."
+2025-10-07T20:22:08.537317774Z [err]      }
+2025-10-07T20:22:08.537672253Z [err]    ]
+2025-10-07T20:22:08.537676749Z [err]  }
+2025-10-07T20:22:08.537680457Z [err]  ```
+2025-10-07T20:22:08.537683936Z [err]  Gemini invocation failed: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent: [404 Not Found] models/gemini-1.5-flash-latest is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+2025-10-07T20:22:08.537690582Z [err]      at _makeRequestInternal (file:///app/node_modules/@google/generative-ai/dist/index.mjs:351:19)
+2025-10-07T20:22:08.537694465Z [err]      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-10-07T20:22:08.537698089Z [err]      at async generateContent (file:///app/node_modules/@google/generative-ai/dist/index.mjs:750:22)
+2025-10-07T20:22:08.537701607Z [err]      at AIProviderRouter.invokeGemini (/app/services/ai-providers/router.ts:167:22)
+2025-10-07T20:22:08.537705061Z [err]      at EnsembleAI.callProviderSafely (/app/services/ai-providers/ensemble.ts:65:30)
+2025-10-07T20:22:08.537708791Z [err]      at async Promise.all (index 2)
+2025-10-07T20:22:08.537712355Z [err]      at EnsembleAI.call (/app/services/ai-providers/ensemble.ts:31:23)
+2025-10-07T20:22:08.537715926Z [err]      at EngagementAgent.analyzeIndividual (/app/services/agents/engagement-agent.ts:829:22)
+2025-10-07T20:22:08.537719380Z [err]      at Timeout._onTimeout (/app/routes/culture-assessment.ts:810:34) {
+2025-10-07T20:22:08.537723493Z [err]    status: 404,
+2025-10-07T20:22:08.537726939Z [err]    statusText: 'Not Found',
+2025-10-07T20:22:08.537730291Z [err]    errorDetails: undefined
+2025-10-07T20:22:08.537733750Z [err]  }
+2025-10-07T20:22:08.537737643Z [err]  Provider gemini failed: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent: [404 Not Found] models/gemini-1.5-flash-latest is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+2025-10-07T20:22:08.537741348Z [err]      at _makeRequestInternal (file:///app/node_modules/@google/generative-ai/dist/index.mjs:351:19)
+2025-10-07T20:22:08.537744773Z [err]      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-10-07T20:22:08.537748364Z [err]      at async generateContent (file:///app/node_modules/@google/generative-ai/dist/index.mjs:750:22)
+2025-10-07T20:22:08.537753337Z [err]      at AIProviderRouter.invokeGemini (/app/services/ai-providers/router.ts:167:22)
+2025-10-07T20:22:08.537756967Z [err]      at EnsembleAI.callProviderSafely (/app/services/ai-providers/ensemble.ts:65:30)
+2025-10-07T20:22:08.537760576Z [err]      at async Promise.all (index 2)
+2025-10-07T20:22:08.537764134Z [err]      at EnsembleAI.call (/app/services/ai-providers/ensemble.ts:31:23)
+2025-10-07T20:22:08.537767968Z [err]      at EngagementAgent.analyzeIndividual (/app/services/agents/engagement-agent.ts:829:22)
+2025-10-07T20:22:08.537771499Z [err]      at Timeout._onTimeout (/app/routes/culture-assessment.ts:810:34) {
+2025-10-07T20:22:08.537774980Z [err]    status: 404,
+2025-10-07T20:22:08.537778531Z [err]    statusText: 'Not Found',
+2025-10-07T20:22:08.537782780Z [err]    errorDetails: undefined
+2025-10-07T20:22:08.537786393Z [err]  }
+2025-10-07T20:22:28.431905432Z [err]  Gemini invocation failed: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent: [404 Not Found] models/gemini-1.5-flash-latest is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+2025-10-07T20:22:28.431916140Z [err]      at _makeRequestInternal (file:///app/node_modules/@google/generative-ai/dist/index.mjs:351:19)
+2025-10-07T20:22:28.431924075Z [err]      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-10-07T20:22:28.431929533Z [err]      at async generateContent (file:///app/node_modules/@google/generative-ai/dist/index.mjs:750:22)
+2025-10-07T20:22:28.431937644Z [err]      at AIProviderRouter.invokeGemini (/app/services/ai-providers/router.ts:167:22)
+2025-10-07T20:22:28.431945620Z [err]      at EnsembleAI.callProviderSafely (/app/services/ai-providers/ensemble.ts:65:30)
+2025-10-07T20:22:28.431957962Z [err]      at async Promise.all (index 2)
+2025-10-07T20:22:28.431964559Z [err]      at EnsembleAI.call (/app/services/ai-providers/ensemble.ts:31:23)
+2025-10-07T20:22:28.431971098Z [err]      at RecognitionAgent.analyzeIndividual (/app/services/agents/recognition-agent.ts:894:22)
+2025-10-07T20:22:28.431978219Z [err]      at Timeout._onTimeout (/app/routes/culture-assessment.ts:821:35) {
+2025-10-07T20:22:28.431984799Z [err]    status: 404,
+2025-10-07T20:22:28.431990706Z [err]    statusText: 'Not Found',
+2025-10-07T20:22:28.431996045Z [err]    errorDetails: undefined
+2025-10-07T20:22:28.432002878Z [err]  }
+2025-10-07T20:22:28.432009929Z [err]  Provider gemini failed: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent: [404 Not Found] models/gemini-1.5-flash-latest is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+2025-10-07T20:22:28.432028996Z [err]      at _makeRequestInternal (file:///app/node_modules/@google/generative-ai/dist/index.mjs:351:19)
+2025-10-07T20:22:28.432034437Z [err]      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-10-07T20:22:28.432040030Z [err]      at async generateContent (file:///app/node_modules/@google/generative-ai/dist/index.mjs:750:22)
+2025-10-07T20:22:28.432046218Z [err]      at AIProviderRouter.invokeGemini (/app/services/ai-providers/router.ts:167:22)
+2025-10-07T20:22:28.432051286Z [err]      at EnsembleAI.callProviderSafely (/app/services/ai-providers/ensemble.ts:65:30)
+2025-10-07T20:22:28.432056300Z [err]      at async Promise.all (index 2)
+2025-10-07T20:22:28.432066396Z [err]      at EnsembleAI.call (/app/services/ai-providers/ensemble.ts:31:23)
+2025-10-07T20:22:28.432073406Z [err]      at RecognitionAgent.analyzeIndividual (/app/services/agents/recognition-agent.ts:894:22)
+2025-10-07T20:22:28.432079618Z [err]      at Timeout._onTimeout (/app/routes/culture-assessment.ts:821:35) {
+2025-10-07T20:22:28.432086908Z [err]    status: 404,
+2025-10-07T20:22:28.432094283Z [err]    statusText: 'Not Found',
+2025-10-07T20:22:28.432101148Z [err]    errorDetails: undefined
+2025-10-07T20:22:28.432107833Z [err]  }
+2025-10-07T20:22:48.417637340Z [inf]  ✅ Employee report generated: b7570f40-f038-4c79-93e2-49bc8b02a51b
+2025-10-07T20:22:48.417644948Z [inf]  [Culture Triggers] Created LXP culture learning trigger for employee b7570f40-f038-4c79-93e2-49bc8b02a51b
+2025-10-07T20:22:48.417650006Z [inf]  [Culture Triggers] Created Performance culture goals trigger for employee b7570f40-f038-4c79-93e2-49bc8b02a51b
+2025-10-07T20:22:48.417654562Z [inf]  [Culture Triggers] Created engagement intervention trigger for employee b7570f40-f038-4c79-93e2-49bc8b02a51b
+2025-10-07T20:22:48.417658732Z [inf]  [Culture Triggers] Created recognition program trigger for employee b7570f40-f038-4c79-93e2-49bc8b02a51b
+2025-10-07T20:22:48.417662835Z [inf]  ✅ Created 4 culture-based triggers for employee b7570f40-f038-4c79-93e2-49bc8b02a51b
