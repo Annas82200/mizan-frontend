@@ -300,7 +300,7 @@ export default function MizanPlatform() {
           <p className="text-xl mb-12 text-white/90 font-light">
             Start with a free structure analysis. No credit card required.
           </p>
-          <Link href="/login" className="group px-10 py-5 text-lg font-semibold rounded-full smooth-transition hover:shadow-2xl hover:scale-105 inline-flex items-center space-x-3 bg-mizan-primary text-white">
+          <Link href="/structure-analysis" className="group px-10 py-5 text-lg font-semibold rounded-full smooth-transition hover:shadow-2xl hover:scale-105 inline-flex items-center space-x-3 bg-mizan-primary text-white">
             <span>Get Started Free</span>
             <ArrowRight size={20} className="group-hover:translate-x-1 smooth-transition" />
           </Link>

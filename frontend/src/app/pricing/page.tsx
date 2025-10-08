@@ -270,11 +270,11 @@ export default function MizanPricing() {
 
                 <Link
                   href={
-                    tier.cta === "Start Free Scan" ? "/login" :
-                    tier.cta === "Start 14-Day Trial" ? "/login" :
+                    tier.cta === "Start Free Scan" ? "/structure-analysis" :
+                    tier.cta === "Start 14-Day Trial" ? "/demo" :
                     tier.cta === "Request Demo" ? "/demo" :
                     tier.cta === "Talk to Sales" ? "/demo" :
-                    "/login"
+                    "/demo"
                   }
                   className="w-full px-6 py-3 rounded-full text-sm font-semibold smooth-transition hover:shadow-lg hover:scale-105 mb-8 flex items-center justify-center"
                   style={{
@@ -394,7 +394,7 @@ export default function MizanPricing() {
             Start with a free Structure Scan. No credit card required. See your org clearly in minutes.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/login" className="group px-10 py-5 text-lg font-semibold rounded-full smooth-transition hover:shadow-2xl hover:scale-105 inline-flex items-center justify-center space-x-3 bg-mizan-primary text-white">
+            <Link href="/structure-analysis" className="group px-10 py-5 text-lg font-semibold rounded-full smooth-transition hover:shadow-2xl hover:scale-105 inline-flex items-center justify-center space-x-3 bg-mizan-primary text-white">
               <span>Start Free Scan</span>
               <ArrowRight size={20} className="group-hover:translate-x-1 smooth-transition" />
             </Link>
