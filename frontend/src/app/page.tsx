@@ -69,7 +69,7 @@ export default function MizanHome() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-20">
-            <Link href="/login" className="group px-8 py-4 text-base font-semibold rounded-full smooth-transition hover:shadow-2xl hover:scale-105 flex items-center justify-center space-x-2 bg-mizan-gold text-white">
+            <Link href="/structure-analysis" className="group px-8 py-4 text-base font-semibold rounded-full smooth-transition hover:shadow-2xl hover:scale-105 flex items-center justify-center space-x-2 bg-mizan-gold text-white">
               <span>Free Structure Scan</span>
               <ArrowRight size={18} className="group-hover:translate-x-1 smooth-transition" />
             </Link>
@@ -260,7 +260,7 @@ export default function MizanHome() {
           <p className="text-xl mb-12 text-white/90 font-light">
             Start with a free structure scan. No credit card required.
           </p>
-          <Link href="/login" className="group px-10 py-5 text-lg font-semibold rounded-full smooth-transition hover:shadow-2xl hover:scale-105 inline-flex items-center space-x-3 bg-mizan-primary text-white">
+          <Link href="/structure-analysis" className="group px-10 py-5 text-lg font-semibold rounded-full smooth-transition hover:shadow-2xl hover:scale-105 inline-flex items-center space-x-3 bg-mizan-primary text-white">
             <span>Run a Free Structure Scan</span>
             <ArrowRight size={20} className="group-hover:translate-x-1 smooth-transition" />
           </Link>
