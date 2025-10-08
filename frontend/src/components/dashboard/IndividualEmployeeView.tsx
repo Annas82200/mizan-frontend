@@ -24,6 +24,22 @@ interface EmployeeAnalysis {
     strengths: string[];
     limitingFactors: string[];
     meaning: string;
+    cylinderMapping?: {
+      values: Array<{
+        value: string;
+        cylinder: number;
+        cylinderName: string;
+        type: 'enabling' | 'limiting';
+      }>;
+      cylinders: {
+        [key: string]: {
+          name: string;
+          count: number;
+          values: string[];
+          type: string[];
+        };
+      };
+    };
   };
   alignmentAnalysis: {
     personalVsCurrent: {
@@ -167,9 +183,10 @@ export function IndividualEmployeeView({ tenantId, tenantName }: IndividualEmplo
         employeeId: data.report.employeeId,
         employeeName: data.report.employeeName,
         personalValuesInterpretation: {
-          strengths: data.report.personalValues?.dominantCylinders?.map((c: any) => c.name) || [],
-          limitingFactors: [], // Extract from analysis if available
-          meaning: data.report.personalValues?.interpretation || 'Analysis in progress...'
+          strengths: data.report.personalValues?.strengths || [],
+          limitingFactors: data.report.personalValues?.limitingFactors || [],
+          meaning: data.report.personalValues?.interpretation || 'Analysis in progress...',
+          cylinderMapping: data.report.personalValues?.cylinderMapping || null
         },
         alignmentAnalysis: {
           personalVsCurrent: {
@@ -373,6 +390,37 @@ export function IndividualEmployeeView({ tenantId, tenantName }: IndividualEmplo
                   <h4 className="text-lg font-semibold font-display text-mizan-primary">Personal Values</h4>
                 </div>
                 <p className="text-sm text-mizan-secondary mb-4">{analysis.personalValuesInterpretation.meaning}</p>
+
+                {/* Cylinder Mapping Visualization */}
+                {analysis.personalValuesInterpretation.cylinderMapping && (
+                  <div className="mb-6 p-4 bg-gradient-to-br from-mizan-gold/5 to-mizan-primary/5 rounded-xl border border-mizan-gold/20">
+                    <p className="text-xs font-semibold text-mizan-primary mb-3 uppercase tracking-wide">Your Values Map to These Cylinders:</p>
+                    <div className="space-y-2">
+                      {Object.entries(analysis.personalValuesInterpretation.cylinderMapping.cylinders)
+                        .sort(([a], [b]) => Number(b) - Number(a)) // Sort 7 to 1 (top to bottom)
+                        .map(([cylinderNum, cylinderData]: [string, any]) => (
+                          <div key={cylinderNum} className="flex items-start space-x-3">
+                            <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-mizan-gold/10 border border-mizan-gold/30 flex items-center justify-center">
+                              <span className="text-lg font-bold text-mizan-gold">{cylinderNum}</span>
+                            </div>
+                            <div className="flex-1">
+                              <p className="text-sm font-semibold text-mizan-primary">{cylinderData.name}</p>
+                              <div className="flex flex-wrap gap-1 mt-1">
+                                {cylinderData.values.map((value: string, idx: number) => (
+                                  <span key={idx} className="px-2 py-0.5 bg-white border border-mizan-gold/30 text-mizan-gold text-xs rounded-full">
+                                    {value}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                            <div className="flex-shrink-0 text-xs font-medium text-mizan-secondary">
+                              {cylinderData.count} {cylinderData.count === 1 ? 'value' : 'values'}
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                )}
 
                 {analysis.personalValuesInterpretation.strengths.length > 0 && (
                   <div className="mb-4">
