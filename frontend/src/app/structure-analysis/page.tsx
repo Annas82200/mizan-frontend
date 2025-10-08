@@ -1,12 +1,21 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowRight, Upload, AlertCircle, CheckCircle, Loader2 } from 'lucide-react';
+import { ArrowRight, Upload, AlertCircle, CheckCircle, Loader2, Building2 } from 'lucide-react';
 import Link from 'next/link';
 import { StructureIcon } from '@/components/icons';
 
 export default function PublicStructureAnalysisPage() {
+  // Form data
+  const [companyName, setCompanyName] = useState('');
+  const [vision, setVision] = useState('');
+  const [mission, setMission] = useState('');
+  const [strategy, setStrategy] = useState('');
+  const [values, setValues] = useState('');
   const [file, setFile] = useState<File | null>(null);
+
+  // UI state
+  const [step, setStep] = useState<1 | 2>(1); // Step 1: Company info, Step 2: CSV upload
   const [analyzing, setAnalyzing] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
@@ -25,6 +34,20 @@ export default function PublicStructureAnalysisPage() {
     }
   };
 
+  const handleNextStep = () => {
+    // Validate company info
+    if (!companyName.trim()) {
+      setError('Company name is required');
+      return;
+    }
+    if (!vision.trim() && !mission.trim() && !strategy.trim()) {
+      setError('Please provide at least vision, mission, or strategy');
+      return;
+    }
+    setError(null);
+    setStep(2);
+  };
+
   const handleAnalyze = async () => {
     if (!file) {
       setError('Please upload a file first');
@@ -37,6 +60,13 @@ export default function PublicStructureAnalysisPage() {
     try {
       const formData = new FormData();
       formData.append('file', file);
+      formData.append('companyName', companyName);
+      formData.append('vision', vision);
+      formData.append('mission', mission);
+      formData.append('strategy', strategy);
+      if (values.trim()) {
+        formData.append('values', values);
+      }
 
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/public/structure/analyze`, {
         method: 'POST',
@@ -84,87 +114,216 @@ export default function PublicStructureAnalysisPage() {
             Free Structure Scan
           </h1>
           <p className="text-xl text-mizan-secondary max-w-2xl mx-auto">
-            Analyze your organizational structure instantly. Upload your org chart and discover hidden bottlenecks,
-            spans of control issues, and structural inefficiencies.
+            Get AI-powered insights into your organizational structure. Discover bottlenecks,
+            alignment issues, and opportunities to optimize.
           </p>
         </div>
 
-        {/* Upload Section */}
+        {/* Form Section */}
         {!result && (
           <div className="bg-white rounded-2xl shadow-lg p-12 mb-8">
-            <div className="max-w-xl mx-auto">
-              <h2 className="text-2xl font-bold text-mizan-primary mb-4 text-center">
-                Upload Your Org Chart
-              </h2>
-              <p className="text-mizan-secondary mb-8 text-center">
-                Supported formats: CSV or TXT with employee names and reporting relationships
-              </p>
-
-              {/* File Upload */}
-              <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-mizan-gold transition-colors duration-400 mb-6">
-                <input
-                  type="file"
-                  accept=".csv,.txt"
-                  onChange={handleFileUpload}
-                  className="hidden"
-                  id="file-upload"
-                />
-                <label htmlFor="file-upload" className="cursor-pointer block">
-                  <Upload className="w-12 h-12 text-mizan-gold mx-auto mb-4" />
-                  {file ? (
-                    <div className="flex items-center justify-center gap-2">
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                      <span className="text-mizan-primary font-semibold">{file.name}</span>
-                    </div>
-                  ) : (
-                    <>
-                      <p className="text-mizan-primary font-semibold mb-2">
-                        Click to upload or drag and drop
-                      </p>
-                      <p className="text-sm text-mizan-secondary">
-                        CSV or TXT file (max 10MB)
-                      </p>
-                    </>
-                  )}
-                </label>
+            <div className="max-w-2xl mx-auto">
+              {/* Progress Indicator */}
+              <div className="flex items-center justify-center mb-8">
+                <div className={`flex items-center justify-center w-10 h-10 rounded-full ${step >= 1 ? 'bg-mizan-gold text-white' : 'bg-gray-200 text-gray-500'} font-bold mr-2`}>
+                  1
+                </div>
+                <div className={`h-1 w-24 ${step >= 2 ? 'bg-mizan-gold' : 'bg-gray-200'}`}></div>
+                <div className={`flex items-center justify-center w-10 h-10 rounded-full ${step >= 2 ? 'bg-mizan-gold text-white' : 'bg-gray-200 text-gray-500'} font-bold ml-2`}>
+                  2
+                </div>
               </div>
 
-              {/* Error Message */}
-              {error && (
-                <div className="flex items-start gap-3 p-4 bg-red-50 border border-red-200 rounded-lg mb-6">
-                  <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-                  <p className="text-sm text-red-800">{error}</p>
+              {/* Step 1: Company Information */}
+              {step === 1 && (
+                <div>
+                  <div className="flex items-center gap-3 mb-6">
+                    <Building2 className="w-6 h-6 text-mizan-gold" />
+                    <h2 className="text-2xl font-bold text-mizan-primary">
+                      Tell Us About Your Company
+                    </h2>
+                  </div>
+                  <p className="text-mizan-secondary mb-8">
+                    This information helps our AI analyze how your structure aligns with your strategic goals.
+                  </p>
+
+                  <div className="space-y-6">
+                    {/* Company Name */}
+                    <div>
+                      <label className="block text-sm font-semibold text-mizan-primary mb-2">
+                        Company Name <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={companyName}
+                        onChange={(e) => setCompanyName(e.target.value)}
+                        placeholder="e.g., Acme Corp"
+                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-mizan-gold focus:outline-none transition-colors"
+                      />
+                    </div>
+
+                    {/* Vision */}
+                    <div>
+                      <label className="block text-sm font-semibold text-mizan-primary mb-2">
+                        Vision <span className="text-red-500">*</span>
+                      </label>
+                      <textarea
+                        value={vision}
+                        onChange={(e) => setVision(e.target.value)}
+                        placeholder="What is your long-term vision?"
+                        rows={3}
+                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-mizan-gold focus:outline-none transition-colors resize-none"
+                      />
+                    </div>
+
+                    {/* Mission */}
+                    <div>
+                      <label className="block text-sm font-semibold text-mizan-primary mb-2">
+                        Mission <span className="text-red-500">*</span>
+                      </label>
+                      <textarea
+                        value={mission}
+                        onChange={(e) => setMission(e.target.value)}
+                        placeholder="What is your mission or purpose?"
+                        rows={3}
+                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-mizan-gold focus:outline-none transition-colors resize-none"
+                      />
+                    </div>
+
+                    {/* Strategy */}
+                    <div>
+                      <label className="block text-sm font-semibold text-mizan-primary mb-2">
+                        Strategy <span className="text-red-500">*</span>
+                      </label>
+                      <textarea
+                        value={strategy}
+                        onChange={(e) => setStrategy(e.target.value)}
+                        placeholder="What is your strategic plan or approach?"
+                        rows={3}
+                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-mizan-gold focus:outline-none transition-colors resize-none"
+                      />
+                    </div>
+
+                    {/* Values (Optional) */}
+                    <div>
+                      <label className="block text-sm font-semibold text-mizan-primary mb-2">
+                        Core Values <span className="text-mizan-secondary text-xs">(Optional)</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={values}
+                        onChange={(e) => setValues(e.target.value)}
+                        placeholder="e.g., Integrity, Innovation, Collaboration"
+                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-mizan-gold focus:outline-none transition-colors"
+                      />
+                      <p className="text-xs text-mizan-secondary mt-1">Separate with commas</p>
+                    </div>
+                  </div>
+
+                  {/* Error Message */}
+                  {error && (
+                    <div className="flex items-start gap-3 p-4 bg-red-50 border border-red-200 rounded-lg mt-6">
+                      <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                      <p className="text-sm text-red-800">{error}</p>
+                    </div>
+                  )}
+
+                  {/* Next Button */}
+                  <button
+                    onClick={handleNextStep}
+                    className="w-full mt-8 group px-8 py-4 text-base font-semibold rounded-full transition-all duration-400 flex items-center justify-center space-x-2 bg-mizan-gold text-white hover:shadow-xl hover:scale-105"
+                  >
+                    <span>Next: Upload Org Chart</span>
+                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform duration-400" />
+                  </button>
                 </div>
               )}
 
-              {/* Analyze Button */}
-              <button
-                onClick={handleAnalyze}
-                disabled={!file || analyzing}
-                className="w-full group px-8 py-4 text-base font-semibold rounded-full transition-all duration-400 flex items-center justify-center space-x-2 bg-mizan-gold text-white hover:shadow-xl hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
-              >
-                {analyzing ? (
-                  <>
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                    <span>Analyzing...</span>
-                  </>
-                ) : (
-                  <>
-                    <span>Analyze Structure</span>
-                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform duration-400" />
-                  </>
-                )}
-              </button>
+              {/* Step 2: CSV Upload */}
+              {step === 2 && (
+                <div>
+                  <h2 className="text-2xl font-bold text-mizan-primary mb-4 text-center">
+                    Upload Your Org Chart
+                  </h2>
+                  <p className="text-mizan-secondary mb-8 text-center">
+                    Supported formats: CSV or TXT with employee names and reporting relationships
+                  </p>
 
-              <p className="text-xs text-mizan-secondary mt-4 text-center">
-                No credit card required. Your data is processed securely and not stored.
-              </p>
+                  {/* File Upload */}
+                  <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-mizan-gold transition-colors duration-400 mb-6">
+                    <input
+                      type="file"
+                      accept=".csv,.txt"
+                      onChange={handleFileUpload}
+                      className="hidden"
+                      id="file-upload"
+                    />
+                    <label htmlFor="file-upload" className="cursor-pointer block">
+                      <Upload className="w-12 h-12 text-mizan-gold mx-auto mb-4" />
+                      {file ? (
+                        <div className="flex items-center justify-center gap-2">
+                          <CheckCircle className="w-5 h-5 text-green-600" />
+                          <span className="text-mizan-primary font-semibold">{file.name}</span>
+                        </div>
+                      ) : (
+                        <>
+                          <p className="text-mizan-primary font-semibold mb-2">
+                            Click to upload or drag and drop
+                          </p>
+                          <p className="text-sm text-mizan-secondary">
+                            CSV or TXT file (max 10MB)
+                          </p>
+                        </>
+                      )}
+                    </label>
+                  </div>
+
+                  {/* Error Message */}
+                  {error && (
+                    <div className="flex items-start gap-3 p-4 bg-red-50 border border-red-200 rounded-lg mb-6">
+                      <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                      <p className="text-sm text-red-800">{error}</p>
+                    </div>
+                  )}
+
+                  {/* Analyze Button */}
+                  <button
+                    onClick={handleAnalyze}
+                    disabled={!file || analyzing}
+                    className="w-full group px-8 py-4 text-base font-semibold rounded-full transition-all duration-400 flex items-center justify-center space-x-2 bg-mizan-gold text-white hover:shadow-xl hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                  >
+                    {analyzing ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        <span>Analyzing with AI...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Analyze Structure</span>
+                        <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform duration-400" />
+                      </>
+                    )}
+                  </button>
+
+                  {/* Back Button */}
+                  <button
+                    onClick={() => setStep(1)}
+                    className="mx-auto block mt-4 text-sm text-mizan-secondary hover:text-mizan-gold transition-colors"
+                  >
+                    ← Back to company info
+                  </button>
+
+                  <p className="text-xs text-mizan-secondary mt-6 text-center">
+                    No credit card required. Your data is processed securely and not stored.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         )}
 
         {/* Results Section */}
-        {result && (
+        {result && result.data && (
           <div className="bg-white rounded-2xl shadow-lg p-12">
             <div className="text-center mb-8">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
@@ -174,53 +333,91 @@ export default function PublicStructureAnalysisPage() {
                 Analysis Complete!
               </h2>
               <p className="text-mizan-secondary">
-                Here's a preview of your organizational structure insights
+                Here's your AI-powered organizational structure insights
               </p>
             </div>
 
-            {/* Key Metrics */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-              <div className="bg-mizan-background rounded-xl p-6 text-center">
-                <p className="text-sm text-mizan-secondary uppercase tracking-wide mb-2">
-                  Entropy Score
-                </p>
-                <p className="text-4xl font-bold text-mizan-primary">
-                  {result.data?.entropyScore || 'N/A'}
-                </p>
-                <p className="text-xs text-mizan-secondary mt-2">
-                  Lower is better
-                </p>
-              </div>
+            {/* Full AI Analysis Results */}
+            {result.data.richAnalysis ? (
+              <div className="prose prose-lg max-w-none">
+                <div className="bg-mizan-background rounded-xl p-6 mb-6">
+                  <h3 className="text-xl font-bold text-mizan-primary mb-4">Overall Assessment</h3>
+                  <p className="text-mizan-secondary whitespace-pre-wrap">{result.data.richAnalysis.overallAssessment}</p>
+                </div>
 
-              <div className="bg-mizan-background rounded-xl p-6 text-center">
-                <p className="text-sm text-mizan-secondary uppercase tracking-wide mb-2">
-                  Bottlenecks Found
-                </p>
-                <p className="text-4xl font-bold text-mizan-primary">
-                  {result.data?.bottlenecks?.length || 0}
-                </p>
-                <p className="text-xs text-mizan-secondary mt-2">
-                  Managers overloaded
-                </p>
-              </div>
+                {result.data.richAnalysis.keyFindings && result.data.richAnalysis.keyFindings.length > 0 && (
+                  <div className="mb-6">
+                    <h3 className="text-xl font-bold text-mizan-primary mb-4">Key Findings</h3>
+                    <ul className="space-y-2">
+                      {result.data.richAnalysis.keyFindings.map((finding: string, idx: number) => (
+                        <li key={idx} className="flex items-start gap-2">
+                          <span className="text-mizan-gold mt-1">•</span>
+                          <span className="text-mizan-secondary">{finding}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
 
-              <div className="bg-mizan-background rounded-xl p-6 text-center">
-                <p className="text-sm text-mizan-secondary uppercase tracking-wide mb-2">
-                  Health Score
-                </p>
-                <p className="text-4xl font-bold text-mizan-primary">
-                  {result.data?.healthScore || 'N/A'}
-                </p>
-                <p className="text-xs text-mizan-secondary mt-2">
-                  Out of 100
-                </p>
+                {result.data.richAnalysis.recommendations && result.data.richAnalysis.recommendations.length > 0 && (
+                  <div className="mb-6">
+                    <h3 className="text-xl font-bold text-mizan-primary mb-4">Recommendations</h3>
+                    <div className="space-y-4">
+                      {result.data.richAnalysis.recommendations.map((rec: any, idx: number) => (
+                        <div key={idx} className="bg-mizan-gold/5 border-l-4 border-mizan-gold p-4 rounded-r-lg">
+                          <p className="font-semibold text-mizan-primary mb-1">{rec.title || `Recommendation ${idx + 1}`}</p>
+                          <p className="text-sm text-mizan-secondary">{rec.description || rec}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
-            </div>
+            ) : (
+              /* Fallback to basic metrics if no rich analysis */
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div className="bg-mizan-background rounded-xl p-6 text-center">
+                  <p className="text-sm text-mizan-secondary uppercase tracking-wide mb-2">
+                    Entropy Score
+                  </p>
+                  <p className="text-4xl font-bold text-mizan-primary">
+                    {result.data.entropyScore || 'N/A'}
+                  </p>
+                  <p className="text-xs text-mizan-secondary mt-2">
+                    Lower is better
+                  </p>
+                </div>
+
+                <div className="bg-mizan-background rounded-xl p-6 text-center">
+                  <p className="text-sm text-mizan-secondary uppercase tracking-wide mb-2">
+                    Bottlenecks Found
+                  </p>
+                  <p className="text-4xl font-bold text-mizan-primary">
+                    {result.data.bottlenecks?.length || 0}
+                  </p>
+                  <p className="text-xs text-mizan-secondary mt-2">
+                    Managers overloaded
+                  </p>
+                </div>
+
+                <div className="bg-mizan-background rounded-xl p-6 text-center">
+                  <p className="text-sm text-mizan-secondary uppercase tracking-wide mb-2">
+                    Health Score
+                  </p>
+                  <p className="text-4xl font-bold text-mizan-primary">
+                    {result.data.healthScore || 'N/A'}
+                  </p>
+                  <p className="text-xs text-mizan-secondary mt-2">
+                    Out of 100
+                  </p>
+                </div>
+              </div>
+            )}
 
             {/* CTA */}
             <div className="border-t border-gray-200 pt-8 text-center">
               <p className="text-lg text-mizan-secondary mb-6">
-                Want the full report with detailed recommendations?
+                Want the full report with detailed recommendations and tracking?
               </p>
               <Link
                 href="/login"
@@ -240,10 +437,16 @@ export default function PublicStructureAnalysisPage() {
                 setResult(null);
                 setFile(null);
                 setError(null);
+                setStep(1);
+                setCompanyName('');
+                setVision('');
+                setMission('');
+                setStrategy('');
+                setValues('');
               }}
               className="mx-auto block mt-6 text-sm text-mizan-gold hover:underline"
             >
-              Analyze another file
+              Analyze another company
             </button>
           </div>
         )}
@@ -259,9 +462,9 @@ export default function PublicStructureAnalysisPage() {
                 <div className="inline-flex items-center justify-center w-12 h-12 bg-mizan-gold text-white rounded-full font-bold mb-4">
                   1
                 </div>
-                <h4 className="font-semibold text-mizan-primary mb-2">Upload Your Org Chart</h4>
+                <h4 className="font-semibold text-mizan-primary mb-2">Share Your Strategy</h4>
                 <p className="text-sm text-mizan-secondary">
-                  Simple CSV or TXT file with employee names and who reports to whom
+                  Tell us your vision, mission, and strategic goals
                 </p>
               </div>
 
@@ -269,9 +472,9 @@ export default function PublicStructureAnalysisPage() {
                 <div className="inline-flex items-center justify-center w-12 h-12 bg-mizan-gold text-white rounded-full font-bold mb-4">
                   2
                 </div>
-                <h4 className="font-semibold text-mizan-primary mb-2">AI Analyzes Structure</h4>
+                <h4 className="font-semibold text-mizan-primary mb-2">Upload Org Chart</h4>
                 <p className="text-sm text-mizan-secondary">
-                  Our AI examines spans of control, layers, and reporting relationships
+                  Simple CSV with employee names and reporting relationships
                 </p>
               </div>
 
@@ -279,9 +482,9 @@ export default function PublicStructureAnalysisPage() {
                 <div className="inline-flex items-center justify-center w-12 h-12 bg-mizan-gold text-white rounded-full font-bold mb-4">
                   3
                 </div>
-                <h4 className="font-semibold text-mizan-primary mb-2">Get Instant Insights</h4>
+                <h4 className="font-semibold text-mizan-primary mb-2">Get AI Insights</h4>
                 <p className="text-sm text-mizan-secondary">
-                  Discover bottlenecks, inefficiencies, and opportunities to optimize
+                  Discover how your structure aligns with your strategy
                 </p>
               </div>
             </div>
