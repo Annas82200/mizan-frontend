@@ -185,7 +185,7 @@ export default function PublicStructureAnalysisPage() {
                   Entropy Score
                 </p>
                 <p className="text-4xl font-bold text-mizan-primary">
-                  {result.entropyScore || 'N/A'}
+                  {result.data?.entropyScore || 'N/A'}
                 </p>
                 <p className="text-xs text-mizan-secondary mt-2">
                   Lower is better
@@ -197,7 +197,7 @@ export default function PublicStructureAnalysisPage() {
                   Bottlenecks Found
                 </p>
                 <p className="text-4xl font-bold text-mizan-primary">
-                  {result.bottlenecks?.length || 0}
+                  {result.data?.bottlenecks?.length || 0}
                 </p>
                 <p className="text-xs text-mizan-secondary mt-2">
                   Managers overloaded
@@ -209,7 +209,7 @@ export default function PublicStructureAnalysisPage() {
                   Health Score
                 </p>
                 <p className="text-4xl font-bold text-mizan-primary">
-                  {result.healthScore || 'N/A'}
+                  {result.data?.healthScore || 'N/A'}
                 </p>
                 <p className="text-xs text-mizan-secondary mt-2">
                   Out of 100
