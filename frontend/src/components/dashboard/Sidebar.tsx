@@ -63,6 +63,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ role, isOpen, onClose }) => {
         icon: <BuildingIcon className="w-5 h-5" />,
       },
       {
+        label: 'Demo Requests',
+        href: '/dashboard/superadmin/demo-requests',
+        icon: <BuildingIcon className="w-5 h-5" />,
+      },
+      {
         label: 'System Analytics',
         href: '/dashboard/superadmin/analytics',
         icon: <APIIcon className="w-5 h-5" />,
