@@ -375,6 +375,32 @@ res.json(result); // Missing structure
 **After (Alignment-focused - CURRENT)**:
 > "Your values beautifully align with the company's intended culture. You share 3 core values: Purpose, Service, Integrity."
 
+### Lesson 6: Fix Broken Features Before Adding New Ones
+
+**User Feedback (2025-10-08)**:
+*"I don't want to start posting on linkedin before the buttons are working and the website is functioning correctly."*
+
+**What This Means**:
+- STOP adding new features when existing features are broken
+- Audit ALL pages systematically before building new functionality
+- Test EVERY button, link, and flow
+- A beautiful new feature is worthless if the homepage doesn't work
+
+**Example of Violation**:
+- Structure analysis uploads CSV but shows no results ❌
+- Pricing page buttons broken ❌
+- `/signup` returns 404 ❌
+- Yet we're building LinkedIn posting ❌ WRONG PRIORITY
+
+**Correct Approach**:
+1. ✅ Audit all existing pages (one by one)
+2. ✅ Fix broken buttons and links
+3. ✅ Verify with user that everything works
+4. ✅ THEN and ONLY THEN add new features
+
+**The Rule**:
+> "Make what exists work perfectly before building something new."
+
 ---
 
 ## 🎨 DESIGN SYSTEM
@@ -892,7 +918,48 @@ animate-pulse
 
 ## 🚀 NEXT STEPS
 
-### RECOMMENDED PRIORITY ORDER
+### ⚠️ CRITICAL: COMPLETE WEBSITE AUDIT FIRST
+
+**BEFORE ANY NEW FEATURES**, we must audit and fix all existing pages. This is non-negotiable.
+
+**Issues Found (2025-10-08):**
+- ❌ Structure analysis uploads CSV but shows no analysis
+- ❌ `/signup` page returns 404
+- ❌ Pricing page buttons broken/misconfigured
+- ❌ Unknown issues on other pages
+
+**PHASE 0: Website Audit & Fix (HIGHEST PRIORITY)**
+
+**Systematic Page-by-Page Audit:**
+
+1. **Marketing Pages** (Public-facing)
+   - [ ] Home page - Test ALL buttons and CTAs
+   - [ ] Structure analysis page - Upload CSV → Verify analysis shows
+   - [ ] Pricing page - Test ALL plan buttons and CTAs
+   - [ ] About page - Check all links
+   - [ ] Contact page - Test form submission
+   - [ ] `/signup` - Fix 404 error
+   - [ ] `/login` - Verify login flow works
+
+2. **Dashboard Pages** (Authenticated)
+   - [ ] Superadmin dashboard - All 7 pages, all buttons
+   - [ ] Admin dashboard - When built, test everything
+   - [ ] Employee dashboard - When built, test everything
+
+3. **API Endpoints** (Backend)
+   - [ ] Test all structure analysis endpoints
+   - [ ] Test all culture analysis endpoints
+   - [ ] Verify error handling
+
+**Rules for Audit:**
+1. ✅ Test ONE page at a time
+2. ✅ Document every broken button/link
+3. ✅ Fix issues immediately
+4. ✅ Re-test after fixing
+5. ✅ Mark as complete only after user confirms
+6. ❌ Do NOT add new features until audit complete
+
+**AFTER AUDIT COMPLETE**, proceed with:
 
 **PHASE 1: Complete Current Work (1-2 weeks)**
 1. Test employee reports with regenerate button
@@ -904,7 +971,7 @@ animate-pulse
 **PHASE 2: Critical Business Features (2-3 weeks)**
 6. Public structure analysis (lead generation)
 7. Pricing page + Stripe integration (revenue)
-8. Social media automation (marketing)
+8. Social media automation (marketing) - LinkedIn posting ONLY after audit
 
 **PHASE 3: Dashboard Completion (4-6 weeks)**
 9. Admin Dashboard (7 pages) - most important for customers
