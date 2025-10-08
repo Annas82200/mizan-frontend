@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Users, Search, TrendingUp, TrendingDown, Minus, Heart, Target, Lightbulb, AlertCircle, Loader2 } from 'lucide-react';
+import { Users, Search, TrendingUp, TrendingDown, Minus, Heart, Target, Lightbulb, AlertCircle, Loader2, RefreshCw } from 'lucide-react';
 
 interface IndividualEmployeeViewProps {
   tenantId: string;
@@ -90,6 +90,50 @@ export function IndividualEmployeeView({ tenantId, tenantName }: IndividualEmplo
       setError(err.message || 'Failed to load employees');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const regenerateReport = async (employeeId: string, employeeName: string, e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent triggering the employee selection
+
+    if (!confirm(`Regenerate report for ${employeeName}? This will create a fresh analysis with the latest framework and insights.`)) {
+      return;
+    }
+
+    try {
+      setAnalyzing(true);
+      setError(null);
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/culture-assessment/report/employee/${employeeId}/regenerate`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('mizan_auth_token')}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to regenerate report');
+      }
+
+      const data = await response.json();
+
+      // Wait a moment for background processing
+      setTimeout(() => {
+        // Reload the employee's report if they're currently selected
+        const employee = employees.find(e => e.id === employeeId);
+        if (employee && selectedEmployee?.id === employeeId) {
+          analyzeEmployee(employee);
+        }
+      }, 2000);
+
+      alert('Report regeneration started! It will be ready in 10-15 seconds.');
+    } catch (err: any) {
+      console.error('Regenerate report error:', err);
+      setError(err.message || 'Failed to regenerate report');
+    } finally {
+      setAnalyzing(false);
     }
   };
 
@@ -248,15 +292,26 @@ export function IndividualEmployeeView({ tenantId, tenantName }: IndividualEmplo
                           <p className="text-xs text-mizan-secondary mt-1">{employee.department}</p>
                         )}
                       </div>
-                      {employee.hasCompletedSurvey ? (
-                        <span className="flex-shrink-0 px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded-full">
-                          Completed
-                        </span>
-                      ) : (
-                        <span className="flex-shrink-0 px-2 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full">
-                          Pending
-                        </span>
-                      )}
+                      <div className="flex items-center gap-2 flex-shrink-0">
+                        {employee.hasCompletedSurvey ? (
+                          <>
+                            <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded-full">
+                              Completed
+                            </span>
+                            <button
+                              onClick={(e) => regenerateReport(employee.id, employee.name, e)}
+                              className="p-1.5 rounded-lg hover:bg-mizan-gold/10 text-mizan-gold hover:text-mizan-gold transition-all duration-400 group"
+                              title="Regenerate report with latest framework"
+                            >
+                              <RefreshCw className="w-4 h-4 group-hover:rotate-180 transition-transform duration-500" />
+                            </button>
+                          </>
+                        ) : (
+                          <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full opacity-50">
+                            Pending
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </button>
                 ))}
