@@ -263,12 +263,18 @@ export const socialMediaService = {
     targetAudience?: string;
     includeVisuals?: boolean;
   }) {
-    const response = await apiClient.post('/api/social-media/generate', data);
+    // Single post generation with AI takes 20-30 seconds
+    const response = await apiClient.post('/api/social-media/generate', data, {
+      timeout: 60000 // 1 minute
+    });
     return response.data;
   },
 
   async generateBatch(week: number) {
-    const response = await apiClient.post('/api/social-media/generate-batch', { week });
+    // Batch generation takes ~60-90 seconds (3 posts x 3 AI providers each)
+    const response = await apiClient.post('/api/social-media/generate-batch', { week }, {
+      timeout: 180000 // 3 minutes
+    });
     return response.data;
   },
 
