@@ -250,3 +250,35 @@ export const commonService = {
     return response.data;
   },
 };
+
+// ============================================
+// SOCIAL MEDIA SERVICES
+// ============================================
+
+export const socialMediaService = {
+  async generate(data: {
+    platform: string;
+    contentPillar: string;
+    topic: string;
+    targetAudience?: string;
+    includeVisuals?: boolean;
+  }) {
+    const response = await apiClient.post('/api/social-media/generate', data);
+    return response.data;
+  },
+
+  async generateBatch(week: number) {
+    const response = await apiClient.post('/api/social-media/generate-batch', { week });
+    return response.data;
+  },
+
+  async getTemplates() {
+    const response = await apiClient.get('/api/social-media/templates');
+    return response.data;
+  },
+
+  async getStrategy() {
+    const response = await apiClient.get('/api/social-media/strategy');
+    return response.data;
+  },
+};
