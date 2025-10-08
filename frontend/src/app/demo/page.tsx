@@ -17,12 +17,52 @@ export default function DemoPage() {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In production, this would send data to your backend API
-    console.log('Demo request:', formData);
-    setSubmitted(true);
+    setLoading(true);
+    setError('');
+
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+
+      // Parse employee count from companySize
+      let employeeCount = null;
+      if (formData.companySize === '1-50') employeeCount = 50;
+      else if (formData.companySize === '51-250') employeeCount = 250;
+      else if (formData.companySize === '251-1000') employeeCount = 1000;
+      else if (formData.companySize === '1001-5000') employeeCount = 5000;
+      else if (formData.companySize === '5000+') employeeCount = 5000;
+
+      const response = await fetch(`${apiUrl}/api/demo/submit`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          company: formData.company,
+          employeeCount,
+          message: formData.message ? `Role: ${formData.role}\n\n${formData.message}` : `Role: ${formData.role}`,
+        }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || 'Failed to submit demo request');
+      }
+
+      setSubmitted(true);
+    } catch (err: any) {
+      console.error('Demo submission error:', err);
+      setError(err.message || 'Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -185,6 +225,12 @@ export default function DemoPage() {
               <form onSubmit={handleSubmit} className="bg-white rounded-3xl p-8 border-2 border-gray-100">
                 <h3 className="text-2xl font-bold mb-6 text-mizan-primary">Request Your Demo</h3>
 
+                {error && (
+                  <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
+                    <p className="text-sm text-red-700">{error}</p>
+                  </div>
+                )}
+
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
@@ -315,10 +361,20 @@ export default function DemoPage() {
 
                 <button
                   type="submit"
-                  className="w-full mt-6 group px-8 py-4 text-base font-semibold rounded-full smooth-transition hover:shadow-2xl hover:scale-105 flex items-center justify-center space-x-2 bg-mizan-gold text-white"
+                  disabled={loading}
+                  className="w-full mt-6 group px-8 py-4 text-base font-semibold rounded-full smooth-transition hover:shadow-2xl hover:scale-105 flex items-center justify-center space-x-2 bg-mizan-gold text-white disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                 >
-                  <span>Request Demo</span>
-                  <ArrowRight size={18} className="group-hover:translate-x-1 smooth-transition" />
+                  {loading ? (
+                    <>
+                      <div className="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                      <span>Submitting...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Request Demo</span>
+                      <ArrowRight size={18} className="group-hover:translate-x-1 smooth-transition" />
+                    </>
+                  )}
                 </button>
 
                 <p className="text-xs text-center mt-4 text-mizan-secondary">
