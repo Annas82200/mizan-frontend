@@ -82,6 +82,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ role, isOpen, onClose }) => {
         icon: <AITrainingIcon className="w-5 h-5" />,
       },
       {
+        label: 'Social Media',
+        href: '/dashboard/superadmin/social-media',
+        icon: <span className="text-lg">📱</span>,
+      },
+      {
         label: 'Modules',
         href: '#',
         icon: <FrameworkIcon className="w-5 h-5" />,
