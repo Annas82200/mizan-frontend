@@ -37,3 +37,4 @@ export { NotificationIcon } from './NotificationIcon';
 export { WorkflowIcon } from './WorkflowIcon';
 export { EventIcon } from './EventIcon';
 export { ModelIcon } from './ModelIcon';
+export { SocialMediaIcon } from './SocialMediaIcon';

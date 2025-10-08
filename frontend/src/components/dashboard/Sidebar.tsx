@@ -19,6 +19,7 @@ import {
   LXPIcon,
   TeamsIcon,
   SettingsIcon,
+  SocialMediaIcon,
 } from '@/components/icons';
 
 interface NavItem {
@@ -84,7 +85,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ role, isOpen, onClose }) => {
       {
         label: 'Social Media',
         href: '/dashboard/superadmin/social-media',
-        icon: <span className="text-lg">📱</span>,
+        icon: <SocialMediaIcon className="w-5 h-5" />,
       },
       {
         label: 'Modules',
