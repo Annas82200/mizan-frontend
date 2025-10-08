@@ -466,25 +466,19 @@ export function IndividualEmployeeView({ tenantId, tenantName }: IndividualEmplo
                 )}
               </div>
 
-              {/* Alignment Analysis */}
+              {/* Culture Alignment - POSITIVE FRAMING */}
               <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                <h4 className="text-lg font-semibold font-display text-mizan-primary mb-4">Alignment & Gaps</h4>
+                <h4 className="text-lg font-semibold font-display text-mizan-primary mb-4">How Your Values Align With Company Culture</h4>
 
                 <div className="space-y-4">
-                  {/* Personal vs Current */}
+                  {/* Culture Alignment */}
                   <div className={`p-4 rounded-xl border-2 ${getRetentionRiskColor(analysis.alignmentAnalysis.personalVsCurrent.retentionRisk).bg} ${getRetentionRiskColor(analysis.alignmentAnalysis.personalVsCurrent.retentionRisk).border}`}>
-                    <div className="flex items-center justify-between mb-2">
-                      <p className="font-semibold text-mizan-primary text-sm">Personal Values vs Current Experience</p>
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${getRetentionRiskColor(analysis.alignmentAnalysis.personalVsCurrent.retentionRisk).bg} ${getRetentionRiskColor(analysis.alignmentAnalysis.personalVsCurrent.retentionRisk).text}`}>
-                        {analysis.alignmentAnalysis.personalVsCurrent.retentionRisk.toUpperCase()} RETENTION RISK
-                      </span>
-                    </div>
                     <p className="text-sm text-mizan-secondary">{analysis.alignmentAnalysis.personalVsCurrent.interpretation}</p>
                   </div>
 
-                  {/* Personal vs Desired */}
+                  {/* Vision for Growth */}
                   <div className="p-4 bg-blue-50 rounded-xl border-2 border-blue-200">
-                    <p className="font-semibold text-mizan-primary text-sm mb-2">Personal Values vs Desired Future</p>
+                    <p className="font-semibold text-mizan-primary text-sm mb-2">Your Vision for Growth</p>
                     <p className="text-sm text-mizan-secondary mb-3">{analysis.alignmentAnalysis.personalVsDesired.interpretation}</p>
                     {analysis.alignmentAnalysis.personalVsDesired.growthOpportunities.length > 0 && (
                       <div>
