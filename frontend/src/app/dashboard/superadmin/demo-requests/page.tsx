@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { Mail, Phone, Building2, Users, Calendar, DollarSign, CheckCircle2, XCircle, Clock, Send, Copy, Check, X } from 'lucide-react';
 
 interface DemoRequest {
@@ -228,8 +227,7 @@ export default function DemoRequestsPage() {
   };
 
   return (
-    <DashboardLayout role="superadmin">
-      <div className="space-y-8">
+    <div className="space-y-8">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
@@ -689,6 +687,6 @@ export default function DemoRequestsPage() {
           </div>
         </div>
       )}
-    </DashboardLayout>
+    </div>
   );
 }
