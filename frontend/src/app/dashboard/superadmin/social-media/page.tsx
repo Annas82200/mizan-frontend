@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { Loader2, Send, Calendar, BarChart3, FileText } from 'lucide-react';
-import DashboardLayout from '@/components/dashboard/DashboardLayout';
 import { socialMediaService } from '@/services/dashboard.service';
 
 interface GeneratedContent {
@@ -106,8 +105,7 @@ export default function SocialMediaPage() {
   };
 
   return (
-    <DashboardLayout title="Social Media Content Generator">
-      <div className="space-y-8">
+    <div className="space-y-8">
         {/* Header */}
         <div className="bg-white rounded-lg shadow-sm p-6">
           <h2 className="text-2xl font-display font-semibold text-mizan-primary mb-2">
@@ -385,6 +383,5 @@ export default function SocialMediaPage() {
           )}
         </div>
       </div>
-    </DashboardLayout>
   );
 }
