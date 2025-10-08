@@ -127,7 +127,7 @@ export default function DemoRequestsPage() {
   };
 
   return (
-    <DashboardLayout>
+    <DashboardLayout role="superadmin">
       <div className="space-y-8">
         {/* Header */}
         <div className="flex items-center justify-between">
