@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
-import { Mail, Phone, Building2, Users, Calendar, DollarSign, CheckCircle2, XCircle, Clock, Send } from 'lucide-react';
+import { Mail, Phone, Building2, Users, Calendar, DollarSign, CheckCircle2, XCircle, Clock, Send, Copy, Check, X } from 'lucide-react';
 
 interface DemoRequest {
   id: number;
@@ -29,6 +29,14 @@ export default function DemoRequestsPage() {
   const [selectedRequest, setSelectedRequest] = useState<DemoRequest | null>(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [statusFilter, setStatusFilter] = useState<string>('all');
+
+  // Payment modal state
+  const [selectedPlan, setSelectedPlan] = useState<'starter' | 'growth' | 'scale'>('starter');
+  const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'annual'>('monthly');
+  const [employeeCount, setEmployeeCount] = useState<number>(50);
+  const [generatedUrl, setGeneratedUrl] = useState<string | null>(null);
+  const [generatingLink, setGeneratingLink] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     fetchDemoRequests();
@@ -123,7 +131,100 @@ export default function DemoRequestsPage() {
 
   const handleSendPaymentLink = (request: DemoRequest) => {
     setSelectedRequest(request);
+    setEmployeeCount(request.employeeCount || 50);
+    setGeneratedUrl(null);
+    setCopied(false);
     setShowPaymentModal(true);
+  };
+
+  const PRICING_CONFIG = {
+    starter: {
+      monthly: 8.00,
+      annual: 6.66,
+      minEmployees: 50,
+      maxEmployees: 250
+    },
+    growth: {
+      monthly: 15.00,
+      annual: 12.50,
+      minEmployees: 251,
+      maxEmployees: 1000
+    },
+    scale: {
+      monthly: 24.00,
+      annual: 20.00,
+      minEmployees: 1001,
+      maxEmployees: 10000
+    }
+  };
+
+  const calculatePrice = () => {
+    const plan = PRICING_CONFIG[selectedPlan];
+    const pricePerEmployee = billingPeriod === 'annual' ? plan.annual : plan.monthly;
+    const monthlyTotal = pricePerEmployee * employeeCount;
+    const yearlyTotal = monthlyTotal * 12;
+    const savings = billingPeriod === 'annual' ? ((plan.monthly - plan.annual) * employeeCount * 12) : 0;
+
+    return {
+      pricePerEmployee,
+      monthlyTotal,
+      yearlyTotal,
+      savings,
+      billedNow: billingPeriod === 'annual' ? yearlyTotal : monthlyTotal
+    };
+  };
+
+  const generatePaymentLink = async () => {
+    if (!selectedRequest) return;
+
+    try {
+      setGeneratingLink(true);
+      const token = localStorage.getItem('mizan_auth_token');
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+
+      const response = await fetch(`${apiUrl}/api/payment/create-checkout-session`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          demoRequestId: selectedRequest.id,
+          plan: selectedPlan,
+          billingPeriod: billingPeriod,
+          employeeCount: employeeCount
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate payment link');
+      }
+
+      const data = await response.json();
+      setGeneratedUrl(data.data.url);
+
+      // Refresh the demo requests list to show updated payment link status
+      fetchDemoRequests();
+    } catch (error: any) {
+      console.error('Error generating payment link:', error);
+      alert('Failed to generate payment link. Please try again.');
+    } finally {
+      setGeneratingLink(false);
+    }
+  };
+
+  const copyToClipboard = () => {
+    if (generatedUrl) {
+      navigator.clipboard.writeText(generatedUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  const closeModal = () => {
+    setShowPaymentModal(false);
+    setGeneratedUrl(null);
+    setCopied(false);
   };
 
   return (
@@ -344,22 +445,247 @@ export default function DemoRequestsPage() {
         </div>
       </div>
 
-      {/* Payment Link Modal - Will implement in Phase 2.3 */}
+      {/* Payment Link Modal */}
       {showPaymentModal && selectedRequest && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl p-8 max-w-2xl w-full mx-4">
-            <h2 className="text-2xl font-bold text-mizan-primary mb-4">
-              Send Payment Link
-            </h2>
-            <p className="text-mizan-secondary mb-6">
-              Payment link modal - Coming in Phase 2.3
-            </p>
-            <button
-              onClick={() => setShowPaymentModal(false)}
-              className="px-4 py-2 bg-gray-200 text-mizan-primary rounded-lg hover:bg-gray-300"
-            >
-              Close
-            </button>
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            {/* Header */}
+            <div className="sticky top-0 bg-white border-b border-gray-200 px-8 py-6 flex items-center justify-between rounded-t-2xl">
+              <div>
+                <h2 className="text-2xl font-bold text-mizan-primary">Generate Payment Link</h2>
+                <p className="text-sm text-mizan-secondary mt-1">
+                  {selectedRequest.firstName} {selectedRequest.lastName} • {selectedRequest.company}
+                </p>
+              </div>
+              <button
+                onClick={closeModal}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-all"
+              >
+                <X size={24} className="text-mizan-secondary" />
+              </button>
+            </div>
+
+            <div className="p-8">
+              {!generatedUrl ? (
+                <>
+                  {/* Plan Selection */}
+                  <div className="mb-8">
+                    <label className="block text-sm font-semibold text-mizan-primary mb-4">
+                      Select Plan
+                    </label>
+                    <div className="grid grid-cols-3 gap-4">
+                      {(['starter', 'growth', 'scale'] as const).map((plan) => (
+                        <button
+                          key={plan}
+                          onClick={() => setSelectedPlan(plan)}
+                          className={`p-4 rounded-xl border-2 transition-all ${
+                            selectedPlan === plan
+                              ? 'border-mizan-gold bg-mizan-gold/5'
+                              : 'border-gray-200 hover:border-gray-300'
+                          }`}
+                        >
+                          <h3 className="text-lg font-bold text-mizan-primary capitalize">
+                            {plan}
+                          </h3>
+                          <p className="text-xs text-mizan-secondary mt-1">
+                            {PRICING_CONFIG[plan].minEmployees.toLocaleString()}-
+                            {PRICING_CONFIG[plan].maxEmployees.toLocaleString()} employees
+                          </p>
+                          <p className="text-2xl font-bold text-mizan-gold mt-2">
+                            ${PRICING_CONFIG[plan][billingPeriod].toFixed(2)}
+                          </p>
+                          <p className="text-xs text-mizan-secondary">per employee/month</p>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Billing Period Toggle */}
+                  <div className="mb-8">
+                    <label className="block text-sm font-semibold text-mizan-primary mb-4">
+                      Billing Period
+                    </label>
+                    <div className="flex items-center space-x-4 bg-mizan-background p-1 rounded-xl inline-flex">
+                      <button
+                        onClick={() => setBillingPeriod('monthly')}
+                        className={`px-6 py-2 rounded-lg text-sm font-medium transition-all ${
+                          billingPeriod === 'monthly'
+                            ? 'bg-white text-mizan-primary shadow-sm'
+                            : 'text-mizan-secondary hover:text-mizan-primary'
+                        }`}
+                      >
+                        Monthly
+                      </button>
+                      <button
+                        onClick={() => setBillingPeriod('annual')}
+                        className={`px-6 py-2 rounded-lg text-sm font-medium transition-all ${
+                          billingPeriod === 'annual'
+                            ? 'bg-white text-mizan-primary shadow-sm'
+                            : 'text-mizan-secondary hover:text-mizan-primary'
+                        }`}
+                      >
+                        Annual
+                        <span className="ml-2 text-xs text-green-600 font-semibold">Save 17%</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Employee Count */}
+                  <div className="mb-8">
+                    <label className="block text-sm font-semibold text-mizan-primary mb-4">
+                      Number of Employees
+                    </label>
+                    <div className="flex items-center space-x-4">
+                      <input
+                        type="number"
+                        value={employeeCount}
+                        onChange={(e) => setEmployeeCount(Math.max(1, parseInt(e.target.value) || 0))}
+                        min={PRICING_CONFIG[selectedPlan].minEmployees}
+                        max={PRICING_CONFIG[selectedPlan].maxEmployees}
+                        className="flex-1 px-4 py-3 border border-gray-300 rounded-xl text-mizan-primary focus:outline-none focus:ring-2 focus:ring-mizan-gold"
+                      />
+                      <div className="text-sm text-mizan-secondary">
+                        Min: {PRICING_CONFIG[selectedPlan].minEmployees} • Max: {PRICING_CONFIG[selectedPlan].maxEmployees}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Price Summary */}
+                  <div className="bg-gradient-to-br from-mizan-primary to-mizan-gold/80 rounded-xl p-6 text-white mb-8">
+                    <div className="flex items-start justify-between mb-4">
+                      <div>
+                        <p className="text-sm opacity-90">Price per Employee</p>
+                        <p className="text-3xl font-bold">${calculatePrice().pricePerEmployee.toFixed(2)}/mo</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm opacity-90">Total Employees</p>
+                        <p className="text-3xl font-bold">{employeeCount.toLocaleString()}</p>
+                      </div>
+                    </div>
+
+                    <div className="border-t border-white/20 pt-4 mt-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm opacity-90">Monthly Total</span>
+                        <span className="text-lg font-semibold">${calculatePrice().monthlyTotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}/mo</span>
+                      </div>
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm opacity-90">Yearly Total</span>
+                        <span className="text-lg font-semibold">${calculatePrice().yearlyTotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}/year</span>
+                      </div>
+                      {billingPeriod === 'annual' && calculatePrice().savings > 0 && (
+                        <div className="flex items-center justify-between bg-green-500/20 rounded-lg px-3 py-2 mt-3">
+                          <span className="text-sm font-semibold">Annual Savings</span>
+                          <span className="text-lg font-bold">${calculatePrice().savings.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                        </div>
+                      )}
+                      <div className="border-t border-white/20 pt-4 mt-4">
+                        <div className="flex items-center justify-between">
+                          <span className="text-base font-semibold">Billed {billingPeriod === 'annual' ? 'Annually' : 'Monthly'}</span>
+                          <span className="text-2xl font-bold">${calculatePrice().billedNow.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                        </div>
+                        <p className="text-xs opacity-75 mt-2">Includes 14-day free trial</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Generate Button */}
+                  <button
+                    onClick={generatePaymentLink}
+                    disabled={generatingLink}
+                    className="w-full bg-mizan-gold text-white py-4 rounded-xl font-semibold hover:bg-opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                  >
+                    {generatingLink ? (
+                      <>
+                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                        <span>Generating Link...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send size={20} />
+                        <span>Generate Payment Link</span>
+                      </>
+                    )}
+                  </button>
+                </>
+              ) : (
+                <>
+                  {/* Success State */}
+                  <div className="text-center mb-8">
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
+                      <CheckCircle2 size={32} className="text-green-600" />
+                    </div>
+                    <h3 className="text-xl font-bold text-mizan-primary mb-2">
+                      Payment Link Generated!
+                    </h3>
+                    <p className="text-mizan-secondary">
+                      Share this link with {selectedRequest.firstName} to complete the purchase
+                    </p>
+                  </div>
+
+                  {/* Generated URL */}
+                  <div className="bg-mizan-background rounded-xl p-6 mb-6">
+                    <label className="block text-sm font-semibold text-mizan-primary mb-3">
+                      Payment Link
+                    </label>
+                    <div className="flex items-center space-x-3">
+                      <input
+                        type="text"
+                        value={generatedUrl}
+                        readOnly
+                        className="flex-1 px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm text-mizan-primary"
+                      />
+                      <button
+                        onClick={copyToClipboard}
+                        className="px-6 py-3 bg-mizan-gold text-white rounded-lg font-medium hover:bg-opacity-90 transition-all flex items-center space-x-2"
+                      >
+                        {copied ? (
+                          <>
+                            <Check size={18} />
+                            <span>Copied!</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy size={18} />
+                            <span>Copy</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Next Steps */}
+                  <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-6">
+                    <h4 className="text-sm font-semibold text-blue-900 mb-3">Next Steps:</h4>
+                    <ul className="space-y-2 text-sm text-blue-800">
+                      <li className="flex items-start space-x-2">
+                        <span className="text-blue-600 mt-0.5">1.</span>
+                        <span>Send this payment link to {selectedRequest.email}</span>
+                      </li>
+                      <li className="flex items-start space-x-2">
+                        <span className="text-blue-600 mt-0.5">2.</span>
+                        <span>Customer will complete payment via Stripe Checkout</span>
+                      </li>
+                      <li className="flex items-start space-x-2">
+                        <span className="text-blue-600 mt-0.5">3.</span>
+                        <span>Tenant account will be automatically created after payment</span>
+                      </li>
+                      <li className="flex items-start space-x-2">
+                        <span className="text-blue-600 mt-0.5">4.</span>
+                        <span>Customer receives welcome email with login credentials</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  {/* Close Button */}
+                  <button
+                    onClick={closeModal}
+                    className="w-full bg-mizan-primary text-white py-4 rounded-xl font-semibold hover:bg-opacity-90 transition-all"
+                  >
+                    Done
+                  </button>
+                </>
+              )}
+            </div>
           </div>
         </div>
       )}
