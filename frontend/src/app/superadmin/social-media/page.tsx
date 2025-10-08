@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { Loader2, Send, Calendar, BarChart3, FileText } from 'lucide-react';
-import DashboardLayout from '@/components/layout/DashboardLayout';
-import { socialMediaService } from '@/services/api';
+import DashboardLayout from '@/components/dashboard/DashboardLayout';
+import { socialMediaService } from '@/services/dashboard.service';
 
 interface GeneratedContent {
   platform: string;
