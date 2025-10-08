@@ -69,6 +69,10 @@ interface EmployeeAnalysis {
     description: string;
     actionItems: string[];
   }>;
+  reflectionQuestions?: Array<{
+    question: string;
+    purpose: string;
+  }>;
 }
 
 export function IndividualEmployeeView({ tenantId, tenantName }: IndividualEmployeeViewProps) {
@@ -190,15 +194,15 @@ export function IndividualEmployeeView({ tenantId, tenantName }: IndividualEmplo
         },
         alignmentAnalysis: {
           personalVsCurrent: {
-            gap: 100 - (data.report.alignment?.personalVsCurrent || 0),
-            interpretation: data.report.alignment?.gaps?.join('. ') || 'No significant gaps identified',
-            retentionRisk: data.report.alignment?.personalVsCurrent >= 70 ? 'low' :
-                          data.report.alignment?.personalVsCurrent >= 50 ? 'medium' : 'high'
+            gap: 0,
+            interpretation: data.report.cultureAlignment?.interpretation || 'Analysis in progress...',
+            retentionRisk: data.report.cultureAlignment?.alignmentStrength === 'strong' ? 'low' :
+                          data.report.cultureAlignment?.alignmentStrength === 'moderate' ? 'medium' : 'high'
           },
           personalVsDesired: {
             gap: 0,
-            interpretation: data.report.experienceGap?.analysis || 'Analysis in progress...',
-            growthOpportunities: data.report.experienceGap?.priorities || []
+            interpretation: data.report.visionForGrowth?.meaning || 'Analysis in progress...',
+            growthOpportunities: data.report.visionForGrowth?.opportunities || []
           }
         },
         engagementAnalysis: {
@@ -211,12 +215,23 @@ export function IndividualEmployeeView({ tenantId, tenantName }: IndividualEmplo
           interpretation: data.report.recognition?.interpretation || data.report.recognition?.analysis || '',
           impact: data.report.recognition?.impact || ''
         },
-        recommendations: data.report.alignment?.recommendations?.map((rec: any) => ({
-          category: 'Development',
-          title: typeof rec === 'string' ? rec : rec.title,
-          description: typeof rec === 'string' ? rec : rec.description || '',
-          actionItems: typeof rec === 'string' ? [] : rec.actionItems || []
-        })) || []
+        recommendations: (data.report.recommendations || []).map((rec: any) => {
+          if (typeof rec === 'string') {
+            return {
+              category: 'Development',
+              title: 'Recommendation',
+              description: rec,
+              actionItems: []
+            };
+          }
+          return {
+            category: 'Development',
+            title: rec.title || 'Recommendation',
+            description: rec.description || rec,
+            actionItems: rec.actionItems || []
+          };
+        }),
+        reflectionQuestions: data.report.reflectionQuestions || []
       };
 
       setAnalysis(transformedAnalysis);
@@ -524,30 +539,47 @@ export function IndividualEmployeeView({ tenantId, tenantName }: IndividualEmplo
                   <Lightbulb className="w-5 h-5 text-mizan-gold" />
                   <h4 className="text-lg font-semibold font-display text-mizan-primary">Personalized Recommendations</h4>
                 </div>
-                <div className="space-y-4">
-                  {analysis.recommendations.map((rec, idx) => (
-                    <div key={idx} className="p-4 bg-gray-50 rounded-xl border border-gray-200">
-                      <div className="flex items-start space-x-2 mb-2">
-                        <span className="px-2 py-1 bg-mizan-gold/20 text-mizan-gold text-xs font-medium rounded">
-                          {rec.category}
-                        </span>
+                {analysis.recommendations.length > 0 ? (
+                  <div className="space-y-4">
+                    {analysis.recommendations.map((rec, idx) => (
+                      <div key={idx} className="p-4 bg-gray-50 rounded-xl border border-gray-200">
+                        <p className="text-sm text-mizan-secondary italic mb-2">{rec.description}</p>
+                        {rec.actionItems && rec.actionItems.length > 0 && (
+                          <div>
+                            <p className="text-xs font-semibold text-mizan-primary mb-1">Action Items:</p>
+                            <ul className="space-y-1">
+                              {rec.actionItems.map((item, itemIdx) => (
+                                <li key={itemIdx} className="text-xs text-mizan-secondary">✓ {item}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
                       </div>
-                      <h5 className="font-semibold text-mizan-primary mb-2">{rec.title}</h5>
-                      <p className="text-sm text-mizan-secondary mb-3">{rec.description}</p>
-                      {rec.actionItems.length > 0 && (
-                        <div>
-                          <p className="text-xs font-semibold text-mizan-primary mb-1">Action Items:</p>
-                          <ul className="space-y-1">
-                            {rec.actionItems.map((item, itemIdx) => (
-                              <li key={itemIdx} className="text-xs text-mizan-secondary">✓ {item}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-mizan-secondary">No recommendations available yet.</p>
+                )}
               </div>
+
+              {/* Reflection Questions (Barrett-style) */}
+              {analysis.reflectionQuestions && analysis.reflectionQuestions.length > 0 && (
+                <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                  <div className="flex items-center space-x-2 mb-4">
+                    <Target className="w-5 h-5 text-mizan-gold" />
+                    <h4 className="text-lg font-semibold font-display text-mizan-primary">Reflection Questions</h4>
+                  </div>
+                  <p className="text-sm text-mizan-secondary mb-4">Take time to reflect on these questions to deepen your self-awareness and cultural contribution.</p>
+                  <div className="space-y-4">
+                    {analysis.reflectionQuestions.map((q, idx) => (
+                      <div key={idx} className="p-4 bg-gradient-to-br from-mizan-gold/5 to-mizan-primary/5 rounded-xl border border-mizan-gold/20">
+                        <p className="font-semibold text-mizan-primary mb-2">{idx + 1}. {q.question}</p>
+                        <p className="text-xs text-mizan-secondary italic">{q.purpose}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           ) : null}
         </div>
