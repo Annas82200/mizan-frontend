@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import DashboardLayout from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { Mail, Phone, Building2, Users, Calendar, DollarSign, CheckCircle2, XCircle, Clock, Send } from 'lucide-react';
 
 interface DemoRequest {
