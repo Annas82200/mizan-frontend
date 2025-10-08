@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { Loader2, Send, Calendar, BarChart3, FileText } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Loader2, Send, Calendar, BarChart3, FileText, Clock } from 'lucide-react';
 import { socialMediaService } from '@/services/dashboard.service';
 
 interface GeneratedContent {
@@ -16,6 +16,13 @@ interface GeneratedContent {
   };
 }
 
+interface BufferProfile {
+  id: string;
+  service: string;
+  formatted_service: string;
+  formatted_username: string;
+}
+
 export default function SocialMediaPage() {
   const [platform, setPlatform] = useState<string>('linkedin');
   const [contentPillar, setContentPillar] = useState<string>('framework-education');
@@ -24,6 +31,13 @@ export default function SocialMediaPage() {
   const [generating, setGenerating] = useState(false);
   const [generatedContent, setGeneratedContent] = useState<GeneratedContent | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  // Buffer integration state
+  const [bufferProfiles, setBufferProfiles] = useState<BufferProfile[]>([]);
+  const [selectedProfiles, setSelectedProfiles] = useState<string[]>([]);
+  const [scheduledTime, setScheduledTime] = useState<string>('');
+  const [scheduling, setScheduling] = useState(false);
+  const [scheduleSuccess, setScheduleSuccess] = useState<string | null>(null);
 
   // Weekly batch state
   const [weekNumber, setWeekNumber] = useState<number>(1);
@@ -102,6 +116,55 @@ export default function SocialMediaPage() {
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
+  };
+
+  // Load Buffer profiles on mount
+  useEffect(() => {
+    loadBufferProfiles();
+  }, []);
+
+  const loadBufferProfiles = async () => {
+    try {
+      const response = await socialMediaService.getBufferProfiles();
+      if (response.success) {
+        setBufferProfiles(response.data);
+      }
+    } catch (err: any) {
+      console.error('Failed to load Buffer profiles:', err);
+    }
+  };
+
+  const handleScheduleToBuffer = async () => {
+    if (!generatedContent || selectedProfiles.length === 0) {
+      setError('Please generate content and select at least one profile');
+      return;
+    }
+
+    setScheduling(true);
+    setError(null);
+    setScheduleSuccess(null);
+
+    try {
+      const fullContent = `${generatedContent.content}\n\n${generatedContent.hashtags.map(tag => `#${tag}`).join(' ')}`;
+
+      const response = await socialMediaService.scheduleToBuffer({
+        content: fullContent,
+        profileIds: selectedProfiles,
+        scheduledAt: scheduledTime || undefined
+      });
+
+      if (response.success) {
+        setScheduleSuccess(response.data.message);
+        setSelectedProfiles([]);
+        setScheduledTime('');
+      } else {
+        setError(response.error || 'Failed to schedule to Buffer');
+      }
+    } catch (err: any) {
+      setError(err.message || 'An error occurred');
+    } finally {
+      setScheduling(false);
+    }
   };
 
   return (
@@ -300,6 +363,83 @@ export default function SocialMediaPage() {
                     {generatedContent.schedulingRecommendation.dayOfWeek} at{' '}
                     {generatedContent.schedulingRecommendation.timeOfDay}
                   </p>
+                </div>
+              )}
+
+              {/* Buffer Scheduling */}
+              {bufferProfiles.length > 0 && (
+                <div className="mt-6 p-4 bg-mizan-gold bg-opacity-5 rounded-lg border-2 border-mizan-gold">
+                  <div className="flex items-center space-x-2 mb-4">
+                    <Clock className="w-5 h-5 text-mizan-gold" />
+                    <h5 className="text-sm font-semibold text-mizan-primary">Schedule to Buffer</h5>
+                  </div>
+
+                  {/* Profile Selection */}
+                  <div className="mb-4">
+                    <label className="block text-sm font-semibold text-mizan-primary mb-2">
+                      Select Profiles to Post To:
+                    </label>
+                    <div className="space-y-2">
+                      {bufferProfiles.map((profile) => (
+                        <label key={profile.id} className="flex items-center space-x-2 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={selectedProfiles.includes(profile.id)}
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                setSelectedProfiles([...selectedProfiles, profile.id]);
+                              } else {
+                                setSelectedProfiles(selectedProfiles.filter(id => id !== profile.id));
+                              }
+                            }}
+                            className="rounded border-gray-300 text-mizan-gold focus:ring-mizan-gold"
+                          />
+                          <span className="text-sm text-mizan-secondary">
+                            {profile.formatted_service} - {profile.formatted_username}
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Schedule Time */}
+                  <div className="mb-4">
+                    <label className="block text-sm font-semibold text-mizan-primary mb-2">
+                      Schedule Time (optional - leave blank to add to queue):
+                    </label>
+                    <input
+                      type="datetime-local"
+                      value={scheduledTime}
+                      onChange={(e) => setScheduledTime(e.target.value)}
+                      className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-mizan-gold focus:outline-none"
+                    />
+                  </div>
+
+                  {/* Schedule Button */}
+                  <button
+                    onClick={handleScheduleToBuffer}
+                    disabled={scheduling || selectedProfiles.length === 0}
+                    className="w-full bg-mizan-gold text-white px-6 py-3 rounded-lg font-semibold hover:bg-opacity-90 disabled:bg-gray-300 disabled:cursor-not-allowed smooth-transition flex items-center justify-center space-x-2"
+                  >
+                    {scheduling ? (
+                      <>
+                        <Loader2 size={20} className="animate-spin" />
+                        <span>Scheduling...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Calendar size={20} />
+                        <span>Schedule to Buffer</span>
+                      </>
+                    )}
+                  </button>
+
+                  {/* Success Message */}
+                  {scheduleSuccess && (
+                    <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg text-green-700 text-sm">
+                      ✓ {scheduleSuccess}
+                    </div>
+                  )}
                 </div>
               )}
             </div>

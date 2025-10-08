@@ -281,4 +281,35 @@ export const socialMediaService = {
     const response = await apiClient.get('/api/social-media/strategy');
     return response.data;
   },
+
+  // Buffer Integration
+  async scheduleToBuffer(data: {
+    content: string;
+    profileIds: string[];
+    scheduledAt?: string;
+    mediaUrl?: string;
+  }) {
+    const response = await apiClient.post('/api/social-media/schedule-to-buffer', data);
+    return response.data;
+  },
+
+  async getBufferProfiles() {
+    const response = await apiClient.get('/api/social-media/buffer/profiles');
+    return response.data;
+  },
+
+  async getBufferPendingPosts(profileId: string) {
+    const response = await apiClient.get(`/api/social-media/buffer/pending/${profileId}`);
+    return response.data;
+  },
+
+  async deleteBufferPost(postId: string) {
+    const response = await apiClient.delete(`/api/social-media/buffer/post/${postId}`);
+    return response.data;
+  },
+
+  async getBufferAnalytics(postId: string) {
+    const response = await apiClient.get(`/api/social-media/buffer/analytics/${postId}`);
+    return response.data;
+  },
 };
