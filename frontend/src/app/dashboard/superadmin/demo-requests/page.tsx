@@ -441,7 +441,6 @@ export default function DemoRequestsPage() {
             </div>
           )}
         </div>
-      </div>
 
       {/* Payment Link Modal */}
       {showPaymentModal && selectedRequest && (
