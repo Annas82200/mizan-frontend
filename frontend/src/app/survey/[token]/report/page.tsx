@@ -119,13 +119,6 @@ export default function SurveyReportPage() {
           <div className="bg-white rounded-2xl p-8 shadow-lg">
             <h2 className="text-2xl font-bold text-mizan-primary mb-6">Overall Summary</h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-              <div className="text-center p-4 bg-mizan-gold/10 rounded-xl">
-                <p className="text-sm text-mizan-secondary mb-1">Cultural Fit</p>
-                <p className="text-2xl font-bold text-mizan-primary">{report.overallSummary.culturalFit}</p>
-              </div>
-            </div>
-
             {report.overallSummary.keyStrengths && report.overallSummary.keyStrengths.length > 0 && (
               <div className="mb-6">
                 <h3 className="font-semibold text-mizan-primary mb-3">Your Key Strengths</h3>
