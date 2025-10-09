@@ -10,7 +10,7 @@ echo ""
 # Configuration
 API_URL="https://mizan-backend-production.up.railway.app"
 FRONTEND_URL="https://www.mizan.work"
-TEST_EMAIL="your-email@gmail.com"  # CHANGE THIS TO YOUR EMAIL
+TEST_EMAIL="annas.dahrouj@gmail.com"  # CHANGE THIS TO YOUR EMAIL
 
 # Colors
 GREEN='\033[0;32m'
