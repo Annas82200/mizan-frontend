@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { CheckCircle2, TrendingUp, AlertCircle, Loader2, RefreshCw } from 'lucide-react';
+import { FrameworkIntro } from '@/components/culture/FrameworkIntro';
 
 export default function SurveyReportPage() {
   const params = useParams();
@@ -11,6 +12,7 @@ export default function SurveyReportPage() {
   const [report, setReport] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<'pending' | 'completed'>('pending');
+  const [showFrameworkIntro, setShowFrameworkIntro] = useState(true);
 
   const fetchReport = async () => {
     try {
@@ -85,6 +87,15 @@ export default function SurveyReportPage() {
             {error || 'Unable to load your culture analysis report.'}
           </p>
         </div>
+      </div>
+    );
+  }
+
+  // Show framework intro before the report
+  if (showFrameworkIntro) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-mizan-primary/5 to-mizan-gold/5 p-4 md:p-8">
+        <FrameworkIntro onContinue={() => setShowFrameworkIntro(false)} />
       </div>
     );
   }
