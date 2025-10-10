@@ -77,7 +77,7 @@ export function ConversationalBOT({
   const startConversation = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/skills/profile-bot/start`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/skills/profile/start-conversation`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -98,11 +98,11 @@ export function ConversationalBOT({
 
       setMessages([{
         role: 'assistant',
-        content: data.message,
+        content: data.conversation?.message || data.message,
         timestamp: new Date()
       }]);
-      setSuggestions(data.suggestions || []);
-      setProfileCompletion(existingProfile?.completionPercentage || 0);
+      setSuggestions(data.conversation?.suggestions || data.suggestions || []);
+      setProfileCompletion(data.profileStatus?.completionPercentage || existingProfile?.completionPercentage || 0);
     } catch (error) {
       console.error('Failed to start conversation:', error);
       setMessages([{
@@ -135,15 +135,13 @@ export function ConversationalBOT({
     setLoading(true);
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/skills/profile-bot/message`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/skills/profile/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('mizan_auth_token')}`
         },
         body: JSON.stringify({
-          employeeId,
-          tenantId,
           message: textToSend,
           conversationHistory: messages.map(m => ({ role: m.role, message: m.content }))
         })
@@ -164,10 +162,15 @@ export function ConversationalBOT({
       setMessages(prev => [...prev, assistantMessage]);
       setSuggestions(data.suggestions || []);
 
-      if (data.profileUpdate) {
-        setProfileCompletion(data.profileUpdate.completionPercentage || profileCompletion);
+      if (data.extractedData) {
+        // Profile was updated with extracted data
+        const completionPercentage = calculateCompletion(data.extractedData);
+        setProfileCompletion(completionPercentage);
         if (onProfileUpdate) {
-          onProfileUpdate(data.profileUpdate);
+          onProfileUpdate({
+            ...data.extractedData,
+            completionPercentage
+          });
         }
       }
     } catch (error) {
@@ -188,6 +191,17 @@ export function ConversationalBOT({
       e.preventDefault();
       sendMessage();
     }
+  };
+
+  const calculateCompletion = (extractedData: any): number => {
+    const sections = ['currentExperience', 'education', 'technicalSkills', 'softSkills', 'certifications', 'projects', 'languages'];
+    let completed = 0;
+    sections.forEach(section => {
+      if (extractedData[section] && Array.isArray(extractedData[section]) && extractedData[section].length > 0) {
+        completed++;
+      }
+    });
+    return Math.round((completed / sections.length) * 100);
   };
 
   const getSectionIcon = (section?: string) => {
