@@ -555,17 +555,19 @@ export default function SkillsAnalysisPage() {
                     <h4 className="text-lg font-semibold text-mizan-primary mb-2">{rec.title}</h4>
                     <p className="text-sm text-mizan-secondary mb-4">{rec.description}</p>
 
-                    <div className="space-y-2 mb-4">
-                      <p className="text-sm font-semibold text-mizan-primary">Action Items:</p>
-                      <ul className="space-y-2">
-                        {rec.actionItems.map((item, itemIdx) => (
-                          <li key={itemIdx} className="flex items-start space-x-2 text-sm text-mizan-secondary">
-                            <CheckCircle2 className="w-4 h-4 text-mizan-gold flex-shrink-0 mt-0.5" />
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    {rec.actionItems && rec.actionItems.length > 0 && (
+                      <div className="space-y-2 mb-4">
+                        <p className="text-sm font-semibold text-mizan-primary">Action Items:</p>
+                        <ul className="space-y-2">
+                          {rec.actionItems.map((item, itemIdx) => (
+                            <li key={itemIdx} className="flex items-start space-x-2 text-sm text-mizan-secondary">
+                              <CheckCircle2 className="w-4 h-4 text-mizan-gold flex-shrink-0 mt-0.5" />
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
 
                     {(rec.estimatedCost || rec.estimatedTime || rec.expectedROI) && (
                       <div className="grid grid-cols-3 gap-3 pt-4 border-t border-gray-200">
