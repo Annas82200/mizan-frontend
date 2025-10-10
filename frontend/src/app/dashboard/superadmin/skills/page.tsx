@@ -17,9 +17,13 @@ import {
   Download,
   RefreshCw,
   ArrowUpRight,
-  ArrowDownRight
+  ArrowDownRight,
+  MessageCircle,
+  UserPlus
 } from 'lucide-react';
 import { TenantSelector } from '@/components/dashboard';
+import { ConversationalBOT } from '@/components/skills/ConversationalBOT';
+import { SkillsFrameworkIntro } from '@/components/skills/SkillsFrameworkIntro';
 
 interface SkillGap {
   skill: string;
@@ -67,11 +71,15 @@ interface Tenant {
   userCount?: number;
 }
 
+type ViewMode = 'analysis' | 'profile-builder';
+
 export default function SkillsAnalysisPage() {
   const [selectedTenant, setSelectedTenant] = useState<Tenant | null>(null);
+  const [viewMode, setViewMode] = useState<ViewMode>('analysis');
   const [analyzing, setAnalyzing] = useState(false);
   const [results, setResults] = useState<SkillsAnalysisOutput | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [showFrameworkIntro, setShowFrameworkIntro] = useState(false);
 
   const handleAnalyze = async () => {
     if (!selectedTenant) {
@@ -147,13 +155,22 @@ export default function SkillsAnalysisPage() {
     }
   };
 
+  // Show framework intro if requested and results exist
+  if (showFrameworkIntro && results) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-mizan-primary/5 to-mizan-gold/5 p-4 md:p-8">
+        <SkillsFrameworkIntro onContinue={() => setShowFrameworkIntro(false)} />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8 pb-8">
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold text-mizan-primary mb-2">Skills Analysis</h1>
         <p className="text-mizan-secondary">
-          Analyze skill gaps, identify training needs, and optimize talent allocation
+          Analyze skill gaps, build employee profiles, and optimize talent allocation
         </p>
       </div>
 
@@ -172,97 +189,166 @@ export default function SkillsAnalysisPage() {
         />
       </div>
 
-      {/* Info Card */}
-      {selectedTenant && !results && (
-        <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-6 border border-blue-200">
-          <div className="flex items-start space-x-3">
-            <Award className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
-            <div className="flex-1">
-              <h3 className="font-semibold text-blue-900 mb-2">About Skills Analysis</h3>
-              <p className="text-sm text-blue-700 mb-3">
-                Our AI-powered skills analysis uses employee data from your CSV upload to:
-              </p>
-              <ul className="space-y-2 text-sm text-blue-700">
-                <li className="flex items-start space-x-2">
-                  <CheckCircle2 className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
-                  <span>Identify critical skill gaps across your organization</span>
-                </li>
-                <li className="flex items-start space-x-2">
-                  <CheckCircle2 className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
-                  <span>Detect underutilized skills and reallocation opportunities</span>
-                </li>
-                <li className="flex items-start space-x-2">
-                  <CheckCircle2 className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
-                  <span>Generate prioritized recommendations for training and hiring</span>
-                </li>
-                <li className="flex items-start space-x-2">
-                  <CheckCircle2 className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
-                  <span>Align skills inventory with strategic objectives</span>
-                </li>
-              </ul>
-            </div>
+      {/* Tab Navigation */}
+      {selectedTenant && (
+        <div className="bg-white rounded-2xl p-2 shadow-sm border border-gray-100">
+          <div className="flex space-x-2">
+            <button
+              onClick={() => setViewMode('analysis')}
+              className={`flex-1 px-6 py-3 rounded-xl font-medium transition-all duration-400 flex items-center justify-center space-x-2 ${
+                viewMode === 'analysis'
+                  ? 'bg-mizan-gold text-white shadow-md'
+                  : 'text-mizan-secondary hover:bg-gray-50'
+              }`}
+            >
+              <BarChart3 className="w-5 h-5" />
+              <span>Skills Gap Analysis</span>
+            </button>
+            <button
+              onClick={() => setViewMode('profile-builder')}
+              className={`flex-1 px-6 py-3 rounded-xl font-medium transition-all duration-400 flex items-center justify-center space-x-2 ${
+                viewMode === 'profile-builder'
+                  ? 'bg-mizan-gold text-white shadow-md'
+                  : 'text-mizan-secondary hover:bg-gray-50'
+              }`}
+            >
+              <MessageCircle className="w-5 h-5" />
+              <span>AI Profile Builder</span>
+            </button>
           </div>
         </div>
       )}
 
-      {/* Analyze Button */}
-      {selectedTenant && !results && (
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-          {error && (
-            <div className="mb-4 bg-red-50 border border-red-200 rounded-xl p-4 flex items-start space-x-3">
-              <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-              <div>
-                <p className="text-sm font-medium text-red-900 mb-1">Error</p>
-                <p className="text-sm text-red-700">{error}</p>
+      {/* Profile Builder View */}
+      {selectedTenant && viewMode === 'profile-builder' && (
+        <div className="space-y-6">
+          <ConversationalBOT
+            employeeId="demo-employee"
+            tenantId={selectedTenant.id}
+            onProfileUpdate={(profileData) => {
+              console.log('Profile updated:', profileData);
+            }}
+          />
+        </div>
+      )}
+
+      {/* Skills Analysis View */}
+      {selectedTenant && viewMode === 'analysis' && (
+        <>
+          {/* Info Card */}
+          {!results && (
+            <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-6 border border-blue-200">
+              <div className="flex items-start space-x-3">
+                <Award className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
+                <div className="flex-1">
+                  <h3 className="font-semibold text-blue-900 mb-2">About Skills Analysis</h3>
+                  <p className="text-sm text-blue-700 mb-3">
+                    Our AI-powered skills analysis uses 7 frameworks and multi-AI consensus to:
+                  </p>
+                  <ul className="space-y-2 text-sm text-blue-700">
+                    <li className="flex items-start space-x-2">
+                      <CheckCircle2 className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
+                      <span>Identify critical skill gaps across your organization (O*NET, SFIA)</span>
+                    </li>
+                    <li className="flex items-start space-x-2">
+                      <CheckCircle2 className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
+                      <span>Detect underutilized skills and reallocation opportunities</span>
+                    </li>
+                    <li className="flex items-start space-x-2">
+                      <CheckCircle2 className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
+                      <span>Generate personalized training plans (70-20-10 Learning Model)</span>
+                    </li>
+                    <li className="flex items-start space-x-2">
+                      <CheckCircle2 className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
+                      <span>Align skills with market demand (LinkedIn Skills Genome)</span>
+                    </li>
+                    <li className="flex items-start space-x-2">
+                      <CheckCircle2 className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
+                      <span>Measure soft skills and EQ for leadership readiness</span>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           )}
 
-          <button
-            onClick={handleAnalyze}
-            disabled={analyzing}
-            className="w-full px-6 py-4 bg-mizan-gold text-white rounded-xl hover:bg-mizan-gold/90 transition-all duration-400 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl font-semibold"
-          >
-            {analyzing ? (
-              <>
-                <Loader2 className="w-5 h-5 animate-spin" />
-                <span>Analyzing Skills Matrix...</span>
-              </>
-            ) : (
-              <>
-                <BarChart3 className="w-5 h-5" />
-                <span>Run Skills Analysis</span>
-              </>
-            )}
-          </button>
-        </div>
-      )}
+          {/* Analyze Button */}
+          {!results && (
+            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+              {error && (
+                <div className="mb-4 bg-red-50 border border-red-200 rounded-xl p-4 flex items-start space-x-3">
+                  <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-sm font-medium text-red-900 mb-1">Error</p>
+                    <p className="text-sm text-red-700">{error}</p>
+                  </div>
+                </div>
+              )}
 
-      {/* Results */}
-      {results && (
-        <div className="space-y-6">
-          {/* Overall Coverage */}
-          <div className={`bg-white rounded-2xl p-8 shadow-sm border-2 ${getCoverageColor(results.overallCoverage).bg}`}>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-mizan-secondary text-sm font-medium mb-1">Overall Skills Coverage</p>
-                <h2 className={`text-5xl font-bold ${getCoverageColor(results.overallCoverage).text}`}>
-                  {results.overallCoverage}%
-                </h2>
-                <p className={`text-sm mt-2 ${getCoverageColor(results.overallCoverage).text}`}>
-                  {getCoverageColor(results.overallCoverage).label}
-                </p>
-              </div>
-              <div className="text-center">
-                <Award className={`w-16 h-16 ${getCoverageColor(results.overallCoverage).text} mb-2`} />
-                <div className="flex items-center space-x-2">
-                  <span className={`text-xs font-medium ${getCoverageColor(results.overallCoverage).text}`}>
-                    {results.skillGaps.length} gaps • {results.skillSurplus.length} surplus
-                  </span>
+              <button
+                onClick={handleAnalyze}
+                disabled={analyzing}
+                className="w-full px-6 py-4 bg-mizan-gold text-white rounded-xl hover:bg-mizan-gold/90 transition-all duration-400 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl font-semibold"
+              >
+                {analyzing ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <span>Analyzing Skills Matrix...</span>
+                  </>
+                ) : (
+                  <>
+                    <BarChart3 className="w-5 h-5" />
+                    <span>Run Skills Analysis</span>
+                  </>
+                )}
+              </button>
+            </div>
+          )}
+
+          {/* Results */}
+          {results && (
+            <div className="space-y-6">
+              {/* Learn About Frameworks Button */}
+              <div className="bg-gradient-to-r from-mizan-gold/10 to-mizan-background rounded-xl p-4 border border-mizan-gold/20">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <BookOpen className="w-6 h-6 text-mizan-gold" />
+                    <div>
+                      <h3 className="font-semibold text-mizan-primary">Want to understand how we analyzed your skills?</h3>
+                      <p className="text-sm text-mizan-secondary">Learn about the 7 AI frameworks powering this analysis</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setShowFrameworkIntro(true)}
+                    className="px-4 py-2 bg-mizan-gold text-white rounded-lg hover:bg-mizan-gold/90 transition-all duration-400 font-medium text-sm"
+                  >
+                    Learn More
+                  </button>
                 </div>
               </div>
-            </div>
-          </div>
+
+              {/* Overall Coverage */}
+              <div className={`bg-white rounded-2xl p-8 shadow-sm border-2 ${getCoverageColor(results.overallCoverage).bg}`}>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-mizan-secondary text-sm font-medium mb-1">Overall Skills Coverage</p>
+                    <h2 className={`text-5xl font-bold ${getCoverageColor(results.overallCoverage).text}`}>
+                      {results.overallCoverage}%
+                    </h2>
+                    <p className={`text-sm mt-2 ${getCoverageColor(results.overallCoverage).text}`}>
+                      {getCoverageColor(results.overallCoverage).label}
+                    </p>
+                  </div>
+                  <div className="text-center">
+                    <Award className={`w-16 h-16 ${getCoverageColor(results.overallCoverage).text} mb-2`} />
+                    <div className="flex items-center space-x-2">
+                      <span className={`text-xs font-medium ${getCoverageColor(results.overallCoverage).text}`}>
+                        {results.skillGaps.length} gaps • {results.skillSurplus.length} surplus
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
           {/* Quick Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -509,33 +595,35 @@ export default function SkillsAnalysisPage() {
             </div>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex justify-end space-x-3">
-            <button
-              onClick={() => {
-                const dataStr = JSON.stringify(results, null, 2);
-                const dataBlob = new Blob([dataStr], { type: 'application/json' });
-                const url = URL.createObjectURL(dataBlob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = `skills-analysis-${selectedTenant?.name}-${new Date().toISOString().split('T')[0]}.json`;
-                link.click();
-              }}
-              className="px-6 py-3 border-2 border-mizan-primary text-mizan-primary rounded-xl hover:bg-mizan-primary hover:text-white transition-all duration-400 flex items-center space-x-2"
-            >
-              <Download className="w-5 h-5" />
-              <span className="font-medium">Export Results</span>
-            </button>
+              {/* Action Buttons */}
+              <div className="flex justify-end space-x-3">
+                <button
+                  onClick={() => {
+                    const dataStr = JSON.stringify(results, null, 2);
+                    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                    const url = URL.createObjectURL(dataBlob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `skills-analysis-${selectedTenant?.name}-${new Date().toISOString().split('T')[0]}.json`;
+                    link.click();
+                  }}
+                  className="px-6 py-3 border-2 border-mizan-primary text-mizan-primary rounded-xl hover:bg-mizan-primary hover:text-white transition-all duration-400 flex items-center space-x-2"
+                >
+                  <Download className="w-5 h-5" />
+                  <span className="font-medium">Export Results</span>
+                </button>
 
-            <button
-              onClick={() => setResults(null)}
-              className="px-6 py-3 bg-mizan-gold text-white rounded-xl hover:bg-mizan-gold/90 transition-all duration-400 flex items-center space-x-2"
-            >
-              <RefreshCw className="w-5 h-5" />
-              <span className="font-medium">Run New Analysis</span>
-            </button>
-          </div>
-        </div>
+                <button
+                  onClick={() => setResults(null)}
+                  className="px-6 py-3 bg-mizan-gold text-white rounded-xl hover:bg-mizan-gold/90 transition-all duration-400 flex items-center space-x-2"
+                >
+                  <RefreshCw className="w-5 h-5" />
+                  <span className="font-medium">Run New Analysis</span>
+                </button>
+              </div>
+            </div>
+          )}
+        </>
       )}
 
       {/* Empty State */}
