@@ -1,20 +1,51 @@
-markdown# MIZAN MULTI-AGENT SYSTEM - AGENT CONTEXT
+# MIZAN MULTI-AGENT SYSTEM - AGENT CONTEXT (Enhanced)
 
 > **CRITICAL:** This context must be included in EVERY agent prompt to ensure accurate analysis and fixes.
 
 ---
 
-## 🏗️ PROJECT OVERVIEW
+## 🗄️ PROJECT OVERVIEW
 
 **Project Name:** Mizan Platform  
 **Type:** Multi-tenant SaaS HR Analytics Platform  
 **Purpose:** AI-powered organizational analysis (Culture, Structure, Skills, Performance, Hiring)  
 **Stage:** Active development → Production deployment  
-**Quality Standard:** Zero placeholders, zero mock data, production-ready only  
+**Quality Standard:** Zero placeholders, zero mock data, production-ready only
+
+### 🚀 DEPLOYMENT ARCHITECTURE
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    PRODUCTION SETUP                      │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  Frontend (Next.js 14)  ──────▶  Vercel                │
+│  └─ Automatic deployments from main branch              │
+│  └─ Edge functions for API routes                       │
+│  └─ CDN for static assets                               │
+│                                                          │
+│  Backend (Express + PostgreSQL)  ──────▶  Railway       │
+│  └─ Node.js runtime                                     │
+│  └─ PostgreSQL database                                 │
+│  └─ Automatic deployments from main branch              │
+│                                                          │
+│  Environment Variables:                                  │
+│  ├─ Vercel: NEXT_PUBLIC_API_URL, AUTH_SECRET            │
+│  └─ Railway: DATABASE_URL, JWT_SECRET, API_KEYS         │
+│                                                          │
+└─────────────────────────────────────────────────────────┘
+```
+
+**Deployment URLs:**
+- Frontend: `https://mizan-platform.vercel.app` (production)
+- Backend API: `https://mizan-api.railway.app` (production)
+- Development: `localhost:3000` (frontend), `localhost:5000` (backend)
 
 ---
 
 ## 📁 FILE STRUCTURE (EXACT PATHS REQUIRED!)
+
+```
 Mizan-1/                          ← PROJECT ROOT (all paths relative to this)
 │
 ├── frontend/                     ← Next.js 14 Frontend Application
@@ -40,7 +71,8 @@ Mizan-1/                          ← PROJECT ROOT (all paths relative to this)
 │   │   │   ├── db/              ← (if exists) Frontend DB utilities
 │   │   │   └── utils/
 │   │   └── types/               ← Frontend TypeScript interfaces
-│   └── public/                  ← Static assets
+│   ├── public/                  ← Static assets
+│   └── vercel.json              ← Vercel deployment config
 │
 ├── backend/                      ← Express.js API Server
 │   ├── routes/                   ← API endpoint handlers
@@ -90,9 +122,11 @@ Mizan-1/                          ← PROJECT ROOT (all paths relative to this)
 │   │   ├── security-checker.js  ← Agent 4
 │   │   └── final-consensus.js   ← Agent 5
 │   ├── audit-violations.js
-│   └── apply-fixes.js
+│   ├── apply-fixes.js
+│   └── orchestrator.js          ← Main automation script
 │
 └── .audit-config.json            ← Audit configuration
+```
 
 **⚠️ CRITICAL PATH RULES:**
 - All file paths MUST be relative to `Mizan-1/` (project root)
@@ -103,9 +137,204 @@ Mizan-1/                          ← PROJECT ROOT (all paths relative to this)
 
 ---
 
+## 🎨 DESIGN GUIDELINES (MANDATORY)
+
+### Color Palette
+
+**Primary Colors:**
+```css
+--primary: #2563eb        /* Blue - Primary actions */
+--primary-dark: #1e40af   /* Darker blue for hover */
+--primary-light: #3b82f6  /* Lighter blue for backgrounds */
+
+--secondary: #7c3aed      /* Purple - Secondary actions */
+--accent: #06b6d4         /* Cyan - Accent elements */
+
+--success: #10b981        /* Green - Success states */
+--warning: #f59e0b        /* Orange - Warning states */
+--error: #ef4444          /* Red - Error states */
+--info: #3b82f6           /* Blue - Info states */
+```
+
+**Neutral Colors:**
+```css
+--background: #ffffff     /* Main background */
+--surface: #f9fafb        /* Card/surface backgrounds */
+--border: #e5e7eb         /* Borders and dividers */
+
+--text-primary: #111827   /* Primary text */
+--text-secondary: #6b7280 /* Secondary text */
+--text-disabled: #9ca3af  /* Disabled text */
+```
+
+### Typography
+
+**Font Family:**
+```css
+font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+```
+
+**Font Sizes:**
+```css
+--text-xs: 0.75rem    /* 12px */
+--text-sm: 0.875rem   /* 14px */
+--text-base: 1rem     /* 16px */
+--text-lg: 1.125rem   /* 18px */
+--text-xl: 1.25rem    /* 20px */
+--text-2xl: 1.5rem    /* 24px */
+--text-3xl: 1.875rem  /* 30px */
+--text-4xl: 2.25rem   /* 36px */
+```
+
+**Font Weights:**
+```css
+--font-normal: 400
+--font-medium: 500
+--font-semibold: 600
+--font-bold: 700
+```
+
+### Spacing System
+
+Use Tailwind's spacing scale (4px base unit):
+```
+p-2  = 8px    margin: 0.5rem
+p-4  = 16px   margin: 1rem
+p-6  = 24px   margin: 1.5rem
+p-8  = 32px   margin: 2rem
+p-12 = 48px   margin: 3rem
+```
+
+### Component Patterns
+
+**Button Styles:**
+```tsx
+// Primary Button
+<button className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark 
+                   transition-colors font-medium shadow-sm">
+  Primary Action
+</button>
+
+// Secondary Button
+<button className="px-4 py-2 bg-surface text-text-primary rounded-lg hover:bg-gray-100 
+                   transition-colors font-medium border border-border">
+  Secondary Action
+</button>
+
+// Danger Button
+<button className="px-4 py-2 bg-error text-white rounded-lg hover:bg-red-600 
+                   transition-colors font-medium shadow-sm">
+  Delete
+</button>
+```
+
+**Card Styles:**
+```tsx
+<div className="bg-surface border border-border rounded-xl p-6 shadow-sm hover:shadow-md 
+                transition-shadow">
+  {/* Card content */}
+</div>
+```
+
+**Input Styles:**
+```tsx
+<input 
+  type="text"
+  className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 
+             focus:ring-primary focus:border-primary outline-none transition-all"
+  placeholder="Enter text..."
+/>
+```
+
+**Modal/Dialog:**
+```tsx
+<div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
+  <div className="bg-background rounded-2xl p-6 max-w-md w-full mx-4 shadow-2xl">
+    {/* Modal content */}
+  </div>
+</div>
+```
+
+### Dashboard Layout Pattern
+
+```tsx
+// Dashboard Page Structure
+export default function DashboardPage() {
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="border-b border-border bg-surface sticky top-0 z-40">
+        <div className="container mx-auto px-4 py-4">
+          {/* Header content */}
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="container mx-auto px-4 py-8">
+        {/* Page content */}
+      </main>
+    </div>
+  );
+}
+```
+
+### Responsive Breakpoints
+
+```css
+sm: 640px   /* Mobile landscape */
+md: 768px   /* Tablet */
+lg: 1024px  /* Desktop */
+xl: 1280px  /* Large desktop */
+2xl: 1536px /* Extra large desktop */
+```
+
+**Usage:**
+```tsx
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  {/* Responsive grid */}
+</div>
+```
+
+### Animation Guidelines
+
+**Transitions:**
+```css
+transition-all duration-200 ease-in-out  /* Quick interactions */
+transition-all duration-300 ease-in-out  /* Standard */
+transition-all duration-500 ease-in-out  /* Slow, emphasized */
+```
+
+**Hover Effects:**
+```tsx
+<button className="hover:scale-105 transition-transform">
+  Hover Me
+</button>
+```
+
+### Accessibility Requirements
+
+1. **Color Contrast:** Minimum 4.5:1 for normal text, 3:1 for large text
+2. **Focus States:** Always visible, use `focus:ring-2 focus:ring-primary`
+3. **ARIA Labels:** Include for icons and non-text elements
+4. **Keyboard Navigation:** All interactive elements must be keyboard accessible
+
+**Example:**
+```tsx
+<button
+  aria-label="Close dialog"
+  className="focus:ring-2 focus:ring-primary focus:outline-none"
+>
+  <XIcon className="w-5 h-5" />
+</button>
+```
+
+---
+
 ## 🛠️ TECH STACK (MANDATORY)
 
 ### **Frontend Stack:**
+
+```
 Framework:    Next.js 14 (App Router ONLY, NOT Pages Router)
 Language:     TypeScript 5.x (strict mode enabled)
 Styling:      Tailwind CSS v3
@@ -113,6 +342,8 @@ State:        React Hooks (useState, useEffect, useReducer)
 Data Fetch:   Native fetch() with async/await
 Forms:        React Hook Form (where applicable)
 UI Library:   Shadcn/ui components (optional)
+Deployment:   Vercel (automatic deployments)
+```
 
 **Frontend Example:**
 ```typescript
@@ -124,16 +355,24 @@ export default async function Page() {
 
 // ❌ WRONG - Pages Router (OLD)
 export async function getServerSideProps() { }
-Backend Stack:
+```
+
+### **Backend Stack:**
+
+```
 Runtime:      Node.js 20.x
 Framework:    Express.js 4.x
 Language:     TypeScript 5.x (strict mode enabled)
-Database:     PostgreSQL 15+
+Database:     PostgreSQL 15+ (hosted on Railway)
 ORM:          Drizzle ORM (ONLY - NOT Prisma, NOT TypeORM)
 Auth:         JWT-based custom authentication
 AI Providers: Anthropic (Claude 4), Google (Gemini 2.5), OpenAI (GPT-4)
-Backend Example:
-typescript// ✅ CORRECT Drizzle ORM pattern
+Deployment:   Railway (automatic deployments)
+```
+
+**Backend Example:**
+```typescript
+// ✅ CORRECT Drizzle ORM pattern
 import { db } from '../db/connection';
 import { users, tenants } from '../db/schema';
 import { eq, and } from 'drizzle-orm';
@@ -151,10 +390,16 @@ const userData = await db.query('SELECT * FROM users');
 
 // ❌ WRONG - Prisma
 const userData = await prisma.users.findMany();
+```
 
-🎯 MIZAN DEVELOPMENT RULES (ABSOLUTE REQUIREMENTS)
-Rule #1: NO MOCK DATA (CRITICAL)
-typescript// ❌ FORBIDDEN - Mock data
+---
+
+## 🎯 MIZAN DEVELOPMENT RULES (ABSOLUTE REQUIREMENTS)
+
+### Rule #1: NO MOCK DATA (CRITICAL)
+
+```typescript
+// ❌ FORBIDDEN - Mock data
 const mockUsers = [
   { id: 1, name: 'Test User', email: 'test@example.com' }
 ];
@@ -163,9 +408,14 @@ const mockPerformanceAnalysis = { score: 85, trend: 'improving' };
 // ✅ REQUIRED - Real database queries
 const users = await db.select().from(usersTable);
 const analysis = await performanceAgent.analyze(userId);
-Why: Mock data creates false sense of completion, hides integration issues, fails in production.
-Rule #2: NO PLACEHOLDERS (CRITICAL)
-typescript// ❌ FORBIDDEN - Any form of placeholder
+```
+
+**Why:** Mock data creates false sense of completion, hides integration issues, fails in production.
+
+### Rule #2: NO PLACEHOLDERS (CRITICAL)
+
+```typescript
+// ❌ FORBIDDEN - Any form of placeholder
 // TODO: Implement this later
 // FIXME: Need to add validation here
 // NOTE: Replace with real implementation
@@ -176,9 +426,14 @@ const result = await validateUserInput(input);
 if (!result.valid) {
   throw new Error(result.error);
 }
-Why: Placeholders indicate incomplete work, create technical debt, cause production failures.
-Rule #3: NO 'any' TYPES (STRICT)
-typescript// ❌ FORBIDDEN - 'any' type usage
+```
+
+**Why:** Placeholders indicate incomplete work, create technical debt, cause production failures.
+
+### Rule #3: NO 'any' TYPES (STRICT)
+
+```typescript
+// ❌ FORBIDDEN - 'any' type usage
 function processData(data: any) { }
 const handleClick = (event: any) => { }
 let userData: any;
@@ -194,9 +449,14 @@ interface UserData {
 function processData(data: UserData) { }
 const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => { }
 let userData: UserData | null;
-Why: TypeScript safety, IDE autocomplete, catch bugs at compile time.
-Rule #4: DRIZZLE ORM ONLY (MANDATORY)
-typescript// ❌ FORBIDDEN - Raw SQL queries
+```
+
+**Why:** TypeScript safety, IDE autocomplete, catch bugs at compile time.
+
+### Rule #4: DRIZZLE ORM ONLY (MANDATORY)
+
+```typescript
+// ❌ FORBIDDEN - Raw SQL queries
 await db.query('SELECT * FROM users WHERE id = $1', [userId]);
 await db.execute(`INSERT INTO users VALUES (...)`)
 
@@ -211,9 +471,14 @@ import { eq } from 'drizzle-orm';
 
 await db.select().from(users).where(eq(users.id, userId));
 await db.insert(users).values({ name: 'John' });
-Why: Consistent pattern, type safety, SQL injection protection, project standard.
-Rule #5: Next.js 14 App Router (MANDATORY)
-typescript// ❌ FORBIDDEN - Pages Router patterns
+```
+
+**Why:** Consistent pattern, type safety, SQL injection protection, project standard.
+
+### Rule #5: Next.js 14 App Router (MANDATORY)
+
+```typescript
+// ❌ FORBIDDEN - Pages Router patterns
 export async function getServerSideProps(context) { }
 export async function getStaticProps() { }
 export async function getStaticPaths() { }
@@ -230,11 +495,18 @@ export async function GET(request: NextRequest) {
   const users = await db.select().from(usersTable);
   return Response.json(users);
 }
-Why: Project uses App Router, different patterns, improved performance.
+```
 
-🤖 MIZAN THREE-ENGINE AI ARCHITECTURE (CORE PATTERN)
-CRITICAL: ALL AI agents in the platform MUST follow this architecture pattern!
-typescriptimport { BaseAgent } from '../shared/BaseAgent';
+**Why:** Project uses App Router, different patterns, improved performance.
+
+---
+
+## 🤖 MIZAN THREE-ENGINE AI ARCHITECTURE (CORE PATTERN)
+
+**CRITICAL:** ALL AI agents in the platform MUST follow this architecture pattern!
+
+```typescript
+import { BaseAgent } from '../shared/BaseAgent';
 import { KnowledgeEngine } from '../../engines/KnowledgeEngine';
 import { DataEngine } from '../../engines/DataEngine';
 import { ReasoningEngine } from '../../engines/ReasoningEngine';
@@ -281,24 +553,28 @@ export class CultureAgent extends BaseAgent {
     };
   }
 }
-Why this matters:
+```
 
-Separation of concerns (Knowledge, Data, Reasoning)
-Consistent pattern across ALL AI modules
-Follows Mizan's core architectural philosophy
-Enables framework-driven AI analysis
-Makes agents testable and maintainable
+**Why this matters:**
+- Separation of concerns (Knowledge, Data, Reasoning)
+- Consistent pattern across ALL AI modules
+- Follows Mizan's core architectural philosophy
+- Enables framework-driven AI analysis
+- Makes agents testable and maintainable
 
-When to use:
+**When to use:**
+- ✅ Any agent in `backend/services/agents/`
+- ✅ Performance, Culture, Structure, Skills, Hiring modules
+- ✅ Any AI-powered analysis or recommendation system
 
-✅ Any agent in backend/services/agents/
-✅ Performance, Culture, Structure, Skills, Hiring modules
-✅ Any AI-powered analysis or recommendation system
+---
 
+## 🔒 SECURITY & PRODUCTION REQUIREMENTS
 
-🔒 SECURITY & PRODUCTION REQUIREMENTS
-Authentication & Authorization:
-typescript// ✅ REQUIRED - Check auth on every protected endpoint
+### Authentication & Authorization
+
+```typescript
+// ✅ REQUIRED - Check auth on every protected endpoint
 export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions);
   
@@ -313,8 +589,12 @@ export async function GET(request: NextRequest) {
   
   // Continue with logic...
 }
-Input Validation:
-typescript// ✅ REQUIRED - Validate all user inputs
+```
+
+### Input Validation
+
+```typescript
+// ✅ REQUIRED - Validate all user inputs
 import { z } from 'zod';
 
 const userSchema = z.object({
@@ -324,8 +604,12 @@ const userSchema = z.object({
 });
 
 const validated = userSchema.parse(userInput); // Throws if invalid
-Error Handling:
-typescript// ✅ REQUIRED - Proper error handling pattern
+```
+
+### Error Handling
+
+```typescript
+// ✅ REQUIRED - Proper error handling pattern
 try {
   const result = await someOperation();
   return { success: true, data: result };
@@ -338,8 +622,12 @@ try {
     error: error instanceof Error ? error.message : 'Operation failed'
   };
 }
-SQL Injection Prevention:
-typescript// ✅ SAFE - Drizzle ORM with parameterized queries
+```
+
+### SQL Injection Prevention
+
+```typescript
+// ✅ SAFE - Drizzle ORM with parameterized queries
 await db
   .select()
   .from(users)
@@ -347,10 +635,16 @@ await db
 
 // ❌ UNSAFE - String interpolation
 await db.query(`SELECT * FROM users WHERE email = '${userInput}'`);
+```
 
-📊 MULTI-TENANT ARCHITECTURE (CRITICAL!)
-EVERY database query MUST include tenant isolation:
-typescript// ❌ FORBIDDEN - No tenant filtering (security vulnerability!)
+---
+
+## 📊 MULTI-TENANT ARCHITECTURE (CRITICAL!)
+
+**EVERY database query MUST include tenant isolation:**
+
+```typescript
+// ❌ FORBIDDEN - No tenant filtering (security vulnerability!)
 const users = await db.select().from(usersTable);
 const entries = await db.select().from(entriesTable);
 
@@ -368,199 +662,306 @@ const entries = await db
   .select()
   .from(entriesTable)
   .where(eq(entriesTable.tenantId, tenantId));
-Why: Multi-tenant SaaS - must prevent cross-tenant data access (critical security requirement).
-Exceptions: Only superadmin queries that explicitly need cross-tenant data.
+```
 
-🎓 AGENT-SPECIFIC INSTRUCTIONS
-Agent 1: Code Analyzer (Gemini)
-Your Role: Detect and analyze violations
-Checklist:
+**Why:** Multi-tenant SaaS - must prevent cross-tenant data access (critical security requirement).
 
- Is this a real violation or false positive?
- What's the actual impact on production?
- Consider file location and project context
- Check if it violates Mizan rules
- Provide confidence score (0.0-1.0)
- Suggest fix approach (high-level)
+**Exceptions:** Only superadmin queries that explicitly need cross-tenant data.
 
-Output Format:
-json{
-  "isRealViolation": true,
-  "severity": "CRITICAL|HIGH|MEDIUM|LOW",
-  "impact": "Description of production impact",
-  "fixApproach": "High-level approach to fix",
-  "confidence": 0.95,
-  "reasoning": "Why this is/isn't a violation"
-}
+---
 
-Agent 2: Fix Generator (Claude)
-Your Role: Generate complete, production-ready fixes
-Checklist:
+## 🎓 CURSOR INTEGRATION INSTRUCTIONS
 
- Generate COMPLETE code (no TODOs, no placeholders)
- Use correct file paths from project root
- Follow Mizan Three-Engine pattern when applicable
- Include ALL necessary files (types, schemas, routes)
- Use Drizzle ORM for database operations
- Add proper error handling
- Include authentication/authorization
- Add tenant isolation where needed
- Write strict TypeScript (no 'any' types)
+### How to Make Cursor Follow This Document
 
-Output Format:
-json{
-  "fixType": "simple|complex",
-  "primaryFix": {
-    "description": "What this fix does",
-    "code": "The actual code to replace the violation",
-    "filePath": "frontend/src/app/dashboard/page.tsx",
-    "startLine": 92,
-    "endLine": 92,
-    "additionalFiles": [
-      {
-        "path": "frontend/src/types/performance.ts",
-        "content": "Complete file content here",
-        "purpose": "Why this file is needed"
-      }
-    ]
-  },
-  "testingInstructions": "How to test this fix",
-  "potentialRisks": ["Risk 1", "Risk 2"],
-  "confidence": 0.92
-}
+**Step 1: Create a .cursorrules file in your project root**
 
-Agent 3: Mizan Validator (Gemini)
-Your Role: Validate fixes against Mizan rules
-Checklist:
+```bash
+# In your Mizan-1/ directory, create:
+touch .cursorrules
+```
 
- No mock data in the fix?
- No placeholders or TODOs?
- No 'any' types used?
- Uses Drizzle ORM correctly?
- Follows Next.js App Router patterns?
- Implements Three-Engine Architecture (if AI agent)?
- Includes proper error handling?
- Has authentication/authorization?
- Includes tenant isolation?
- File paths are correct?
+**Step 2: Add this content to .cursorrules:**
 
-Output Format:
-json{
-  "passes": true,
-  "mizanCompliance": {
-    "realDatabaseQueries": true,
-    "noPlaceholders": true,
-    "strictTypes": true,
-    "properErrorHandling": true,
-    "mizanArchitecture": true
-  },
-  "violations": [],
-  "strengths": ["What's good"],
-  "concerns": ["What needs attention"],
-  "recommendation": "APPROVE|REJECT|NEEDS_REVISION"
-}
+```
+# Mizan Platform Development Rules
 
-Agent 4: Security Checker (GPT-4)
-Your Role: Security and production readiness audit
-Checklist:
+## CRITICAL: Read AGENT_CONTEXT.md First
+Before making ANY code changes, read scripts/agents/AGENT_CONTEXT.md
 
- Authentication/authorization proper?
- Input validation present?
- SQL injection risks?
- XSS vulnerabilities?
- DoS attack vectors?
- Rate limiting needed?
- Sensitive data exposure?
- Error messages safe?
- Production-ready?
+## Mandatory Requirements
+1. NO MOCK DATA - Always use real database queries with Drizzle ORM
+2. NO PLACEHOLDERS - No TODOs, FIXMEs, or incomplete implementations
+3. NO 'any' TYPES - Use strict TypeScript types always
+4. DRIZZLE ORM ONLY - Never use Prisma, TypeORM, or raw SQL
+5. NEXT.JS APP ROUTER - Use App Router patterns, not Pages Router
 
-Output Format:
-json{
-  "securityRating": "critical|high|medium|low",
-  "vulnerabilities": [
+## Design Guidelines
+- Follow Tailwind CSS patterns from AGENT_CONTEXT.md
+- Use design tokens: primary (#2563eb), success (#10b981), error (#ef4444)
+- Maintain responsive design: sm:640px, md:768px, lg:1024px
+- Include proper focus states for accessibility
+
+## Architecture
+- AI Agents MUST use Three-Engine Architecture (Knowledge, Data, Reasoning)
+- Always include tenant isolation in database queries
+- Add authentication checks on all protected routes
+- Use proper error handling with try/catch
+
+## File Paths
+- Use paths relative to project root: frontend/src/..., backend/...
+- Frontend files in frontend/src/
+- Backend files in backend/
+
+## Deployment
+- Frontend deploys to Vercel automatically
+- Backend deploys to Railway automatically
+- Test locally before pushing
+
+## Before Committing
+Run the multi-agent audit system:
+```bash
+node scripts/orchestrator.js --dry-run
+```
+
+Refer to scripts/agents/AGENT_CONTEXT.md for complete guidelines.
+```
+
+**Step 3: Enable Cursor Rules**
+
+1. Open Cursor Settings (Cmd/Ctrl + ,)
+2. Search for "rules"
+3. Ensure "Cursor Rules" is enabled
+4. Cursor will now automatically read .cursorrules before making suggestions
+
+---
+
+## 🤖 AUTOMATIC ORCHESTRATOR SETUP
+
+### Setting Up Automatic Agent Runs
+
+**Option 1: Git Pre-Commit Hook (Recommended)**
+
+Create `.git/hooks/pre-commit`:
+
+```bash
+#!/bin/bash
+
+echo "🔍 Running Mizan Multi-Agent Audit..."
+
+# Run the orchestrator in dry-run mode
+node scripts/orchestrator.js --dry-run
+
+# Capture exit code
+EXIT_CODE=$?
+
+if [ $EXIT_CODE -ne 0 ]; then
+  echo ""
+  echo "❌ Audit found violations!"
+  echo "📋 Check scripts/FINAL_REPORT.md for details"
+  echo ""
+  echo "Options:"
+  echo "  1. Fix violations manually and commit again"
+  echo "  2. Run: node scripts/orchestrator.js (auto-fix mode)"
+  echo "  3. Skip audit: git commit --no-verify"
+  echo ""
+  exit 1
+fi
+
+echo "✅ Audit passed! Proceeding with commit..."
+exit 0
+```
+
+Make it executable:
+```bash
+chmod +x .git/hooks/pre-commit
+```
+
+**Option 2: GitHub Actions Workflow**
+
+Create `.github/workflows/mizan-audit.yml`:
+
+```yaml
+name: Mizan Multi-Agent Audit
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+  push:
+    branches: [ main, develop ]
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          
+      - name: Install dependencies
+        run: |
+          cd scripts
+          npm install
+          
+      - name: Run Multi-Agent Audit
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          node scripts/orchestrator.js --dry-run
+          
+      - name: Upload Audit Report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: audit-report
+          path: scripts/FINAL_REPORT.md
+```
+
+**Option 3: VS Code Task (For Manual Trigger)**
+
+Create `.vscode/tasks.json`:
+
+```json
+{
+  "version": "2.0.0",
+  "tasks": [
     {
-      "severity": "high",
-      "category": "dos",
-      "issue": "Description",
-      "recommendation": "How to fix"
+      "label": "Run Mizan Audit",
+      "type": "shell",
+      "command": "node scripts/orchestrator.js --dry-run",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Run Mizan Auto-Fix",
+      "type": "shell",
+      "command": "node scripts/orchestrator.js",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
     }
-  ],
-  "productionReadiness": {
-    "ready": false,
-    "blockers": ["Issue 1"],
-    "improvements": ["Suggestion 1"]
-  },
-  "recommendation": "APPROVE|NEEDS_SECURITY_FIX|REJECT"
+  ]
 }
+```
 
-Agent 5: Final Consensus (Claude)
-Your Role: Make final decision based on all agent inputs
-Decision Criteria:
+Then run with: `Cmd/Ctrl + Shift + B`
 
-Agent 3 (Validator) must approve (Mizan compliance)
-Agent 4 (Security) must not find CRITICAL vulnerabilities
-Agent 2 (Fix) must have confidence > 0.85
-Consider trade-offs: security vs. progress vs. perfection
+---
 
-Output Format:
-json{
-  "finalDecision": "APPROVE|REJECT",
-  "confidence": 0.88,
-  "reasoning": "Why this decision was made",
-  "agentAgreement": {
-    "consensus": true,
-    "agent3": "agree",
-    "agent4": "agree"
-  },
-  "riskAssessment": "low|medium|high",
-  "conditions": ["Condition 1 for approval"],
-  "summary": "One-line summary"
-}
+## 📝 WORKFLOW EXAMPLES
 
-🚫 COMMON MISTAKES TO AVOID
-❌ Wrong✅ CorrectWhyapp/dashboard/page.tsxfrontend/src/app/dashboard/page.tsxIncorrect path from rootroutes/entry.tsbackend/routes/entry.tsMissing backend/ prefixawait prisma.users.findMany()await db.select().from(users)Wrong ORM - must use Drizzleexport async function getServerSideProps()export default async function Page()Wrong Next.js pattern - must use App Routerconst data: any = ...const data: UserData = ...Using 'any' typeconst mockUsers = [...]const users = await db.select().from(users)Mock data forbidden// TODO: ImplementComplete implementationPlaceholders forbiddennew PerformanceAgent() without enginesUse Three-Engine ArchitectureMissing required patternSELECT * FROM usersdb.select().from(users)Raw SQL forbidden
+### Development Workflow with Cursor + Orchestrator
 
-✅ QUALITY CHECKLIST
+```bash
+# 1. Start feature development
+git checkout -b feature/user-profile
+
+# 2. Code in Cursor (following .cursorrules)
+# Cursor will suggest code following Mizan guidelines
+
+# 3. Before committing, run audit
+node scripts/orchestrator.js --dry-run
+
+# 4. Review report
+cat scripts/FINAL_REPORT.md
+
+# 5a. If clean, commit
+git add .
+git commit -m "feat: add user profile page"
+
+# 5b. If violations found, auto-fix
+node scripts/orchestrator.js
+# Review applied fixes
+git add .
+git commit -m "feat: add user profile page"
+
+# 6. Push to deploy
+git push origin feature/user-profile
+# Frontend auto-deploys to Vercel
+# Backend auto-deploys to Railway
+```
+
+---
+
+## 🚫 COMMON MISTAKES TO AVOID
+
+| ❌ Wrong | ✅ Correct | Why |
+|---------|-----------|-----|
+| `app/dashboard/page.tsx` | `frontend/src/app/dashboard/page.tsx` | Incorrect path from root |
+| `routes/entry.ts` | `backend/routes/entry.ts` | Missing backend/ prefix |
+| `await prisma.users.findMany()` | `await db.select().from(users)` | Wrong ORM - must use Drizzle |
+| `export async function getServerSideProps()` | `export default async function Page()` | Wrong Next.js pattern - must use App Router |
+| `const data: any = ...` | `const data: UserData = ...` | Using 'any' type |
+| `const mockUsers = [...]` | `const users = await db.select().from(users)` | Mock data forbidden |
+| `// TODO: Implement` | Complete implementation | Placeholders forbidden |
+| `new PerformanceAgent()` without engines | Use Three-Engine Architecture | Missing required pattern |
+| `SELECT * FROM users` | `db.select().from(users)` | Raw SQL forbidden |
+
+---
+
+## ✅ QUALITY CHECKLIST
+
 Before approving ANY fix, verify:
-File Structure:
 
- Paths relative to project root (Mizan-1/)
- Frontend files in frontend/src/
- Backend files in backend/
+**File Structure:**
+- [ ] Paths relative to project root (Mizan-1/)
+- [ ] Frontend files in `frontend/src/`
+- [ ] Backend files in `backend/`
 
-Mizan Rules:
+**Mizan Rules:**
+- [ ] No mock data
+- [ ] No placeholders/TODOs
+- [ ] No 'any' types
+- [ ] Drizzle ORM only
+- [ ] Next.js App Router patterns
 
- No mock data
- No placeholders/TODOs
- No 'any' types
- Drizzle ORM only
- Next.js App Router patterns
+**Code Quality:**
+- [ ] Proper error handling (try/catch)
+- [ ] Input validation
+- [ ] Authentication/authorization
+- [ ] Tenant isolation
+- [ ] TypeScript strict mode
 
-Code Quality:
+**Design:**
+- [ ] Follows design guidelines (colors, typography, spacing)
+- [ ] Responsive design implemented
+- [ ] Accessibility requirements met
+- [ ] Consistent with existing UI patterns
 
- Proper error handling (try/catch)
- Input validation
- Authentication/authorization
- Tenant isolation
- TypeScript strict mode
+**Architecture:**
+- [ ] Three-Engine pattern (if AI agent)
+- [ ] Follows existing patterns
+- [ ] Production-ready quality
 
-Architecture:
+**Security:**
+- [ ] No SQL injection risks
+- [ ] No XSS vulnerabilities
+- [ ] No sensitive data exposure
+- [ ] Proper rate limiting
 
- Three-Engine pattern (if AI agent)
- Follows existing patterns
- Production-ready quality
+---
 
-Security:
+## 📚 QUICK REFERENCE
 
- No SQL injection risks
- No XSS vulnerabilities
- No sensitive data exposure
- Proper rate limiting
+### Drizzle Query Examples
 
-
-📚 QUICK REFERENCE
-Drizzle Query Examples:
-typescript// SELECT
+```typescript
+// SELECT
 await db.select().from(users);
 await db.select().from(users).where(eq(users.id, userId));
 
@@ -579,8 +980,12 @@ await db
   .from(users)
   .leftJoin(tenants, eq(users.tenantId, tenants.id))
   .where(eq(users.id, userId));
-Next.js App Router Examples:
-typescript// Page Component
+```
+
+### Next.js App Router Examples
+
+```typescript
+// Page Component
 // frontend/src/app/dashboard/page.tsx
 export default async function DashboardPage() {
   const data = await fetchData();
@@ -599,3 +1004,20 @@ export default async function UserPage({ params }: { params: { id: string } }) {
   const user = await fetchUser(params.id);
   return <UserProfile user={user} />;
 }
+```
+
+---
+
+## 🎯 SUMMARY: Key Takeaways
+
+1. **Always read this document** before starting any feature
+2. **Use Cursor with .cursorrules** to get AI assistance that follows Mizan guidelines
+3. **Run orchestrator after features** to automatically check and fix violations
+4. **Follow design guidelines** for consistent UI/UX
+5. **Deploy automatically** via Vercel (frontend) and Railway (backend)
+6. **No mock data, no placeholders, no 'any' types** - production-ready code only
+
+---
+
+*Last Updated: [Current Date]*
+*Version: 2.0 (Enhanced with Cursor Integration)*

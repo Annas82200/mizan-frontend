@@ -1,0 +1,38 @@
+# Mizan Platform Development Rules
+
+## CRITICAL: Read AGENT_CONTEXT.md First
+Before making ANY code changes, read scripts/agents/AGENT_CONTEXT.md
+
+## Mandatory Requirements
+1. NO MOCK DATA - Always use real database queries with Drizzle ORM
+2. NO PLACEHOLDERS - No TODOs, FIXMEs, or incomplete implementations
+3. NO 'any' TYPES - Use strict TypeScript types always
+4. DRIZZLE ORM ONLY - Never use Prisma, TypeORM, or raw SQL
+5. NEXT.JS APP ROUTER - Use App Router patterns, not Pages Router
+
+## Design Guidelines
+- Follow Tailwind CSS patterns from AGENT_CONTEXT.md
+- Use design tokens: primary (#2563eb), success (#10b981), error (#ef4444)
+- Maintain responsive design: sm:640px, md:768px, lg:1024px
+- Include proper focus states for accessibility
+
+## Architecture
+- AI Agents MUST use Three-Engine Architecture (Knowledge, Data, Reasoning)
+- Always include tenant isolation in database queries
+- Add authentication checks on all protected routes
+- Use proper error handling with try/catch
+
+## File Paths
+- Use paths relative to project root: frontend/src/..., backend/...
+- Frontend files in frontend/src/
+- Backend files in backend/
+
+## Deployment
+- Frontend deploys to Vercel automatically
+- Backend deploys to Railway automatically
+- Test locally before pushing
+
+## Before Committing
+Run the multi-agent audit system:
+```bash
+node scripts/orchestrator.js --dry-run
