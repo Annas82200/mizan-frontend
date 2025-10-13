@@ -88,11 +88,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ role, isOpen, onClose }) => {
         icon: <AITrainingIcon className="w-5 h-5" />,
       },
       {
-        label: 'Social Media',
-        href: '/dashboard/superadmin/social-media',
-        icon: <SocialMediaIcon className="w-5 h-5" />,
-      },
-      {
         label: 'Modules',
         href: '#',
         icon: <FrameworkIcon className="w-5 h-5" />,
@@ -108,24 +103,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ role, isOpen, onClose }) => {
             icon: <CultureIcon className="w-4 h-4" />,
           },
           {
-            label: 'Skills',
-            href: '/dashboard/superadmin/skills',
-            icon: <SkillsIcon className="w-4 h-4" />,
-          },
-          {
             label: 'Performance',
             href: '/dashboard/superadmin/performance',
             icon: <PerformanceIcon className="w-4 h-4" />,
-          },
-          {
-            label: 'Hiring',
-            href: '/dashboard/superadmin/hiring',
-            icon: <HiringIcon className="w-4 h-4" />,
-          },
-          {
-            label: 'LXP',
-            href: '/dashboard/superadmin/lxp',
-            icon: <LXPIcon className="w-4 h-4" />,
           },
         ],
       },
@@ -155,26 +135,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ role, isOpen, onClose }) => {
         label: 'Culture',
         href: '/dashboard/admin/culture',
         icon: <CultureIcon className="w-5 h-5" />,
-      },
-      {
-        label: 'Skills',
-        href: '/dashboard/admin/skills',
-        icon: <SkillsIcon className="w-5 h-5" />,
-      },
-      {
-        label: 'Performance',
-        href: '/dashboard/admin/performance',
-        icon: <PerformanceIcon className="w-5 h-5" />,
-      },
-      {
-        label: 'Hiring',
-        href: '/dashboard/admin/hiring',
-        icon: <HiringIcon className="w-5 h-5" />,
-      },
-      {
-        label: 'LXP',
-        href: '/dashboard/admin/lxp',
-        icon: <LXPIcon className="w-5 h-5" />,
       },
       {
         label: 'Team',

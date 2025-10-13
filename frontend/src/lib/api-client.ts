@@ -66,64 +66,12 @@ export const api = {
       apiClient.get(`/api/culture/${tenantId}/reports`),
   },
 
-  // Skills Analysis
-  skills: {
-    analyze: (tenantId: string, data: any) =>
-      apiClient.post(`/api/skills/${tenantId}/analyze`, data),
-    getReport: (tenantId: string, reportId: string) =>
-      apiClient.get(`/api/skills/${tenantId}/reports/${reportId}`),
-    getReports: (tenantId: string) =>
-      apiClient.get(`/api/skills/${tenantId}/reports`),
-  },
-
   // Structure Analysis
   structure: {
     analyze: (tenantId: string, data: any) =>
       apiClient.post(`/api/structure/${tenantId}/analyze`, data),
     getReport: (tenantId: string, reportId: string) =>
       apiClient.get(`/api/structure/${tenantId}/reports/${reportId}`),
-  },
-
-  // Performance
-  performance: {
-    getGoals: (tenantId: string, employeeId: string) =>
-      apiClient.get(`/api/performance/${tenantId}/goals/${employeeId}`),
-    createGoal: (tenantId: string, data: any) =>
-      apiClient.post(`/api/performance/${tenantId}/goals`, data),
-    updateGoalProgress: (tenantId: string, goalId: string, progress: number) =>
-      apiClient.put(`/api/performance/${tenantId}/goals/${goalId}/progress`, { progress }),
-    getReviews: (tenantId: string, employeeId: string) =>
-      apiClient.get(`/api/performance/${tenantId}/reviews/${employeeId}`),
-    createReview: (tenantId: string, data: any) =>
-      apiClient.post(`/api/performance/${tenantId}/reviews`, data),
-  },
-
-  // Hiring
-  hiring: {
-    getRequisitions: (tenantId: string) =>
-      apiClient.get(`/api/hiring/${tenantId}/requisitions`),
-    createRequisition: (tenantId: string, data: any) =>
-      apiClient.post(`/api/hiring/${tenantId}/requisitions`, data),
-    getCandidates: (tenantId: string, requisitionId?: string) =>
-      apiClient.get(`/api/hiring/${tenantId}/candidates`, {
-        params: { requisitionId },
-      }),
-    createCandidate: (tenantId: string, data: any) =>
-      apiClient.post(`/api/hiring/${tenantId}/candidates`, data),
-    assessCandidate: (tenantId: string, candidateId: string, data: any) =>
-      apiClient.post(`/api/hiring/${tenantId}/candidates/${candidateId}/assess`, data),
-  },
-
-  // LXP (Learning)
-  lxp: {
-    getCourses: (tenantId: string) =>
-      apiClient.get(`/api/lxp/${tenantId}/courses`),
-    enrollCourse: (tenantId: string, courseId: string, employeeId: string) =>
-      apiClient.post(`/api/lxp/${tenantId}/enrollments`, { courseId, employeeId }),
-    getEnrollments: (tenantId: string, employeeId: string) =>
-      apiClient.get(`/api/lxp/${tenantId}/enrollments/${employeeId}`),
-    getLearningPaths: (tenantId: string, employeeId: string) =>
-      apiClient.get(`/api/lxp/${tenantId}/learning-paths/${employeeId}`),
   },
 
   // Admin

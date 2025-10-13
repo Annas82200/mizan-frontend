@@ -510,10 +510,10 @@ export default function TenantManagement() {
                       View Culture Analysis
                     </Link>
                     <Link
-                      href={`/dashboard/superadmin/hiring?tenantId=${tenant.id}`}
+                      href={`/dashboard/superadmin/structure?tenantId=${tenant.id}`}
                       className="px-4 py-2 border-2 border-mizan-primary text-mizan-primary rounded-lg hover:bg-mizan-primary hover:text-white transition-all text-sm font-medium"
                     >
-                      Manage Hiring
+                      View Structure Analysis
                     </Link>
                   </div>
                 </div>

@@ -201,17 +201,6 @@ export const employeeService = {
     return response.data;
   },
 
-  // Growth & Skills
-  async getMySkills() {
-    const response = await apiClient.get('/api/employee/skills');
-    return response.data;
-  },
-
-  async getLearningPaths() {
-    const response = await apiClient.get('/api/employee/learning/paths');
-    return response.data;
-  },
-
   // Performance
   async getMyGoals() {
     const response = await apiClient.get('/api/employee/goals');
@@ -251,71 +240,3 @@ export const commonService = {
   },
 };
 
-// ============================================
-// SOCIAL MEDIA SERVICES
-// ============================================
-
-export const socialMediaService = {
-  async generate(data: {
-    platform: string;
-    contentPillar: string;
-    topic: string;
-    targetAudience?: string;
-    includeVisuals?: boolean;
-  }) {
-    // Single post generation with AI takes 20-30 seconds
-    const response = await apiClient.post('/api/social-media/generate', data, {
-      timeout: 60000 // 1 minute
-    });
-    return response.data;
-  },
-
-  async generateBatch(week: number) {
-    // Batch generation takes ~60-90 seconds (3 posts x 3 AI providers each)
-    const response = await apiClient.post('/api/social-media/generate-batch', { week }, {
-      timeout: 180000 // 3 minutes
-    });
-    return response.data;
-  },
-
-  async getTemplates() {
-    const response = await apiClient.get('/api/social-media/templates');
-    return response.data;
-  },
-
-  async getStrategy() {
-    const response = await apiClient.get('/api/social-media/strategy');
-    return response.data;
-  },
-
-  // Buffer Integration
-  async scheduleToBuffer(data: {
-    content: string;
-    profileIds: string[];
-    scheduledAt?: string;
-    mediaUrl?: string;
-  }) {
-    const response = await apiClient.post('/api/social-media/schedule-to-buffer', data);
-    return response.data;
-  },
-
-  async getBufferProfiles() {
-    const response = await apiClient.get('/api/social-media/buffer/profiles');
-    return response.data;
-  },
-
-  async getBufferPendingPosts(profileId: string) {
-    const response = await apiClient.get(`/api/social-media/buffer/pending/${profileId}`);
-    return response.data;
-  },
-
-  async deleteBufferPost(postId: string) {
-    const response = await apiClient.delete(`/api/social-media/buffer/post/${postId}`);
-    return response.data;
-  },
-
-  async getBufferAnalytics(postId: string) {
-    const response = await apiClient.get(`/api/social-media/buffer/analytics/${postId}`);
-    return response.data;
-  },
-};
