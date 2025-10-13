@@ -1,0 +1,232 @@
+[
+  {
+    "violation": {
+      "file": "frontend/src/app/dashboard/superadmin/performance/page.tsx",
+      "line": 92,
+      "content": "// TODO: Replace with real API call when employee selection is ready",
+      "rule": "noPlaceholders",
+      "severity": "error",
+      "message": "Placeholder detected - complete implementation required",
+      "pattern": "// TODO:",
+      "priority": "high"
+    },
+    "agent1Analysis": {
+      "agent": "Gemini 2.5 Flash (Code Analyzer)",
+      "timestamp": "2025-10-12T21:06:56.908Z",
+      "isRealViolation": true,
+      "severity": "HIGH",
+      "impact": "The placeholder indicates that the performance data is not being fetched from a real API endpoint. This means that the data displayed on the Superadmin performance dashboard is likely either static or mock data, which is explicitly forbidden. If not fixed, the dashboard will not accurately reflect the actual performance of employees, making it useless for decision-making and potentially misleading.",
+      "fixApproach": "1. Implement an API endpoint in the backend (backend/routes/performance.ts) that retrieves employee performance data based on employee selection.\n2. Update the frontend component (frontend/src/app/dashboard/superadmin/performance/page.tsx) to call this API endpoint and display the data.\n3. Remove the TODO comment and placeholder.",
+      "confidence": 0.98,
+      "reasoning": "The presence of a 'TODO' comment explicitly violates the 'noPlaceholders' rule. The file is not a test file, and the placeholder suggests incomplete functionality critical for production readiness and accurate data display on a key superadmin dashboard page. The impact is considered high because it directly affects the accuracy and reliability of a core feature of the application.",
+      "suggestedCode": "const performanceData = await fetch('/api/performance').then(r => r.json());"
+    }
+  },
+  {
+    "violation": {
+      "file": "frontend/src/app/survey/[token]/page.tsx",
+      "line": 44,
+      "content": "// TODO: Add token validation endpoint",
+      "rule": "noPlaceholders",
+      "severity": "error",
+      "message": "Placeholder detected - complete implementation required",
+      "pattern": "// TODO:",
+      "priority": "high"
+    },
+    "agent1Analysis": {
+      "agent": "Gemini 2.5 Flash (Code Analyzer)",
+      "timestamp": "2025-10-12T21:07:02.318Z",
+      "isRealViolation": true,
+      "severity": "HIGH",
+      "impact": "Without token validation, the survey can be accessed and submitted without proper authorization, potentially leading to data breaches, skewed survey results, and compromised data integrity. This exposes the system to malicious actors and undermines the reliability of the survey data used for organizational analysis.",
+      "fixApproach": "1. Create a backend API endpoint (`backend/routes/auth.ts` or a new `backend/routes/survey.ts`) to validate the token.  2. In the frontend (`frontend/src/app/survey/[token]/page.tsx`), call this API endpoint to verify the token's validity. 3. Implement error handling to redirect or display an error message if the token is invalid.",
+      "confidence": 0.98,
+      "reasoning": "The `// TODO` comment indicates an incomplete implementation.  Token validation is a crucial security requirement, especially given this application's sensitive HR data. The file path `frontend/src/app/survey/[token]/page.tsx` correctly corresponds to a dynamic route in the Next.js App Router, so the lack of token validation leaves it vulnerable.  This directly violates Mizan Rule #2 (noPlaceholders) and impacts security and data integrity.",
+      "suggestedCode": "Example API route (backend/routes/survey.ts):\ntypescript\nimport { db } from '../db/connection';\nimport { surveys } from '../db/schema';\nimport { eq } from 'drizzle-orm';\n\nexport async function GET(req: Request, { params }: { params: { token: string } }) {\n  const { token } = params;\n  const survey = await db.select().from(surveys).where(eq(surveys.token, token));\n  if (survey.length === 0) {\n    return new Response(JSON.stringify({ valid: false, message: 'Invalid token' }), { status: 401 });\n  }\n  return new Response(JSON.stringify({ valid: true }), { status: 200 });\n}\n"
+    }
+  },
+  {
+    "violation": {
+      "file": "frontend/src/components/dashboard/TenantSelector.tsx",
+      "line": 326,
+      "content": "// TODO: Replace with actual API endpoint when available",
+      "rule": "noPlaceholders",
+      "severity": "error",
+      "message": "Placeholder detected - complete implementation required",
+      "pattern": "// TODO:",
+      "priority": "high"
+    },
+    "agent1Analysis": {
+      "agent": "Gemini 2.5 Flash (Code Analyzer)",
+      "timestamp": "2025-10-12T21:07:06.923Z",
+      "isRealViolation": true,
+      "severity": "HIGH",
+      "impact": "Without replacing the placeholder with a real API endpoint, the TenantSelector component will not be able to dynamically fetch and display tenant data. This will either cause the component to fail entirely, displaying an error, or show incomplete/mock data, leading to incorrect information being presented to the user. In a multi-tenant SaaS platform like Mizan, this is a critical failure, as users will not be able to access the correct tenant-specific data, violating tenant isolation.",
+      "fixApproach": "1. Create a backend API endpoint to retrieve the available tenants for the current user. Ensure the endpoint enforces proper authentication, authorization, and tenant isolation. 2. Update the TenantSelector component to fetch data from the new API endpoint using a fetch request. 3. Handle the response from the API, updating the component's state with the retrieved tenant data.",
+      "confidence": 0.98,
+      "reasoning": "The `// TODO` comment indicates that the implementation is incomplete. Since TenantSelector is crucial for isolating tenants and fetching data, the missing API endpoint makes this a high-priority violation. Without it, the multi-tenant architecture is compromised. This is not a false positive because it directly impacts the core functionality and security of the application. Mock data is not acceptable in production components.",
+      "suggestedCode": "const fetchTenants = async () => {const response = await fetch('/api/tenants'); const data = await response.json(); return data; };"
+    }
+  },
+  {
+    "violation": {
+      "file": "backend/middleware/tenant.ts",
+      "line": 379,
+      "content": "// TODO: Implement actual usage checking logic",
+      "rule": "noPlaceholders",
+      "severity": "error",
+      "message": "Placeholder detected - complete implementation required",
+      "pattern": "// TODO:",
+      "priority": "high"
+    },
+    "agent1Analysis": {
+      "agent": "Gemini 2.5 Flash (Code Analyzer)",
+      "timestamp": "2025-10-12T21:07:12.025Z",
+      "isRealViolation": true,
+      "severity": "HIGH",
+      "impact": "The `// TODO` placeholder in `backend/middleware/tenant.ts` indicates that the usage checking logic for tenants is not fully implemented. This could lead to incorrect tenant identification, data leakage across tenants (a CRITICAL security vulnerability in a multi-tenant SaaS platform), and potential instability in the application if tenant resources are not properly managed. The lack of proper usage checking makes the system vulnerable to unauthorized access and data breaches.",
+      "fixApproach": "1. Implement the actual tenant usage checking logic within the `backend/middleware/tenant.ts` file, replacing the placeholder. This involves defining how tenant usage is tracked (e.g., resource consumption, data storage, number of active users). 2. Integrate this usage checking logic into the middleware pipeline to enforce tenant-specific limits or restrictions. 3. Add thorough logging and monitoring to the usage checking mechanism to track its effectiveness and identify any potential issues.",
+      "confidence": 0.98,
+      "reasoning": "The presence of a `// TODO` comment directly violates Mizan Rule #2: NO PLACEHOLDERS. This is not a false positive. The file `backend/middleware/tenant.ts` is a crucial component of the multi-tenant architecture, and any incomplete implementation poses a serious security risk. Incomplete tenant isolation is a critical production issue. This code is not in a test file, so mock data is not acceptable.",
+      "suggestedCode": "typescript\n// Example implementation (replace with actual logic)\nconst tenantId = req.headers['x-tenant-id'] as string;\nif (!tenantId) {\n  return res.status(400).json({ error: 'Tenant ID missing' });\n}\n\n// Check tenant usage (replace with actual logic)\nconst tenantUsage = await getTenantUsage(tenantId);\nif (tenantUsage.resourceUsage > tenantUsage.resourceLimit) {\n  return res.status(403).json({ error: 'Tenant usage limit exceeded' });\n}\n"
+    }
+  },
+  {
+    "violation": {
+      "file": "backend/routes/entry.ts",
+      "line": 11,
+      "content": "// import { generatePDFReport } from '../services/reports/structure-report.js'; // TODO: Implement",
+      "rule": "noPlaceholders",
+      "severity": "error",
+      "message": "Placeholder detected - complete implementation required",
+      "pattern": "// TODO:",
+      "priority": "high"
+    },
+    "agent1Analysis": {
+      "agent": "Gemini 2.5 Flash (Code Analyzer)",
+      "timestamp": "2025-10-12T21:07:16.346Z",
+      "isRealViolation": true,
+      "severity": "HIGH",
+      "impact": "The commented-out import statement with a 'TODO' indicates that the PDF report generation feature is not fully implemented. This means a core feature is missing, potentially impacting user experience if users expect to generate PDF reports. It also introduces technical debt and a risk of incomplete functionality in production.",
+      "fixApproach": "1. Implement the `generatePDFReport` function in the `backend/services/reports/structure-report.js` file. 2. Uncomment the import statement in `backend/routes/entry.ts`. 3. Integrate the function into a route to trigger the report generation.",
+      "confidence": 0.95,
+      "reasoning": "The 'TODO' comment clearly indicates an incomplete implementation, violating the 'noPlaceholders' rule. The impact is potentially significant as it relates to a report generation feature, which is likely a key functionality of the Mizan platform. The file path is correct and the project structure follows the defined context.",
+      "suggestedCode": "typescript\n// backend/services/reports/structure-report.js\nexport async function generatePDFReport(data: any): Promise<Buffer> {\n  // Implementation here\n  return Buffer.from(''); // Placeholder\n}\n"
+    }
+  },
+  {
+    "violation": {
+      "file": "backend/routes/entry.ts",
+      "line": 152,
+      "content": "// const pdfBuffer = await generatePDFReport(result); // TODO: Implement PDF generation",
+      "rule": "noPlaceholders",
+      "severity": "error",
+      "message": "Placeholder detected - complete implementation required",
+      "pattern": "// TODO:",
+      "priority": "high"
+    },
+    "agent1Analysis": {
+      "agent": "Gemini 2.5 Flash (Code Analyzer)",
+      "timestamp": "2025-10-12T21:07:21.877Z",
+      "isRealViolation": true,
+      "severity": "HIGH",
+      "impact": "The system will not be able to generate PDF reports. This is a core functionality of the platform, so users will be unable to export data in PDF format. This will lead to a bad user experience and potential feature requests from clients.",
+      "fixApproach": "1. Implement the `generatePDFReport` function. 2. Integrate a PDF generation library like `pdfmake` or `jsPDF`. 3. Ensure generated PDFs are properly formatted and contain the necessary data.",
+      "confidence": 0.95,
+      "reasoning": "The `// TODO: Implement PDF generation` comment indicates that the PDF generation functionality is not yet implemented. This violates the noPlaceholders rule. PDF generation is likely a planned feature, and leaving it unimplemented will directly impact the platform's functionality.",
+      "suggestedCode": "typescript\n// backend/services/modules/pdf-generator.ts\nimport * as pdfMake from 'pdfmake/build/pdfmake';\nimport * as pdfFonts from 'pdfmake/build/vfs_fonts';\n\n(pdfMake as any).vfs = pdfFonts.pdfMake.vfs;\n\nexport async function generatePDFReport(data: any): Promise<Buffer> {\n  // Implement PDF generation logic here using pdfMake\n  const documentDefinition = {\n    content: [\n      { text: 'Mizan Report', style: 'header' },\n      { text: JSON.stringify(data), style: 'body' }\n    ],\n    styles: {\n      header: { fontSize: 22, bold: true },\n      body: { fontSize: 12 }\n    }\n  };\n\n  const pdfDoc = pdfMake.createPdfKitDocument(documentDefinition);\n  pdfDoc.end();\n  return new Promise<Buffer>((resolve, reject) => {\n    const chunks: Uint8Array[] = [];\n    pdfDoc.on('data', (chunk: Uint8Array) => chunks.push(chunk));\n    pdfDoc.on('end', () => resolve(Buffer.concat(chunks)));\n    pdfDoc.on('error', reject);\n  });\n}\n\n// backend/routes/entry.ts\nimport { generatePDFReport } from '../services/modules/pdf-generator';\n\n// ... inside your route handler ...\nconst pdfBuffer = await generatePDFReport(result);\n// Now you can send the pdfBuffer as a response\n"
+    }
+  },
+  {
+    "violation": {
+      "file": "backend/routes/modules.ts",
+      "line": 95,
+      "content": "// TODO: Implement talent profiles table",
+      "rule": "noPlaceholders",
+      "severity": "error",
+      "message": "Placeholder detected - complete implementation required",
+      "pattern": "// TODO:",
+      "priority": "high"
+    },
+    "agent1Analysis": {
+      "agent": "Gemini 2.5 Flash (Code Analyzer)",
+      "timestamp": "2025-10-12T21:07:27.404Z",
+      "isRealViolation": true,
+      "severity": "HIGH",
+      "impact": "The placeholder indicates that the talent profiles feature is incomplete. Users will be unable to manage or view talent profiles, leading to a degraded user experience and potentially impacting core HR analytics functionality if talent profiles are essential to it. This will directly violate Mizan Rule #2: NO PLACEHOLDERS.",
+      "fixApproach": "1. Define the database schema for the talent profiles table using Drizzle ORM in backend/db/schema. 2. Implement the necessary API endpoints in backend/routes/modules.ts to create, read, update, and delete talent profiles. 3. Implement the corresponding frontend components to interact with these API endpoints, ensuring data is fetched and displayed correctly.",
+      "confidence": 0.95,
+      "reasoning": "The presence of a '// TODO:' comment clearly indicates incomplete implementation, directly violating Mizan's 'noPlaceholders' rule.  Since `backend/routes/modules.ts` is a route file, it should contain complete API logic and database interactions. The 'talent profiles table' strongly suggests this is a core feature that needs proper database schema and logic.",
+      "suggestedCode": "// TODO: Implement talent profiles table\n// SHOULD BE REPLACED with Drizzle schema definition and API endpoint logic\nimport { talentProfiles } from '../db/schema';\n\n// Example of creating a talent profile (adjust as needed)\nexport const createTalentProfile = async (req: Request, res: Response) => {\n  // ... validation ...\n  const newTalentProfile = await db.insert(talentProfiles).values({\n    // ... data from request ...\n  });\n  return res.status(201).json(newTalentProfile);\n};"
+    }
+  },
+  {
+    "violation": {
+      "file": "backend/routes/modules.ts",
+      "line": 106,
+      "content": "// TODO: Implement succession plans table",
+      "rule": "noPlaceholders",
+      "severity": "error",
+      "message": "Placeholder detected - complete implementation required",
+      "pattern": "// TODO:",
+      "priority": "high"
+    },
+    "agent1Analysis": {
+      "agent": "Gemini 2.5 Flash (Code Analyzer)",
+      "timestamp": "2025-10-12T21:07:31.876Z",
+      "isRealViolation": true,
+      "severity": "HIGH",
+      "impact": "The `// TODO: Implement succession plans table` placeholder indicates that the functionality related to succession plans is incomplete. This can lead to missing features in the platform, potentially impacting HR analytics and decision-making capabilities. The absence of a complete implementation means that succession planning features are either non-existent or implemented with mock data, leading to inaccurate results and compromising the platform's overall value proposition.",
+      "fixApproach": "1. Define the database schema for the succession plans table in `backend/db/schema/`. 2. Implement the necessary Drizzle ORM queries in `backend/routes/modules.ts` to interact with the succession plans table. 3. Create the corresponding API endpoint for retrieving succession plans data and integrate with the frontend.",
+      "confidence": 0.98,
+      "reasoning": "The placeholder comment `// TODO: Implement succession plans table` directly violates the 'noPlaceholders' rule. The comment clearly indicates an incomplete implementation, and the associated functionality related to succession plans is not yet implemented. The file path `backend/routes/modules.ts` confirms this is a production code file and not a test file, so mock data or placeholders are strictly forbidden.",
+      "suggestedCode": "import { successionPlans } from '../db/schema';\n// Sample database query - adjust based on actual requirements\nconst successionPlansData = await db.select().from(successionPlans).where(eq(successionPlans.tenantId, tenantId));"
+    }
+  },
+  {
+    "violation": {
+      "file": "backend/routes/modules.ts",
+      "line": 117,
+      "content": "// TODO: Implement compensation data table",
+      "rule": "noPlaceholders",
+      "severity": "error",
+      "message": "Placeholder detected - complete implementation required",
+      "pattern": "// TODO:",
+      "priority": "high"
+    },
+    "agent1Analysis": {
+      "agent": "Gemini 2.5 Flash (Code Analyzer)",
+      "timestamp": "2025-10-12T21:07:36.929Z",
+      "isRealViolation": true,
+      "severity": "HIGH",
+      "impact": "The placeholder indicates that a key piece of functionality, compensation data handling, is incomplete. This could lead to incorrect calculations, missing data, and compliance issues in production. Without a proper compensation data table, the system's ability to perform accurate HR analytics would be severely limited. The application could produce incorrect reports and fail to provide critical insights, negatively impacting users.",
+      "fixApproach": "1. Design and create the 'compensation data table' within the Drizzle ORM schema (backend/db/schema/). 2. Implement the necessary routes and services to handle CRUD operations for compensation data (backend/routes/modules.ts and backend/services/modules/). 3. Ensure proper integration with the frontend to display and manage the compensation data (frontend/src/components/ or similar).",
+      "confidence": 0.95,
+      "reasoning": "The 'TODO' comment clearly indicates an incomplete implementation, violating the 'noPlaceholders' Mizan rule. This is a backend route, which deals with crucial application logic.  The lack of a compensation data table directly impacts the functionality of the module, impacting production. The file path is valid.",
+      "suggestedCode": "typescript\n// backend/db/schema/compensation.ts\nimport { pgTable, serial, text, integer, timestamp } from 'drizzle-orm/pg-core';\n\nexport const compensation = pgTable('compensation', {\n  id: serial('id').primaryKey(),\n  userId: text('user_id').notNull(),\n  salary: integer('salary').notNull(),\n  bonus: integer('bonus'),\n  equity: text('equity'),\n  effectiveDate: timestamp('effective_date').defaultNow(),\n  tenantId: text('tenant_id').notNull(),\n});\n"
+    }
+  },
+  {
+    "violation": {
+      "file": "backend/routes/modules.ts",
+      "line": 136,
+      "content": "// TODO: Implement moduleExecutions table",
+      "rule": "noPlaceholders",
+      "severity": "error",
+      "message": "Placeholder detected - complete implementation required",
+      "pattern": "// TODO:",
+      "priority": "high"
+    },
+    "agent1Analysis": {
+      "agent": "Gemini 2.5 Flash (Code Analyzer)",
+      "timestamp": "2025-10-12T21:07:42.515Z",
+      "isRealViolation": true,
+      "severity": "HIGH",
+      "impact": "The `// TODO: Implement moduleExecutions table` placeholder in `backend/routes/modules.ts` indicates an incomplete feature. Without implementing the `moduleExecutions` table, the application may not properly track or manage module executions, leading to potential data loss, inaccurate analytics, or incomplete feature functionality. This directly violates the 'noPlaceholders' Mizan rule and can cause production failures. Failure to implement the module executions table can also affect auditability and traceability of module usages.",
+      "fixApproach": "1. Define the schema for the `moduleExecutions` table in `backend/db/schema`. Include fields such as `id`, `module_id`, `tenant_id`, `start_time`, `end_time`, `status`, etc. 2. Implement the logic to interact with the `moduleExecutions` table using Drizzle ORM in `backend/services/modules`. This includes creating, reading, updating, and deleting records in the table. 3. Remove the `// TODO` comment and replace it with the actual implementation that saves module execution data to the database.",
+      "confidence": 0.95,
+      "reasoning": "The presence of a `// TODO` comment in a production-level file clearly indicates an incomplete implementation, which is a direct violation of Mizan's 'noPlaceholders' rule. The file path `backend/routes/modules.ts` suggests that this code is part of a core API endpoint, making the impact potentially significant. Without a `moduleExecutions` table, key operational data regarding module usage will not be stored, severely impacting reporting capabilities and potentially leading to unexpected behavior and security vulnerabilities.",
+      "suggestedCode": "typescript\n// backend/db/schema/moduleExecutions.ts\nimport { integer, pgTable, serial, timestamp, varchar } from 'drizzle-orm/pg-core';\nimport { tenants } from './tenants';\n\nexport const moduleExecutions = pgTable('module_executions', {\n id: serial('id').primaryKey(),\n moduleId: integer('module_id').notNull(),\n tenantId: varchar('tenant_id', { length: 256 }).references(() => tenants.id).notNull(),\n startTime: timestamp('start_time').defaultNow(),\n endTime: timestamp('end_time'),\n status: varchar('status', { length: 256 }),\n});\n"
+    }
+  }
+]

@@ -1,0 +1,99 @@
+{
+  "projectName": "Mizan Platform",
+  "version": "1.0.0",
+  "rules": {
+    "noMockData": {
+      "enabled": true,
+      "severity": "error",
+      "patterns": [
+        "const mockData\\s*=",
+        "const mock[A-Z]\\w*\\s*=",
+        "let mockData\\s*=",
+        "let mock[A-Z]\\w*\\s*="
+      ],
+      "message": "Mock data detected - use real database queries",
+      "priority": "critical"
+    },
+    "noPlaceholders": {
+      "enabled": true,
+      "severity": "error",
+      "patterns": [
+        "// TODO:",
+        "// FIXME:",
+        "// IMPLEMENT THIS",
+        "// PLACEHOLDER"
+      ],
+      "message": "Placeholder detected - complete implementation required",
+      "priority": "high"
+    },
+    "noAnyType": {
+      "enabled": true,
+      "severity": "warning",
+      "patterns": [
+        ":\\s*any(?![\\w])",
+        "as any(?![\\w])"
+      ],
+      "message": "'any' type detected - use strict TypeScript types",
+      "priority": "low",
+      "exceptions": [
+        "catch.*: any",
+        "error.*: any",
+        "err.*: any"
+      ]
+    },
+    "noCommentedCode": {
+      "enabled": true,
+      "severity": "warning",
+      "patterns": [
+        "^\\s*//\\s*const\\s+\\w+\\s*=",
+        "^\\s*//\\s*function\\s+\\w+",
+        "^\\s*//\\s*export\\s+(const|function|class)",
+        "^\\s*//\\s*import\\s+.*from"
+      ],
+      "message": "Commented code detected - delete or uncomment",
+      "priority": "medium"
+    },
+    "noDeletedFunctionality": {
+      "enabled": true,
+      "severity": "error",
+      "patterns": [
+        "// DELETED:",
+        "// REMOVED:",
+        "// Disabled because",
+        "// Commenting out because"
+      ],
+      "message": "Deleted functionality detected - fix instead of delete",
+      "priority": "critical"
+    }
+  },
+  "excludePaths": [
+    "node_modules",
+    ".next",
+    "dist",
+    "build",
+    ".git",
+    "coverage",
+    ".cursor",
+    ".vscode"
+  ],
+  "fileExtensions": [
+    ".ts",
+    ".tsx",
+    ".js",
+    ".jsx"
+  ],
+  "scoring": {
+    "criticalWeight": 15,
+    "highWeight": 10,
+    "mediumWeight": 5,
+    "lowWeight": 1,
+    "maxScore": 100,
+    "thresholds": {
+      "excellent": 95,
+      "good": 80,
+      "acceptable": 60,
+      "poor": 40,
+      "critical": 0
+    }
+  }
+}

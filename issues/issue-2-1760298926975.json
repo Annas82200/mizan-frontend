@@ -1,0 +1,26 @@
+{
+  "title": "[SECURITY] Fix Required: components/dashboard/TenantSelector.tsx",
+  "priority": "HIGH",
+  "createdAt": "2025-10-12T19:55:26.975Z",
+  "violation": {
+    "file": "components/dashboard/TenantSelector.tsx",
+    "line": 326,
+    "rule": "noPlaceholders",
+    "content": "// TODO: Replace with actual API endpoint when available"
+  },
+  "securityIssues": [
+    {
+      "severity": "high",
+      "category": "dos",
+      "issue": "The `/api/tenants` endpoint lacks rate limiting. An attacker (or even a misbehaving client) could repeatedly call this endpoint, potentially leading to resource exhaustion (database queries, server CPU/memory) and a Denial of Service (DoS) for legitimate users.",
+      "location": "app/api/tenants/route.ts",
+      "recommendation": "Implement rate limiting on the `/api/tenants` GET endpoint. This can be done using a middleware or a dedicated rate-limiting library (e.g., `next-rate-limit` or a custom solution using Redis) to restrict the number of requests a single client/IP can make within a given timeframe."
+    }
+  ],
+  "conditions": [
+    "Implement rate limiting on /api/tenants endpoint before deployment",
+    "Consider adding request throttling middleware for tenant-related API calls",
+    "Test rate limiting implementation under load conditions"
+  ],
+  "reasoning": "While Agent 3 approved the Mizan compliance and the fix is comprehensive with complete implementation, Agent 4 identified a HIGH severity DoS vulnerability due to missing rate limiting on the API endpoint. According to decision criteria, Agent 4 must not find CRITICAL vulnerabilities, and while this is HIGH severity, it represents a significant security risk that could impact production availability. The fix is otherwise production-ready but requires the security issue to be addressed first."
+}

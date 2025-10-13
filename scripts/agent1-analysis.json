@@ -1,0 +1,232 @@
+[
+  {
+    "violation": {
+      "file": "frontend/src/app/dashboard/superadmin/performance/page.tsx",
+      "line": 92,
+      "content": "// TODO: Replace with real API call when employee selection is ready",
+      "rule": "noPlaceholders",
+      "severity": "error",
+      "message": "Placeholder detected - complete implementation required",
+      "pattern": "// TODO:",
+      "priority": "high"
+    },
+    "analysis": {
+      "agent": "Claude (Code Analyzer)",
+      "timestamp": "2025-10-12T20:25:09.299Z",
+      "isRealViolation": true,
+      "severity": "HIGH",
+      "impact": "The performance analysis feature is using mock data instead of real employee performance data from the database. This means users get fake results that don't reflect actual employee performance metrics, goals, feedback, or recommendations. The feature appears functional but provides no business value since all data is hardcoded.",
+      "fixApproach": "1. Create database schema for performance data (goals, metrics, feedback, recommendations) using Drizzle ORM. 2. Implement API endpoint `/api/performance/analyze` that accepts tenantId and optional employeeId. 3. Replace the mock data generation with real database queries to fetch employee performance data. 4. Add proper error handling for cases where no performance data exists. 5. Ensure the API returns the same PerformanceAnalysisOutput interface structure.",
+      "confidence": 0.98,
+      "reasoning": "This is clearly a real violation of Mizan rule #1 (NO mock data) and rule #2 (NO placeholders). The TODO comment explicitly states this is temporary mock data waiting for real API implementation. The entire mockResults object on lines 93-125 violates the 'real database queries only' requirement. This is not a false positive - it's exactly the type of placeholder implementation that Mizan rules prohibit.",
+      "suggestedCode": "// Replace the entire handleAnalyze function with:\nconst handleAnalyze = async () => {\n  if (!selectedTenant) {\n    setError('Please select a client first');\n    return;\n  }\n\n  try {\n    setAnalyzing(true);\n    setError(null);\n\n    const response = await fetch('/api/performance/analyze', {\n      method: 'POST',\n      headers: { 'Content-Type': 'application/json' },\n      body: JSON.stringify({\n        tenantId: selectedTenant.id,\n        employeeId: selectedEmployee?.id || null\n      })\n    });\n\n    if (!response.ok) {\n      throw new Error('Failed to analyze performance');\n    }\n\n    const results: PerformanceAnalysisOutput = await response.json();\n    setResults(results);\n  } catch (err: any) {\n    console.error('Performance analysis error:', err);\n    setError(err.message || 'Failed to analyze performance');\n  } finally {\n    setAnalyzing(false);\n  }\n};"
+    }
+  },
+  {
+    "violation": {
+      "file": "frontend/src/app/survey/[token]/page.tsx",
+      "line": 44,
+      "content": "// TODO: Add token validation endpoint",
+      "rule": "noPlaceholders",
+      "severity": "error",
+      "message": "Placeholder detected - complete implementation required",
+      "pattern": "// TODO:",
+      "priority": "high"
+    },
+    "analysis": {
+      "agent": "Claude (Code Analyzer)",
+      "timestamp": "2025-10-12T20:25:20.755Z",
+      "isRealViolation": true,
+      "severity": "HIGH",
+      "impact": "The survey page accepts any token without validation, creating security vulnerabilities. Users could access surveys with invalid/expired tokens, submit responses to non-existent assessments, or bypass authorization. This breaks the survey flow integrity and could lead to data inconsistency in the database.",
+      "fixApproach": "1. Create a token validation API endpoint at `/api/culture-assessment/validate-token` that queries the database using Drizzle ORM to check if the token exists and is valid. 2. Replace the TODO comment with a proper fetch call to this endpoint. 3. Handle different validation states (invalid, expired, already completed). 4. Add proper error handling and user feedback.",
+      "confidence": 0.95,
+      "reasoning": "This violates Mizan rule #2 (NO placeholders) and creates a real security issue. The current code only checks if the token string exists, not if it's valid in the database. This is incomplete functionality that needs proper implementation.",
+      "suggestedCode": "const validateToken = async () => {\n  try {\n    setLoading(true);\n    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/culture-assessment/validate-token/${token}`);\n    \n    if (!response.ok) {\n      const errorData = await response.json();\n      throw new Error(errorData.error || 'Invalid survey link');\n    }\n    \n    const { valid, expired, completed } = await response.json();\n    \n    if (!valid) {\n      setError('Invalid survey link');\n      return;\n    }\n    \n    if (expired) {\n      setError('This survey link has expired');\n      return;\n    }\n    \n    if (completed) {\n      setError('This survey has already been completed');\n      return;\n    }\n    \n    setValidToken(true);\n  } catch (err: any) {\n    console.error('Token validation error:', err);\n    setError(err.message || 'Failed to validate survey link');\n  } finally {\n    setLoading(false);\n  }\n};"
+    }
+  },
+  {
+    "violation": {
+      "file": "frontend/src/components/dashboard/TenantSelector.tsx",
+      "line": 326,
+      "content": "// TODO: Replace with actual API endpoint when available",
+      "rule": "noPlaceholders",
+      "severity": "error",
+      "message": "Placeholder detected - complete implementation required",
+      "pattern": "// TODO:",
+      "priority": "high"
+    },
+    "analysis": {
+      "agent": "Claude (Code Analyzer)",
+      "timestamp": "2025-10-12T20:25:33.663Z",
+      "isRealViolation": true,
+      "severity": "HIGH",
+      "impact": "The EmployeeSelector component is completely non-functional - it always shows 'No employees found' because the fetchEmployees function contains only commented placeholder code and returns an empty array. This breaks any feature that requires employee selection within tenants, making it impossible to assign tasks, view employee data, or perform any employee-related operations in the dashboard.",
+      "fixApproach": "1. Create the missing API endpoint in the superadminService for fetching employees by tenant ID. 2. Implement proper Drizzle ORM query to fetch employees from the database with proper joins to tenant data. 3. Add proper TypeScript interfaces for the API response. 4. Replace the TODO comment and mock empty array with actual API call. 5. Ensure error handling works with real API responses.",
+      "confidence": 0.98,
+      "reasoning": "This is clearly a real violation because: (1) There's an explicit TODO comment on line 326 which violates the noPlaceholders rule, (2) The fetchEmployees function is incomplete with commented code and returns empty array, making the component non-functional, (3) This violates Mizan rule #2 'NO placeholders - complete implementations only', and (4) The component appears to be used in production but doesn't actually work.",
+      "suggestedCode": "// Replace the fetchEmployees function with:\nconst fetchEmployees = async () => {\n  try {\n    setLoading(true);\n    setError(null);\n    \n    const response = await superadminService.getEmployeesByTenant(tenantId);\n    setEmployees(response.employees || []);\n  } catch (err: any) {\n    console.error('Error fetching employees:', err);\n    setError(err.response?.data?.error || err.message || 'Failed to load employees');\n  } finally {\n    setLoading(false);\n  }\n};\n\n// And add to superadminService:\ngetEmployeesByTenant: async (tenantId: string) => {\n  const response = await api.get(`/api/superadmin/tenants/${tenantId}/employees`);\n  return response.data;\n}"
+    }
+  },
+  {
+    "violation": {
+      "file": "backend/middleware/tenant.ts",
+      "line": 379,
+      "content": "// TODO: Implement actual usage checking logic",
+      "rule": "noPlaceholders",
+      "severity": "error",
+      "message": "Placeholder detected - complete implementation required",
+      "pattern": "// TODO:",
+      "priority": "high"
+    },
+    "analysis": {
+      "agent": "Claude (Code Analyzer)",
+      "timestamp": "2025-10-12T20:25:47.477Z",
+      "isRealViolation": true,
+      "severity": "HIGH",
+      "impact": "The checkUsageLimits middleware is completely non-functional - it always passes requests through without actually checking usage limits. This breaks the entire tenant billing/usage enforcement system, allowing free tier tenants to exceed their limits indefinitely, potentially causing resource abuse and revenue loss.",
+      "fixApprorage": "1. Create a usage tracking table in the database schema with fields for tenantId, resource type, current count, and last updated timestamp. 2. Implement database queries using Drizzle ORM to check current usage for each resource type (employees, assessments, reports, storage, apiCalls). 3. Add proper TypeScript interfaces for usage data. 4. Replace the TODO comment with actual usage checking logic that queries the database and compares against limits. 5. Return 429 (Too Many Requests) status when limits are exceeded.",
+      "confidence": 0.98,
+      "reasoning": "This is clearly a real violation - the TODO comment indicates incomplete implementation in a critical middleware function. The function gets tenant limits but never actually checks current usage against those limits, making it useless. This violates Mizan rule #2 (no placeholders) and breaks core platform functionality around tenant resource management.",
+      "suggestedCode": "// Replace the TODO section with:\n\n// Define usage interface\ninterface TenantUsage {\n  tenantId: string;\n  employees: number;\n  assessments: number;\n  reports: number;\n  storage: number;\n  apiCalls: number;\n  updatedAt: Date;\n}\n\n// Query current usage from database\nconst currentUsage = await db.select()\n  .from(tenantUsage)\n  .where(eq(tenantUsage.tenantId, req.tenant.id))\n  .limit(1);\n\nconst usage = currentUsage[0] || {\n  employees: 0,\n  assessments: 0,\n  reports: 0,\n  storage: 0,\n  apiCalls: 0\n};\n\nconst currentCount = usage[resource as keyof TenantUsage] as number || 0;\n\nif (currentCount >= limit) {\n  return res.status(429).json({\n    error: 'Usage limit exceeded',\n    code: 'USAGE_LIMIT_EXCEEDED',\n    resource,\n    currentUsage: currentCount,\n    limit,\n    tier: req.tenant.plan\n  });\n}"
+    }
+  },
+  {
+    "violation": {
+      "file": "backend/routes/entry.ts",
+      "line": 11,
+      "content": "// import { generatePDFReport } from '../services/reports/structure-report.js'; // TODO: Implement",
+      "rule": "noPlaceholders",
+      "severity": "error",
+      "message": "Placeholder detected - complete implementation required",
+      "pattern": "// TODO:",
+      "priority": "high"
+    },
+    "analysis": {
+      "agent": "Claude (Code Analyzer)",
+      "timestamp": "2025-10-12T20:25:59.665Z",
+      "isRealViolation": true,
+      "severity": "HIGH",
+      "impact": "The PDF report generation endpoint '/analysis/:id/pdf' returns a mock JSON response instead of actual PDF functionality, breaking the user experience and violating the no-placeholder rule. Users expecting PDF downloads will receive JSON data, causing confusion and incomplete feature implementation.",
+      "fixApproach": "1. Remove the commented import line 11\n2. Create the missing PDF generation service at '../services/reports/structure-report.js'\n3. Implement generatePDFReport function using a PDF library like puppeteer or pdfkit\n4. Update the endpoint to actually generate and return PDF buffers\n5. Add proper error handling for PDF generation failures",
+      "confidence": 0.95,
+      "reasoning": "This is clearly a placeholder violation - line 11 contains a commented TODO import, and line 118 has commented code with TODO for PDF generation. The endpoint returns mock JSON instead of actual PDF functionality. This directly violates Mizan rule #2 (NO placeholders) and rule #4 (NO commented code).",
+      "suggestedCode": "// Remove line 11 entirely\n// Replace lines 115-125 with:\nimport { generatePDFReport } from '../services/reports/structure-report.js';\n\n// In the PDF endpoint:\ntry {\n  const result = await db.query.structureAnalysisResults.findFirst({\n    where: eq(structureAnalysisResults.id, req.params.id)\n  });\n  \n  if (!result) {\n    return res.status(404).json({ error: 'Analysis not found' });\n  }\n  \n  const pdfBuffer = await generatePDFReport(result);\n  \n  res.setHeader('Content-Type', 'application/pdf');\n  res.setHeader('Content-Disposition', `attachment; filename=\"analysis-${result.id}.pdf\"`);\n  return res.send(pdfBuffer);\n} catch (error) {\n  console.error('Error generating PDF:', error);\n  return res.status(500).json({ error: 'Failed to generate PDF' });\n}"
+    }
+  },
+  {
+    "violation": {
+      "file": "backend/routes/entry.ts",
+      "line": 152,
+      "content": "// const pdfBuffer = await generatePDFReport(result); // TODO: Implement PDF generation",
+      "rule": "noPlaceholders",
+      "severity": "error",
+      "message": "Placeholder detected - complete implementation required",
+      "pattern": "// TODO:",
+      "priority": "high"
+    },
+    "analysis": {
+      "agent": "Claude (Code Analyzer)",
+      "timestamp": "2025-10-12T20:26:13.530Z",
+      "isRealViolation": true,
+      "severity": "HIGH",
+      "impact": "The PDF download endpoint `/analysis/:id/pdf` is completely non-functional. Users will receive JSON responses instead of PDF files when trying to download analysis reports. This breaks a core feature that users expect to work, potentially affecting user experience and business value delivery. The endpoint returns misleading success responses while not delivering the promised functionality.",
+      "fixApproach": "1. Implement the PDF generation service by creating `backend/services/reports/structure-report.ts` with a `generatePDFReport` function. 2. Use a PDF library like `puppeteer`, `jsPDF`, or `pdfkit` to generate professional reports. 3. Uncomment and properly implement the PDF generation import. 4. Replace the placeholder JSON response with actual PDF generation and streaming. 5. Set proper response headers for PDF download (Content-Type: application/pdf, Content-Disposition: attachment). 6. Add error handling for PDF generation failures.",
+      "confidence": 0.98,
+      "reasoning": "This is clearly a real violation based on Mizan's strict 'NO placeholders' rule. The TODO comment on line 152 and the commented import on line 8 indicate incomplete implementation. The endpoint exists and is accessible but doesn't deliver its promised functionality, which violates user expectations and system reliability. The mock JSON response instead of actual PDF generation makes this a functional defect, not just a code quality issue.",
+      "suggestedCode": "// Remove the commented code and implement:\nimport { generatePDFReport } from '../services/reports/structure-report.js';\n\n// In the endpoint, replace the placeholder with:\nconst pdfBuffer = await generatePDFReport(result);\n\nres.setHeader('Content-Type', 'application/pdf');\nres.setHeader('Content-Disposition', `attachment; filename=\"analysis-${result.id}.pdf\"`);\nres.send(pdfBuffer);\n\n// Create backend/services/reports/structure-report.ts with proper PDF generation using puppeteer or similar library"
+    }
+  },
+  {
+    "violation": {
+      "file": "backend/routes/modules.ts",
+      "line": 95,
+      "content": "// TODO: Implement talent profiles table",
+      "rule": "noPlaceholders",
+      "severity": "error",
+      "message": "Placeholder detected - complete implementation required",
+      "pattern": "// TODO:",
+      "priority": "high"
+    },
+    "analysis": {
+      "agent": "Claude (Code Analyzer)",
+      "timestamp": "2025-10-12T20:26:26.317Z",
+      "isRealViolation": true,
+      "severity": "HIGH",
+      "impact": "The /modules/talent endpoint returns empty array instead of actual talent profile data, breaking any frontend components that depend on talent management functionality. Users cannot view, manage, or analyze talent profiles, making the talent module completely non-functional.",
+      "fixApprorage": "1. Create talent profiles table schema in db/schema.ts with fields like id, tenantId, employeeId, skills, competencies, careerGoals, etc. 2. Add talent profiles to db relations 3. Import talent profiles schema in this route file 4. Replace TODO with proper Drizzle query using db.query.talentProfiles.findMany() with tenant filtering 5. Add proper TypeScript return types",
+      "confidence": 0.98,
+      "reasoning": "This is clearly a real violation - there's an explicit TODO comment indicating incomplete implementation. The endpoint currently returns an empty array hardcoded response instead of querying actual data. This violates rule #2 (NO placeholders) and rule #1 (NO mock data - must use real database queries). The pattern is consistent with other incomplete endpoints in the same file.",
+      "suggestedCode": "// First add to db/schema.ts:\nexport const talentProfiles = pgTable('talent_profiles', {\n  id: uuid('id').defaultRandom().primaryKey(),\n  tenantId: uuid('tenant_id').notNull(),\n  employeeId: uuid('employee_id').notNull(),\n  skills: jsonb('skills').$type<string[]>().default([]),\n  competencies: jsonb('competencies').$type<Record<string, number>>().default({}),\n  careerGoals: text('career_goals'),\n  createdAt: timestamp('created_at').defaultNow().notNull(),\n  updatedAt: timestamp('updated_at').defaultNow().notNull()\n});\n\n// Then in routes file, import and replace the endpoint:\nimport { talentProfiles } from '../db/schema.js';\n\nrouter.get('/talent', authorize(['clientAdmin', 'superadmin']), async (req, res) => {\n  try {\n    const profiles = await db.query.talentProfiles.findMany({\n      where: eq(talentProfiles.tenantId, req.user!.tenantId)\n    });\n    return res.json(profiles);\n  } catch (error) {\n    console.error('Talent fetch error:', error);\n    return res.status(500).json({ error: 'Failed to fetch talent data' });\n  }\n});"
+    }
+  },
+  {
+    "violation": {
+      "file": "backend/routes/modules.ts",
+      "line": 106,
+      "content": "// TODO: Implement succession plans table",
+      "rule": "noPlaceholders",
+      "severity": "error",
+      "message": "Placeholder detected - complete implementation required",
+      "pattern": "// TODO:",
+      "priority": "high"
+    },
+    "analysis": {
+      "agent": "Claude (Code Analyzer)",
+      "timestamp": "2025-10-12T20:26:40.213Z",
+      "isRealViolation": true,
+      "severity": "HIGH",
+      "impact": "The succession planning module is non-functional, returning empty arrays instead of real data. This breaks core HR functionality for succession planning, talent pipeline management, and organizational continuity planning. Users cannot view, create, or manage succession plans, making this a significant feature gap in the HR platform.",
+      "fixApproach": "1. Create succession plans schema in db/schema.ts with tables for succession_plans, succession_candidates, and succession_readiness_assessments. 2. Import the schema in this routes file. 3. Replace the TODO comment and empty array return with proper Drizzle ORM queries to fetch succession plans filtered by tenantId. 4. Add proper TypeScript types for succession plan objects. 5. Implement POST endpoints for creating/updating succession plans. 6. Add proper error handling and validation using Zod schemas.",
+      "confidence": 0.98,
+      "reasoning": "This is clearly a real violation based on Mizan's strict 'NO placeholders' rule. The TODO comment on line 106 explicitly indicates incomplete implementation. The endpoint returns an empty array instead of querying real data, violating the 'NO mock data' rule. The pattern is consistent with other incomplete modules in the same file (talent, compensation) that also have TODO comments and return empty arrays. The existing hiring and performance modules show the expected pattern of real database queries using Drizzle ORM.",
+      "suggestedCode": "// First add to db/schema.ts:\nexport const successionPlans = pgTable('succession_plans', {\n  id: uuid('id').defaultRandom().primaryKey(),\n  tenantId: uuid('tenant_id').notNull(),\n  positionId: uuid('position_id').notNull(),\n  currentHolderId: uuid('current_holder_id'),\n  successorId: uuid('successor_id'),\n  readinessLevel: varchar('readiness_level', { length: 50 }),\n  targetDate: timestamp('target_date'),\n  createdAt: timestamp('created_at').defaultNow(),\n  updatedAt: timestamp('updated_at').defaultNow()\n});\n\n// Then replace the route:\nrouter.get('/succession', authorize(['clientAdmin', 'superadmin']), async (req, res) => {\n  try {\n    const plans = await db.query.successionPlans.findMany({\n      where: eq(successionPlans.tenantId, req.user!.tenantId)\n    });\n    return res.json(plans);\n  } catch (error) {\n    console.error('Succession fetch error:', error);\n    return res.status(500).json({ error: 'Failed to fetch succession data' });\n  }\n});"
+    }
+  },
+  {
+    "violation": {
+      "file": "backend/routes/modules.ts",
+      "line": 117,
+      "content": "// TODO: Implement compensation data table",
+      "rule": "noPlaceholders",
+      "severity": "error",
+      "message": "Placeholder detected - complete implementation required",
+      "pattern": "// TODO:",
+      "priority": "high"
+    },
+    "analysis": {
+      "agent": "Claude (Code Analyzer)",
+      "timestamp": "2025-10-12T20:26:53.319Z",
+      "isRealViolation": true,
+      "severity": "HIGH",
+      "impact": "The compensation module endpoint returns empty array instead of actual compensation data, breaking functionality for HR admins who need to view employee compensation information. This violates Mizan's rule against placeholders and incomplete implementations. The endpoint is accessible but non-functional, which could lead to incorrect business decisions based on missing data.",
+      "fixApproach": "1. Create compensation table schema in db/schema.js with fields like employeeId, baseSalary, bonus, equity, etc. 2. Import the compensation schema in this file. 3. Replace the TODO comment with actual Drizzle ORM query to fetch compensation data filtered by tenantId. 4. Add proper error handling and response formatting. 5. Consider adding authorization to ensure users can only see appropriate compensation data.",
+      "confidence": 0.95,
+      "reasoning": "This is clearly a real violation as it contains a TODO comment placeholder instead of actual implementation. The code pattern shows other endpoints using proper Drizzle ORM queries (like hiringRequisitions and performanceReviews), but this endpoint just returns an empty array. This violates Mizan's strict 'no placeholders' rule and 'no mock data' rule simultaneously.",
+      "suggestedCode": "// First add to db/schema.js:\nexport const compensationData = pgTable('compensation_data', {\n  id: uuid('id').defaultRandom().primaryKey(),\n  tenantId: uuid('tenant_id').notNull(),\n  employeeId: uuid('employee_id').notNull(),\n  baseSalary: decimal('base_salary', { precision: 12, scale: 2 }),\n  bonus: decimal('bonus', { precision: 12, scale: 2 }),\n  equity: decimal('equity', { precision: 12, scale: 2 }),\n  currency: varchar('currency', { length: 3 }).default('USD'),\n  effectiveDate: timestamp('effective_date').notNull(),\n  createdAt: timestamp('created_at').defaultNow()\n});\n\n// Then replace the endpoint:\nrouter.get('/compensation', authorize(['clientAdmin', 'superadmin']), async (req, res) => {\n  try {\n    const compensation = await db.query.compensationData.findMany({\n      where: eq(compensationData.tenantId, req.user!.tenantId)\n    });\n    return res.json(compensation);\n  } catch (error) {\n    console.error('Compensation fetch error:', error);\n    return res.status(500).json({ error: 'Failed to fetch compensation data' });\n  }\n});"
+    }
+  },
+  {
+    "violation": {
+      "file": "backend/routes/modules.ts",
+      "line": 136,
+      "content": "// TODO: Implement moduleExecutions table",
+      "rule": "noPlaceholders",
+      "severity": "error",
+      "message": "Placeholder detected - complete implementation required",
+      "pattern": "// TODO:",
+      "priority": "high"
+    },
+    "analysis": {
+      "agent": "Claude (Code Analyzer)",
+      "timestamp": "2025-10-12T20:27:05.099Z",
+      "isRealViolation": true,
+      "severity": "HIGH",
+      "impact": "The module execution tracking feature is non-functional. The POST /execute endpoint accepts execution requests but doesn't persist them to the database, making it impossible to track module execution history, audit actions, or implement proper execution status monitoring. This breaks the core functionality of module execution tracking in the Mizan platform.",
+      "fixApproach": "1. Create a moduleExecutions table schema in the database schema file with fields: id, tenantId, userId, module, action, config, status, startedAt, completedAt, error, result. 2. Import the moduleExecutions table in this file. 3. Replace the TODO comment with actual database insertion using Drizzle ORM. 4. Add proper error handling and return the actual execution record. 5. Consider adding status update endpoints for tracking execution progress.",
+      "confidence": 0.98,
+      "reasoning": "This is clearly a real violation because: 1) There's a literal TODO comment which violates the noPlaceholders rule, 2) The endpoint generates a fake UUID instead of persisting execution data, 3) The pattern is inconsistent with other endpoints in the same file that properly use database operations, 4) The functionality is incomplete and non-functional for its intended purpose of execution tracking.",
+      "suggestedCode": "// Replace the TODO section with:\nconst [execution] = await db.insert(moduleExecutions)\n  .values({\n    tenantId: req.user!.tenantId,\n    userId: req.user!.id,\n    module: validatedData.module,\n    action: validatedData.action,\n    config: validatedData.config,\n    status: 'pending',\n    startedAt: new Date()\n  })\n  .returning();\n\nreturn res.json({\n  success: true,\n  executionId: execution.id,\n  execution\n});"
+    }
+  }
+]
