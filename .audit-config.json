@@ -1,6 +1,18 @@
 {
   "projectName": "Mizan Platform",
   "version": "1.0.0",
+  
+  "scanPaths": [
+    "frontend/src",
+    "backend/src",
+    "scripts",
+    "frontend/components",
+    "frontend/lib", 
+    "backend/lib",
+    "backend/routes",
+    "backend/middleware"
+  ],
+  
   "rules": {
     "noMockData": {
       "enabled": true,
