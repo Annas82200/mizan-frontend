@@ -218,12 +218,13 @@ export default function DashboardPage() {
           <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {accessibleActions.map((action, index) => (
-              <Card
+              <div
                 key={index}
-                className="cursor-pointer hover:shadow-lg transition-shadow"
                 onClick={action.action}
+                className="cursor-pointer"
               >
-                <CardContent className="p-4 flex items-center space-x-4">
+                <Card className="hover:shadow-lg transition-shadow">
+                  <CardContent className="p-4 flex items-center space-x-4">
                   <div className="p-3 rounded-lg bg-gray-100">
                     <action.icon className="h-6 w-6 text-gray-700" />
                   </div>
@@ -232,8 +233,9 @@ export default function DashboardPage() {
                     <p className="text-sm text-gray-600">{action.description}</p>
                   </div>
                   <ArrowRight className="h-5 w-5 text-gray-400" />
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </div>
             ))}
           </div>
         </div>
