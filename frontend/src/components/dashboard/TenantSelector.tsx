@@ -49,9 +49,12 @@ export function TenantSelector({
 
       const response = await superadminService.getTenants();
       setTenants(response.tenants || []);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error fetching tenants:', err);
-      setError(err.response?.data?.error || err.message || 'Failed to load clients');
+      const errorMessage = err && typeof err === 'object' && 'response' in err && err.response && typeof err.response === 'object' && 'data' in err.response && err.response.data && typeof err.response.data === 'object' && 'error' in err.response.data
+        ? String(err.response.data.error)
+        : err instanceof Error ? err.message : 'Failed to load clients';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -330,9 +333,12 @@ export function EmployeeSelector({
 
       // Temporary: Return empty array until API is ready
       setEmployees([]);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error fetching employees:', err);
-      setError(err.response?.data?.error || err.message || 'Failed to load employees');
+      const errorMessage = err && typeof err === 'object' && 'response' in err && err.response && typeof err.response === 'object' && 'data' in err.response && err.response.data && typeof err.response.data === 'object' && 'error' in err.response.data
+        ? String(err.response.data.error)
+        : err instanceof Error ? err.message : 'Failed to load employees';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

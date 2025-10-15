@@ -128,9 +128,9 @@ export default function PerformanceAnalysisPage() {
       };
 
       setResults(mockResults);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Performance analysis error:', err);
-      setError(err.message || 'Failed to analyze performance');
+      setError(err instanceof Error ? err.message : 'Failed to analyze performance');
     } finally {
       setAnalyzing(false);
     }

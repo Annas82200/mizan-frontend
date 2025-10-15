@@ -57,9 +57,10 @@ export function SurveyManagementView({ tenantId, tenantName }: SurveyManagementV
 
       const data = await response.json();
       setCampaign(data);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Survey distribution error:', err);
-      setError(err.message || 'Failed to distribute survey');
+      const errorMessage = err instanceof Error ? err.message : 'Failed to distribute survey';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

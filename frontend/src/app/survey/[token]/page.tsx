@@ -95,9 +95,10 @@ export default function SurveyPage() {
       setTimeout(() => {
         window.location.href = `/survey/${token}/report`;
       }, 3000);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Survey submission error:', err);
-      setError(err.message || 'Failed to submit survey');
+      const errorMessage = err instanceof Error ? err.message : 'Failed to submit survey';
+      setError(errorMessage);
     } finally {
       setSubmitting(false);
     }

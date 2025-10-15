@@ -114,8 +114,8 @@ export default function AddClientPage() {
         router.push('/dashboard/superadmin/tenants');
       }, 2000);
 
-    } catch (err: any) {
-      setError(err.message || 'Failed to create client. Please try again.');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to create client. Please try again.');
     } finally {
       setLoading(false);
     }

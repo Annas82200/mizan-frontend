@@ -79,8 +79,8 @@ export default function LoginPage() {
         }
       }, 1000);
 
-    } catch (error: any) {
-      setErrors({ general: error.message || 'Login failed. Please check your credentials.' });
+    } catch (error: unknown) {
+      setErrors({ general: error instanceof Error ? error.message : 'Login failed. Please check your credentials.' });
       setLoading(false);
     }
   };

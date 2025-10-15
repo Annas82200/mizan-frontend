@@ -200,9 +200,9 @@ export default function CultureAnalysisPage() {
 
       const analysisResults = await response.json();
       setResults(analysisResults);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Culture analysis error:', err);
-      setError(err.message || 'Failed to analyze culture');
+      setError(err instanceof Error ? err.message : 'Failed to analyze culture');
     } finally {
       setAnalyzing(false);
     }

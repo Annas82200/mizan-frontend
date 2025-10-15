@@ -101,8 +101,9 @@ export default function SignupPage() {
         window.location.href = '/login?registered=true';
       }, 2000);
 
-    } catch (error: any) {
-      setErrors({ general: error.message || 'Something went wrong. Please try again.' });
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Something went wrong. Please try again.';
+      setErrors({ general: errorMessage });
     } finally {
       setLoading(false);
     }

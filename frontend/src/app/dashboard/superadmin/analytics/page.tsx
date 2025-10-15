@@ -87,9 +87,9 @@ export default function SystemAnalytics() {
       setApiStats(api);
       setAgentStats(agents.agents || []);
       setPerformanceMetrics(performance.metrics || []);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error fetching analytics:', err);
-      setError(err.message || 'Failed to load analytics data');
+      setError(err instanceof Error ? err.message : 'Failed to load analytics data');
     } finally {
       setLoading(false);
     }

@@ -63,8 +63,10 @@ export default function DemoRequestsPage() {
 
       const data = await response.json();
       setRequests(data.data.requests);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error fetching demo requests:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Failed to fetch demo requests';
+      console.error('Demo requests error:', errorMessage);
     } finally {
       setLoading(false);
     }
@@ -90,9 +92,10 @@ export default function DemoRequestsPage() {
 
       // Refresh list
       fetchDemoRequests();
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error updating status:', error);
-      alert('Failed to update status');
+      const errorMessage = error instanceof Error ? error.message : 'Failed to update status';
+      alert(errorMessage);
     }
   };
 
@@ -204,9 +207,10 @@ export default function DemoRequestsPage() {
 
       // Refresh the demo requests list to show updated payment link status
       fetchDemoRequests();
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error generating payment link:', error);
-      alert('Failed to generate payment link. Please try again.');
+      const errorMessage = error instanceof Error ? error.message : 'Failed to generate payment link. Please try again.';
+      alert(errorMessage);
     } finally {
       setGeneratingLink(false);
     }

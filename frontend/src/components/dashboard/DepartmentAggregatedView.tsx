@@ -150,9 +150,10 @@ export function DepartmentAggregatedView({ tenantId, tenantName }: DepartmentAgg
       };
 
       setAnalysis(transformedAnalysis);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Department analysis error:', err);
-      setError(err.message || 'Failed to load analysis');
+      const errorMessage = err instanceof Error ? err.message : 'Failed to load analysis';
+      setError(errorMessage);
     } finally {
       setAnalyzing(false);
     }

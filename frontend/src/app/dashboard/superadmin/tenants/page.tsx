@@ -55,9 +55,14 @@ export default function TenantManagement() {
 
       const response: ApiResponse = await superadminService.getTenants();
       setTenants(response.tenants || []);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error fetching tenants:', err);
-      setError(err.response?.data?.error || err.message || 'Failed to load tenants');
+      const errorMessage = err && typeof err === 'object' && 'response' in err 
+        ? (err as { response?: { data?: { error?: string } } }).response?.data?.error
+        : err instanceof Error 
+        ? err.message 
+        : 'Failed to load tenants';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

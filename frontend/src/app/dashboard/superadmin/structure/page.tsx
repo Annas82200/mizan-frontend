@@ -198,9 +198,10 @@ export default function StructureAnalysisPage() {
       setResults(analysisResults);
       setSaveSuccess(true);
       setTimeout(() => setSaveSuccess(false), 3000);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Analysis error:', err);
-      setError(err.message || 'Failed to analyze structure');
+      const errorMessage = err instanceof Error ? err.message : 'Failed to analyze structure';
+      setError(errorMessage);
     } finally {
       setAnalyzing(false);
     }

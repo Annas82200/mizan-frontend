@@ -401,9 +401,9 @@ export default function FrameworkConfigPage() {
 
       const result = await response.json();
       alert(`Framework configuration saved successfully! Version ${result.version}`);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Save error:', error);
-      alert(`Error saving framework: ${error.message}`);
+      alert(`Error saving framework: ${error instanceof Error ? error.message : 'Unknown error occurred'}`);
     }
   };
 

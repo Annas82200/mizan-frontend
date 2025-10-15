@@ -105,9 +105,10 @@ export function IndividualEmployeeView({ tenantId, tenantName }: IndividualEmplo
 
       const data = await response.json();
       setEmployees(data.employees || []);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Load employees error:', err);
-      setError(err.message || 'Failed to load employees');
+      const errorMessage = err instanceof Error ? err.message : 'Failed to load employees';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -149,9 +150,10 @@ export function IndividualEmployeeView({ tenantId, tenantName }: IndividualEmplo
       }, 2000);
 
       alert('Report regeneration started! It will be ready in 10-15 seconds.');
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Regenerate report error:', err);
-      setError(err.message || 'Failed to regenerate report');
+      const errorMessage = err instanceof Error ? err.message : 'Failed to regenerate report';
+      setError(errorMessage);
     } finally {
       setAnalyzing(false);
     }
@@ -235,9 +237,10 @@ export function IndividualEmployeeView({ tenantId, tenantName }: IndividualEmplo
       };
 
       setAnalysis(transformedAnalysis);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Employee analysis error:', err);
-      setError(err.message || 'Failed to analyze employee');
+      const errorMessage = err instanceof Error ? err.message : 'Failed to analyze employee';
+      setError(errorMessage);
     } finally {
       setAnalyzing(false);
     }

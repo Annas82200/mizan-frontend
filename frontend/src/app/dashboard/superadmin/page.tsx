@@ -74,9 +74,9 @@ export default function SuperadminHome() {
       setTenants(tenantsResponse.tenants || []);
       setRevenueData(revenueResponse.data || []);
       setActivities(activityResponse.activities || []);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error fetching dashboard data:', err);
-      setError(err.message || 'Failed to load dashboard data');
+      setError(err instanceof Error ? err.message : 'Failed to load dashboard data');
     } finally {
       setLoading(false);
     }

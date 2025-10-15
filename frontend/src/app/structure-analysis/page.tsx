@@ -79,8 +79,9 @@ export default function PublicStructureAnalysisPage() {
 
       const data = await response.json();
       setResult(data);
-    } catch (err: any) {
-      setError(err.message || 'An error occurred during analysis');
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'An error occurred during analysis';
+      setError(errorMessage);
     } finally {
       setAnalyzing(false);
     }

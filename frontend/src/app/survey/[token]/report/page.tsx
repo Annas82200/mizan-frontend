@@ -29,9 +29,10 @@ export default function SurveyReportPage() {
       const data = await response.json();
       setReport(data.report);
       setStatus(data.status);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Report fetch error:', err);
-      setError(err.message || 'Failed to load report');
+      const errorMessage = err instanceof Error ? err.message : 'Failed to load report';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
