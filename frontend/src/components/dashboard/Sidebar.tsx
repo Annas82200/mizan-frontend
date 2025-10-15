@@ -107,6 +107,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ role, isOpen, onClose }) => {
             href: '/dashboard/superadmin/performance',
             icon: <PerformanceIcon className="w-4 h-4" />,
           },
+          {
+            label: 'Skills',
+            href: '/dashboard/superadmin/skills',
+            icon: <SkillsIcon className="w-4 h-4" />,
+          },
         ],
       },
       {
@@ -135,6 +140,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ role, isOpen, onClose }) => {
         label: 'Culture',
         href: '/dashboard/admin/culture',
         icon: <CultureIcon className="w-5 h-5" />,
+      },
+      {
+        label: 'Skills',
+        href: '/dashboard/admin/skills',
+        icon: <SkillsIcon className="w-5 h-5" />,
       },
       {
         label: 'Team',
