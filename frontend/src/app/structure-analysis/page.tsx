@@ -13,7 +13,9 @@ interface Recommendation {
 }
 
 interface RichAnalysis {
-    keyInsights: string[];
+    overallAssessment?: string;
+    keyInsights?: string[];
+    keyFindings?: string[];
     recommendations: Recommendation[];
 }
 
@@ -21,6 +23,9 @@ interface AnalysisResult {
     success: boolean;
     data: {
         richAnalysis: RichAnalysis;
+        entropyScore?: number | string;
+        bottlenecks?: any[];
+        healthScore?: number | string;
         // other properties from the result...
     };
     // other properties...
@@ -388,7 +393,7 @@ export default function PublicStructureAnalysisPage() {
                       {result.data.richAnalysis.recommendations.map((rec: Recommendation, idx: number) => (
                         <div key={idx} className="bg-mizan-gold/5 border-l-4 border-mizan-gold p-4 rounded-r-lg">
                           <p className="font-semibold text-mizan-primary mb-1">{rec.title || `Recommendation ${idx + 1}`}</p>
-                          <p className="text-sm text-mizan-secondary">{rec.description || rec}</p>
+                          <p className="text-sm text-mizan-secondary">{rec.description}</p>
                         </div>
                       ))}
                     </div>

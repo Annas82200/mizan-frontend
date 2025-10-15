@@ -14,6 +14,7 @@ interface FormData {
     mission: string;
     strategy: string;
     values: string[];
+    structureFile?: File; // CSV file for organizational structure
 }
 
 export default function AddClientPage() {
@@ -37,7 +38,7 @@ export default function AddClientPage() {
     setError('');
   };
 
-  const handleValuesChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleValuesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const values = e.target.value.split(',').map(v => v.trim()).filter(v => v);
     setFormData(prev => ({ ...prev, values }));
   };
@@ -88,12 +89,8 @@ export default function AddClientPage() {
       submitData.append('mission', formData.mission);
       submitData.append('strategy', formData.strategy);
 
-      // Convert comma-separated values to array
-      const valuesArray = formData.values
-        .split(',')
-        .map(v => v.trim())
-        .filter(v => v);
-      submitData.append('values', JSON.stringify(valuesArray));
+      // Values are already an array in formData
+      submitData.append('values', JSON.stringify(formData.values));
 
       if (formData.structureFile) {
         submitData.append('structureFile', formData.structureFile);

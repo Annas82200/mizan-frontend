@@ -419,7 +419,8 @@ export const SkillsBotInterface: React.FC<SkillsBotInterfaceProps> = ({ userRole
               <Button
                 onClick={handleSendMessage}
                 disabled={!inputValue.trim() || isLoading}
-                size="icon"
+                size="sm"
+                className="px-3"
               >
                 {isLoading ? (
                   <Loader2 className="w-4 h-4 animate-spin" />

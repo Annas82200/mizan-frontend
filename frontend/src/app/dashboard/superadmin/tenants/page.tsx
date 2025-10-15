@@ -58,7 +58,7 @@ export default function TenantManagement() {
     } catch (err: unknown) {
       console.error('Error fetching tenants:', err);
       const errorMessage = err && typeof err === 'object' && 'response' in err 
-        ? (err as { response?: { data?: { error?: string } } }).response?.data?.error
+        ? (err as { response?: { data?: { error?: string } } }).response?.data?.error || 'Failed to load tenants'
         : err instanceof Error 
         ? err.message 
         : 'Failed to load tenants';

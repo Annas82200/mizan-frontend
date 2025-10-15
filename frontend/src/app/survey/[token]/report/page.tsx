@@ -17,9 +17,24 @@ interface Report {
     overallSummary: {
         strengths: string[];
         developmentAreas: DevelopmentArea[];
+        nextSteps?: string[];
     };
     cylinderScores: {
         [key: string]: number;
+    };
+    personalValues?: {
+        interpretation: string;
+    };
+    alignment?: {
+        personalVsCurrent: number;
+    };
+    engagement?: {
+        interpretation?: string;
+        analysis?: string;
+    };
+    recognition?: {
+        interpretation?: string;
+        analysis?: string;
     };
 }
 
