@@ -5,6 +5,7 @@ import Navigation from '@/components/Navigation';
 import Link from 'next/link';
 import { ArrowRight, Lock, Mail, Eye, EyeOff, Shield, CheckCircle2 } from 'lucide-react';
 import { SecureIcon } from '@/components/icons';
+import { login } from '@/services/auth.service';
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);

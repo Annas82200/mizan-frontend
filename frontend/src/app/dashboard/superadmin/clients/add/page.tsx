@@ -5,14 +5,15 @@ import { useRouter } from 'next/navigation';
 import { ArrowLeft, Check, Upload, FileText, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
 
+// Define the type for the form data
 interface FormData {
-  companyName: string;
-  industry: string;
-  vision: string;
-  mission: string;
-  strategy: string;
-  values: string; // Comma-separated
-  structureFile: File | null;
+    name: string;
+    industry: string;
+    employeeCount: number;
+    vision: string;
+    mission: string;
+    strategy: string;
+    values: string[];
 }
 
 export default function AddClientPage() {
@@ -22,18 +23,23 @@ export default function AddClientPage() {
   const [success, setSuccess] = useState(false);
 
   const [formData, setFormData] = useState<FormData>({
-    companyName: '',
+    name: '',
     industry: '',
+    employeeCount: 0,
     vision: '',
     mission: '',
     strategy: '',
-    values: '',
-    structureFile: null,
+    values: [],
   });
 
-  const handleInputChange = (field: keyof FormData, value: any) => {
+  const handleInputChange = (field: keyof FormData, value: string | number | string[]) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     setError('');
+  };
+
+  const handleValuesChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const values = e.target.value.split(',').map(v => v.trim()).filter(v => v);
+    setFormData(prev => ({ ...prev, values }));
   };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,7 +58,7 @@ export default function AddClientPage() {
     e.preventDefault();
 
     // Validation
-    if (!formData.companyName || !formData.industry) {
+    if (!formData.name || !formData.industry) {
       setError('Company name and industry are required');
       return;
     }
@@ -76,7 +82,7 @@ export default function AddClientPage() {
 
       // Create FormData for file upload
       const submitData = new FormData();
-      submitData.append('companyName', formData.companyName);
+      submitData.append('companyName', formData.name);
       submitData.append('industry', formData.industry);
       submitData.append('vision', formData.vision);
       submitData.append('mission', formData.mission);
@@ -132,7 +138,7 @@ export default function AddClientPage() {
             Client Created Successfully!
           </h2>
           <p className="text-mizan-secondary mb-6">
-            {formData.companyName} has been added to the platform
+            {formData.name} has been added to the platform
           </p>
           <p className="text-sm text-mizan-secondary">
             Redirecting to tenant management...
@@ -181,8 +187,8 @@ export default function AddClientPage() {
               </label>
               <input
                 type="text"
-                value={formData.companyName}
-                onChange={(e) => handleInputChange('companyName', e.target.value)}
+                value={formData.name}
+                onChange={(e) => handleInputChange('name', e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-mizan-gold focus:border-transparent transition-all duration-400"
                 placeholder="Acme Corporation"
                 required
@@ -261,8 +267,8 @@ export default function AddClientPage() {
             </label>
             <input
               type="text"
-              value={formData.values}
-              onChange={(e) => handleInputChange('values', e.target.value)}
+              value={formData.values.join(', ')}
+              onChange={handleValuesChange}
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-mizan-gold focus:border-transparent transition-all duration-400"
               placeholder="Integrity, Innovation, Excellence, Customer-First (comma-separated)"
             />

@@ -2,6 +2,32 @@
 
 import React, { useState, useEffect } from 'react';
 import { Users, Search, TrendingUp, TrendingDown, Minus, Heart, Target, Lightbulb, AlertCircle, Loader2, RefreshCw } from 'lucide-react';
+import { Radar } from 'react-chartjs-2';
+
+// Define types for the component's props and data structures
+interface Recommendation {
+    id: string;
+    title: string;
+    description: string;
+    category: string;
+    priority: 'High' | 'Medium' | 'Low';
+}
+
+interface ReportData {
+    overallScore: number;
+    cylinderScores: {
+        [key: string]: number;
+    };
+    keyFindings: string[];
+    recommendations: Recommendation[];
+}
+
+interface EmployeeData {
+    id: string;
+    name: string;
+    email: string;
+    report: ReportData;
+}
 
 interface IndividualEmployeeViewProps {
   tenantId: string;

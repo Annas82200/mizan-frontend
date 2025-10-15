@@ -5,6 +5,27 @@ import { ArrowRight, Upload, AlertCircle, CheckCircle, Loader2, Building2 } from
 import Link from 'next/link';
 import { StructureIcon } from '@/components/icons';
 
+// Define types for the analysis result
+interface Recommendation {
+    title: string;
+    description: string;
+    priority: 'High' | 'Medium' | 'Low';
+}
+
+interface RichAnalysis {
+    keyInsights: string[];
+    recommendations: Recommendation[];
+}
+
+interface AnalysisResult {
+    success: boolean;
+    data: {
+        richAnalysis: RichAnalysis;
+        // other properties from the result...
+    };
+    // other properties...
+}
+
 export default function PublicStructureAnalysisPage() {
   // Form data
   const [companyName, setCompanyName] = useState('');
@@ -17,7 +38,7 @@ export default function PublicStructureAnalysisPage() {
   // UI state
   const [step, setStep] = useState<1 | 2>(1); // Step 1: Company info, Step 2: CSV upload
   const [analyzing, setAnalyzing] = useState(false);
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<AnalysisResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -364,7 +385,7 @@ export default function PublicStructureAnalysisPage() {
                   <div className="mb-6">
                     <h3 className="text-xl font-bold text-mizan-primary mb-4">Recommendations</h3>
                     <div className="space-y-4">
-                      {result.data.richAnalysis.recommendations.map((rec: any, idx: number) => (
+                      {result.data.richAnalysis.recommendations.map((rec: Recommendation, idx: number) => (
                         <div key={idx} className="bg-mizan-gold/5 border-l-4 border-mizan-gold p-4 rounded-r-lg">
                           <p className="font-semibold text-mizan-primary mb-1">{rec.title || `Recommendation ${idx + 1}`}</p>
                           <p className="text-sm text-mizan-secondary">{rec.description || rec}</p>

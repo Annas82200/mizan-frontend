@@ -17,6 +17,14 @@ import {
   RefreshCw
 } from 'lucide-react';
 import { TenantSelector } from '@/components/dashboard';
+import Papa from 'papaparse';
+
+// Define a type for the structure data
+interface StructureData {
+    departments: { id: string, name: string, parentId?: string }[];
+    roles: { id: string, title: string, department: string }[];
+    reportingLines: { from: string, to: string }[];
+}
 
 // Helper to format rich text with subtitles
 const formatDescription = (text: string) => {
@@ -100,6 +108,7 @@ export default function StructureAnalysisPage() {
   const [results, setResults] = useState<StructureAnalysisOutput | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [saveSuccess, setSaveSuccess] = useState(false);
+  const [parsedStructure, setParsedStructure] = useState<StructureData | null>(null);
 
   // File upload handler
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {

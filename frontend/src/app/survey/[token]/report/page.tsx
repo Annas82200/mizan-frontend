@@ -4,12 +4,30 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { CheckCircle2, TrendingUp, AlertCircle, Loader2, RefreshCw } from 'lucide-react';
 import { FrameworkIntro } from '@/components/culture/FrameworkIntro';
+import { Radar } from 'react-chartjs-2';
+
+// Define types for the report data
+interface DevelopmentArea {
+    area: string;
+    description: string;
+}
+
+interface Report {
+    employeeName: string;
+    overallSummary: {
+        strengths: string[];
+        developmentAreas: DevelopmentArea[];
+    };
+    cylinderScores: {
+        [key: string]: number;
+    };
+}
 
 export default function SurveyReportPage() {
   const params = useParams();
   const token = params.token as string;
   const [loading, setLoading] = useState(true);
-  const [report, setReport] = useState<any>(null);
+  const [report, setReport] = useState<Report | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<'pending' | 'completed'>('pending');
   const [showFrameworkIntro, setShowFrameworkIntro] = useState(true);
@@ -120,11 +138,11 @@ export default function SurveyReportPage() {
           <div className="bg-white rounded-2xl p-8 shadow-lg">
             <h2 className="text-2xl font-bold text-mizan-primary mb-6">Overall Summary</h2>
 
-            {report.overallSummary.keyStrengths && report.overallSummary.keyStrengths.length > 0 && (
+            {report.overallSummary.strengths && report.overallSummary.strengths.length > 0 && (
               <div className="mb-6">
                 <h3 className="font-semibold text-mizan-primary mb-3">Your Key Strengths</h3>
                 <ul className="space-y-2">
-                  {report.overallSummary.keyStrengths.map((strength: string, idx: number) => (
+                  {report.overallSummary.strengths.map((strength: string, idx: number) => (
                     <li key={idx} className="flex items-start space-x-2">
                       <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
                       <span className="text-mizan-secondary">{strength}</span>
@@ -137,14 +155,17 @@ export default function SurveyReportPage() {
             {report.overallSummary.developmentAreas && report.overallSummary.developmentAreas.length > 0 && (
               <div>
                 <h3 className="font-semibold text-mizan-primary mb-3">Development Opportunities</h3>
-                <ul className="space-y-2">
-                  {report.overallSummary.developmentAreas.map((area: any, idx: number) => (
-                    <li key={idx} className="flex items-start space-x-2">
-                      <TrendingUp className="w-5 h-5 text-mizan-gold flex-shrink-0 mt-0.5" />
-                      <span className="text-mizan-secondary">{area.title || area}</span>
-                    </li>
-                  ))}
-                </ul>
+                <div className="bg-white p-6 rounded-lg shadow">
+                  <h3 className="text-xl font-semibold mb-4 text-mizan-secondary">Areas for Development</h3>
+                  <ul className="space-y-4">
+                    {report.overallSummary.developmentAreas.map((area, idx) => (
+                      <li key={idx}>
+                        <p className="font-semibold">{area.area}</p>
+                        <p className="text-gray-600">{area.description}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             )}
           </div>
