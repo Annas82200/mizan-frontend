@@ -16,7 +16,8 @@ The Mizan Platform now has a **fully automated, interactive quality pipeline** t
 - Your decisions override agent recommendations
 
 ### 2. **Automated Pre-Commit Hook** (`.git/hooks/pre-commit`)
-- Automatically runs complete quality pipeline before commits
+- **Always runs** complete quality pipeline on every commit
+- Scans **entire project** (all frontend, backend, scripts)
 - Blocks commits if quality checks fail
 - Interactive review integrated into commit workflow
 - Can be bypassed with `--no-verify` (not recommended)
