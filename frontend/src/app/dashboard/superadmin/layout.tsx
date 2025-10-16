@@ -3,8 +3,6 @@
 import { DashboardLayout } from '@/components/dashboard';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import authService from '@/services/auth.service';
-import { displayEnvStatus } from '@/lib/env-check';
 import { Loader2 } from 'lucide-react';
 
 export default function SuperadminLayout({
@@ -17,24 +15,32 @@ export default function SuperadminLayout({
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Display environment status in console for debugging
-    if (process.env.NODE_ENV === 'development') {
-      displayEnvStatus();
-    }
-
-    // Check authentication
-    const checkAuth = async () => {
+    // Check authentication - runs after component mounts (client-side only)
+    const checkAuth = () => {
       try {
-        const authenticated = authService.isAuthenticated();
-        const user = authService.getCurrentUser();
+        // Safe localStorage access (client-side only)
+        const token = localStorage.getItem('mizan_auth_token');
+        const userStr = localStorage.getItem('mizan_user');
 
-        if (!authenticated || !user) {
+        if (!token || !userStr) {
           console.warn('[Auth] No valid session found, redirecting to login');
           router.push('/login');
           return;
         }
 
-        // Verify user has superadmin role
+        // Safe JSON parsing with error handling
+        let user;
+        try {
+          user = JSON.parse(userStr);
+        } catch (parseError) {
+          console.error('[Auth] Invalid user data in localStorage');
+          localStorage.removeItem('mizan_user');
+          localStorage.removeItem('mizan_auth_token');
+          router.push('/login');
+          return;
+        }
+
+        // Strict role checking (security requirement)
         if (user.role !== 'superadmin') {
           console.warn('[Auth] User is not superadmin, redirecting to appropriate dashboard');
           router.push('/dashboard');

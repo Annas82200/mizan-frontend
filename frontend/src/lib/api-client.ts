@@ -79,8 +79,9 @@ apiClient.interceptors.response.use(
           localStorage.removeItem('mizan_auth_token');
           localStorage.removeItem('mizan_user');
           
-          // Only redirect if not already on login page
-          if (!window.location.pathname.includes('/login')) {
+          // Only redirect if not already on login or auth pages
+          const currentPath = window.location.pathname;
+          if (!currentPath.includes('/login') && !currentPath.includes('/register')) {
             window.location.href = '/login';
           }
         }

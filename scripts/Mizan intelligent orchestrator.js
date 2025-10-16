@@ -94,6 +94,7 @@ const MIZAN_AGENTS = [
 
 /**
  * Validate Mizan platform context and requirements
+ * ENHANCED: Now validates actual content sections for completeness
  */
 function validateMizanContext() {
   console.log(`${colors.cyan}🔍 Validating Mizan platform context...${colors.reset}`);
@@ -114,6 +115,71 @@ function validateMizanContext() {
   
   if (contextSizeKB < 50) {
     console.warn(`${colors.yellow}   ⚠️  Context file seems small - may be incomplete${colors.reset}`);
+  }
+  
+  // ENHANCED: Validate required sections exist
+  const contextContent = fs.readFileSync(contextPath, 'utf8');
+  const requiredSections = [
+    'PROJECT OVERVIEW',
+    'FILE ARCHITECTURE',
+    'PLATFORM FEATURE FLOW',
+    'FEATURE INTEGRATION RULES',
+    'THREE-ENGINE ARCHITECTURE',
+    'MULTI-TENANT ISOLATION',
+    'SKILLS ANALYSIS - COMPLETE WORKFLOW',
+    'PERFORMANCE MODULE',
+    'HIRING MODULE',
+    'DESIGN GUIDELINES',
+    'TECHNICAL STACK REQUIREMENTS',
+    'IMPLEMENTATION PATTERNS',
+    'QUALITY CONTROL RULES'
+  ];
+  
+  const missingSections = [];
+  const foundSections = [];
+  
+  requiredSections.forEach(section => {
+    if (contextContent.includes(section)) {
+      foundSections.push(section);
+    } else {
+      missingSections.push(section);
+    }
+  });
+  
+  console.log(`   📊 Context sections: ${foundSections.length}/${requiredSections.length} found`);
+  
+  if (missingSections.length > 0) {
+    console.error(`${colors.red}   ❌ Missing required sections:${colors.reset}`);
+    missingSections.forEach(section => {
+      console.error(`${colors.red}      • ${section}${colors.reset}`);
+    });
+    console.error(`${colors.red}\n   AGENT_CONTEXT_ULTIMATE.md is incomplete!${colors.reset}`);
+    console.error(`${colors.red}   Agents need complete context for accurate analysis.${colors.reset}\n`);
+    process.exit(1);
+  }
+  
+  console.log(`   ✅ All required sections present`);
+  
+  // Validate critical keywords exist
+  const criticalKeywords = [
+    'Culture → Recognition',
+    'Skills → LXP',
+    'Performance → Culture/Skills',
+    'Three-Engine',
+    'tenantId',
+    'Drizzle ORM',
+    'Next.js 14 App Router'
+  ];
+  
+  const missingKeywords = criticalKeywords.filter(keyword => !contextContent.includes(keyword));
+  
+  if (missingKeywords.length > 0) {
+    console.warn(`${colors.yellow}   ⚠️  Missing some critical keywords:${colors.reset}`);
+    missingKeywords.forEach(keyword => {
+      console.warn(`${colors.yellow}      • ${keyword}${colors.reset}`);
+    });
+  } else {
+    console.log(`   ✅ All critical keywords present`);
   }
   
   // Check for violations.json (prerequisite)

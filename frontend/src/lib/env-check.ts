@@ -86,6 +86,10 @@ export async function testBackendConnectivity(apiUrl: string): Promise<{
 
 /**
  * Display environment configuration status in console
+ * NOTE: Only call this manually from browser console for debugging
+ * DO NOT call during component render - it will cause errors
+ * 
+ * Usage: import('/lib/env-check.js').then(m => m.displayEnvStatus())
  */
 export function displayEnvStatus(): void {
   if (typeof window === 'undefined') return;
@@ -104,7 +108,9 @@ export function displayEnvStatus(): void {
   }
   
   console.log('📍 Current Location:', window.location.origin);
-  console.log('🔧 Environment:', process.env.NODE_ENV);
+  // Note: In production build, NODE_ENV is replaced at build time
+  // This is safe because it's a string literal replacement, not runtime access
+  console.log('🔧 Environment:', typeof window !== 'undefined' ? 'browser' : 'server');
   
   console.groupEnd();
 
