@@ -62,12 +62,34 @@ export default function SuperadminHome() {
       setLoading(true);
       setError(null);
 
-      // Fetch all data in parallel
+      // Check if API URL is configured
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+      if (!apiUrl || apiUrl === 'http://localhost:3001') {
+        if (typeof window !== 'undefined' && window.location.hostname !== 'localhost') {
+          throw new Error(
+            'Backend API not configured. Please set NEXT_PUBLIC_API_URL environment variable in Vercel.'
+          );
+        }
+      }
+
+      // Fetch all data in parallel with retry logic
+      const fetchWithRetry = async (fetchFn: () => Promise<any>, retries = 2) => {
+        for (let i = 0; i < retries; i++) {
+          try {
+            return await fetchFn();
+          } catch (err) {
+            if (i === retries - 1) throw err;
+            console.warn(`Retry ${i + 1}/${retries} for failed request`);
+            await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)));
+          }
+        }
+      };
+
       const [statsResponse, tenantsResponse, revenueResponse, activityResponse] = await Promise.all([
-        superadminService.getStats(),
-        superadminService.getTenants({ limit: 5 }),
-        superadminService.getRevenue({ timeRange }),
-        superadminService.getActivity({ limit: 5 })
+        fetchWithRetry(() => superadminService.getStats()),
+        fetchWithRetry(() => superadminService.getTenants({ limit: 5 })),
+        fetchWithRetry(() => superadminService.getRevenue({ timeRange })),
+        fetchWithRetry(() => superadminService.getActivity({ limit: 5 }))
       ]);
 
       setStats(statsResponse);
@@ -76,7 +98,29 @@ export default function SuperadminHome() {
       setActivities(activityResponse.activities || []);
     } catch (err: unknown) {
       console.error('Error fetching dashboard data:', err);
-      setError(err instanceof Error ? err.message : 'Failed to load dashboard data');
+      
+      // Provide detailed error message based on error type
+      let errorMessage = 'Failed to load dashboard data';
+      
+      if (err instanceof Error) {
+        if (err.message.includes('Network Error') || err.message.includes('CORS')) {
+          errorMessage = 'Cannot connect to backend server. Please check:\n' +
+            '1. Backend is running and deployed\n' +
+            '2. NEXT_PUBLIC_API_URL is configured in Vercel\n' +
+            '3. CORS settings allow requests from this domain\n\n' +
+            'Current API URL: ' + (process.env.NEXT_PUBLIC_API_URL || 'NOT CONFIGURED');
+        } else if (err.message.includes('401') || err.message.includes('Unauthorized')) {
+          errorMessage = 'Authentication failed. Please log in again.';
+          // Redirect to login after a delay
+          setTimeout(() => {
+            window.location.href = '/login';
+          }, 2000);
+        } else {
+          errorMessage = err.message;
+        }
+      }
+      
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
