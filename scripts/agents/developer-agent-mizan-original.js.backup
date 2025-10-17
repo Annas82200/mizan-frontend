@@ -1,0 +1,1212 @@
+#!/usr/bin/env node
+
+/**
+ * MIZAN DEVELOPER AGENT (Claude Sonnet 4)
+ * 
+ * PHASE 0: Fix existing issues (type safety, security, triggering)
+ * PHASE 1: Generate new modules (LXP, Talent, Bonus)
+ * 
+ * COMPLETE CONTEXT LOADING:
+ * - AGENT_CONTEXT_ULTIMATE.md (all sections including triggering patterns)
+ * - Module triggering patterns and data dependencies
+ * - Three-Engine Architecture patterns
+ * - Multi-tenant isolation rules
+ * - Existing codebase patterns
+ * 
+ * Runs locally on Mac - generates production-ready code files directly
+ * Strictly follows AGENT_CONTEXT_ULTIMATE.md - 100% compliance
+ */
+
+require('dotenv').config();
+const Anthropic = require('@anthropic-ai/sdk');
+const fs = require('fs');
+const path = require('path');
+const { exec } = require('child_process');
+const { promisify } = require('util');
+
+const execAsync = promisify(exec);
+
+// Initialize Anthropic
+const anthropic = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY,
+});
+
+// Colors for output
+const colors = {
+  reset: '\x1b[0m',
+  red: '\x1b[31m',
+  green: '\x1b[32m',
+  yellow: '\x1b[33m',
+  blue: '\x1b[34m',
+  cyan: '\x1b[36m',
+  bold: '\x1b[1m',
+  magenta: '\x1b[35m'
+};
+
+/**
+ * Load complete AGENT_CONTEXT_ULTIMATE.md - CRITICAL for 100% compliance
+ */
+function loadAgentContextUltimate() {
+  const contextPath = path.join(process.cwd(), 'AGENT_CONTEXT_ULTIMATE.md');
+  
+  if (!fs.existsSync(contextPath)) {
+    console.error(`${colors.red}🚨 CRITICAL ERROR: AGENT_CONTEXT_ULTIMATE.md not found!${colors.reset}`);
+    console.error(`${colors.red}This file is REQUIRED for 100% compliance.${colors.reset}\n`);
+    process.exit(1);
+  }
+  
+  const context = fs.readFileSync(contextPath, 'utf8');
+  console.log(`${colors.green}✅ Loaded AGENT_CONTEXT_ULTIMATE.md (${Math.round(context.length/1000)}K chars)${colors.reset}`);
+  
+  return context;
+}
+
+/**
+ * Load fix_plan.md for Phase 0 fixes
+ */
+function loadFixPlan() {
+  const fixPlanPath = path.join(process.cwd(), 'fix_plan.md');
+  
+  if (!fs.existsSync(fixPlanPath)) {
+    console.warn(`${colors.yellow}⚠️  fix_plan.md not found - skipping Phase 0 fixes${colors.reset}`);
+    return null;
+  }
+  
+  const fixPlan = fs.readFileSync(fixPlanPath, 'utf8');
+  console.log(`${colors.green}✅ Loaded fix_plan.md${colors.reset}`);
+  
+  return fixPlan;
+}
+
+/**
+ * Extract triggering patterns from AGENT_CONTEXT_ULTIMATE.md
+ */
+function extractTriggeringPatterns(agentContext) {
+  console.log(`${colors.cyan}📊 Extracting triggering patterns...${colors.reset}`);
+  
+  const triggeringSection = agentContext.match(/## 🔀 \*\*MODULE TRIGGERING & INTERACTION PATTERNS\*\*[\s\S]*?(?=##)/);
+  
+  if (!triggeringSection) {
+    console.warn(`${colors.yellow}⚠️  Triggering patterns section not found${colors.reset}`);
+    return null;
+  }
+  
+  console.log(`${colors.green}✅ Extracted triggering patterns${colors.reset}`);
+  return triggeringSection[0];
+}
+
+/**
+ * Extract module interactions map from context
+ */
+function extractModuleInteractions(agentContext) {
+  console.log(`${colors.cyan}📊 Building module interaction map...${colors.reset}`);
+  
+  const moduleInteractionMap = {
+    culture: {
+      triggers: ['recognition', 'engagement', 'performance'],
+      provides: ['leadership_priorities', 'culture_metrics', 'behavior_change_targets'],
+      dependsOn: [],
+      triggerData: {
+        recognition: 'Last 2 survey questions responses',
+        engagement: 'Last 2 survey questions responses',
+        performance: 'Leadership culture shaping priorities'
+      }
+    },
+    skills: {
+      triggers: ['lxp', 'performance', 'talent'],
+      provides: ['skills_gaps', 'competency_data', 'strategic_skills'],
+      dependsOn: ['strategy_documents'],
+      triggerData: {
+        lxp: 'employeeId, skillsGaps[], strategicPriorities, behaviorChangeTargets',
+        performance: 'criticalSkillsGaps[], individualGaps[]',
+        talent: 'skillsData for capability assessment'
+      }
+    },
+    structure: {
+      triggers: ['hiring', 'performance', 'succession_planning'],
+      provides: ['departmental_structure', 'reporting_lines', 'position_criticality'],
+      dependsOn: [],
+      triggerData: {
+        hiring: 'positionRequirements, reportingStructure, teamComposition',
+        performance: 'departmentalStructure, reportingLines, roleDefinitions',
+        succession_planning: 'positionCriticality[], strategicImportance[]'
+      }
+    },
+    performance: {
+      triggers: ['talent', 'bonus', 'lxp'],
+      provides: ['performance_results', 'ratings', 'evaluations'],
+      dependsOn: ['culture', 'skills', 'structure'],
+      triggerData: {
+        talent: 'performanceRatings[], evaluationData[], performanceHistory[]',
+        bonus: 'performanceRatings[], employeeRole, eligibilityStatus',
+        lxp: 'goalsWithLearning[], employeeId, supervisorId'
+      }
+    },
+    hiring: {
+      triggers: [],
+      provides: ['recruitment_data', 'candidate_data'],
+      dependsOn: ['structure', 'culture'],
+      triggerData: {}
+    },
+    lxp: {
+      triggers: ['skills', 'performance'],
+      provides: ['learning_completion', 'skills_acquired', 'behavior_metrics'],
+      dependsOn: ['skills', 'culture', 'performance'],
+      triggerData: {
+        skills: 'completedLearning[], skillsAcquired[], behaviorChangeMetrics',
+        performance: 'learningProgress%, goalsProgress[], completionStatus'
+      }
+    },
+    talent: {
+      triggers: ['performance', 'lxp'],
+      provides: ['9box_distribution', 'succession_plans', 'development_plans'],
+      dependsOn: ['performance', 'skills', 'culture', 'structure'],
+      triggerData: {
+        performance: 'developmentGoals[], successorPreparation[], skillsGapsForRole[]',
+        lxp: 'developmentNeeds[], learningPriorities[], timelineRequirements'
+      }
+    },
+    bonus: {
+      triggers: [],
+      provides: ['bonus_calculations', 'distribution_data'],
+      dependsOn: ['performance', 'tenant_config'],
+      triggerData: {}
+    }
+  };
+  
+  console.log(`${colors.green}✅ Built complete module interaction map${colors.reset}`);
+  return moduleInteractionMap;
+}
+
+/**
+ * Analyze existing codebase for patterns
+ */
+async function analyzeExistingCodebase() {
+  console.log(`${colors.cyan}🔍 Analyzing existing codebase patterns...${colors.reset}`);
+  
+  const patterns = {
+    existingModules: [],
+    threeEngineExamples: [],
+    databaseSchemas: [],
+    apiRoutes: [],
+    frontendPages: []
+  };
+  
+  // Check for existing modules
+  const modulesToCheck = ['culture', 'skills', 'structure', 'performance', 'hiring'];
+  
+  for (const module of modulesToCheck) {
+    const backendServicePath = path.join(process.cwd(), `backend/src/services/agents/${module}`);
+    const frontendPagePath = path.join(process.cwd(), `frontend/src/app/dashboard/${module}`);
+    
+    const backendExists = fs.existsSync(backendServicePath);
+    const frontendExists = fs.existsSync(frontendPagePath);
+    
+    patterns.existingModules.push({
+      name: module,
+      backendExists,
+      frontendExists,
+      complete: backendExists && frontendExists
+    });
+  }
+  
+  console.log(`${colors.green}✅ Analyzed existing codebase${colors.reset}`);
+  return patterns;
+}
+
+/**
+ * Detect issues from fix_plan.md
+ */
+function detectIssuesFromFixPlan(fixPlan) {
+  if (!fixPlan) {
+    return [];
+  }
+  
+  console.log(`${colors.cyan}🔍 Detecting issues from fix_plan.md...${colors.reset}`);
+  
+  const issues = {
+    typeSafety: [],
+    security: [],
+    triggering: [],
+    performance: []
+  };
+  
+  // Parse fix_plan.md for issues
+  if (fixPlan.includes('Fix all `data: any` parameters')) {
+    issues.typeSafety.push({
+      type: 'any_types',
+      file: 'dashboard.service.ts',
+      count: 10,
+      priority: 'critical'
+    });
+  }
+  
+  if (fixPlan.includes('TableComponent.tsx generic typing')) {
+    issues.typeSafety.push({
+      type: 'generic_typing',
+      file: 'TableComponent.tsx',
+      count: 1,
+      priority: 'critical'
+    });
+  }
+  
+  if (fixPlan.includes('Add tenant isolation validation')) {
+    issues.security.push({
+      type: 'tenant_isolation',
+      description: 'Add tenant isolation validation to ALL API routes',
+      priority: 'critical'
+    });
+  }
+  
+  if (fixPlan.includes('Culture → Recognition trigger logic')) {
+    issues.triggering.push({
+      type: 'culture_recognition',
+      description: 'Culture → Recognition agent triggering',
+      priority: 'critical'
+    });
+  }
+  
+  if (fixPlan.includes('Culture → Engagement trigger logic')) {
+    issues.triggering.push({
+      type: 'culture_engagement',
+      description: 'Culture → Engagement agent triggering',
+      priority: 'critical'
+    });
+  }
+  
+  if (fixPlan.includes('Structure → Hiring trigger logic')) {
+    issues.triggering.push({
+      type: 'structure_hiring',
+      description: 'Structure → Hiring module triggering',
+      priority: 'critical'
+    });
+  }
+  
+  if (fixPlan.includes('Skills → LXP trigger logic')) {
+    issues.triggering.push({
+      type: 'skills_lxp',
+      description: 'Skills → LXP module triggering',
+      priority: 'critical'
+    });
+  }
+  
+  if (fixPlan.includes('Performance Module Completion')) {
+    issues.performance.push({
+      type: 'completion',
+      description: 'Complete Performance module (routes + frontend)',
+      priority: 'high'
+    });
+  }
+  
+  const totalIssues = 
+    issues.typeSafety.length + 
+    issues.security.length + 
+    issues.triggering.length + 
+    issues.performance.length;
+  
+  console.log(`${colors.green}✅ Detected ${totalIssues} issues to fix${colors.reset}`);
+  
+  return issues;
+}
+
+/**
+ * Detect missing modules
+ */
+function detectMissingModules(codebasePatterns) {
+  console.log(`${colors.cyan}🔍 Detecting missing modules...${colors.reset}`);
+  
+  const missingModules = [];
+  
+  // Check for LXP module
+  const lxpBackend = path.join(process.cwd(), 'backend/src/services/agents/lxp');
+  const lxpFrontend = path.join(process.cwd(), 'frontend/src/app/dashboard/lxp');
+  
+  if (!fs.existsSync(lxpBackend) || !fs.existsSync(lxpFrontend)) {
+    missingModules.push({
+      name: 'LXP',
+      type: 'triggered_module',
+      triggeredBy: 'skills_gap_detected',
+      priority: 'high',
+      description: 'Gamified Learning Experience Platform'
+    });
+  }
+  
+  // Check for Talent module
+  const talentBackend = path.join(process.cwd(), 'backend/src/services/agents/talent');
+  const talentFrontend = path.join(process.cwd(), 'frontend/src/app/dashboard/talent');
+  
+  if (!fs.existsSync(talentBackend) || !fs.existsSync(talentFrontend)) {
+    missingModules.push({
+      name: 'Talent',
+      type: 'triggered_module',
+      triggeredBy: 'performance_complete',
+      priority: 'high',
+      description: '9-Box Talent Management and Succession Planning'
+    });
+  }
+  
+  // Check for Bonus module
+  const bonusBackend = path.join(process.cwd(), 'backend/src/services/agents/bonus');
+  const bonusFrontend = path.join(process.cwd(), 'frontend/src/app/dashboard/bonus');
+  
+  if (!fs.existsSync(bonusBackend) || !fs.existsSync(bonusFrontend)) {
+    missingModules.push({
+      name: 'Bonus',
+      type: 'triggered_module',
+      triggeredBy: 'performance_complete',
+      priority: 'medium',
+      description: 'Automated Bonus Calculation and Distribution'
+    });
+  }
+  
+  console.log(`${colors.green}✅ Detected ${missingModules.length} missing modules${colors.reset}`);
+  
+  return missingModules;
+}
+
+/**
+ * Generate code using Claude Sonnet 4
+ */
+async function generateCodeWithClaude(prompt, systemMessage = 'You are an expert developer generating production-ready code for the Mizan Platform.') {
+  console.log(`${colors.cyan}🤖 Calling Claude Sonnet 4 for code generation...${colors.reset}`);
+  
+  try {
+    const response = await anthropic.messages.create({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 8000,
+      system: systemMessage,
+      messages: [{
+        role: 'user',
+        content: prompt
+      }]
+    });
+    
+    return response.content[0].text;
+  } catch (error) {
+    console.error(`${colors.red}❌ Claude API Error: ${error.message}${colors.reset}`);
+    throw error;
+  }
+}
+
+/**
+ * Write generated code to file with backup
+ */
+function writeGeneratedCode(filePath, code, description) {
+  try {
+    // Create backup if file exists
+    if (fs.existsSync(filePath)) {
+      const backupPath = `${filePath}.backup.${Date.now()}`;
+      fs.copyFileSync(filePath, backupPath);
+      console.log(`${colors.yellow}   💾 Backup created: ${backupPath}${colors.reset}`);
+    }
+    
+    // Ensure directory exists
+    const dir = path.dirname(filePath);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+      console.log(`${colors.cyan}   📁 Created directory: ${dir}${colors.reset}`);
+    }
+    
+    // Write file
+    fs.writeFileSync(filePath, code);
+    console.log(`${colors.green}   ✅ ${description}: ${filePath}${colors.reset}`);
+    
+    return true;
+  } catch (error) {
+    console.error(`${colors.red}   ❌ Write error: ${error.message}${colors.reset}`);
+    return false;
+  }
+}
+
+/**
+ * Phase 0: Fix type safety issues
+ */
+async function fixTypeSafetyIssues(agentContext, issues) {
+  if (issues.length === 0) {
+    console.log(`${colors.green}   ✅ No type safety issues to fix${colors.reset}\n`);
+    return { fixed: 0, failed: 0 };
+  }
+  
+  console.log(`${colors.blue}\n🔧 Fixing ${issues.length} type safety issue(s)...${colors.reset}\n`);
+  
+  let fixed = 0;
+  let failed = 0;
+  
+  for (const issue of issues) {
+    console.log(`${colors.cyan}📝 Fixing ${issue.type} in ${issue.file}...${colors.reset}`);
+    
+    const filePath = path.join(process.cwd(), issue.file);
+    
+    if (!fs.existsSync(filePath)) {
+      console.log(`${colors.yellow}   ⚠️  File not found, skipping${colors.reset}`);
+      failed++;
+      continue;
+    }
+    
+    const currentCode = fs.readFileSync(filePath, 'utf8');
+    
+    const prompt = `${agentContext}
+
+TASK: Fix Type Safety Issue
+
+FILE: ${issue.file}
+ISSUE: ${issue.type}
+DESCRIPTION: Eliminate all 'any' types, add proper TypeScript types, add Zod validation
+
+CURRENT CODE:
+\`\`\`typescript
+${currentCode}
+\`\`\`
+
+REQUIREMENTS:
+1. Replace ALL 'any' types with proper TypeScript types
+2. Add Zod validation schemas where appropriate
+3. Maintain tenant isolation (tenantId in all queries)
+4. Preserve all existing functionality
+5. Add comprehensive error handling
+6. Follow AGENT_CONTEXT_ULTIMATE.md patterns EXACTLY
+7. NO mock data, NO placeholders, NO TODOs
+8. Production-ready code only
+
+Generate the COMPLETE fixed file code:`;
+
+    try {
+      const fixedCode = await generateCodeWithClaude(prompt);
+      
+      // Extract code from markdown if present
+      const codeMatch = fixedCode.match(/```(?:typescript|ts|javascript|js)?\n([\s\S]*?)\n```/);
+      const cleanCode = codeMatch ? codeMatch[1] : fixedCode;
+      
+      if (writeGeneratedCode(filePath, cleanCode, 'Type safety fix applied')) {
+        fixed++;
+      } else {
+        failed++;
+      }
+    } catch (error) {
+      console.error(`${colors.red}   ❌ Fix failed: ${error.message}${colors.reset}`);
+      failed++;
+    }
+    
+    console.log();
+  }
+  
+  return { fixed, failed };
+}
+
+/**
+ * Phase 0: Add security patches (tenant isolation)
+ */
+async function addSecurityPatches(agentContext, issues) {
+  if (issues.length === 0) {
+    console.log(`${colors.green}   ✅ No security issues to fix${colors.reset}\n`);
+    return { fixed: 0, failed: 0 };
+  }
+  
+  console.log(`${colors.blue}\n🔒 Adding ${issues.length} security patch(es)...${colors.reset}\n`);
+  
+  // For tenant isolation, we need to scan API routes and add validation
+  console.log(`${colors.cyan}📝 Adding tenant isolation to API routes...${colors.reset}`);
+  
+  const routesDir = path.join(process.cwd(), 'backend/src/routes');
+  
+  if (!fs.existsSync(routesDir)) {
+    console.log(`${colors.yellow}   ⚠️  Routes directory not found${colors.reset}\n`);
+    return { fixed: 0, failed: 0 };
+  }
+  
+  const routeFiles = fs.readdirSync(routesDir).filter(f => f.endsWith('.ts'));
+  
+  let fixed = 0;
+  let failed = 0;
+  
+  for (const file of routeFiles) {
+    const filePath = path.join(routesDir, file);
+    const currentCode = fs.readFileSync(filePath, 'utf8');
+    
+    // Check if already has tenant isolation
+    if (currentCode.includes('tenantId') && currentCode.includes('validateTenantAccess')) {
+      console.log(`${colors.green}   ✅ ${file} already has tenant isolation${colors.reset}`);
+      continue;
+    }
+    
+    console.log(`${colors.cyan}   🔧 Adding tenant isolation to ${file}...${colors.reset}`);
+    
+    const prompt = `${agentContext}
+
+TASK: Add Tenant Isolation Security
+
+FILE: backend/src/routes/${file}
+ISSUE: Missing tenant isolation validation
+
+CURRENT CODE:
+\`\`\`typescript
+${currentCode}
+\`\`\`
+
+REQUIREMENTS:
+1. Add tenant isolation to ALL database queries (use tenantId from user session)
+2. Add validateTenantAccess middleware to protect routes
+3. Ensure ALL queries filter by tenantId using Drizzle ORM eq() function
+4. Add proper error handling for unauthorized access
+5. Follow AGENT_CONTEXT_ULTIMATE.md security patterns EXACTLY
+6. NO breaking changes to existing functionality
+7. Production-ready code only
+
+Example pattern:
+\`\`\`typescript
+const data = await db.select()
+  .from(table)
+  .where(eq(table.tenantId, user.tenantId));
+\`\`\`
+
+Generate the COMPLETE secured file code:`;
+
+    try {
+      const securedCode = await generateCodeWithClaude(prompt);
+      
+      const codeMatch = securedCode.match(/```(?:typescript|ts)?\n([\s\S]*?)\n```/);
+      const cleanCode = codeMatch ? codeMatch[1] : securedCode;
+      
+      if (writeGeneratedCode(filePath, cleanCode, 'Security patch applied')) {
+        fixed++;
+      } else {
+        failed++;
+      }
+    } catch (error) {
+      console.error(`${colors.red}   ❌ Patch failed: ${error.message}${colors.reset}`);
+      failed++;
+    }
+  }
+  
+  console.log();
+  return { fixed, failed };
+}
+
+/**
+ * Phase 0: Implement triggering logic
+ */
+async function implementTriggeringLogic(agentContext, triggeringPatterns, issues) {
+  if (issues.length === 0) {
+    console.log(`${colors.green}   ✅ No triggering logic to implement${colors.reset}\n`);
+    return { fixed: 0, failed: 0 };
+  }
+  
+  console.log(`${colors.blue}\n⚡ Implementing ${issues.length} triggering logic item(s)...${colors.reset}\n`);
+  
+  let fixed = 0;
+  let failed = 0;
+  
+  for (const issue of issues) {
+    console.log(`${colors.cyan}📝 Implementing ${issue.description}...${colors.reset}`);
+    
+    const prompt = `${agentContext}
+
+MODULE TRIGGERING PATTERNS:
+${triggeringPatterns}
+
+TASK: Implement Triggering Logic
+
+TRIGGER: ${issue.description}
+TYPE: ${issue.type}
+
+REQUIREMENTS:
+1. Implement the complete trigger workflow as specified in AGENT_CONTEXT_ULTIMATE.md
+2. Use the Trigger Processing Service pattern for event-based triggering
+3. Pass ALL required data as specified in trigger data dependencies
+4. Ensure tenant isolation (tenantId in all trigger data)
+5. Add proper error handling and logging
+6. Follow the exact integration pattern from AGENT_CONTEXT_ULTIMATE.md
+7. Production-ready code only
+
+Generate:
+1. Trigger creation code (in source module service)
+2. Trigger processor handler (if needed)
+3. Any necessary database schema updates
+
+Provide the complete implementation code:`;
+
+    try {
+      const triggerCode = await generateCodeWithClaude(prompt);
+      
+      console.log(`${colors.green}   ✅ Generated trigger implementation for ${issue.type}${colors.reset}`);
+      console.log(`${colors.yellow}   ⚠️  Manual review recommended - code saved to logs${colors.reset}`);
+      
+      // Save to a trigger implementations file for review
+      const triggerLogPath = path.join(process.cwd(), 'scripts/agents', `trigger-${issue.type}.generated.ts`);
+      fs.writeFileSync(triggerLogPath, triggerCode);
+      console.log(`${colors.cyan}   📄 Saved to: ${triggerLogPath}${colors.reset}`);
+      
+      fixed++;
+    } catch (error) {
+      console.error(`${colors.red}   ❌ Generation failed: ${error.message}${colors.reset}`);
+      failed++;
+    }
+    
+    console.log();
+  }
+  
+  return { fixed, failed };
+}
+
+/**
+ * Phase 1: Generate complete module (LXP, Talent, or Bonus)
+ */
+async function generateCompleteModule(agentContext, triggeringPatterns, moduleInteractionMap, moduleName) {
+  console.log(`${colors.blue}\n🏗️  Generating complete ${moduleName} module...${colors.reset}\n`);
+  
+  const moduleLower = moduleName.toLowerCase();
+  const results = {
+    schemas: [],
+    services: [],
+    routes: [],
+    frontend: [],
+    success: 0,
+    failed: 0
+  };
+  
+  // Extract module-specific workflow from agent context
+  const workflowMatch = agentContext.match(new RegExp(`#### \\*\\*${moduleName} Module.*?(?=####|---|\`\`\`$)`, 's'));
+  const moduleWorkflow = workflowMatch ? workflowMatch[0] : '';
+  
+  console.log(`${colors.cyan}Step 1: Generating database schema...${colors.reset}`);
+  
+  const schemaPrompt = `${agentContext}
+
+MODULE WORKFLOW:
+${moduleWorkflow}
+
+TASK: Generate Drizzle ORM Database Schema for ${moduleName} Module
+
+REQUIREMENTS:
+1. Follow the exact data structures specified in AGENT_CONTEXT_ULTIMATE.md
+2. Use Drizzle ORM syntax (pgTable, uuid, text, timestamp, etc.)
+3. Include ALL fields from the TypeScript interfaces in the workflow
+4. Add tenantId to EVERY table for multi-tenant isolation
+5. Add proper indexes for performance
+6. Add foreign key relationships where appropriate
+7. Follow existing schema patterns in backend/src/db/schema/
+8. Production-ready code only - NO placeholders
+
+Generate the COMPLETE schema file for backend/src/db/schema/${moduleLower}.ts:`;
+
+  try {
+    const schemaCode = await generateCodeWithClaude(schemaPrompt);
+    const codeMatch = schemaCode.match(/```(?:typescript|ts)?\n([\s\S]*?)\n```/);
+    const cleanCode = codeMatch ? codeMatch[1] : schemaCode;
+    
+    const schemaPath = path.join(process.cwd(), `backend/src/db/schema/${moduleLower}.ts`);
+    if (writeGeneratedCode(schemaPath, cleanCode, 'Database schema generated')) {
+      results.schemas.push(schemaPath);
+      results.success++;
+    } else {
+      results.failed++;
+    }
+  } catch (error) {
+    console.error(`${colors.red}   ❌ Schema generation failed: ${error.message}${colors.reset}`);
+    results.failed++;
+  }
+  
+  console.log();
+  console.log(`${colors.cyan}Step 2: Generating Three-Engine AI service...${colors.reset}`);
+  
+  const servicePrompt = `${agentContext}
+
+MODULE WORKFLOW:
+${moduleWorkflow}
+
+MODULE INTERACTIONS:
+${JSON.stringify(moduleInteractionMap[moduleLower], null, 2)}
+
+TRIGGERING PATTERNS:
+${triggeringPatterns}
+
+TASK: Generate Three-Engine AI Service for ${moduleName} Module
+
+REQUIREMENTS:
+1. Implement complete Three-Engine Architecture (Knowledge + Data + Reasoning)
+2. Follow the exact workflow steps from AGENT_CONTEXT_ULTIMATE.md
+3. Handle ALL trigger data and dependencies as specified
+4. Implement ALL integration points with other modules
+5. Add tenant isolation to ALL database queries
+6. Add comprehensive error handling
+7. Use strict TypeScript types (NO 'any')
+8. Production-ready code only - NO mock data, NO placeholders
+
+Generate the COMPLETE service file for backend/src/services/agents/${moduleLower}/${moduleLower}-agent.ts:`;
+
+  try {
+    const serviceCode = await generateCodeWithClaude(servicePrompt);
+    const codeMatch = serviceCode.match(/```(?:typescript|ts)?\n([\s\S]*?)\n```/);
+    const cleanCode = codeMatch ? codeMatch[1] : serviceCode;
+    
+    const servicePath = path.join(process.cwd(), `backend/src/services/agents/${moduleLower}/${moduleLower}-agent.ts`);
+    if (writeGeneratedCode(servicePath, cleanCode, 'Three-Engine service generated')) {
+      results.services.push(servicePath);
+      results.success++;
+    } else {
+      results.failed++;
+    }
+  } catch (error) {
+    console.error(`${colors.red}   ❌ Service generation failed: ${error.message}${colors.reset}`);
+    results.failed++;
+  }
+  
+  console.log();
+  console.log(`${colors.cyan}Step 3: Generating API routes...${colors.reset}`);
+  
+  const routesPrompt = `${agentContext}
+
+MODULE WORKFLOW:
+${moduleWorkflow}
+
+TASK: Generate Express API Routes for ${moduleName} Module
+
+REQUIREMENTS:
+1. Create RESTful API endpoints for ALL module operations
+2. Add authentication middleware to protect routes
+3. Add tenant isolation validation to ALL routes
+4. Handle ALL trigger scenarios specified in the workflow
+5. Add proper error handling and status codes
+6. Use Zod for request validation
+7. Follow existing route patterns in backend/src/routes/
+8. Production-ready code only
+
+Generate the COMPLETE routes file for backend/src/routes/${moduleLower}.ts:`;
+
+  try {
+    const routesCode = await generateCodeWithClaude(routesPrompt);
+    const codeMatch = routesCode.match(/```(?:typescript|ts)?\n([\s\S]*?)\n```/);
+    const cleanCode = codeMatch ? codeMatch[1] : routesCode;
+    
+    const routesPath = path.join(process.cwd(), `backend/src/routes/${moduleLower}.ts`);
+    if (writeGeneratedCode(routesPath, cleanCode, 'API routes generated')) {
+      results.routes.push(routesPath);
+      results.success++;
+    } else {
+      results.failed++;
+    }
+  } catch (error) {
+    console.error(`${colors.red}   ❌ Routes generation failed: ${error.message}${colors.reset}`);
+    results.failed++;
+  }
+  
+  console.log();
+  console.log(`${colors.cyan}Step 4: Generating frontend page...${colors.reset}`);
+  
+  const frontendPrompt = `${agentContext}
+
+MODULE WORKFLOW:
+${moduleWorkflow}
+
+TASK: Generate Next.js 14 App Router Page for ${moduleName} Module
+
+REQUIREMENTS:
+1. Use Next.js 14 App Router (NOT Pages Router)
+2. Create dashboard page at frontend/src/app/dashboard/${moduleLower}/page.tsx
+3. Follow design guidelines (colors, typography, components) from AGENT_CONTEXT_ULTIMATE.md
+4. Add proper loading states and error handling
+5. Use SWR or React Query for data fetching
+6. Add tenant-aware API calls
+7. Follow existing dashboard page patterns
+8. Production-ready code only - beautiful, modern UI
+
+Generate the COMPLETE page component:`;
+
+  try {
+    const frontendCode = await generateCodeWithClaude(frontendPrompt);
+    const codeMatch = frontendCode.match(/```(?:typescript|tsx)?\n([\s\S]*?)\n```/);
+    const cleanCode = codeMatch ? codeMatch[1] : frontendCode;
+    
+    const frontendPath = path.join(process.cwd(), `frontend/src/app/dashboard/${moduleLower}/page.tsx`);
+    if (writeGeneratedCode(frontendPath, cleanCode, 'Frontend page generated')) {
+      results.frontend.push(frontendPath);
+      results.success++;
+    } else {
+      results.failed++;
+    }
+  } catch (error) {
+    console.error(`${colors.red}   ❌ Frontend generation failed: ${error.message}${colors.reset}`);
+    results.failed++;
+  }
+  
+  console.log();
+  console.log(`${colors.green}✅ ${moduleName} module generation complete!${colors.reset}`);
+  console.log(`${colors.cyan}   Generated: ${results.success} files, Failed: ${results.failed} files${colors.reset}\n`);
+  
+  return results;
+}
+
+/**
+ * Main Developer Agent Execution
+ */
+async function runDeveloperAgent() {
+  console.log(`${colors.magenta}${colors.bold}╔═══════════════════════════════════════════════════════════════════╗${colors.reset}`);
+  console.log(`${colors.magenta}${colors.bold}║            MIZAN DEVELOPER AGENT (Claude Sonnet 4)                ║${colors.reset}`);
+  console.log(`${colors.magenta}${colors.bold}║     Fix Existing Issues + Generate Missing Modules                ║${colors.reset}`);
+  console.log(`${colors.magenta}${colors.bold}╚═══════════════════════════════════════════════════════════════════╝${colors.reset}\n`);
+  
+  console.log(`${colors.cyan}🔧 PHASE 0: Fix existing issues (type safety, security, triggering)${colors.reset}`);
+  console.log(`${colors.cyan}🏗️  PHASE 1: Generate new modules (LXP, Talent, Bonus)${colors.reset}\n`);
+  
+  // Check API key
+  if (!process.env.ANTHROPIC_API_KEY) {
+    console.error(`${colors.red}🚨 ERROR: ANTHROPIC_API_KEY not set${colors.reset}`);
+    console.error(`${colors.red}Set it in your .env file to use Claude Sonnet 4${colors.reset}\n`);
+    process.exit(1);
+  }
+  
+  // Load complete context
+  console.log(`${colors.blue}📚 Loading complete context...${colors.reset}\n`);
+  
+  const agentContext = loadAgentContextUltimate();
+  const fixPlan = loadFixPlan();
+  const triggeringPatterns = extractTriggeringPatterns(agentContext);
+  const moduleInteractionMap = extractModuleInteractions(agentContext);
+  const codebasePatterns = await analyzeExistingCodebase();
+  
+  console.log();
+  
+  // Detect issues and missing modules
+  console.log(`${colors.blue}🔍 Scanning for issues and missing modules...${colors.reset}\n`);
+  
+  const issues = detectIssuesFromFixPlan(fixPlan);
+  const missingModules = detectMissingModules(codebasePatterns);
+  
+  console.log();
+  
+  // Display summary
+  console.log(`${colors.blue}📊 Developer Agent Summary:${colors.reset}`);
+  console.log(`${colors.cyan}────────────────────────────────────────${colors.reset}`);
+  console.log(`Type Safety Issues:     ${issues.typeSafety.length}`);
+  console.log(`Security Issues:        ${issues.security.length}`);
+  console.log(`Triggering Issues:      ${issues.triggering.length}`);
+  console.log(`Performance Issues:     ${issues.performance.length}`);
+  console.log(`Missing Modules:        ${missingModules.length}`);
+  console.log(`${colors.cyan}────────────────────────────────────────${colors.reset}\n`);
+  
+  // Initialize results tracking
+  const executionResults = {
+    phase0: {
+      typeSafety: { fixed: 0, failed: 0 },
+      security: { fixed: 0, failed: 0 },
+      triggering: { fixed: 0, failed: 0 }
+    },
+    phase1: {
+      modules: []
+    }
+  };
+  
+  // ===== PHASE 0: FIX EXISTING ISSUES =====
+  console.log(`${colors.magenta}${colors.bold}\n═══════════════════════════════════════════════════════════════════${colors.reset}`);
+  console.log(`${colors.magenta}${colors.bold}                    PHASE 0: FIX EXISTING ISSUES${colors.reset}`);
+  console.log(`${colors.magenta}${colors.bold}═══════════════════════════════════════════════════════════════════${colors.reset}\n`);
+  
+  // Fix type safety issues
+  if (issues.typeSafety.length > 0) {
+    executionResults.phase0.typeSafety = await fixTypeSafetyIssues(agentContext, issues.typeSafety);
+  } else {
+    console.log(`${colors.green}✅ No type safety issues to fix${colors.reset}\n`);
+  }
+  
+  // Add security patches
+  if (issues.security.length > 0) {
+    executionResults.phase0.security = await addSecurityPatches(agentContext, issues.security);
+  } else {
+    console.log(`${colors.green}✅ No security issues to fix${colors.reset}\n`);
+  }
+  
+  // Implement triggering logic
+  if (issues.triggering.length > 0) {
+    executionResults.phase0.triggering = await implementTriggeringLogic(
+      agentContext, 
+      triggeringPatterns, 
+      issues.triggering
+    );
+  } else {
+    console.log(`${colors.green}✅ No triggering logic to implement${colors.reset}\n`);
+  }
+  
+  // Phase 0 Summary
+  const phase0Total = 
+    executionResults.phase0.typeSafety.fixed + 
+    executionResults.phase0.security.fixed + 
+    executionResults.phase0.triggering.fixed;
+  const phase0Failed = 
+    executionResults.phase0.typeSafety.failed + 
+    executionResults.phase0.security.failed + 
+    executionResults.phase0.triggering.failed;
+  
+  console.log(`${colors.blue}📊 Phase 0 Results:${colors.reset}`);
+  console.log(`${colors.green}   ✅ Fixed: ${phase0Total}${colors.reset}`);
+  console.log(`${colors.red}   ❌ Failed: ${phase0Failed}${colors.reset}\n`);
+  
+  // ===== PHASE 1: GENERATE MISSING MODULES =====
+  console.log(`${colors.magenta}${colors.bold}\n═══════════════════════════════════════════════════════════════════${colors.reset}`);
+  console.log(`${colors.magenta}${colors.bold}                  PHASE 1: GENERATE MISSING MODULES${colors.reset}`);
+  console.log(`${colors.magenta}${colors.bold}═══════════════════════════════════════════════════════════════════${colors.reset}\n`);
+  
+  // Generate each missing module
+  for (const module of missingModules) {
+    console.log(`${colors.cyan}╔═══════════════════════════════════════════════════════════════════╗${colors.reset}`);
+    console.log(`${colors.cyan}║        GENERATING ${module.name.toUpperCase()} MODULE${' '.repeat(47 - module.name.length)}║${colors.reset}`);
+    console.log(`${colors.cyan}╚═══════════════════════════════════════════════════════════════════╝${colors.reset}\n`);
+    
+    try {
+      const moduleResults = await generateCompleteModule(
+        agentContext,
+        triggeringPatterns,
+        moduleInteractionMap,
+        module.name
+      );
+      
+      executionResults.phase1.modules.push({
+        name: module.name,
+        ...moduleResults
+      });
+    } catch (error) {
+      console.error(`${colors.red}❌ ${module.name} module generation failed: ${error.message}${colors.reset}\n`);
+      executionResults.phase1.modules.push({
+        name: module.name,
+        success: 0,
+        failed: 1,
+        error: error.message
+      });
+    }
+  }
+  
+  // Phase 1 Summary
+  const phase1Total = executionResults.phase1.modules.reduce((sum, m) => sum + (m.success || 0), 0);
+  const phase1Failed = executionResults.phase1.modules.reduce((sum, m) => sum + (m.failed || 0), 0);
+  
+  console.log(`${colors.blue}📊 Phase 1 Results:${colors.reset}`);
+  console.log(`${colors.green}   ✅ Generated: ${phase1Total} files${colors.reset}`);
+  console.log(`${colors.red}   ❌ Failed: ${phase1Failed} files${colors.reset}\n`);
+  
+  // ===== FINAL REPORT =====
+  console.log(`${colors.magenta}${colors.bold}\n═══════════════════════════════════════════════════════════════════${colors.reset}`);
+  console.log(`${colors.magenta}${colors.bold}                    DEVELOPER AGENT COMPLETE${colors.reset}`);
+  console.log(`${colors.magenta}${colors.bold}═══════════════════════════════════════════════════════════════════${colors.reset}\n`);
+  
+  const report = {
+    timestamp: new Date().toISOString(),
+    phase0: {
+      typeSafety: {
+        issues: issues.typeSafety,
+        results: executionResults.phase0.typeSafety
+      },
+      security: {
+        issues: issues.security,
+        results: executionResults.phase0.security
+      },
+      triggering: {
+        issues: issues.triggering,
+        results: executionResults.phase0.triggering
+      },
+      totalIssues: issues.typeSafety.length + issues.security.length + issues.triggering.length,
+      totalFixed: phase0Total,
+      totalFailed: phase0Failed
+    },
+    phase1: {
+      missingModules,
+      moduleResults: executionResults.phase1.modules,
+      totalGenerated: phase1Total,
+      totalFailed: phase1Failed
+    },
+    context: {
+      agentContextSize: agentContext.length,
+      triggeringPatternsLoaded: !!triggeringPatterns,
+      moduleInteractionMapBuilt: !!moduleInteractionMap,
+      codebasePatternsAnalyzed: true
+    },
+    codebaseAnalysis: codebasePatterns,
+    status: 'completed',
+    summary: {
+      phase0: `Fixed ${phase0Total} issues, ${phase0Failed} failed`,
+      phase1: `Generated ${phase1Total} files, ${phase1Failed} failed`
+    }
+  };
+  
+  // Save detailed report
+  const reportPath = path.join(process.cwd(), 'scripts/agents/developer-report.json');
+  fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
+  console.log(`${colors.green}✅ Developer report saved: ${reportPath}${colors.reset}\n`);
+  
+  // Generate human-readable summary
+  const summaryPath = path.join(process.cwd(), 'scripts/agents/DEVELOPER_SUMMARY.md');
+  const summary = generateDeveloperSummary(report, issues, missingModules, executionResults);
+  fs.writeFileSync(summaryPath, summary);
+  console.log(`${colors.green}✅ Developer summary saved: ${summaryPath}${colors.reset}\n`);
+  
+  // Final status
+  console.log(`${colors.blue}📊 FINAL RESULTS:${colors.reset}`);
+  console.log(`${colors.cyan}─────────────────────────────────────────${colors.reset}`);
+  console.log(`Phase 0 - Issues Fixed:      ${phase0Total}/${phase0Total + phase0Failed}`);
+  console.log(`Phase 1 - Files Generated:   ${phase1Total}/${phase1Total + phase1Failed}`);
+  console.log(`${colors.cyan}─────────────────────────────────────────${colors.reset}\n`);
+  
+  if (phase0Failed === 0 && phase1Failed === 0) {
+    console.log(`${colors.green}${colors.bold}🎉 ALL TASKS COMPLETED SUCCESSFULLY!${colors.reset}`);
+    console.log(`${colors.green}✅ All issues fixed${colors.reset}`);
+    console.log(`${colors.green}✅ All modules generated${colors.reset}`);
+    console.log(`${colors.green}✅ Production-ready code created${colors.reset}\n`);
+  } else {
+    console.log(`${colors.yellow}⚠️  COMPLETED WITH SOME ISSUES${colors.reset}`);
+    if (phase0Failed > 0) {
+      console.log(`${colors.yellow}   ${phase0Failed} fix(es) failed - review errors above${colors.reset}`);
+    }
+    if (phase1Failed > 0) {
+      console.log(`${colors.yellow}   ${phase1Failed} file(s) failed to generate - review errors above${colors.reset}`);
+    }
+    console.log();
+  }
+  
+  console.log(`${colors.cyan}📋 Next Steps:${colors.reset}`);
+  console.log(`   1. Review generated code in backend/src/ and frontend/src/`);
+  console.log(`   2. Test generated modules locally`);
+  console.log(`   3. Run verification pipeline: npm run pipeline`);
+  console.log(`   4. Deploy to Railway (backend) + Vercel (frontend)\n`);
+  
+  return report;
+}
+
+/**
+ * Generate human-readable developer summary
+ */
+function generateDeveloperSummary(report, issues, missingModules, executionResults) {
+  const hasExecutionResults = executionResults && executionResults.phase0;
+  
+  return `# MIZAN DEVELOPER AGENT - EXECUTION SUMMARY
+
+## Execution Time
+**Generated:** ${new Date(report.timestamp).toLocaleString()}
+
+## Phase 0: Fix Existing Issues
+
+### Type Safety Issues (${issues.typeSafety.length})
+${issues.typeSafety.map(issue => `- **${issue.type}** in \`${issue.file}\` - ${issue.count} instances (Priority: ${issue.priority})`).join('\n') || '- No type safety issues detected'}
+
+${hasExecutionResults ? `**Results:** ✅ Fixed: ${executionResults.phase0.typeSafety.fixed}, ❌ Failed: ${executionResults.phase0.typeSafety.failed}` : ''}
+
+### Security Issues (${issues.security.length})
+${issues.security.map(issue => `- **${issue.type}**: ${issue.description} (Priority: ${issue.priority})`).join('\n') || '- No security issues detected'}
+
+${hasExecutionResults ? `**Results:** ✅ Fixed: ${executionResults.phase0.security.fixed}, ❌ Failed: ${executionResults.phase0.security.failed}` : ''}
+
+### Triggering Logic Issues (${issues.triggering.length})
+${issues.triggering.map(issue => `- **${issue.type}**: ${issue.description} (Priority: ${issue.priority})`).join('\n') || '- No triggering issues detected'}
+
+${hasExecutionResults ? `**Results:** ✅ Implemented: ${executionResults.phase0.triggering.fixed}, ❌ Failed: ${executionResults.phase0.triggering.failed}` : ''}
+
+### Performance Module Issues (${issues.performance.length})
+${issues.performance.map(issue => `- **${issue.type}**: ${issue.description} (Priority: ${issue.priority})`).join('\n') || '- No performance module issues detected'}
+
+**Total Phase 0 Issues:** ${report.phase0.totalIssues}
+${hasExecutionResults ? `\n**Phase 0 Execution:** ✅ Fixed: ${report.phase0.totalFixed}, ❌ Failed: ${report.phase0.totalFailed}` : ''}
+
+## Phase 1: Generate Missing Modules
+
+### Missing Modules (${missingModules.length})
+${missingModules.map(module => `
+#### ${module.name} Module
+- **Type:** ${module.type}
+- **Triggered By:** ${module.triggeredBy}
+- **Priority:** ${module.priority}
+- **Description:** ${module.description}
+`).join('\n')}
+
+**Total Phase 1 Modules:** ${report.phase1.totalModules}
+${hasExecutionResults && executionResults.phase1 ? `\n**Phase 1 Execution:** ✅ Generated: ${report.phase1.totalGenerated} files, ❌ Failed: ${report.phase1.totalFailed} files
+
+### Generation Results
+${executionResults.phase1.modules.map(m => `
+**${m.name} Module:**
+- Database Schemas: ${m.schemas?.length || 0}
+- Services: ${m.services?.length || 0}
+- API Routes: ${m.routes?.length || 0}
+- Frontend Pages: ${m.frontend?.length || 0}
+- Total Success: ${m.success || 0} | Total Failed: ${m.failed || 0}
+`).join('\n')}` : ''}
+
+## Context Loading Status
+
+- ✅ **AGENT_CONTEXT_ULTIMATE.md** loaded (${Math.round(report.context.agentContextSize/1000)}K characters)
+- ${report.context.triggeringPatternsLoaded ? '✅' : '❌'} **Triggering Patterns** extracted
+- ${report.context.moduleInteractionMapBuilt ? '✅' : '❌'} **Module Interaction Map** built
+- ${report.context.codebasePatternsAnalyzed ? '✅' : '❌'} **Codebase Patterns** analyzed
+
+## Existing Module Analysis
+
+${report.codebaseAnalysis.existingModules.map(module => `
+### ${module.name.charAt(0).toUpperCase() + module.name.slice(1)} Module
+- Backend: ${module.backendExists ? '✅ Exists' : '❌ Missing'}
+- Frontend: ${module.frontendExists ? '✅ Exists' : '❌ Missing'}
+- Complete: ${module.complete ? '✅ Complete' : '⚠️  Incomplete'}
+`).join('\n')}
+
+## Module Interaction Map
+
+### Culture Module
+- **Triggers:** recognition, engagement, performance
+- **Provides:** leadership_priorities, culture_metrics, behavior_change_targets
+- **Depends On:** (none)
+
+### Skills Module
+- **Triggers:** lxp, performance, talent
+- **Provides:** skills_gaps, competency_data, strategic_skills
+- **Depends On:** strategy_documents
+
+### Structure Module
+- **Triggers:** hiring, performance, succession_planning
+- **Provides:** departmental_structure, reporting_lines, position_criticality
+- **Depends On:** (none)
+
+### Performance Module
+- **Triggers:** talent, bonus, lxp
+- **Provides:** performance_results, ratings, evaluations
+- **Depends On:** culture, skills, structure
+
+### LXP Module (To Be Generated)
+- **Triggers:** skills, performance
+- **Provides:** learning_completion, skills_acquired, behavior_metrics
+- **Depends On:** skills, culture, performance
+
+### Talent Module (To Be Generated)
+- **Triggers:** performance, lxp
+- **Provides:** 9box_distribution, succession_plans, development_plans
+- **Depends On:** performance, skills, culture, structure
+
+### Bonus Module (To Be Generated)
+- **Triggers:** (none - terminal module)
+- **Provides:** bonus_calculations, distribution_data
+- **Depends On:** performance, tenant_config
+
+## Next Steps
+
+1. **Implement Code Generation:** Add Claude Sonnet 4 integration for actual code generation
+2. **Phase 0 Execution:** Fix all detected issues with production-ready code
+3. **Phase 1 Execution:** Generate complete LXP, Talent, and Bonus modules
+4. **Validation:** Ensure 100% AGENT_CONTEXT_ULTIMATE.md compliance
+5. **Integration Testing:** Verify all triggering logic works correctly
+
+## Developer Agent Status
+
+**Status:** ${report.status}
+**Ready for Code Generation:** Pending implementation
+
+---
+
+*Generated by Mizan Developer Agent (Claude Sonnet 4)*
+`;
+}
+
+// Run the Developer Agent
+if (require.main === module) {
+  runDeveloperAgent().catch(error => {
+    console.error(`${colors.red}💥 DEVELOPER AGENT CRASHED: ${error.message}${colors.reset}`);
+    console.error(`${colors.red}Stack: ${error.stack}${colors.reset}`);
+    process.exit(1);
+  });
+}
+
+module.exports = { runDeveloperAgent };
+

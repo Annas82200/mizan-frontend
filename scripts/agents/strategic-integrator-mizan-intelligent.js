@@ -93,6 +93,33 @@ Business-approved fixes: ${allAgentData.businessApproved || 0}
 Security-approved fixes: ${allAgentData.securityApproved || 0}
 Critical security vulnerabilities: ${allAgentData.criticalSecurity || 0}
 
+🎯 STRATEGIC ASSESSMENT GUIDELINES (ENHANCED):
+
+COMPETITIVE ADVANTAGE FEATURES (Critical to protect):
+- Three-Engine AI Architecture (Knowledge → Data → Reasoning)
+- Culture→Recognition→Engagement workflow
+- Skills→LXP triggering and gamification
+- Performance cross-module integration (Culture + Skills)
+- Hiring intelligence with culture fit assessment
+
+STRATEGIC REJECT INDICATORS (Mark as STRATEGIC_REJECT):
+- Removes AI engine implementations (competitive advantage loss)
+- Breaks module triggering mechanisms (platform differentiation loss)
+- Eliminates enterprise features (revenue risk)
+- Compromises revenue-generating capabilities
+
+APPROVE WITH CONFIDENCE (Not strategic risks):
+- Infrastructure improvements (Stripe, Auth) that don't affect AI features
+- Detection code fixes (audit scripts) that improve code quality
+- Type safety improvements that maintain functionality
+- Security enhancements that preserve workflows
+
+FALSE POSITIVE AWARENESS:
+- Infrastructure code improvements are NOT strategic risks
+- Detection tool updates (audit-violations.js, pipeline.js) are NOT workflow breaches
+- Type safety additions are strategic IMPROVEMENTS, not risks
+- Payment/Auth service fixes don't require Three-Engine Architecture
+
 CREATE A COMPREHENSIVE STRATEGIC INTEGRATION REPORT:
 
 # 🎯 MIZAN PLATFORM - STRATEGIC INTEGRATION REPORT
@@ -433,13 +460,14 @@ This pipeline is designed for the Mizan Platform - a sophisticated multi-tenant 
   // Generate the strategic report
   const strategicReport = await generateMizanStrategicReport(allAgentData);
 
+  // Ensure agents directory exists (used for multiple file saves below)
+  const agentsDir = path.join(process.cwd(), 'scripts', 'agents');
+  if (!fs.existsSync(agentsDir)) {
+    fs.mkdirSync(agentsDir, { recursive: true });
+  }
+
   // Save the strategic report
   try {
-    const agentsDir = path.join(process.cwd(), 'scripts', 'agents');
-    if (!fs.existsSync(agentsDir)) {
-      fs.mkdirSync(agentsDir, { recursive: true });
-    }
-    
     fs.writeFileSync(path.join(agentsDir, 'MIZAN_STRATEGIC_REPORT.md'), strategicReport);
     console.log(`${colors.green}✅ Mizan strategic integration report generated!${colors.reset}`);
     console.log(`📁 Report saved to: scripts/agents/MIZAN_STRATEGIC_REPORT.md\n`);

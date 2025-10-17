@@ -1,0 +1,2153 @@
+[
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "frontend/src/components/ui/select.tsx",
+    "line": 79,
+    "content": "function handleClickOutside(event: MouseEvent) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "frontend/src/app/dashboard/superadmin/skills/page.tsx",
+    "line": 25,
+    "content": "export default async function SkillsManagementPage() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "frontend/src/app/dashboard/superadmin/skills/page.tsx",
+    "line": 26,
+    "content": "// TODO: Add authentication check when auth is implemented",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "backend/src/services/stripe.ts",
+    "line": 155,
+    "content": "// Compliant with AGENT_CONTEXT_ULTIMATE.md - NO PLACEHOLDER DATA",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "backend/src/services/stripe.ts",
+    "line": 311,
+    "content": "// Compliant with AGENT_CONTEXT_ULTIMATE.md - NO PLACEHOLDER DATA",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "backend/src/services/queue.ts",
+    "line": 199,
+    "content": "export async function addAnalysisJob(data: AnalysisJobData) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "backend/src/services/queue.ts",
+    "line": 209,
+    "content": "export async function addHiringJob(data: HiringJobData) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "backend/src/services/queue.ts",
+    "line": 219,
+    "content": "export async function addSocialMediaJob(data: SocialMediaJobData) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "backend/src/services/queue.ts",
+    "line": 229,
+    "content": "export async function addEmailJob(data: EmailJobData) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "backend/src/services/queue.ts",
+    "line": 239,
+    "content": "export async function addNotificationJob(data: NotificationJobData) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "backend/src/services/queue.ts",
+    "line": 250,
+    "content": "export async function shutdownQueues() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "backend/src/services/skills/skillsBotService.ts",
+    "line": 515,
+    "content": "currentIntent: 'general_help', // Placeholder, will be updated by analyzeQueryIntent",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "backend/src/services/agents/structure/structure-agent.ts",
+    "line": 564,
+    "content": "async function demonstrateStructureAnalysis() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "backend/src/services/agents/performance/performance-agent.ts",
+    "line": 159,
+    "content": "// TODO: Persist departmental and individual goals based on analysisResult",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "backend/src/services/agents/performance/performance-agent.ts",
+    "line": 341,
+    "content": "employeeId: 'system', // Department-level goals use system as placeholder",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "backend/src/services/agents/lxp/lxp-agent.ts",
+    "line": 122,
+    "content": "createTrigger(trigger: any): Promise<any>;",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "backend/src/services/agents/lxp/lxp-agent.ts",
+    "line": 182,
+    "content": "design: any",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "backend/src/services/agents/lxp/lxp-agent.ts",
+    "line": 499,
+    "content": "gameType: row.gameType as any,",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "backend/src/services/agents/lxp/lxp-agent.ts",
+    "line": 504,
+    "content": "status: row.status as any,",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "backend/src/services/agents/lxp/lxp-agent.ts",
+    "line": 563,
+    "content": "private async generateLearningLevels(design: any, skillsGaps: SkillGap[]): Promise<LearningLevel[]> {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "backend/src/services/agents/lxp/lxp-agent.ts",
+    "line": 568,
+    "content": "private createScoringSystem(design: any): ScoringConfig {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "backend/src/services/agents/lxp/lxp-agent.ts",
+    "line": 605,
+    "content": "private async updateBehaviorChangeMetrics(learningExperienceId: string, employeeId: string, behaviorChanges: any[]): Promise<void> {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "backend/src/services/agents/lxp/lxp-agent.ts",
+    "line": 714,
+    "content": "initialValue: any;",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "backend/src/services/agents/lxp/lxp-agent.ts",
+    "line": 715,
+    "content": "constraints: any;",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "backend/src/routes/webhooks.ts",
+    "line": 48,
+    "content": "function extractTenantId(stripeObject: any): string {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "backend/src/routes/upload.ts",
+    "line": 283,
+    "content": "async function handleOrgChartUpload(req: Request, res: Response) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "backend/src/routes/public-structure.ts",
+    "line": 229,
+    "content": "const agentResponse = await Promise.race([analysisPromise, timeoutPromise]) as any;",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "backend/src/routes/orchestrator.ts",
+    "line": 312,
+    "content": "type: agentType as any,",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "backend/src/routes/framework.ts",
+    "line": 279,
+    "content": "// For now, we return a placeholder that shows the pattern",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "backend/src/routes/framework.ts",
+    "line": 302,
+    "content": "function getDefaultFramework() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "backend/src/routes/consulting.ts",
+    "line": 98,
+    "content": "const { user } = req as any;",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "backend/src/routes/consulting.ts",
+    "line": 135,
+    "content": "const { user } = req as any;",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "backend/src/routes/consulting.ts",
+    "line": 181,
+    "content": "const { user } = req as any;",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "backend/src/routes/consulting.ts",
+    "line": 216,
+    "content": "const { user } = req as any;",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "backend/src/routes/consulting.ts",
+    "line": 268,
+    "content": "const { user } = req as any;",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "backend/src/routes/consulting.ts",
+    "line": 310,
+    "content": "const { user } = req as any;",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "backend/src/routes/auth.ts",
+    "line": 417,
+    "content": "// TODO: Exchange code for LinkedIn access token",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "backend/src/routes/auth.ts",
+    "line": 418,
+    "content": "// TODO: Store token with tenant isolation",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "backend/src/routes/auth.ts",
+    "line": 457,
+    "content": "// TODO: Exchange tokens for Twitter access token",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "backend/src/routes/auth.ts",
+    "line": 458,
+    "content": "// TODO: Store token with tenant isolation",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "backend/src/routes/auth.ts",
+    "line": 496,
+    "content": "// TODO: Exchange code for Facebook access token",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "backend/src/routes/auth.ts",
+    "line": 497,
+    "content": "// TODO: Store token with tenant isolation",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "backend/src/routes/auth.ts",
+    "line": 535,
+    "content": "// TODO: Exchange code for Google access token",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "backend/src/routes/auth.ts",
+    "line": 536,
+    "content": "// TODO: Store token with tenant isolation",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "backend/src/middleware/tenant.ts",
+    "line": 31,
+    "content": "export async function tenantMiddleware(req: Request, res: Response, next: NextFunction) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "backend/src/middleware/auth.ts",
+    "line": 26,
+    "content": "export async function authenticate(req: Request, res: Response, next: NextFunction) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "incomplete",
+    "severity": "high",
+    "file": "backend/src/ai/engines/ReasoningEngine.ts",
+    "line": 626,
+    "content": "// Validate opportunity is not already being pursued",
+    "description": "RULE VIOLATION: COMPLETE FEATURE IMPLEMENTATION",
+    "rule": "COMPLETE FEATURE IMPLEMENTATION"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/test-pipeline-fixes.js",
+    "line": 34,
+    "content": "function runCommand(command, args = []) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/test-pipeline-fixes.js",
+    "line": 67,
+    "content": "async function testAuditScript() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/test-pipeline-fixes.js",
+    "line": 104,
+    "content": "async function testViolationFilter() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/test-pipeline-fixes.js",
+    "line": 145,
+    "content": "async function analyzeAgent1Skips() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/test-pipeline-fixes.js",
+    "line": 177,
+    "content": "async function runTests() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "scripts/mizan-pipeline.js",
+    "line": 12,
+    "content": "// Production-ready validation: Scan all files for placeholder patterns",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "mock-data",
+    "severity": "critical",
+    "file": "scripts/mizan-pipeline.js",
+    "line": 15,
+    "content": "/FIXME:/gi,",
+    "description": "RULE VIOLATION: NO PLACEHOLDER DATA - EVER",
+    "rule": "NO PLACEHOLDER DATA - EVER"
+  },
+  {
+    "type": "mock-data",
+    "severity": "critical",
+    "file": "scripts/mizan-pipeline.js",
+    "line": 18,
+    "content": "/mockData/gi,",
+    "description": "RULE VIOLATION: NO PLACEHOLDER DATA - EVER",
+    "rule": "NO PLACEHOLDER DATA - EVER"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/mizan-pipeline.js",
+    "line": 30,
+    "content": "async function validateNoPlaceholders(filePath) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "incomplete",
+    "severity": "high",
+    "file": "scripts/mizan-pipeline.js",
+    "line": 100,
+    "content": "// AGENT 0 ISOLATED: Developer Agent (Enhanced) - Temporarily disabled",
+    "description": "RULE VIOLATION: COMPLETE FEATURE IMPLEMENTATION",
+    "rule": "COMPLETE FEATURE IMPLEMENTATION"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/mizan-pipeline.js",
+    "line": 172,
+    "content": "async function runPipelineStep(step, stepNumber, totalSteps) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/mizan-pipeline.js",
+    "line": 230,
+    "content": "function getExecutableSteps(completedSteps) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/mizan-pipeline.js",
+    "line": 242,
+    "content": "async function autoApplyHighConfidenceFixes() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/mizan-pipeline.js",
+    "line": 298,
+    "content": "function generatePipelineSummary(results, startTime) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/mizan-pipeline.js",
+    "line": 335,
+    "content": "async function runCompletePipeline() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/human-review.js",
+    "line": 35,
+    "content": "async function humanReview() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/confidence-scorer.js",
+    "line": 12,
+    "content": "function calculateConfidence() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "scripts/audit-violations.js",
+    "line": 80,
+    "content": "// TODO comments (explicitly forbidden)",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "mock-data",
+    "severity": "critical",
+    "file": "scripts/audit-violations.js",
+    "line": 82,
+    "content": "/\\/\\/\\s*FIXME(?:\\s|:|$)/i,",
+    "description": "RULE VIOLATION: NO PLACEHOLDER DATA - EVER",
+    "rule": "NO PLACEHOLDER DATA - EVER"
+  },
+  {
+    "type": "mock-data",
+    "severity": "critical",
+    "file": "scripts/audit-violations.js",
+    "line": 86,
+    "content": "/\\/\\*.*FIXME.*\\*\\//i,",
+    "description": "RULE VIOLATION: NO PLACEHOLDER DATA - EVER",
+    "rule": "NO PLACEHOLDER DATA - EVER"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "scripts/audit-violations.js",
+    "line": 88,
+    "content": "// Placeholder comments (more precise)",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/audit-violations.js",
+    "line": 169,
+    "content": "function processViolation(violation) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/audit-violations.js",
+    "line": 188,
+    "content": "function determineSeverity(rule) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/audit-violations.js",
+    "line": 227,
+    "content": "function getFilesToScan() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/audit-violations.js",
+    "line": 248,
+    "content": "function scanFile(filePath) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/audit-violations.js",
+    "line": 284,
+    "content": "function isFalsePositive(filePath, line, type, pattern) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "scripts/audit-violations.js",
+    "line": 299,
+    "content": "// Check if this is an HTML placeholder attribute",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/audit-violations.js",
+    "line": 337,
+    "content": "function checkViolation(filePath, lineNumber, originalLine, trimmedLine, patterns, type, severity, rule) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/audit-violations.js",
+    "line": 359,
+    "content": "async function runAudit() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/audit-violations.js",
+    "line": 479,
+    "content": "function checkDependencies() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/apply-fixes.js",
+    "line": 22,
+    "content": "async function applyFixes() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "incomplete",
+    "severity": "high",
+    "file": "scripts/Mizan intelligent orchestrator.js",
+    "line": 49,
+    "content": "// AGENT 0 ISOLATED: Developer Agent (Enhanced) - Temporarily disabled",
+    "description": "RULE VIOLATION: COMPLETE FEATURE IMPLEMENTATION",
+    "rule": "COMPLETE FEATURE IMPLEMENTATION"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/Mizan intelligent orchestrator.js",
+    "line": 116,
+    "content": "function validateMizanContext() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/Mizan intelligent orchestrator.js",
+    "line": 226,
+    "content": "function checkMizanAgentReadiness() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/Mizan intelligent orchestrator.js",
+    "line": 275,
+    "content": "function runMizanAgent(agent) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/Mizan intelligent orchestrator.js",
+    "line": 354,
+    "content": "function generateMizanExecutionSummary(results) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/Mizan intelligent orchestrator.js",
+    "line": 395,
+    "content": "async function orchestrateMizanAgents() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "scripts/agents/violation-filter.js",
+    "line": 56,
+    "content": "/type.*=.*\\{[\\s\\S]*placeholder\\?\\s*:\\s*string/,   // Type with placeholder property",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/violation-filter.js",
+    "line": 81,
+    "content": "function isFalsePositive(violation) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/violation-filter.js",
+    "line": 139,
+    "content": "function filterByAgent1Analysis(violations, agent1Analyses) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/violation-filter.js",
+    "line": 201,
+    "content": "async function filterViolations() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-structure_hiring.generated.ts",
+    "line": 47,
+    "content": "data: any;",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-structure_hiring.generated.ts",
+    "line": 131,
+    "content": "const updateData: any = {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-structure_hiring.generated.ts",
+    "line": 272,
+    "content": "async analyzeStructure(organizationData: any): Promise<StructureAnalysisResult> {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-structure_hiring.generated.ts",
+    "line": 435,
+    "content": "private async performStructureAnalysis(organizationData: any): Promise<StructureAnalysisResult> {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-structure_hiring.generated.ts",
+    "line": 447,
+    "content": "analysis: any;",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-structure_hiring.generated.ts",
+    "line": 448,
+    "content": "insights: any[];",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-structure_hiring.generated.ts",
+    "line": 462,
+    "content": "triggeredBy: any;",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-structure_hiring.generated.ts",
+    "line": 542,
+    "content": "recommendation: any,",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-structure_hiring.generated.ts",
+    "line": 543,
+    "content": "clientContext: any",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-structure_hiring.generated.ts",
+    "line": 574,
+    "content": "recommendation: any,",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-structure_hiring.generated.ts",
+    "line": 575,
+    "content": "clientContext: any",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-structure_hiring.generated.ts",
+    "line": 608,
+    "content": "requisition: any,",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-structure_hiring.generated.ts",
+    "line": 610,
+    "content": "triggerData: any",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-structure_hiring.generated.ts",
+    "line": 682,
+    "content": "clientContext: any",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-structure_hiring.generated.ts",
+    "line": 700,
+    "content": "recommendation: any,",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-structure_hiring.generated.ts",
+    "line": 701,
+    "content": "clientContext: any,",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-structure_hiring.generated.ts",
+    "line": 702,
+    "content": "knowledgeContext: any",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-structure_hiring.generated.ts",
+    "line": 709,
+    "content": "processedData: any,",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-structure_hiring.generated.ts",
+    "line": 710,
+    "content": "knowledgeContext: any",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-structure_hiring.generated.ts",
+    "line": 769,
+    "content": "responses: any[];",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "scripts/agents/trigger-skills_lxp.generated.ts",
+    "line": 470,
+    "content": "return 'default_department'; // Placeholder - implement actual logic",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "scripts/agents/trigger-skills_lxp.generated.ts",
+    "line": 475,
+    "content": "return null; // Placeholder - implement actual logic",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "scripts/agents/trigger-skills_lxp.generated.ts",
+    "line": 480,
+    "content": "return 'meets_expectations'; // Placeholder - implement actual logic",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "scripts/agents/trigger-skills_lxp.generated.ts",
+    "line": 485,
+    "content": "return 'mid_level'; // Placeholder - implement actual logic",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "scripts/agents/trigger-skills_lxp.generated.ts",
+    "line": 490,
+    "content": "return 'mixed'; // Placeholder - implement actual logic",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-skills_lxp.generated.ts",
+    "line": 548,
+    "content": "targetModule: targetModule as any,",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_recognition.generated.ts",
+    "line": 42,
+    "content": "data: any;",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_recognition.generated.ts",
+    "line": 257,
+    "content": "surveyData: any,",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_recognition.generated.ts",
+    "line": 258,
+    "content": "recognitionQuestions: any[]",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_recognition.generated.ts",
+    "line": 298,
+    "content": "surveyData: any,",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_recognition.generated.ts",
+    "line": 299,
+    "content": "recognitionQuestions: any[]",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_recognition.generated.ts",
+    "line": 383,
+    "content": "private extractRecognitionQuestions(responses: any[]): any[] {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_recognition.generated.ts",
+    "line": 524,
+    "content": "private assessRecognitionLevel(analysis: any): 'low' | 'medium' | 'high' {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_recognition.generated.ts",
+    "line": 533,
+    "content": "private generateRecognitionRecommendations(analysis: any): RecognitionAnalysisResult['recommendations'] {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_recognition.generated.ts",
+    "line": 576,
+    "content": "export async function POST(request: NextRequest) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_engagement.generated.ts",
+    "line": 45,
+    "content": "data: any;",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_engagement.generated.ts",
+    "line": 124,
+    "content": "const updateData: any = {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_engagement.generated.ts",
+    "line": 226,
+    "content": "recognitionData: any;",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_engagement.generated.ts",
+    "line": 227,
+    "content": "engagementData: any;",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_engagement.generated.ts",
+    "line": 235,
+    "content": "cultureMetrics: any;",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_engagement.generated.ts",
+    "line": 236,
+    "content": "recognitionInsights?: any;",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_engagement.generated.ts",
+    "line": 237,
+    "content": "engagementInsights?: any;",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_engagement.generated.ts",
+    "line": 238,
+    "content": "combinedAnalysis: any;",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_engagement.generated.ts",
+    "line": 361,
+    "content": "cultureAnalysis: any",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_engagement.generated.ts",
+    "line": 369,
+    "content": "let recognitionInsights: any = null;",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_engagement.generated.ts",
+    "line": 370,
+    "content": "let engagementInsights: any = null;",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_engagement.generated.ts",
+    "line": 434,
+    "content": "cultureAnalysis: any,",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_engagement.generated.ts",
+    "line": 435,
+    "content": "recognitionInsights: any,",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_engagement.generated.ts",
+    "line": 436,
+    "content": "engagementInsights: any",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_engagement.generated.ts",
+    "line": 489,
+    "content": "engagementFactors: any[];",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_engagement.generated.ts",
+    "line": 490,
+    "content": "risks: any[];",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_engagement.generated.ts",
+    "line": 491,
+    "content": "recommendations: any[];",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_engagement.generated.ts",
+    "line": 511,
+    "content": "const triggerData = trigger.data as any;",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_engagement.generated.ts",
+    "line": 540,
+    "content": "engagementData: any;",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_engagement.generated.ts",
+    "line": 541,
+    "content": "surveyContext: any;",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_engagement.generated.ts",
+    "line": 542,
+    "content": "analysisRequest: any;",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_engagement.generated.ts",
+    "line": 744,
+    "content": "export const up = async (db: any) => {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/trigger-culture_engagement.generated.ts",
+    "line": 766,
+    "content": "export const down = async (db: any) => {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "mock-data",
+    "severity": "critical",
+    "file": "scripts/agents/test-enhanced-validation.js",
+    "line": 37,
+    "content": "mockData: /mockData/i,",
+    "description": "RULE VIOLATION: NO PLACEHOLDER DATA - EVER",
+    "rule": "NO PLACEHOLDER DATA - EVER"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/test-enhanced-validation.js",
+    "line": 49,
+    "content": "async function processPayment(amount: number) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/test-enhanced-validation.js",
+    "line": 62,
+    "content": "async function analyzeCulture(data: any) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/test-enhanced-validation.js",
+    "line": 62,
+    "content": "async function analyzeCulture(data: any) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "scripts/agents/test-enhanced-validation.js",
+    "line": 72,
+    "content": "oldCode: '// TODO: Implement validation',",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "scripts/agents/test-enhanced-validation.js",
+    "line": 80,
+    "content": "oldCode: '// TODO: Implement validation',",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/test-enhanced-validation.js",
+    "line": 99,
+    "content": "async function setupTenant(tenantId: string) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/test-enhanced-validation.js",
+    "line": 134,
+    "content": "async function runTests() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/test-enhanced-validation.js",
+    "line": 202,
+    "content": "async function testScenario(scenario) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/strategic-integrator-mizan-intelligent.js",
+    "line": 65,
+    "content": "async function generateMizanStrategicReport(allAgentData) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/strategic-integrator-mizan-intelligent.js",
+    "line": 270,
+    "content": "function identifyStrategicPriorities(agent3Data, agent4Data) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/strategic-integrator-mizan-intelligent.js",
+    "line": 338,
+    "content": "async function createMizanStrategicIntegration() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/strategic-integrator-mizan-intelligent.js",
+    "line": 582,
+    "content": "function checkMizanDependencies() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/security-checker-mizan-intelligent.js",
+    "line": 120,
+    "content": "async function validateSingleMizanSecurity(validationData) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "scripts/agents/security-checker-mizan-intelligent.js",
+    "line": 150,
+    "content": "// ✅ PHASE 2: CHECK SECURITY REJECTION CRITERIA",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/security-checker-mizan-intelligent.js",
+    "line": 393,
+    "content": "function createMizanSecurityFallback(violation, mizanAnalysis, mizanFix, responseText = null, errorMessage = null) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/security-checker-mizan-intelligent.js",
+    "line": 497,
+    "content": "async function validateMizanSecurity() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/security-checker-mizan-intelligent.js",
+    "line": 702,
+    "content": "function checkMizanDependencies() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "scripts/agents/security-checker-mizan-intelligent.js",
+    "line": 707,
+    "content": "// Create placeholder results",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/rejection-criteria.js",
+    "line": 322,
+    "content": "function checkRejectionCriteria(fixData, criteriaType = 'BUSINESS_REJECTS') {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/rejection-criteria.js",
+    "line": 350,
+    "content": "function checkAllRejectionCriteria(fixData) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/fix-generator-mizan-intelligent.js",
+    "line": 184,
+    "content": "async function generateMizanIntelligentFix(analysisData) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "scripts/agents/fix-generator-mizan-intelligent.js",
+    "line": 359,
+    "content": "// ✅ PHASE 4: METHOD REFERENCE VALIDATION (ENHANCED)",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/fix-generator-mizan-intelligent.js",
+    "line": 401,
+    "content": "function parseMizanFixXML(xmlContent) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/fix-generator-mizan-intelligent.js",
+    "line": 467,
+    "content": "function extractXMLContent(xml, tag) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/fix-generator-mizan-intelligent.js",
+    "line": 476,
+    "content": "function createMizanIntelligentFixFallback(violation, mizanAnalysis, error = null) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/fix-generator-mizan-intelligent.js",
+    "line": 542,
+    "content": "async function generateMizanIntelligentFixes() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/fix-generator-mizan-intelligent.js",
+    "line": 756,
+    "content": "function checkMizanDependencies() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "scripts/agents/fix-generator-mizan-intelligent.js",
+    "line": 761,
+    "content": "// Create placeholder results",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/enhance-system.js",
+    "line": 12,
+    "content": "function enhanceSystem() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/enhance-system.js",
+    "line": 42,
+    "content": "async function tieBreaker() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/enhance-system.js",
+    "line": 130,
+    "content": "function calculateConfidence() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/enhance-system.js",
+    "line": 194,
+    "content": "async function humanReview() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan.js",
+    "line": 61,
+    "content": "function loadAgentContextUltimate() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan.js",
+    "line": 79,
+    "content": "function loadFixPlan() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan.js",
+    "line": 96,
+    "content": "function extractTriggeringPatterns(agentContext) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan.js",
+    "line": 113,
+    "content": "function extractModuleInteractions(agentContext) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan.js",
+    "line": 196,
+    "content": "async function generateCodeWithClaude(prompt, systemMessage = 'You are an expert developer generating production-ready code for the Mizan Platform.', attempt = 1) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan.js",
+    "line": 222,
+    "content": "function extractCodeFromResponse(response) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan.js",
+    "line": 236,
+    "content": "async function generateCompliantCode(basePrompt, fileName, agentContext, maxAttempts = CONFIG.MAX_REFINEMENT_ATTEMPTS) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan.js",
+    "line": 307,
+    "content": "function buildRefinementInstructions(validation, previousViolations) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan.js",
+    "line": 374,
+    "content": "function enhancePromptWithViolations(originalPrompt, refinementInstructions, previousCode, attempt) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan.js",
+    "line": 408,
+    "content": "function parseFixPlan(fixPlanContent) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan.js",
+    "line": 466,
+    "content": "function extractFilePaths(description) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan.js",
+    "line": 494,
+    "content": "function inferFullPath(fileName) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan.js",
+    "line": 512,
+    "content": "function determineIssueType(description, phaseName) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan.js",
+    "line": 545,
+    "content": "function determinePriority(description, phaseNumber) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "scripts/agents/developer-agent-mizan.js",
+    "line": 558,
+    "content": "// Phase 2 is high (security)",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "scripts/agents/developer-agent-mizan.js",
+    "line": 563,
+    "content": "// Phase 3 is medium (features)",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "scripts/agents/developer-agent-mizan.js",
+    "line": 568,
+    "content": "// Phase 4 is low (testing)",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan.js",
+    "line": 579,
+    "content": "function writeGeneratedCode(filePath, code, description) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan.js",
+    "line": 609,
+    "content": "async function fixTypeSafetyIssues(agentContext, issues) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan.js",
+    "line": 686,
+    "content": "async function runDeveloperAgent() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan.js",
+    "line": 779,
+    "content": "description: 'Fix all data: any parameters'",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan-enhanced.js",
+    "line": 61,
+    "content": "function loadAgentContextUltimate() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan-enhanced.js",
+    "line": 79,
+    "content": "function loadFixPlan() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan-enhanced.js",
+    "line": 96,
+    "content": "function extractTriggeringPatterns(agentContext) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan-enhanced.js",
+    "line": 113,
+    "content": "function extractModuleInteractions(agentContext) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan-enhanced.js",
+    "line": 196,
+    "content": "async function generateCodeWithClaude(prompt, systemMessage = 'You are an expert developer generating production-ready code for the Mizan Platform.', attempt = 1) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan-enhanced.js",
+    "line": 222,
+    "content": "function extractCodeFromResponse(response) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan-enhanced.js",
+    "line": 236,
+    "content": "async function generateCompliantCode(basePrompt, fileName, agentContext, maxAttempts = CONFIG.MAX_REFINEMENT_ATTEMPTS) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan-enhanced.js",
+    "line": 307,
+    "content": "function buildRefinementInstructions(validation, previousViolations) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan-enhanced.js",
+    "line": 374,
+    "content": "function enhancePromptWithViolations(originalPrompt, refinementInstructions, previousCode, attempt) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan-enhanced.js",
+    "line": 408,
+    "content": "function parseFixPlan(fixPlanContent) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan-enhanced.js",
+    "line": 466,
+    "content": "function extractFilePaths(description) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan-enhanced.js",
+    "line": 494,
+    "content": "function inferFullPath(fileName) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan-enhanced.js",
+    "line": 512,
+    "content": "function determineIssueType(description, phaseName) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan-enhanced.js",
+    "line": 545,
+    "content": "function determinePriority(description, phaseNumber) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "scripts/agents/developer-agent-mizan-enhanced.js",
+    "line": 558,
+    "content": "// Phase 2 is high (security)",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "scripts/agents/developer-agent-mizan-enhanced.js",
+    "line": 563,
+    "content": "// Phase 3 is medium (features)",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "scripts/agents/developer-agent-mizan-enhanced.js",
+    "line": 568,
+    "content": "// Phase 4 is low (testing)",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan-enhanced.js",
+    "line": 579,
+    "content": "function writeGeneratedCode(filePath, code, description) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan-enhanced.js",
+    "line": 609,
+    "content": "async function fixTypeSafetyIssues(agentContext, issues) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan-enhanced.js",
+    "line": 686,
+    "content": "async function runDeveloperAgent() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/developer-agent-mizan-enhanced.js",
+    "line": 779,
+    "content": "description: 'Fix all data: any parameters'",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/code-validator.js",
+    "line": 33,
+    "content": "function shouldAllowAnyType(code, match, fileName, matchIndex) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/code-validator.js",
+    "line": 76,
+    "content": "function validateCode(code, fileName, codeType = 'general') {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/code-validator.js",
+    "line": 271,
+    "content": "function getLineNumber(code, position) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/code-validator.js",
+    "line": 279,
+    "content": "function getLineContext(code, position) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/code-validator.js",
+    "line": 291,
+    "content": "function printValidationResults(results, fileName) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/code-validator.js",
+    "line": 345,
+    "content": "function validateWithContext(code, fileName, agentContext) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/code-analyzer-mizan-intelligent.js",
+    "line": 121,
+    "content": "async function analyzeMizanViolation(violation) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/code-analyzer-mizan-intelligent.js",
+    "line": 269,
+    "content": "function createMizanIntelligentFallback(violation, responseText = null, errorMessage = null) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/code-analyzer-mizan-intelligent.js",
+    "line": 351,
+    "content": "async function analyzeMizanViolations() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/code-analyzer-mizan-intelligent.js",
+    "line": 523,
+    "content": "function checkMizanDependencies() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "scripts/agents/code-analyzer-mizan-intelligent.js",
+    "line": 528,
+    "content": "// Create placeholder results",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/business-validator-mizan-intelligent.js",
+    "line": 100,
+    "content": "async function validateMizanBusinessLogic(fixData) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "placeholder-content",
+    "severity": "critical",
+    "file": "scripts/agents/business-validator-mizan-intelligent.js",
+    "line": 129,
+    "content": "// ✅ PHASE 2: CHECK REJECTION CRITERIA",
+    "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+    "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/business-validator-mizan-intelligent.js",
+    "line": 365,
+    "content": "function parseMizanBusinessValidationXML(xmlContent) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/business-validator-mizan-intelligent.js",
+    "line": 436,
+    "content": "function extractXMLContent(xml, tag) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/business-validator-mizan-intelligent.js",
+    "line": 445,
+    "content": "function createMizanBusinessFallback(violation, mizanAnalysis, mizanFix, responseText = null, errorMessage = null) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/business-validator-mizan-intelligent.js",
+    "line": 495,
+    "content": "async function runMizanBusinessValidation() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "scripts/agents/business-validator-mizan-intelligent.js",
+    "line": 671,
+    "content": "function checkMizanDependencies() {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  }
+]

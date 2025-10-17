@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-10-17T00:43:21.165Z",
+  "totalDuration": 1.1,
+  "totalSteps": 2,
+  "successful": 0,
+  "failed": 1,
+  "skipped": 0,
+  "results": [
+    {
+      "step": "audit",
+      "name": "Code Audit",
+      "success": false,
+      "skipped": false,
+      "duration": 0,
+      "error": null
+    },
+    {
+      "step": "orchestrator",
+      "name": "5-Agent Pipeline",
+      "success": false,
+      "skipped": false,
+      "duration": 0,
+      "error": null
+    }
+  ]
+}

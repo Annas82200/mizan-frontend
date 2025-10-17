@@ -120,6 +120,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ role, isOpen, onClose }) => {
         icon: <span className="text-lg">◇</span>,
       },
       {
+        label: 'Social Media',
+        href: '/dashboard/superadmin/social-media',
+        icon: <SocialMediaIcon className="w-5 h-5" />,
+      },
+      {
         label: 'Settings',
         href: '/dashboard/superadmin/settings',
         icon: <SettingsIcon className="w-5 h-5" />,

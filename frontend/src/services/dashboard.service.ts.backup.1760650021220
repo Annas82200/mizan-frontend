@@ -1,0 +1,879 @@
+import apiClient from '@/lib/api-client';
+import { z } from 'zod';
+
+// ============================================
+// ZOD VALIDATION SCHEMAS
+// ============================================
+
+// Common schemas
+const PaginationParamsSchema = z.object({
+  page: z.number().min(1).optional(),
+  limit: z.number().min(1).max(100).optional(),
+  search: z.string().optional(),
+});
+
+const TimeRangeParamsSchema = z.object({
+  timeRange: z.enum(['7d', '30d', '90d', '1y']).optional(),
+});
+
+// Superadmin schemas
+const SuperadminStatsSchema = z.object({
+  totalTenants: z.number(),
+  activeTenants: z.number(),
+  totalRevenue: z.number(),
+  monthlyGrowth: z.number(),
+  totalUsers: z.number(),
+  totalAnalyses: z.number(),
+});
+
+const TenantSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  domain: z.string(),
+  plan: z.enum(['starter', 'professional', 'enterprise']),
+  status: z.enum(['active', 'suspended', 'trial', 'cancelled']),
+  userCount: z.number(),
+  createdAt: z.string(),
+  lastActivity: z.string(),
+  monthlyRevenue: z.number(),
+});
+
+const TenantsResponseSchema = z.object({
+  tenants: z.array(TenantSchema),
+  total: z.number(),
+  page: z.number(),
+  limit: z.number(),
+  totalPages: z.number(),
+});
+
+const RevenueDataSchema = z.object({
+  totalRevenue: z.number(),
+  monthlyRevenue: z.array(z.object({
+    month: z.string(),
+    revenue: z.number(),
+    growth: z.number(),
+  })),
+  revenueByPlan: z.record(z.number()),
+});
+
+const ActivityItemSchema = z.object({
+  id: z.number(),
+  type: z.enum(['tenant_created', 'analysis_completed', 'user_registered', 'subscription_changed']),
+  description: z.string(),
+  tenantId: z.number().optional(),
+  tenantName: z.string().optional(),
+  timestamp: z.string(),
+  metadata: z.record(z.unknown()).optional(),
+});
+
+const CreateTenantSchema = z.object({
+  name: z.string().min(1),
+  domain: z.string().min(1),
+  plan: z.enum(['starter', 'professional', 'enterprise']),
+  adminEmail: z.string().email(),
+  adminName: z.string().min(1),
+});
+
+const UpdateTenantSchema = z.object({
+  name: z.string().min(1).optional(),
+  plan: z.enum(['starter', 'professional', 'enterprise']).optional(),
+  status: z.enum(['active', 'suspended', 'trial', 'cancelled']).optional(),
+});
+
+const UsageStatsSchema = z.object({
+  totalApiCalls: z.number(),
+  totalAnalyses: z.number(),
+  activeUsers: z.number(),
+  storageUsed: z.number(),
+  dailyStats: z.array(z.object({
+    date: z.string(),
+    apiCalls: z.number(),
+    analyses: z.number(),
+    activeUsers: z.number(),
+  })),
+});
+
+const ApiStatsSchema = z.object({
+  totalRequests: z.number(),
+  averageResponseTime: z.number(),
+  errorRate: z.number(),
+  endpointStats: z.array(z.object({
+    endpoint: z.string(),
+    requests: z.number(),
+    averageTime: z.number(),
+    errorCount: z.number(),
+  })),
+});
+
+const AgentStatsSchema = z.object({
+  totalAnalyses: z.number(),
+  structureAnalyses: z.number(),
+  cultureAnalyses: z.number(),
+  skillsAnalyses: z.number(),
+  performanceAnalyses: z.number(),
+  hiringAnalyses: z.number(),
+  averageProcessingTime: z.number(),
+  successRate: z.number(),
+});
+
+const PerformanceMetricsSchema = z.object({
+  cpuUsage: z.number(),
+  memoryUsage: z.number(),
+  diskUsage: z.number(),
+  responseTime: z.number(),
+  uptime: z.number(),
+  errorRate: z.number(),
+});
+
+const StructureAnalysisDataSchema = z.object({
+  orgChartFile: z.string().optional(),
+  analysisType: z.enum(['full', 'quick', 'targeted']),
+  focusAreas: z.array(z.string()).optional(),
+});
+
+const CultureAnalysisDataSchema = z.object({
+  surveyType: z.enum(['full', 'pulse', 'targeted']),
+  targetGroups: z.array(z.string()).optional(),
+  customQuestions: z.array(z.string()).optional(),
+});
+
+const BillingOverviewSchema = z.object({
+  totalRevenue: z.number(),
+  monthlyRecurring: z.number(),
+  churnRate: z.number(),
+  averageRevenuePerTenant: z.number(),
+  outstandingInvoices: z.number(),
+});
+
+const InvoiceSchema = z.object({
+  id: z.number(),
+  tenantId: z.number(),
+  tenantName: z.string(),
+  amount: z.number(),
+  status: z.enum(['paid', 'pending', 'overdue', 'cancelled']),
+  dueDate: z.string(),
+  createdAt: z.string(),
+});
+
+// Admin schemas
+const AdminOverviewSchema = z.object({
+  totalEmployees: z.number(),
+  activeAnalyses: z.number(),
+  completedAnalyses: z.number(),
+  pendingSurveys: z.number(),
+  teamHealth: z.number(),
+  cultureScore: z.number(),
+});
+
+const CylinderHealthSchema = z.object({
+  structure: z.object({
+    status: z.enum(['healthy', 'warning', 'critical']),
+    score: z.number(),
+    lastUpdated: z.string(),
+  }),
+  culture: z.object({
+    status: z.enum(['healthy', 'warning', 'critical']),
+    score: z.number(),
+    lastUpdated: z.string(),
+  }),
+  skills: z.object({
+    status: z.enum(['healthy', 'warning', 'critical']),
+    score: z.number(),
+    lastUpdated: z.string(),
+  }),
+  performance: z.object({
+    status: z.enum(['healthy', 'warning', 'critical']),
+    score: z.number(),
+    lastUpdated: z.string(),
+  }),
+});
+
+const RecentAnalysisSchema = z.object({
+  id: z.number(),
+  type: z.enum(['structure', 'culture', 'skills', 'performance']),
+  title: z.string(),
+  status: z.enum(['pending', 'processing', 'completed', 'failed']),
+  createdAt: z.string(),
+  completedAt: z.string().optional(),
+});
+
+const EmployeeSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  email: z.string(),
+  position: z.string(),
+  department: z.string(),
+  status: z.enum(['active', 'inactive', 'pending']),
+  joinDate: z.string(),
+  lastActivity: z.string(),
+});
+
+const CreateEmployeeSchema = z.object({
+  name: z.string().min(1),
+  email: z.string().email(),
+  position: z.string().min(1),
+  department: z.string().min(1),
+  managerId: z.number().optional(),
+});
+
+const UpdateEmployeeSchema = z.object({
+  name: z.string().min(1).optional(),
+  position: z.string().min(1).optional(),
+  department: z.string().min(1).optional(),
+  managerId: z.number().optional(),
+  status: z.enum(['active', 'inactive', 'pending']).optional(),
+});
+
+const CultureSurveyLaunchSchema = z.object({
+  title: z.string().min(1),
+  description: z.string().optional(),
+  targetGroups: z.array(z.string()),
+  deadline: z.string(),
+  anonymous: z.boolean(),
+});
+
+// Employee schemas
+const EmployeeDashboardSchema = z.object({
+  upcomingTasks: z.array(z.object({
+    id: z.number(),
+    title: z.string(),
+    dueDate: z.string(),
+    priority: z.enum(['low', 'medium', 'high']),
+  })),
+  recentFeedback: z.array(z.object({
+    id: z.number(),
+    from: z.string(),
+    message: z.string(),
+    date: z.string(),
+  })),
+  goals: z.array(z.object({
+    id: z.number(),
+    title: z.string(),
+    progress: z.number(),
+    dueDate: z.string(),
+  })),
+  teamUpdates: z.array(z.object({
+    id: z.number(),
+    message: z.string(),
+    author: z.string(),
+    date: z.string(),
+  })),
+});
+
+const EmployeeProfileSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  email: z.string(),
+  position: z.string(),
+  department: z.string(),
+  managerId: z.number().optional(),
+  managerName: z.string().optional(),
+  joinDate: z.string(),
+  skills: z.array(z.string()),
+  bio: z.string().optional(),
+});
+
+const UpdateProfileSchema = z.object({
+  bio: z.string().optional(),
+  skills: z.array(z.string()).optional(),
+});
+
+const GoalSchema = z.object({
+  id: z.number(),
+  title: z.string(),
+  description: z.string(),
+  progress: z.number(),
+  dueDate: z.string(),
+  status: z.enum(['active', 'completed', 'overdue']),
+});
+
+const FeedbackSchema = z.object({
+  id: z.number(),
+  from: z.string(),
+  fromId: z.number(),
+  message: z.string(),
+  type: z.enum(['praise', 'constructive', 'suggestion']),
+  date: z.string(),
+  isRead: z.boolean(),
+});
+
+const TeamMemberSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  position: z.string(),
+  email: z.string(),
+  status: z.enum(['active', 'inactive', 'away']),
+  lastActivity: z.string(),
+});
+
+// Common schemas
+const NotificationSchema = z.object({
+  id: z.number(),
+  title: z.string(),
+  message: z.string(),
+  type: z.enum(['info', 'warning', 'success', 'error']),
+  isRead: z.boolean(),
+  createdAt: z.string(),
+});
+
+const CurrentUserSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  email: z.string(),
+  role: z.enum(['superadmin', 'admin', 'employee']),
+  tenantId: z.number(),
+  tenantName: z.string(),
+  permissions: z.array(z.string()),
+});
+
+// ============================================
+// TYPE DEFINITIONS
+// ============================================
+
+export type SuperadminStats = z.infer<typeof SuperadminStatsSchema>;
+export type Tenant = z.infer<typeof TenantSchema>;
+export type TenantsResponse = z.infer<typeof TenantsResponseSchema>;
+export type RevenueData = z.infer<typeof RevenueDataSchema>;
+export type ActivityItem = z.infer<typeof ActivityItemSchema>;
+export type CreateTenantData = z.infer<typeof CreateTenantSchema>;
+export type UpdateTenantData = z.infer<typeof UpdateTenantSchema>;
+export type UsageStats = z.infer<typeof UsageStatsSchema>;
+export type ApiStats = z.infer<typeof ApiStatsSchema>;
+export type AgentStats = z.infer<typeof AgentStatsSchema>;
+export type PerformanceMetrics = z.infer<typeof PerformanceMetricsSchema>;
+export type StructureAnalysisData = z.infer<typeof StructureAnalysisDataSchema>;
+export type CultureAnalysisData = z.infer<typeof CultureAnalysisDataSchema>;
+export type BillingOverview = z.infer<typeof BillingOverviewSchema>;
+export type Invoice = z.infer<typeof InvoiceSchema>;
+export type AdminOverview = z.infer<typeof AdminOverviewSchema>;
+export type CylinderHealth = z.infer<typeof CylinderHealthSchema>;
+export type RecentAnalysis = z.infer<typeof RecentAnalysisSchema>;
+export type Employee = z.infer<typeof EmployeeSchema>;
+export type CreateEmployeeData = z.infer<typeof CreateEmployeeSchema>;
+export type UpdateEmployeeData = z.infer<typeof UpdateEmployeeSchema>;
+export type CultureSurveyLaunchData = z.infer<typeof CultureSurveyLaunchSchema>;
+export type EmployeeDashboard = z.infer<typeof EmployeeDashboardSchema>;
+export type EmployeeProfile = z.infer<typeof EmployeeProfileSchema>;
+export type UpdateProfileData = z.infer<typeof UpdateProfileSchema>;
+export type Goal = z.infer<typeof GoalSchema>;
+export type Feedback = z.infer<typeof FeedbackSchema>;
+export type TeamMember = z.infer<typeof TeamMemberSchema>;
+export type Notification = z.infer<typeof NotificationSchema>;
+export type CurrentUser = z.infer<typeof CurrentUserSchema>;
+
+// ============================================
+// SUPERADMIN API SERVICES
+// ============================================
+
+export const superadminService = {
+  // Dashboard Home
+  async getStats(): Promise<SuperadminStats> {
+    try {
+      const response = await apiClient.get('/api/superadmin/stats');
+      return SuperadminStatsSchema.parse(response.data);
+    } catch (error) {
+      console.error('Error fetching superadmin stats:', error);
+      throw error;
+    }
+  },
+
+  async getTenants(params?: { page?: number; limit?: number; search?: string; plan?: string; status?: string }): Promise<TenantsResponse> {
+    try {
+      const validatedParams = PaginationParamsSchema.extend({
+        plan: z.enum(['starter', 'professional', 'enterprise']).optional(),
+        status: z.enum(['active', 'suspended', 'trial', 'cancelled']).optional(),
+      }).parse(params || {});
+      
+      const response = await apiClient.get('/api/superadmin/tenants', { params: validatedParams });
+      return TenantsResponseSchema.parse(response.data);
+    } catch (error) {
+      console.error('Error fetching tenants:', error);
+      throw error;
+    }
+  },
+
+  async getRevenue(params?: { timeRange?: string }): Promise<RevenueData> {
+    try {
+      const validatedParams = TimeRangeParamsSchema.parse(params || {});
+      const response = await apiClient.get('/api/superadmin/revenue', { params: validatedParams });
+      return RevenueDataSchema.parse(response.data);
+    } catch (error) {
+      console.error('Error fetching revenue data:', error);
+      throw error;
+    }
+  },
+
+  async getActivity(params?: { limit?: number }): Promise<ActivityItem[]> {
+    try {
+      const validatedParams = z.object({
+        limit: z.number().min(1).max(100).optional(),
+      }).parse(params || {});
+      
+      const response = await apiClient.get('/api/superadmin/activity', { params: validatedParams });
+      return z.array(ActivityItemSchema).parse(response.data);
+    } catch (error) {
+      console.error('Error fetching activity data:', error);
+      throw error;
+    }
+  },
+
+  // Tenant Management
+  async getTenantById(id: number): Promise<Tenant> {
+    try {
+      const validatedId = z.number().positive().parse(id);
+      const response = await apiClient.get(`/api/superadmin/tenants/${validatedId}`);
+      return TenantSchema.parse(response.data);
+    } catch (error) {
+      console.error(`Error fetching tenant ${id}:`, error);
+      throw error;
+    }
+  },
+
+  async createTenant(data: CreateTenantData): Promise<Tenant> {
+    try {
+      const validatedData = CreateTenantSchema.parse(data);
+      const response = await apiClient.post('/api/superadmin/tenants', validatedData);
+      return TenantSchema.parse(response.data);
+    } catch (error) {
+      console.error('Error creating tenant:', error);
+      throw error;
+    }
+  },
+
+  async updateTenant(id: number, data: UpdateTenantData): Promise<Tenant> {
+    try {
+      const validatedId = z.number().positive().parse(id);
+      const validatedData = UpdateTenantSchema.parse(data);
+      const response = await apiClient.put(`/api/superadmin/tenants/${validatedId}`, validatedData);
+      return TenantSchema.parse(response.data);
+    } catch (error) {
+      console.error(`Error updating tenant ${id}:`, error);
+      throw error;
+    }
+  },
+
+  async suspendTenant(id: number): Promise<{ success: boolean; message: string }> {
+    try {
+      const validatedId = z.number().positive().parse(id);
+      const response = await apiClient.post(`/api/superadmin/tenants/${validatedId}/suspend`);
+      return z.object({
+        success: z.boolean(),
+        message: z.string(),
+      }).parse(response.data);
+    } catch (error) {
+      console.error(`Error suspending tenant ${id}:`, error);
+      throw error;
+    }
+  },
+
+  async impersonateTenant(id: number): Promise<{ token: string; tenant: Tenant }> {
+    try {
+      const validatedId = z.number().positive().parse(id);
+      const response = await apiClient.post(`/api/superadmin/tenants/${validatedId}/impersonate`);
+      return z.object({
+        token: z.string(),
+        tenant: TenantSchema,
+      }).parse(response.data);
+    } catch (error) {
+      console.error(`Error impersonating tenant ${id}:`, error);
+      throw error;
+    }
+  },
+
+  // System Analytics
+  async getUsageStats(params?: { timeRange?: string }): Promise<UsageStats> {
+    try {
+      const validatedParams = TimeRangeParamsSchema.parse(params || {});
+      const response = await apiClient.get('/api/superadmin/analytics/usage', { params: validatedParams });
+      return UsageStatsSchema.parse(response.data);
+    } catch (error) {
+      console.error('Error fetching usage stats:', error);
+      throw error;
+    }
+  },
+
+  async getApiStats(params?: { timeRange?: string }): Promise<ApiStats> {
+    try {
+      const validatedParams = TimeRangeParamsSchema.parse(params || {});
+      const response = await apiClient.get('/api/superadmin/analytics/api', { params: validatedParams });
+      return ApiStatsSchema.parse(response.data);
+    } catch (error) {
+      console.error('Error fetching API stats:', error);
+      throw error;
+    }
+  },
+
+  async getAgentStats(params?: { timeRange?: string }): Promise<AgentStats> {
+    try {
+      const validatedParams = TimeRangeParamsSchema.parse(params || {});
+      const response = await apiClient.get('/api/superadmin/analytics/agents', { params: validatedParams });
+      return AgentStatsSchema.parse(response.data);
+    } catch (error) {
+      console.error('Error fetching agent stats:', error);
+      throw error;
+    }
+  },
+
+  async getPerformanceMetrics(params?: { timeRange?: string }): Promise<PerformanceMetrics> {
+    try {
+      const validatedParams = TimeRangeParamsSchema.parse(params || {});
+      const response = await apiClient.get('/api/superadmin/analytics/performance', { params: validatedParams });
+      return PerformanceMetricsSchema.parse(response.data);
+    } catch (error) {
+      console.error('Error fetching performance metrics:', error);
+      throw error;
+    }
+  },
+
+  // Module Access (with tenant selector)
+  async runStructureAnalysis(tenantId: number, data: StructureAnalysisData): Promise<{ analysisId: string; status: string }> {
+    try {
+      const validatedTenantId = z.number().positive().parse(tenantId);
+      const validatedData = StructureAnalysisDataSchema.parse(data);
+      const response = await apiClient.post(`/api/superadmin/structure/analyze?tenantId=${validatedTenantId}`, validatedData);
+      return z.object({
+        analysisId: z.string(),
+        status: z.string(),
+      }).parse(response.data);
+    } catch (error) {
+      console.error(`Error running structure analysis for tenant ${tenantId}:`, error);
+      throw error;
+    }
+  },
+
+  async getStructureReports(tenantId: number): Promise<RecentAnalysis[]> {
+    try {
+      const validatedTenantId = z.number().positive().parse(tenantId);
+      const response = await apiClient.get(`/api/superadmin/structure/reports?tenantId=${validatedTenantId}`);
+      return z.array(RecentAnalysisSchema).parse(response.data);
+    } catch (error) {
+      console.error(`Error fetching structure reports for tenant ${tenantId}:`, error);
+      throw error;
+    }
+  },
+
+  async runCultureAnalysis(tenantId: number, data: CultureAnalysisData): Promise<{ analysisId: string; status: string }> {
+    try {
+      const validatedTenantId = z.number().positive().parse(tenantId);
+      const validatedData = CultureAnalysisDataSchema.parse(data);
+      const response = await apiClient.post(`/api/superadmin/culture/analyze?tenantId=${validatedTenantId}`, data);
+      return z.object({
+        analysisId: z.string(),
+        status: z.string(),
+      }).parse(response.data);
+    } catch (error) {
+      console.error(`Error running culture analysis for tenant ${tenantId}:`, error);
+      throw error;
+    }
+  },
+
+  async getCultureReports(tenantId: number): Promise<RecentAnalysis[]> {
+    try {
+      const validatedTenantId = z.number().positive().parse(tenantId);
+      const response = await apiClient.get(`/api/superadmin/culture/reports?tenantId=${validatedTenantId}`);
+      return z.array(RecentAnalysisSchema).parse(response.data);
+    } catch (error) {
+      console.error(`Error fetching culture reports for tenant ${tenantId}:`, error);
+      throw error;
+    }
+  },
+
+  // Billing & Revenue
+  async getBillingOverview(): Promise<BillingOverview> {
+    try {
+      const response = await apiClient.get('/api/superadmin/billing/overview');
+      return BillingOverviewSchema.parse(response.data);
+    } catch (error) {
+      console.error('Error fetching billing overview:', error);
+      throw error;
+    }
+  },
+
+  async getInvoices(params?: { page?: number; limit?: number }): Promise<{ invoices: Invoice[]; total: number; page: number; limit: number; totalPages: number }> {
+    try {
+      const validatedParams = PaginationParamsSchema.parse(params || {});
+      const response = await apiClient.get('/api/superadmin/billing/invoices', { params: validatedParams });
+      return z.object({
+        invoices: z.array(InvoiceSchema),
+        total: z.number(),
+        page: z.number(),
+        limit: z.number(),
+        totalPages: z.number(),
+      }).parse(response.data);
+    } catch (error) {
+      console.error('Error fetching invoices:', error);
+      throw error;
+    }
+  },
+};
+
+// ============================================
+// ADMIN API SERVICES
+// ============================================
+
+export const adminService = {
+  // Dashboard Home
+  async getOverview(): Promise<AdminOverview> {
+    try {
+      const response = await apiClient.get('/api/admin/overview');
+      return AdminOverviewSchema.parse(response.data);
+    } catch (error) {
+      console.error('Error fetching admin overview:', error);
+      throw error;
+    }
+  },
+
+  async getCylinderHealth(): Promise<CylinderHealth> {
+    try {
+      const response = await apiClient.get('/api/admin/cylinders/health');
+      return CylinderHealthSchema.parse(response.data);
+    } catch (error) {
+      console.error('Error fetching cylinder health:', error);
+      throw error;
+    }
+  },
+
+  async getRecentAnalyses(): Promise<RecentAnalysis[]> {
+    try {
+      const response = await apiClient.get('/api/admin/analyses/recent');
+      return z.array(RecentAnalysisSchema).parse(response.data);
+    } catch (error) {
+      console.error('Error fetching recent analyses:', error);
+      throw error;
+    }
+  },
+
+  // Structure Analysis
+  async uploadOrgChart(file: File): Promise<{ fileId: string; fileName: string; status: string }> {
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      const response = await apiClient.post('/api/admin/structure/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      return z.object({
+        fileId: z.string(),
+        fileName: z.string(),
+        status: z.string(),
+      }).parse(response.data);
+    } catch (error) {
+      console.error('Error uploading org chart:', error);
+      throw error;
+    }
+  },
+
+  async analyzeStructure(data: StructureAnalysisData): Promise<{ analysisId: string; status: string }> {
+    try {
+      const validatedData = StructureAnalysisDataSchema.parse(data);
+      const response = await apiClient.post('/api/admin/structure/analyze', validatedData);
+      return z.object({
+        analysisId: z.string(),
+        status: z.string(),
+      }).parse(response.data);
+    } catch (error) {
+      console.error('Error analyzing structure:', error);
+      throw error;
+    }
+  },
+
+  async getStructureReports(): Promise<RecentAnalysis[]> {
+    try {
+      const response = await apiClient.get('/api/admin/structure/reports');
+      return z.array(RecentAnalysisSchema).parse(response.data);
+    } catch (error) {
+      console.error('Error fetching structure reports:', error);
+      throw error;
+    }
+  },
+
+  // Culture Analysis
+  async launchCultureSurvey(data: CultureSurveyLaunchData): Promise<{ surveyId: string; surveyUrl: string; status: string }> {
+    try {
+      const validatedData = CultureSurveyLaunchSchema.parse(data);
+      const response = await apiClient.post('/api/admin/culture/survey/launch', validatedData);
+      return z.object({
+        surveyId: z.string(),
+        surveyUrl: z.string(),
+        status: z.string(),
+      }).parse(response.data);
+    } catch (error) {
+      console.error('Error launching culture survey:', error);
+      throw error;
+    }
+  },
+
+  async getCultureResults(): Promise<RecentAnalysis[]> {
+    try {
+      const response = await apiClient.get('/api/admin/culture/results');
+      return z.array(RecentAnalysisSchema).parse(response.data);
+    } catch (error) {
+      console.error('Error fetching culture results:', error);
+      throw error;
+    }
+  },
+
+  // Team Management
+  async getEmployees(params?: { page?: number; limit?: number; search?: string }): Promise<{ employees: Employee[]; total: number; page: number; limit: number; totalPages: number }> {
+    try {
+      const validatedParams = PaginationParamsSchema.parse(params || {});
+      const response = await apiClient.get('/api/admin/employees', { params: validatedParams });
+      return z.object({
+        employees: z.array(EmployeeSchema),
+        total: z.number(),
+        page: z.number(),
+        limit: z.number(),
+        totalPages: z.number(),
+      }).parse(response.data);
+    } catch (error) {
+      console.error('Error fetching employees:', error);
+      throw error;
+    }
+  },
+
+  async createEmployee(data: CreateEmployeeData): Promise<Employee> {
+    try {
+      const validatedData = CreateEmployeeSchema.parse(data);
+      const response = await apiClient.post('/api/admin/employees', validatedData);
+      return EmployeeSchema.parse(response.data);
+    } catch (error) {
+      console.error('Error creating employee:', error);
+      throw error;
+    }
+  },
+
+  async updateEmployee(id: number, data: UpdateEmployeeData): Promise<Employee> {
+    try {
+      const validatedId = z.number().positive().parse(id);
+      const validatedData = UpdateEmployeeSchema.parse(data);
+      const response = await apiClient.put(`/api/admin/employees/${validatedId}`, validatedData);
+      return EmployeeSchema.parse(response.data);
+    } catch (error) {
+      console.error(`Error updating employee ${id}:`, error);
+      throw error;
+    }
+  },
+
+  async deleteEmployee(id: number): Promise<{ success: boolean; message: string }> {
+    try {
+      const validatedId = z.number().positive().parse(id);
+      const response = await apiClient.delete(`/api/admin/employees/${validatedId}`);
+      return z.object({
+        success: z.boolean(),
+        message: z.string(),
+      }).parse(response.data);
+    } catch (error) {
+      console.error(`Error deleting employee ${id}:`, error);
+      throw error;
+    }
+  },
+};
+
+// ============================================
+// EMPLOYEE API SERVICES
+// ============================================
+
+export const employeeService = {
+  // Dashboard Home
+  async getDashboard(): Promise<EmployeeDashboard> {
+    try {
+      const response = await apiClient.get('/api/employee/dashboard');
+      return EmployeeDashboardSchema.parse(response.data);
+    } catch (error) {
+      console.error('Error fetching employee dashboard:', error);
+      throw error;
+    }
+  },
+
+  async getMyProfile(): Promise<EmployeeProfile> {
+    try {
+      const response = await apiClient.get('/api/employee/profile');
+      return EmployeeProfileSchema.parse(response.data);
+    } catch (error) {
+      console.error('Error fetching employee profile:', error);
+      throw error;
+    }
+  },
+
+  async updateMyProfile(data: UpdateProfileData): Promise<EmployeeProfile> {
+    try {
+      const validatedData = UpdateProfileSchema.parse(data);
+      const response = await apiClient.put('/api/employee/profile', validatedData);
+      return EmployeeProfileSchema.parse(response.data);
+    } catch (error) {
+      console.error('Error updating employee profile:', error);
+      throw error;
+    }
+  },
+
+  // Performance
+  async getMyGoals(): Promise<Goal[]> {
+    try {
+      const response = await apiClient.get('/api/employee/goals');
+      return z.array(GoalSchema).parse(response.data);
+    } catch (error) {
+      console.error('Error fetching employee goals:', error);
+      throw error;
+    }
+  },
+
+  async getMyFeedback(): Promise<Feedback[]> {
+    try {
+      const response = await apiClient.get('/api/employee/feedback');
+      return z.array(FeedbackSchema).parse(response.data);
+    } catch (error) {
+      console.error('Error fetching employee feedback:', error);
+      throw error;
+    }
+  },
+
+  // Team
+  async getMyTeam(): Promise<TeamMember[]> {
+    try {
+      const response = await apiClient.get('/api/employee/team');
+      return z.array(TeamMemberSchema).parse(response.data);
+    } catch (error) {
+      console.error('Error fetching employee team:', error);
+      throw error;
+    }
+  },
+};
+
+// ============================================
+// SHARED/COMMON SERVICES
+// ============================================
+
+export const commonService = {
+  async getNotifications(): Promise<Notification[]> {
+    try {
+      const response = await apiClient.get('/api/notifications');
+      return z.array(NotificationSchema).parse(response.data);
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
+      throw error;
+    }
+  },
+
+  async markNotificationRead(id: number): Promise<{ success: boolean; message: string }> {
+    try {
+      const validatedId = z.number().positive().parse(id);
+      const response = await apiClient.put(`/api/notifications/${validatedId}/read`);
+      return z.object({
+        success: z.boolean(),
+        message: z.string(),
+      }).parse(response.data);
+    } catch (error) {
+      console.error(`Error marking notification ${id} as read:`, error);
+      throw error;
+    }
+  },
+
+  async getCurrentUser(): Promise<CurrentUser> {
+    try {
+      const response = await apiClient.get('/api/auth/me');
+      return CurrentUserSchema.parse(response.data);
+    } catch (error) {
+      console.error('Error fetching current user:', error);
+      throw error;
+    }
+  },
+};

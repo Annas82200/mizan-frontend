@@ -6,11 +6,17 @@
  * REVOLUTIONARY UPGRADE: Complete Mizan platform intelligence orchestration
  * 
  * ORCHESTRATES 5 MIZAN-INTELLIGENT AGENTS:
+ * Agent 0: [ISOLATED] Mizan Developer Agent (Claude Sonnet 4) - Temporarily disabled
  * Agent 1: Mizan Code Analyzer (Gemini) - Platform-aware violation analysis
  * Agent 2: Mizan Fix Generator (Claude) - Business-intelligent fix generation  
  * Agent 3: Mizan Business Validator (Gemini) - Workflow preservation validation
  * Agent 4: Mizan Security Checker (GPT-4) - Enterprise security validation
  * Agent 5: Mizan Strategic Integrator (Claude) - Strategic business integration
+ * 
+ * AGENT 0 ISOLATION:
+ * ⚠️ Developer Agent has been isolated from the automated flow
+ * ⚠️ This allows manual control over code generation and fixes
+ * ⚠️ Can be re-enabled by uncommenting the agent configuration
  * 
  * MIZAN PLATFORM ORCHESTRATION:
  * ✅ Complete platform context loading and validation
@@ -40,6 +46,17 @@ const colors = {
 
 // Mizan-intelligent agent configuration
 const MIZAN_AGENTS = [
+  // AGENT 0 ISOLATED: Developer Agent (Enhanced) - Temporarily disabled
+  // {
+  //   id: 0,
+  //   name: 'Mizan Developer Agent (Enhanced)',
+  //   description: 'Fix existing issues + Generate missing modules (LXP, Talent, Bonus) with 100% validation',
+  //   file: 'scripts/agents/developer-agent-mizan-enhanced.js',
+  //   output: 'scripts/agents/developer-report.json',
+  //   apiKey: 'ANTHROPIC_API_KEY',
+  //   engine: 'Claude Sonnet 4',
+  //   focus: 'Type Safety, Security, Triggering Logic, Module Generation, 100% AGENT_CONTEXT_ULTIMATE.md Compliance + Validation Layer + Refinement Loop'
+  // },
   {
     id: 1,
     name: 'Mizan Code Analyzer',
@@ -124,11 +141,10 @@ function validateMizanContext() {
     'FILE ARCHITECTURE',
     'PLATFORM FEATURE FLOW',
     'FEATURE INTEGRATION RULES',
-    'THREE-ENGINE ARCHITECTURE',
-    'MULTI-TENANT ISOLATION',
-    'SKILLS ANALYSIS - COMPLETE WORKFLOW',
-    'PERFORMANCE MODULE',
-    'HIRING MODULE',
+    'Three-Engine Architecture',  // Actual section name in the file
+    'Multi-tenant Isolation',     // Actual section name in the file
+    'SKILLS ANALYSIS',
+    'BUSINESS MODULES',           // Contains Performance and Hiring modules
     'DESIGN GUIDELINES',
     'TECHNICAL STACK REQUIREMENTS',
     'IMPLEMENTATION PATTERNS',
@@ -380,7 +396,8 @@ async function orchestrateMizanAgents() {
   console.log(`${colors.magenta}${colors.bold}🎯 MIZAN-INTELLIGENT 5-AGENT ORCHESTRATOR${colors.reset}`);
   console.log(`${colors.magenta}╔══════════════════════════════════════════════════════════════════════════════════════════════════╗${colors.reset}`);
   console.log(`${colors.magenta}║                    REVOLUTIONARY MIZAN PLATFORM INTELLIGENCE SYSTEM                             ║${colors.reset}`);
-  console.log(`${colors.magenta}║              Complete Business Context • Strategic Integration • Enterprise Ready                ║${colors.reset}`);
+  console.log(`${colors.magenta}║        Analysis + Fixes + Validation + Security + Strategic Integration                         ║${colors.reset}`);
+  console.log(`${colors.magenta}║        (Agent 0: Developer Agent - ISOLATED from flow)                                          ║${colors.reset}`);
   console.log(`${colors.magenta}╚══════════════════════════════════════════════════════════════════════════════════════════════════╝${colors.reset}\n`);
 
   console.log(`${colors.cyan}🏢 MIZAN PLATFORM CONTEXT:${colors.reset}`);
@@ -420,6 +437,54 @@ async function orchestrateMizanAgents() {
       continue;
     }
     
+    // FILTER VIOLATIONS BEFORE AGENT 2 (Fix Generator)
+    if (agent.id === 2) {
+      console.log(`${colors.cyan}═══════════════════════════════════════════════════════════════════${colors.reset}`);
+      console.log(`${colors.cyan}${colors.bold}VIOLATION FILTER: Removing false positives before fix generation${colors.reset}`);
+      console.log(`${colors.cyan}═══════════════════════════════════════════════════════════════════${colors.reset}\n`);
+      
+      const filterScript = path.join(__dirname, 'agents', 'violation-filter.js');
+      if (fs.existsSync(filterScript)) {
+        try {
+          const filterResult = await runMizanAgent({
+            id: 'filter',
+            name: 'Violation Filter Service',
+            description: 'Filter false positives and SKIP recommendations',
+            file: filterScript,
+            output: 'scripts/violations-filtered.json',
+            apiKey: 'NONE', // No API key needed
+            engine: 'Local Processing',
+            focus: 'False Positive Detection'
+          });
+          
+          if (filterResult.success) {
+            // Check if we have any violations left after filtering
+            const filteredPath = path.join(__dirname, 'violations-filtered.json');
+            if (fs.existsSync(filteredPath)) {
+              const filteredViolations = JSON.parse(fs.readFileSync(filteredPath, 'utf8'));
+              if (filteredViolations.length === 0) {
+                console.log(`${colors.green}🎉 No real violations found after filtering! All were false positives.${colors.reset}\n`);
+                console.log(`${colors.yellow}⏭️  Skipping ${agent.name} (no violations to fix)${colors.reset}\n`);
+                results.push({
+                  agent,
+                  success: true,
+                  code: 0,
+                  duration: 0,
+                  skipped: true,
+                  reason: 'No violations after filtering'
+                });
+                continue;
+              }
+              console.log(`${colors.yellow}📊 ${filteredViolations.length} real violations will be processed by ${agent.name}${colors.reset}\n`);
+            }
+          }
+        } catch (filterError) {
+          console.error(`${colors.yellow}⚠️  Filter service failed: ${filterError.message}${colors.reset}`);
+          console.log(`${colors.yellow}   Continuing with unfiltered violations...${colors.reset}\n`);
+        }
+      }
+    }
+    
     try {
       const result = await runMizanAgent(agent);
       results.push(result);
@@ -451,7 +516,7 @@ async function orchestrateMizanAgents() {
   const summary = generateMizanExecutionSummary(results);
   
   // Display final results
-  console.log(`${colors.blue}🎯 MIZAN 5-AGENT PIPELINE RESULTS:${colors.reset}`);
+  console.log(`${colors.blue}🎯 MIZAN 6-AGENT PIPELINE RESULTS:${colors.reset}`);
   console.log(`${colors.cyan}╔════════════════════════════════════════════════════════════════════════════════════════════════╗${colors.reset}`);
   console.log(`${colors.cyan}║                        MIZAN PLATFORM INTELLIGENCE SUMMARY                                    ║${colors.reset}`);
   console.log(`${colors.cyan}╚════════════════════════════════════════════════════════════════════════════════════════════════╝${colors.reset}`);

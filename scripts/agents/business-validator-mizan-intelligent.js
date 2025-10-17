@@ -95,6 +95,7 @@ const MIZAN_BUSINESS_WORKFLOWS = {
 /**
  * Validate a single fix against complete Mizan business logic
  * ✅ FIXED: Renamed from duplicate name to avoid collision
+ * ✅ ENHANCED: Added context-aware validation and rejection criteria
  */
 async function validateMizanBusinessLogic(fixData) {
   const { violation, mizanAnalysis, mizanFix } = fixData;
@@ -119,11 +120,67 @@ async function validateMizanBusinessLogic(fixData) {
     };
   }
 
+  // ✅ PHASE 1: CONTEXT-AWARE VALIDATION
+  const contextClassifier = require('./validation-context-classifier');
+  const contextInfo = contextClassifier.classify(violation.file);
+  const validationCriteria = contextClassifier.getValidationCriteria(violation.file);
+  const contextSummary = contextClassifier.getSummary(violation.file);
+
+  // ✅ PHASE 2: CHECK REJECTION CRITERIA
+  const rejectionChecker = require('./rejection-criteria');
+  const rejectionCheck = rejectionChecker.checkRejectionCriteria(fixData, 'BUSINESS_REJECTS');
+
+  if (rejectionCheck.shouldReject) {
+    console.log(`   ${colors.red}❌ REJECTED: ${rejectionCheck.criterionName}${colors.reset}`);
+    console.log(`      Reason: ${rejectionCheck.reason}`);
+    
+    return {
+      violation,
+      mizanAnalysis,
+      mizanFix,
+      businessValidation: {
+        recommendation: 'REJECT',
+        overallScore: 0,
+        businessReasoning: rejectionCheck.reason,
+        rejectionCriterion: rejectionCheck.criterionName,
+        violatesRule: rejectionCheck.violatesRule,
+        workflowRisks: rejectionCheck.severity,
+        revenueImpact: 'NEGATIVE',
+        enterpriseReadiness: false,
+        confidence: 1.0,
+        businessCompliance: {
+          cultureWorkflowPreserved: false,
+          skillsWorkflowPreserved: false,
+          performanceWorkflowPreserved: false,
+          hiringWorkflowPreserved: false,
+          threeEnginePreserved: false,
+          agentTriggeringMaintained: false,
+          moduleDependenciesPreserved: false,
+          strategicAlignmentMaintained: false,
+          revenueFeaturesProtected: false,
+          clientValueMaintained: false,
+          competitiveAdvantagePreserved: false
+        }
+      },
+      agent: 'Mizan Business Validator (Gemini 2.5 Flash)',
+      timestamp: new Date().toISOString(),
+      rejectedByPreCheck: true
+    };
+  }
+
+  // ✅ PHASE 3: METHOD REFERENCE VALIDATION
+  const MethodValidator = require('./method-reference-validator');
+  const methodValidator = new MethodValidator();
+  const methodValidation = await methodValidator.validateFix(
+    mizanFix.primaryFix?.newCode || '',
+    violation.file
+  );
+
   const prompt = `${mizanContext}
 
 ╔══════════════════════════════════════════════════════════════════════════════════════════════════╗
-║                    AGENT 3: MIZAN-INTELLIGENT BUSINESS VALIDATOR                                ║
-║                              COMPREHENSIVE BUSINESS LOGIC VALIDATION                            ║
+║                    AGENT 3: MIZAN-INTELLIGENT BUSINESS VALIDATOR (ENHANCED)                     ║
+║                     CONTEXT-AWARE VALIDATION WITH REJECTION CAPABILITY                          ║
 ╚══════════════════════════════════════════════════════════════════════════════════════════════════╝
 
 You are Agent 3, a MIZAN-INTELLIGENT Business Validator using Gemini. You understand the complete Mizan business ecosystem and can validate that fixes preserve critical business workflows.
@@ -147,6 +204,15 @@ ${JSON.stringify(mizanAnalysis, null, 2)}
 🔧 AGENT 2 PROPOSED FIX:
 ${JSON.stringify(mizanFix, null, 2)}
 
+🏷️ CONTEXT-AWARE VALIDATION (NEW):
+${contextSummary}
+
+📋 METHOD REFERENCE VALIDATION:
+Valid: ${methodValidation.valid}
+Missing Methods: ${methodValidation.missingMethods.length > 0 ? methodValidation.missingMethods.join(', ') : 'None'}
+Note: ${methodValidation.note}
+${methodValidation.missingMethods.length > 0 ? '\n⚠️  WARNING: Fix references methods that may not exist. Consider NEEDS_IMPLEMENTATION recommendation.' : ''}
+
 🏢 CRITICAL BUSINESS WORKFLOWS TO VALIDATE:
 
 1. CULTURE WORKFLOWS:
@@ -166,24 +232,65 @@ ${MIZAN_BUSINESS_WORKFLOWS.threeEnginePatterns.map(w => `   - ${w}`).join('\n')}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+🚨 CRITICAL VALIDATION RULES (CONTEXT-AWARE):
+
+CONTEXT TYPE: ${contextInfo.type}
+REQUIRES THREE-ENGINE: ${contextInfo.requiresThreeEngine ? 'YES' : 'NO'}
+REQUIRES TENANT ISOLATION: ${contextInfo.requiresTenantIsolation ? 'YES' : 'NO'}
+CAN CONTAIN VALIDATION PATTERNS: ${contextInfo.canContainValidationPatterns ? 'YES (intentional)' : 'NO'}
+
+VALIDATION APPROACH:
+
+1. **DETECTION/AUDIT CODE** (audit-violations.js, pipeline.js, mizan-pipeline.js):
+   ${contextInfo.type === 'DETECTION_CODE' ? '✅ THIS IS DETECTION CODE' : ''}
+   - Regex patterns like /mockData/i are DETECTION TOOLS, not violations
+   - Strings "placeholder", "mock", "TODO" in validation code are INTENTIONAL
+   - APPROVE these unless the detection logic itself is broken
+   - DO NOT apply Three-Engine Architecture requirements
+   - DO NOT flag validation patterns as violations
+
+2. **INFRASTRUCTURE CODE** (stripe.ts, auth services, upload handlers):
+   ${contextInfo.type === 'INFRASTRUCTURE_CODE' ? '✅ THIS IS INFRASTRUCTURE CODE' : ''}
+   - Three-Engine Architecture is ONLY for AI analysis (Culture, Skills, Performance, Hiring)
+   - Payment processing, auth, uploads are NOT AI features
+   - Validate: TypeScript types, error handling, security, tenant isolation ONLY
+   - DO NOT require Three-Engine pattern
+
+3. **AI ANALYSIS FEATURES** (culture, skills, performance, hiring services):
+   ${contextInfo.type === 'AI_FEATURE' ? '✅ THIS IS AN AI FEATURE' : ''}
+   - MUST use Three-Engine Architecture
+   - MUST maintain agent triggering (Culture→Recognition, Skills→LXP)
+   - MUST preserve cross-module workflows
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 🎯 YOUR MISSION:
 Validate that Agent 2's fix:
-✅ Preserves ALL critical business workflows
-✅ Maintains agent triggering mechanisms
+✅ Preserves ALL critical business workflows (where applicable for this code type)
+✅ Maintains agent triggering mechanisms (AI features only)
 ✅ Protects cross-module dependencies
-✅ Ensures Three-Engine Architecture integrity
-✅ Maintains multi-tenant business logic
+✅ Ensures Three-Engine Architecture integrity (AI features only)
+✅ Maintains multi-tenant business logic (where applicable)
 ✅ Protects revenue-generating features
 ✅ Preserves enterprise client functionality
 
-❌ REJECT if the fix:
-- Breaks Culture → Recognition/Engagement triggering
-- Disrupts Skills → LXP module activation
-- Breaks Performance integration with Culture/Skills
-- Damages Hiring workflow triggering
-- Removes Three-Engine Architecture components
+❌ USE recommendation: "REJECT" (not NEEDS_REVISION) for:
+- Cosmetic fixes: TODO removed without implementation
+- Comment changes without code changes
+- References non-existent methods (see method validation warning above)
+- Breaks Culture → Recognition/Engagement workflow (AI features)
+- Breaks Skills → LXP triggering (AI features)
+- Removes tenantId filtering (where required)
+- Incomplete implementation marked as complete
+- Removes Three-Engine Architecture (from AI features only)
 - Compromises multi-tenant isolation
 - Reduces platform business value
+
+✅ APPROVE with confidence:
+- Detection code fixes (even if containing validation patterns)
+- Infrastructure improvements (Stripe, Auth) that don't affect AI features
+- Type safety improvements that maintain functionality
+- Complete, production-ready implementations
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

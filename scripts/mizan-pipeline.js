@@ -9,7 +9,59 @@
  * COMPLIANT WITH: AGENT_CONTEXT_ULTIMATE.md
  * - Production-ready code only
  * - Complete error handling
- * - No placeholders or mock data
+ // Production-ready validation: Scan all files for placeholder patterns
+const placeholderPatterns = [
+  /TODO:/gi,
+  /FIXME:/gi,
+  /PLACEHOLDER/gi,
+  /MOCK_DATA/gi,
+  /mockData/gi,
+  /sample.*data/gi,
+  /test.*data/gi,
+  /dummy.*data/gi,
+  /fake.*data/gi,
+  /lorem ipsum/gi,
+  /\bany\b.*:/g, // TypeScript 'any' types
+  /const.*=.*\{\}/g, // Empty object assignments
+  /return.*null/g, // Null returns without logic
+  /throw new Error\(['"]Not implemented/gi
+];
+
+async function validateNoPlaceholders(filePath) {
+  try {
+    const content = await fs.readFile(filePath, 'utf8');
+    const violations = [];
+    
+    placeholderPatterns.forEach((pattern, index) => {
+      const matches = content.match(pattern);
+      if (matches) {
+        const lines = content.split('\n');
+        lines.forEach((line, lineNum) => {
+          if (pattern.test(line)) {
+            violations.push({
+              file: filePath,
+              line: lineNum + 1,
+              code: line.trim(),
+              pattern: pattern.toString(),
+              severity: 'critical'
+            });
+          }
+        });
+      }
+    });
+    
+    return violations;
+  } catch (error) {
+    console.error(`Error validating ${filePath}:`, error);
+    return [{
+      file: filePath,
+      line: 0,
+      code: 'File read error',
+      pattern: 'file_access',
+      severity: 'error'
+    }];
+  }
+}
  * - Strict TypeScript types throughout
  */
 
@@ -45,19 +97,30 @@ const PIPELINE_CONFIG = {
  * Pipeline steps with dependencies
  */
 const PIPELINE_STEPS = [
+  // AGENT 0 ISOLATED: Developer Agent (Enhanced) - Temporarily disabled
+  // {
+  //   id: 'developer',
+  //   name: 'Developer Agent (Enhanced)',
+  //   script: 'scripts/agents/developer-agent-mizan-enhanced.js',
+  //   description: 'Fix existing issues + Generate missing modules (LXP, Talent, Bonus) with 100% validation',
+  //   required: false,  // Optional - can skip if no issues or modules to generate
+  //   continueOnError: true,
+  //   dependsOn: []  // Runs FIRST - no dependencies
+  // },
   {
     id: 'audit',
     name: 'Code Audit',
     script: 'scripts/audit-violations.js',
     description: 'Scan codebase for AGENT_CONTEXT_ULTIMATE.md violations',
     required: true,
-    continueOnError: true  // Violations found is expected, not a failure - continue to fix them
+    continueOnError: true,  // Violations found is expected, not a failure - continue to fix them
+    dependsOn: []  // Now runs FIRST - no dependencies (developer agent isolated)
   },
   {
     id: 'orchestrator',
     name: '5-Agent Pipeline',
     script: 'scripts/Mizan intelligent orchestrator.js',
-    description: 'Run complete 5-agent quality analysis',
+    description: 'Run complete 5-agent quality analysis (Agent 0 isolated)',
     required: true,
     continueOnError: false,
     dependsOn: ['audit']
@@ -271,8 +334,9 @@ function generatePipelineSummary(results, startTime) {
  */
 async function runCompletePipeline() {
   console.log(`${colors.magenta}${colors.bold}╔═══════════════════════════════════════════════════════════════════╗${colors.reset}`);
-  console.log(`${colors.magenta}${colors.bold}║         MIZAN COMPLETE QUALITY PIPELINE v1.0                      ║${colors.reset}`);
+  console.log(`${colors.magenta}${colors.bold}║         MIZAN COMPLETE QUALITY PIPELINE v1.1                      ║${colors.reset}`);
   console.log(`${colors.magenta}${colors.bold}║    All-in-One Automation for Enterprise Code Quality             ║${colors.reset}`);
+  console.log(`${colors.magenta}${colors.bold}║    (Agent 0: Developer Agent - ISOLATED from flow)                ║${colors.reset}`);
   console.log(`${colors.magenta}${colors.bold}╚═══════════════════════════════════════════════════════════════════╝${colors.reset}\n`);
 
   console.log(`${colors.cyan}📋 Pipeline Configuration:${colors.reset}`);
@@ -304,7 +368,11 @@ async function runCompletePipeline() {
 
     if (result.success) {
       completedSteps.push(step.id);
-    } else if (!result.continued && step.required) {
+    } else if (result.continued) {
+      // Step failed but continueOnError is true - treat as completed for dependency purposes
+      completedSteps.push(step.id);
+      console.log(`${colors.cyan}📝 Step marked as completed for dependency chain${colors.reset}`);
+    } else if (step.required) {
       console.log(`\n${colors.red}🛑 Pipeline stopped due to required step failure${colors.reset}\n`);
       break;
     }
@@ -376,11 +444,13 @@ ${colors.bold}Examples:${colors.reset}
 
 ${colors.bold}Pipeline Steps:${colors.reset}
   1. Code Audit - Scan for violations
-  2. 5-Agent Pipeline - Complete quality analysis
+  2. 5-Agent Pipeline - Complete quality analysis (Agent 0 isolated)
   3. Confidence Scoring - Calculate agent agreement
   4. GPT-4 Tie-Breaker - Resolve disagreements (optional)
   5. Human Review - Interactive review (optional)
   6. Apply Fixes - Auto-apply high-confidence fixes
+  
+  ${colors.yellow}Note: Agent 0 (Developer Agent Enhanced) has been isolated from the flow${colors.reset}
 
 ${colors.cyan}For more information, see: AGENT_CONTEXT_ULTIMATE.md${colors.reset}
   `);

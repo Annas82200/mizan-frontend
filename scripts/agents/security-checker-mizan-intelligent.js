@@ -114,9 +114,10 @@ const MIZAN_SECURITY_PATTERNS = {
 };
 
 /**
- * Validate a fix against Mizan security requirements
+ * Validate a single fix against Mizan security requirements
+ * ✅ ENHANCED: Added context-aware validation and security rejection criteria
  */
-async function validateMizanSecurity(validationData) {
+async function validateSingleMizanSecurity(validationData) {
   const { violation, mizanAnalysis, mizanFix, businessValidation } = validationData;
 
   if (!mizanFix || validationData.skipped) {
@@ -137,6 +138,48 @@ async function validateMizanSecurity(validationData) {
         }
       },
       skipped: true
+    };
+  }
+
+  // ✅ PHASE 1: CONTEXT-AWARE VALIDATION
+  const contextClassifier = require('./validation-context-classifier');
+  const contextInfo = contextClassifier.classify(violation.file);
+  const validationCriteria = contextClassifier.getValidationCriteria(violation.file);
+  const contextSummary = contextClassifier.getSummary(violation.file);
+
+  // ✅ PHASE 2: CHECK SECURITY REJECTION CRITERIA
+  const rejectionChecker = require('./rejection-criteria');
+  const rejectionCheck = rejectionChecker.checkRejectionCriteria(
+    { violation, mizanAnalysis, mizanFix, businessValidation }, 
+    'SECURITY_REJECTS'
+  );
+
+  if (rejectionCheck.shouldReject) {
+    console.log(`   ${colors.red}❌ SECURITY REJECTED: ${rejectionCheck.criterionName}${colors.reset}`);
+    console.log(`      Reason: ${rejectionCheck.reason}`);
+    
+    return {
+      violation,
+      mizanAnalysis,
+      mizanFix,
+      businessValidation,
+      securityValidation: {
+        securityRating: 'CRITICAL_RISK',
+        recommendation: 'REJECT',
+        overallRiskScore: rejectionCheck.riskScore || 100,
+        reason: rejectionCheck.reason,
+        rejectionCriterion: rejectionCheck.criterionName,
+        violatesRule: rejectionCheck.violatesRule,
+        mizanSecurityCompliance: {
+          tenantIsolation: false,
+          agentCommunication: false,
+          hrDataProtection: false,
+          enterpriseSecurity: false
+        }
+      },
+      agent: 'Mizan Security Checker (GPT-4 Turbo)',
+      timestamp: new Date().toISOString(),
+      rejectedByPreCheck: true
     };
   }
 
@@ -166,6 +209,45 @@ Description: ${violation.description}
 Agent 1 Analysis: ${JSON.stringify(mizanAnalysis.mizanBusinessImpact, null, 2)}
 Agent 2 Fix: ${JSON.stringify(mizanFix.mizanArchitecture, null, 2)}
 Agent 3 Business Validation: ${JSON.stringify(businessValidation.businessCompliance, null, 2)}
+
+🏷️ CONTEXT-AWARE SECURITY VALIDATION (NEW):
+${contextSummary}
+
+🔒 SECURITY RISK SCORING SCALE:
+- 90-100: CRITICAL → Use securityRating: "CRITICAL" and recommendation: "REJECT"
+- 70-89: HIGH → Use securityRating: "HIGH_RISK" and recommendation: "NEEDS_REVISION"
+- 50-69: MEDIUM → Use securityRating: "MODERATE_RISK" and recommendation: "APPROVE" with warnings
+- 0-49: LOW → Use securityRating: "SECURE" and recommendation: "APPROVE"
+
+🚨 AUTOMATIC REJECTION TRIGGERS (Use CRITICAL rating):
+1. Removes tenantId filtering from database queries
+2. Bypasses authentication middleware
+3. Introduces raw SQL without parameterization
+4. Exposes cross-tenant data access
+5. Removes encryption for sensitive HR data
+
+🛡️ CONTEXT-AWARE SECURITY APPROACH:
+
+CONTEXT TYPE: ${contextInfo.type}
+
+1. **DETECTION CODE** (audit scripts, validators):
+   ${contextInfo.type === 'DETECTION_CODE' ? '✅ THIS IS DETECTION CODE' : ''}
+   - Validate the security of the detection logic itself
+   - Don't flag detection patterns (regex like /mockData/i) as violations
+   - Focus on: Does the detection code have security vulnerabilities?
+
+2. **INFRASTRUCTURE CODE** (Stripe, Auth, Uploads):
+   ${contextInfo.type === 'INFRASTRUCTURE_CODE' ? '✅ THIS IS INFRASTRUCTURE CODE' : ''}
+   - Apply FULL security validation
+   - Focus heavily on: authentication, authorization, data protection, tenant isolation
+   - These handle sensitive operations (payments, auth, file uploads)
+
+3. **AI FEATURES** (Culture, Skills, Performance, Hiring):
+   ${contextInfo.type === 'AI_FEATURE' ? '✅ THIS IS AN AI FEATURE' : ''}
+   - Apply full security validation
+   - Additional focus: Agent-to-agent communication security
+   - Ensure Three-Engine Architecture doesn't have injection vulnerabilities
+   - Validate BOT interaction security patterns
 
 🛡️ CRITICAL MIZAN SECURITY VALIDATION:
 
@@ -495,7 +577,7 @@ async function validateMizanSecurity() {
     const validationData = validations[i];
     console.log(`   ${i + 1}/${validations.length}: 🛡️ ${validationData.violation.file}:${validationData.violation.line || 'unknown'}`);
     
-    const securityResult = await validateMizanSecurity(validationData);
+    const securityResult = await validateSingleMizanSecurity(validationData);
     securityValidations.push(securityResult);
 
     // Update security counters

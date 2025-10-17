@@ -356,6 +356,21 @@ Your fix must be MIZAN-INTELLIGENT, maintaining the complete platform ecosystem!
       fixData = createMizanIntelligentFixFallback(violation, mizanAnalysis);
     }
 
+    // ✅ PHASE 4: METHOD REFERENCE VALIDATION (ENHANCED)
+    const MethodValidator = require('./method-reference-validator');
+    const methodValidator = new MethodValidator();
+    
+    // Quick check for obviously missing methods
+    const quickCheck = methodValidator.hasObviousMissingMethods(
+      fixData.primaryFix?.newCode || ''
+    );
+    
+    if (quickCheck.hasSuspicious) {
+      fixData.warning = quickCheck.warning;
+      fixData.requiresImplementation = quickCheck.suspiciousMethods;
+      console.log(`   ⚠️  Method validation warning: ${quickCheck.warning}`);
+    }
+
     return {
       violation,
       mizanAnalysis,
@@ -530,10 +545,36 @@ async function generateMizanIntelligentFixes() {
   console.log(`${colors.magenta}║              REVOLUTIONARY MIZAN-AWARE FIX GENERATION ENGINE                                     ║${colors.reset}`);
   console.log(`${colors.magenta}╚══════════════════════════════════════════════════════════════════════════════════════════════════╝${colors.reset}\n`);
 
-  // Load Agent 1 Mizan analyses
+  // Check for filtered violations first (preferred)
+  const filteredPath = path.join(process.cwd(), 'scripts', 'violations-filtered.json');
   const analysesPath = path.join(process.cwd(), 'scripts', 'agents', 'agent1-mizan-analyses.json');
   
-  if (!fs.existsSync(analysesPath)) {
+  let analysesToProcess = [];
+  
+  // Prefer filtered violations if available
+  if (fs.existsSync(filteredPath)) {
+    console.log(`${colors.green}✅ Using filtered violations (false positives removed)${colors.reset}`);
+    const filteredViolations = JSON.parse(fs.readFileSync(filteredPath, 'utf8'));
+    
+    // Load Agent 1 analyses to match with filtered violations
+    if (fs.existsSync(analysesPath)) {
+      const analysesData = JSON.parse(fs.readFileSync(analysesPath, 'utf8'));
+      const allAnalyses = analysesData.mizanAnalyses || [];
+      
+      // Match filtered violations with their analyses
+      filteredViolations.forEach(violation => {
+        const analysis = allAnalyses.find(a => 
+          a.violation.file === violation.file && 
+          a.violation.line === violation.line
+        );
+        if (analysis) {
+          analysesToProcess.push(analysis);
+        }
+      });
+    }
+    
+    console.log(`📊 Processing ${analysesToProcess.length} filtered violations\n`);
+  } else if (!fs.existsSync(analysesPath)) {
     console.log(`${colors.yellow}⚠️  No agent1-mizan-analyses.json found. Run Mizan Agent 1 first.${colors.reset}\n`);
     
     // Create empty results
@@ -562,22 +603,53 @@ async function generateMizanIntelligentFixes() {
     process.exit(0);
   }
 
-  let analysisResults;
-  try {
-    analysisResults = JSON.parse(fs.readFileSync(analysesPath, 'utf8'));
-  } catch (error) {
-    console.error(`${colors.red}❌ Could not parse agent1-mizan-analyses.json: ${error.message}${colors.reset}\n`);
-    process.exit(1);
+  // If no filtered violations and no analyses to process, load from Agent 1
+  if (analysesToProcess.length === 0) {
+    let analysisResults;
+    try {
+      analysisResults = JSON.parse(fs.readFileSync(analysesPath, 'utf8'));
+    } catch (error) {
+      console.error(`${colors.red}❌ Could not parse agent1-mizan-analyses.json: ${error.message}${colors.reset}\n`);
+      process.exit(1);
+    }
+
+    const allAnalyses = analysisResults.mizanAnalyses || [];
+    
+    // Filter to only PROCEED recommendations and real violations
+    analysesToProcess = allAnalyses.filter(a => 
+      a.mizanAnalysis.recommendation === 'PROCEED' && 
+      a.mizanAnalysis.isRealViolation !== false
+    );
+    
+    console.log(`📊 Loaded ${allAnalyses.length} total analyses from Agent 1`);
+    console.log(`📊 Filtered to ${analysesToProcess.length} PROCEED recommendations\n`);
   }
 
-  const analyses = analysisResults.mizanAnalyses || [];
+  const analyses = analysesToProcess;
   
   if (analyses.length === 0) {
-    console.log(`${colors.green}✅ No violations to fix${colors.reset}\n`);
+    console.log(`${colors.green}✅ No violations to fix! All were either false positives or SKIP recommendations.${colors.reset}\n`);
+    
+    const emptyResults = {
+      summary: {
+        timestamp: new Date().toISOString(),
+        totalAnalyzed: 0,
+        mizanFixesGenerated: 0,
+        skipped: 0,
+        errors: 0,
+        avgConfidence: 0,
+        avgMizanCompliance: 0,
+        mizanIntelligenceLevel: 'maximum'
+      },
+      mizanFixes: []
+    };
+    
+    const outputPath = path.join(process.cwd(), 'scripts', 'agents', 'agent2-mizan-fixes.json');
+    fs.writeFileSync(outputPath, JSON.stringify(emptyResults, null, 2));
     process.exit(0);
   }
 
-  console.log(`🔧 Generating Mizan-intelligent fixes for ${analyses.length} analyzed violations...\n`);
+  console.log(`🔧 Generating Mizan-intelligent fixes for ${analyses.length} real violations...\n`);
   console.log(`${colors.cyan}🎯 MIZAN FIX CAPABILITIES:${colors.reset}`);
   console.log(`   ✅ Three-Engine Architecture implementations`);
   console.log(`   ✅ Culture → Recognition agent triggering`);

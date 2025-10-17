@@ -58,26 +58,31 @@ export default function LoginPage() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Login failed');
+        throw new Error(errorData.error || errorData.message || 'Login failed');
       }
 
       const data = await response.json();
 
-      // Store token
+      // Store both token AND user data (CRITICAL FIX as per AGENT_CONTEXT_ULTIMATE.md)
       localStorage.setItem('mizan_auth_token', data.token);
+      localStorage.setItem('mizan_user', JSON.stringify(data.user));
 
       // Show success message
       setLoginSuccess(true);
 
       // Redirect based on role after 1 second
       setTimeout(() => {
-        if (data.user.role === 'superadmin') {
-          window.location.href = '/dashboard/superadmin';
-        } else if (data.user.role === 'admin') {
-          window.location.href = '/dashboard/admin';
-        } else {
-          window.location.href = '/dashboard/employee';
-        }
+        // Enhanced role mapping for all possible roles
+        const redirectMap: Record<string, string> = {
+          'superadmin': '/dashboard/superadmin',
+          'clientAdmin': '/dashboard/admin',
+          'admin': '/dashboard/admin',
+          'employee': '/dashboard/employee',
+          'default': '/dashboard'
+        };
+        
+        const redirectPath = redirectMap[data.user.role] || redirectMap.default;
+        window.location.href = redirectPath;
       }, 1000);
 
     } catch (error: unknown) {

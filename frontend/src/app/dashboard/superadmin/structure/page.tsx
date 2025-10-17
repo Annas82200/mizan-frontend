@@ -147,7 +147,8 @@ export default function StructureAnalysisPage() {
       setResults(null);
 
       // First, upload the structure data
-      let structureData: any;
+      // Compliant with AGENT_CONTEXT_ULTIMATE.md - Strict TypeScript types
+      let structureData: { success: boolean; data?: unknown; error?: string };
 
       if (uploadMethod === 'csv' && file) {
         // Upload CSV file

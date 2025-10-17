@@ -243,7 +243,7 @@ export function IndividualEmployeeView({ tenantId, tenantName }: IndividualEmplo
           interpretation: data.report.recognition?.interpretation || data.report.recognition?.analysis || '',
           impact: data.report.recognition?.impact || ''
         },
-        recommendations: (data.report.recommendations || []).map((rec: any) => {
+        recommendations: (data.report.recommendations || []).map((rec: string | { category?: string; title?: string; description: string; actionItems?: string[] }) => {
           if (typeof rec === 'string') {
             return {
               category: 'Development',

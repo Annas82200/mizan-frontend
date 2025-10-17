@@ -88,46 +88,34 @@ export default function PerformanceAnalysisPage() {
       setAnalyzing(true);
       setError(null);
 
-      // For now, using mock data since employees endpoint needs to be implemented
-      // TODO: Replace with real API call when employee selection is ready
-      const mockResults: PerformanceAnalysisOutput = {
-        overallScore: 78,
-        goals: [
-          {
-            id: '1',
-            title: 'Increase Sales Revenue',
-            description: 'Achieve 20% growth in Q4',
-            progress: 65,
-            status: 'on_track',
-            dueDate: '2025-12-31'
-          }
-        ],
-        metrics: [
-          { category: 'Productivity', score: 85, trend: 'up', benchmark: 75 },
-          { category: 'Quality', score: 72, trend: 'stable', benchmark: 80 },
-          { category: 'Collaboration', score: 90, trend: 'up', benchmark: 85 }
-        ],
-        feedback: [
-          {
-            type: 'manager',
-            rating: 4.5,
-            comment: 'Excellent performance, strong leadership',
-            date: '2025-09-15'
-          }
-        ],
-        recommendations: [
-          {
-            priority: 'high',
-            title: 'Develop Public Speaking Skills',
-            description: 'Enhance presentation abilities for client meetings',
-            actionItems: ['Enroll in presentation skills workshop', 'Practice weekly presentations']
-          }
-        ],
-        strengths: ['Problem Solving', 'Team Leadership', 'Technical Expertise'],
-        developmentAreas: ['Time Management', 'Delegation', 'Strategic Thinking']
-      };
+      // Production-ready API call to Performance Module
+      // Compliant with AGENT_CONTEXT_ULTIMATE.md Lines 1665-1863 (Performance Module)
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+      const endpoint = selectedEmployee
+        ? `/api/performance/analyze/employee/${selectedEmployee.id}`
+        : `/api/performance/analyze/tenant/${selectedTenant.id}`;
 
-      setResults(mockResults);
+      const response = await fetch(`${apiUrl}${endpoint}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ message: 'Performance analysis failed' }));
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+      }
+
+      const analysisData: PerformanceAnalysisOutput = await response.json();
+      
+      // Validate response structure
+      if (!analysisData || typeof analysisData.overallScore !== 'number') {
+        throw new Error('Invalid performance analysis data received from server');
+      }
+
+      setResults(analysisData);
     } catch (err: unknown) {
       console.error('Performance analysis error:', err);
       setError(err instanceof Error ? err.message : 'Failed to analyze performance');
