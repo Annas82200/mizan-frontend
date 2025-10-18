@@ -41,7 +41,7 @@ export class ApiClient {
    * @param options - Fetch options
    * @returns Typed response data
    */
-  private async request<T>(
+  async request<T>(
     endpoint: string,
     options: RequestInit = {}
   ): Promise<T> {
@@ -99,6 +99,53 @@ export class ApiClient {
       console.error(`API Request Error [${endpoint}]:`, error);
       throw error;
     }
+  }
+
+  /**
+   * HTTP method helpers for axios-like interface
+   */
+  async get<T = any>(endpoint: string, options?: { params?: Record<string, any>; headers?: Record<string, string> }): Promise<{ data: T }> {
+    const params = options?.params ? '?' + new URLSearchParams(options.params).toString() : '';
+    const result = await this.request<T>(`${endpoint}${params}`, {
+      method: 'GET',
+      headers: options?.headers
+    });
+    return { data: result };
+  }
+
+  async post<T = any>(endpoint: string, data?: any, options?: { headers?: Record<string, string> }): Promise<{ data: T }> {
+    const result = await this.request<T>(endpoint, {
+      method: 'POST',
+      body: data ? JSON.stringify(data) : undefined,
+      headers: options?.headers
+    });
+    return { data: result };
+  }
+
+  async put<T = any>(endpoint: string, data?: any, options?: { headers?: Record<string, string> }): Promise<{ data: T }> {
+    const result = await this.request<T>(endpoint, {
+      method: 'PUT',
+      body: data ? JSON.stringify(data) : undefined,
+      headers: options?.headers
+    });
+    return { data: result };
+  }
+
+  async delete<T = any>(endpoint: string, options?: { headers?: Record<string, string> }): Promise<{ data: T }> {
+    const result = await this.request<T>(endpoint, {
+      method: 'DELETE',
+      headers: options?.headers
+    });
+    return { data: result };
+  }
+
+  async patch<T = any>(endpoint: string, data?: any, options?: { headers?: Record<string, string> }): Promise<{ data: T }> {
+    const result = await this.request<T>(endpoint, {
+      method: 'PATCH',
+      body: data ? JSON.stringify(data) : undefined,
+      headers: options?.headers
+    });
+    return { data: result };
   }
 
   // Authentication endpoints

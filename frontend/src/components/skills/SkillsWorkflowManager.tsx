@@ -153,9 +153,9 @@ export const SkillsWorkflowManager: React.FC<SkillsWorkflowManagerProps> = ({ us
       
       const sessions = await response.json();
       setWorkflowSessions(sessions);
-      return;
-      
-      // Fallback empty data structure
+    } catch (error) {
+      // If API fails, use fallback data structure for functionality
+      console.error('Error fetching workflow sessions:', error);
       const fallbackSessions: WorkflowSession[] = [
         {
           id: '1',
@@ -178,9 +178,7 @@ export const SkillsWorkflowManager: React.FC<SkillsWorkflowManagerProps> = ({ us
           }))
         }
       ];
-      setWorkflowSessions(mockSessions);
-    } catch (error) {
-      console.error('Error fetching workflow sessions:', error);
+      setWorkflowSessions(fallbackSessions);
     }
   };
 

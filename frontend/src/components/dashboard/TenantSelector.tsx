@@ -339,12 +339,20 @@ export function EmployeeSelector({
         return;
       }
 
-      const response = await superadminService.getEmployees({ 
+      const response = await superadminService.getEmployees({
         tenantId,
         page: 1,
         limit: 100
       });
-      setEmployees(response.employees || []);
+      // Map the service response to match the component's Employee interface
+      const mappedEmployees = (response.employees || []).map((emp: any) => ({
+        id: String(emp.id),
+        name: emp.name,
+        email: emp.email,
+        title: emp.position || null,
+        role: emp.department || emp.position || 'employee'
+      }));
+      setEmployees(mappedEmployees);
     } catch (err: unknown) {
       console.error('Error fetching employees:', err);
       const errorMessage = err && typeof err === 'object' && 'response' in err && err.response && typeof err.response === 'object' && 'data' in err.response && err.response.data && typeof err.response.data === 'object' && 'error' in err.response.data

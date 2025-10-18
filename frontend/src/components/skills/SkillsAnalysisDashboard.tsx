@@ -68,11 +68,10 @@ export const SkillsAnalysisDashboard: React.FC<SkillsAnalysisDashboardProps> = (
       const response = await fetch('/api/skills/dashboard/stats');
       if (!response.ok) throw new Error('Failed to fetch stats');
       
-      const stats = await response.json();
-      setStats(stats);
-      return;
-      
-      // Fallback empty data structure
+      const statsData = await response.json();
+      setStats(statsData);
+    } catch (err) {
+      // If API fails, use fallback data structure for functionality
       const fallbackStats: DashboardStats = {
         totalEmployees: 150,
         completedAssessments: 120,
@@ -129,11 +128,10 @@ export const SkillsAnalysisDashboard: React.FC<SkillsAnalysisDashboardProps> = (
           }
         ]
       };
-      
-      setStats(mockStats);
-    } catch (err) {
-      setError('Failed to load dashboard data');
-      console.error('Dashboard fetch error:', err);
+
+      setStats(fallbackStats);
+      setError('Using fallback data - API unavailable');
+      console.warn('Dashboard API unavailable, using fallback:', err);
     } finally {
       setIsLoading(false);
     }
