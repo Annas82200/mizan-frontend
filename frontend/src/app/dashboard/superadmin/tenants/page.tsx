@@ -53,8 +53,15 @@ export default function TenantManagement() {
       setLoading(true);
       setError(null);
 
-      const response: ApiResponse = await superadminService.getTenants();
-      setTenants(response.tenants || []);
+      const response = await superadminService.getTenants();
+      // Map tenants to include required fields
+      const mappedTenants = ((response as any).tenants || []).map((t: any) => ({
+        ...t,
+        id: String(t.id), // Ensure id is a string
+        updatedAt: t.updatedAt || t.lastActivity || new Date().toISOString(),
+        employeeCount: t.employeeCount || t.userCount || null
+      }));
+      setTenants(mappedTenants);
     } catch (err: unknown) {
       console.error('Error fetching tenants:', err);
       const errorMessage = err && typeof err === 'object' && 'response' in err 

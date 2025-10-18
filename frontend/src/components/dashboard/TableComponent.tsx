@@ -49,8 +49,8 @@ export function TableComponent<T = Record<string, unknown>>({
     if (!sortColumn) return filteredData;
 
     return [...filteredData].sort((a, b) => {
-      const aValue = (a as Record<string, unknown>)[sortColumn];
-      const bValue = (b as Record<string, unknown>)[sortColumn];
+      const aValue = (a as Record<string, any>)[sortColumn];
+      const bValue = (b as Record<string, any>)[sortColumn];
 
       if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
       if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;

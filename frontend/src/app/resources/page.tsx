@@ -11,6 +11,19 @@ import {
   ImplementationIcon
 } from '@/components/icons';
 
+interface Resource {
+  id: number;
+  title: string;
+  subtitle: string;
+  category: string;
+  pages: string;
+  fileSize: string;
+  description: string;
+  topics: string[];
+  featured?: boolean;
+  icon?: React.ComponentType<{ className?: string }>;
+}
+
 export default function ResourcesPage() {
   const [selectedCategory, setSelectedCategory] = useState('All');
 

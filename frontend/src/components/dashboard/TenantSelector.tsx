@@ -48,7 +48,13 @@ export function TenantSelector({
       setError(null);
 
       const response = await superadminService.getTenants();
-      setTenants(response.tenants || []);
+      // Map tenants to ensure correct types
+      const mappedTenants = ((response as any).tenants || []).map((t: any) => ({
+        ...t,
+        id: String(t.id), // Ensure id is a string
+        updatedAt: t.updatedAt || t.lastActivity || new Date().toISOString()
+      }));
+      setTenants(mappedTenants);
     } catch (err: unknown) {
       console.error('Error fetching tenants:', err);
       const errorMessage = err && typeof err === 'object' && 'response' in err && err.response && typeof err.response === 'object' && 'data' in err.response && err.response.data && typeof err.response.data === 'object' && 'error' in err.response.data
