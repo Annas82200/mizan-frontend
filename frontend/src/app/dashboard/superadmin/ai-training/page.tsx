@@ -337,7 +337,7 @@ export default function AITrainingPage() {
                     className="w-12 h-12 rounded-xl flex items-center justify-center"
                     style={{ backgroundColor: `${engine.color}15` }}
                   >
-                    <IconComponent className="w-6 h-6" style={{ color: engine.color }} />
+                    <IconComponent className="w-6 h-6" />
                   </div>
                   <div className="flex-1">
                     <h3 className="text-xl font-semibold text-mizan-primary">

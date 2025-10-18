@@ -14,6 +14,18 @@ import {
   ResearchIcon
 } from '@/components/icons';
 
+interface Article {
+  id: number;
+  title: string;
+  excerpt: string;
+  category: string;
+  author: string;
+  date: string;
+  readTime: string;
+  featured: boolean;
+  image?: string;
+}
+
 export default function BlogPage() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');

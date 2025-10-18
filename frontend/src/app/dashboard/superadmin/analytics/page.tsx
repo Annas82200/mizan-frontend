@@ -45,7 +45,7 @@ interface PerformanceMetric {
 }
 
 export default function SystemAnalytics() {
-  const [timeRange, setTimeRange] = useState('24h');
+  const [timeRange, setTimeRange] = useState<'7d' | '30d' | '90d' | '1y'>('7d');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -155,7 +155,7 @@ export default function SystemAnalytics() {
 
           {/* Time range selector */}
           <div className="flex items-center space-x-2 bg-white rounded-xl p-1 border border-gray-200">
-            {['1h', '24h', '7d', '30d'].map((range) => (
+            {(['7d', '30d', '90d', '1y'] as const).map((range) => (
               <button
                 key={range}
                 onClick={() => setTimeRange(range)}
