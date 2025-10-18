@@ -148,7 +148,7 @@ export default function StructureAnalysisPage() {
 
       // First, upload the structure data
       // Compliant with AGENT_CONTEXT_ULTIMATE.md - Strict TypeScript types
-      let structureData: { success: boolean; data?: unknown; error?: string };
+      let structureData: { success: boolean; data?: unknown; error?: string } = { success: false };
 
       if (uploadMethod === 'csv' && file) {
         // Upload CSV file
@@ -174,8 +174,8 @@ export default function StructureAnalysisPage() {
         // Parse text input
         const lines = textInput.trim().split('\n');
         structureData = {
-          rawText: textInput,
-          parsedData: lines.map(line => {
+          success: true,
+          data: lines.map(line => {
             const parts = line.split(',').map(p => p.trim());
             return {
               name: parts[0] || '',

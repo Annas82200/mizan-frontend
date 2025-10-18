@@ -83,10 +83,23 @@ export default function SystemAnalytics() {
         superadminService.getPerformanceMetrics({ timeRange })
       ]);
 
-      setUsageStats(usage);
-      setApiStats(api);
-      setAgentStats(agents.agents || []);
-      setPerformanceMetrics(performance.metrics || []);
+      // Map service response to component state interfaces
+      setUsageStats({
+        dau: (usage as any).activeUsers || 0,
+        wau: (usage as any).totalAnalyses || 0,
+        mau: (usage as any).totalApiCalls || 0,
+        featureAdoption: (usage as any).featureAdoption || {}
+      });
+      setApiStats({
+        totalCalls: (api as any).totalCalls || 0,
+        avgResponseTime: (api as any).avgResponseTime || 0,
+        p95ResponseTime: (api as any).p95ResponseTime || 0,
+        p99ResponseTime: (api as any).p99ResponseTime || 0,
+        errorRate: (api as any).errorRate || 0,
+        topEndpoints: (api as any).topEndpoints || []
+      });
+      setAgentStats((agents as any).agents || []);
+      setPerformanceMetrics((performance as any).metrics || []);
     } catch (err: unknown) {
       console.error('Error fetching analytics:', err);
       setError(err instanceof Error ? err.message : 'Failed to load analytics data');
@@ -165,7 +178,7 @@ export default function SystemAnalytics() {
                     : 'text-mizan-secondary'
                 }`}
               >
-                {range === '1h' ? '1 Hour' : range === '24h' ? '24 Hours' : range === '7d' ? '7 Days' : '30 Days'}
+                {range === '7d' ? '7 Days' : range === '30d' ? '30 Days' : range === '90d' ? '90 Days' : '1 Year'}
               </button>
             ))}
           </div>

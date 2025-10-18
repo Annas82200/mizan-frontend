@@ -2,6 +2,132 @@
   {
     "type": "typescript",
     "severity": "low",
+    "file": "frontend/src/lib/utils.ts",
+    "line": 16,
+    "content": "export function cn(...inputs: ClassValue[]) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "frontend/src/lib/api-client.ts",
+    "line": 12,
+    "content": "details?: any;",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "frontend/src/lib/api-client.ts",
+    "line": 107,
+    "content": "this.request<{ user: any; token: string }>(\"/api/auth/login\", {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "frontend/src/lib/api-client.ts",
+    "line": 119,
+    "content": "this.request<{ user: any; token: string }>(\"/api/auth/register\", {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "frontend/src/lib/api-client.ts",
+    "line": 125,
+    "content": "this.request<{ user: any }>(\"/api/auth/me\"),",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "frontend/src/lib/api-client.ts",
+    "line": 147,
+    "content": "analyze: (data: any) =>",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "frontend/src/lib/api-client.ts",
+    "line": 176,
+    "content": "this.request<{ valid: boolean; survey: any }>(\"/api/culture/survey/validate-token\", {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "frontend/src/lib/api-client.ts",
+    "line": 346,
+    "content": "this.request<{ tenants: any[] }>(\"/api/admin/tenants\"),",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "frontend/src/lib/api-client.ts",
+    "line": 385,
+    "content": "this.request<{ tenants: any[] }>(\"/api/superadmin/tenants\"),",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "frontend/src/lib/api-client.ts",
+    "line": 390,
+    "content": "updateTenantSettings: (tenantId: string, settings: any) =>",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "frontend/src/lib/api-client.ts",
+    "line": 412,
+    "content": "const params = new URLSearchParams(filters as any).toString();",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "frontend/src/lib/api-client.ts",
+    "line": 420,
+    "content": "this.request<{ plans: any[] }>(\"/api/billing/plans\"),",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "frontend/src/lib/api-client.ts",
+    "line": 453,
+    "content": "this.request<{ invoices: any[] }>(\"/api/billing/invoices\"),",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
+    "file": "frontend/src/lib/api-client.ts",
+    "line": 456,
+    "content": "this.request<{ paymentMethods: any[] }>(\"/api/billing/payment-methods\"),",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
     "file": "frontend/src/components/Navigation.tsx",
     "line": 11,
     "content": "export default function Navigation({ activePage = '' }: NavigationProps) {",
@@ -390,7 +516,7 @@
     "type": "typescript",
     "severity": "low",
     "file": "frontend/src/app/blog/page.tsx",
-    "line": 17,
+    "line": 29,
     "content": "export default function BlogPage() {",
     "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
     "rule": "STRICT TYPESCRIPT TYPES"
