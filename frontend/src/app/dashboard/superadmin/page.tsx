@@ -7,6 +7,8 @@ import Link from 'next/link';
 // Import shared components
 import { StatCard } from '@/components/dashboard/StatCard';
 import { superadminService } from '@/services/dashboard.service';
+import authService from '@/services/auth.service';
+import apiClient from '@/lib/api-client';
 
 interface Stats {
   totalTenants: number;
@@ -54,6 +56,11 @@ export default function SuperadminHome() {
   const [activities, setActivities] = useState<ActivityItem[]>([]);
 
   useEffect(() => {
+    // Ensure token is initialized before fetching data
+    const token = authService.getToken();
+    if (token) {
+      apiClient.setToken(token);
+    }
     fetchDashboardData();
   }, [timeRange]);
 
@@ -61,6 +68,15 @@ export default function SuperadminHome() {
     try {
       setLoading(true);
       setError(null);
+
+      // Ensure we have authentication
+      const token = authService.getToken();
+      if (!token) {
+        throw new Error('No authentication token found. Please log in.');
+      }
+
+      // Ensure API client has the token
+      apiClient.setToken(token);
 
       // Check if API URL is configured
       const apiUrl = process.env.NEXT_PUBLIC_API_URL;
