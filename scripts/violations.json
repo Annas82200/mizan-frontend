@@ -164,6 +164,15 @@
   {
     "type": "typescript",
     "severity": "low",
+    "file": "frontend/src/components/AuthInitializer.tsx",
+    "line": 11,
+    "content": "export default function AuthInitializer({ children }: { children: React.ReactNode }) {",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
     "file": "frontend/src/components/ui/use-toast.ts",
     "line": 12,
     "content": "export function useToast() {",
@@ -974,6 +983,15 @@
   {
     "type": "typescript",
     "severity": "low",
+    "file": "backend/src/services/auth.ts",
+    "line": 72,
+    "content": "const decoded = jwt.verify(token, JWT_SECRET) as any;",
+    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+    "rule": "STRICT TYPESCRIPT TYPES"
+  },
+  {
+    "type": "typescript",
+    "severity": "low",
     "file": "backend/src/services/social-media/social-knowledge-engine.ts",
     "line": 221,
     "content": "private extractAndStorePattern(post: any, engagementRate: number): void {",
@@ -1566,19 +1584,10 @@
     "rule": "COMPLETE FEATURE IMPLEMENTATION"
   },
   {
-    "type": "typescript",
-    "severity": "low",
-    "file": "backend/src/routes/auth.ts",
-    "line": 125,
-    "content": "function generateToken(user: any): string {",
-    "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
-    "rule": "STRICT TYPESCRIPT TYPES"
-  },
-  {
     "type": "placeholder-content",
     "severity": "critical",
     "file": "backend/src/routes/auth.ts",
-    "line": 590,
+    "line": 578,
     "content": "// TODO: Exchange code for LinkedIn access token",
     "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
     "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
@@ -1587,7 +1596,7 @@
     "type": "placeholder-content",
     "severity": "critical",
     "file": "backend/src/routes/auth.ts",
-    "line": 591,
+    "line": 579,
     "content": "// TODO: Store token with tenant isolation",
     "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
     "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
@@ -1596,7 +1605,7 @@
     "type": "placeholder-content",
     "severity": "critical",
     "file": "backend/src/routes/auth.ts",
-    "line": 630,
+    "line": 618,
     "content": "// TODO: Exchange tokens for Twitter access token",
     "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
     "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
@@ -1605,7 +1614,7 @@
     "type": "placeholder-content",
     "severity": "critical",
     "file": "backend/src/routes/auth.ts",
-    "line": 631,
+    "line": 619,
     "content": "// TODO: Store token with tenant isolation",
     "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
     "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
@@ -1614,7 +1623,7 @@
     "type": "placeholder-content",
     "severity": "critical",
     "file": "backend/src/routes/auth.ts",
-    "line": 669,
+    "line": 657,
     "content": "// TODO: Exchange code for Facebook access token",
     "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
     "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
@@ -1623,7 +1632,7 @@
     "type": "placeholder-content",
     "severity": "critical",
     "file": "backend/src/routes/auth.ts",
-    "line": 670,
+    "line": 658,
     "content": "// TODO: Store token with tenant isolation",
     "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
     "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
@@ -1632,7 +1641,7 @@
     "type": "placeholder-content",
     "severity": "critical",
     "file": "backend/src/routes/auth.ts",
-    "line": 708,
+    "line": 696,
     "content": "// TODO: Exchange code for Google access token",
     "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
     "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
@@ -1641,7 +1650,7 @@
     "type": "placeholder-content",
     "severity": "critical",
     "file": "backend/src/routes/auth.ts",
-    "line": 709,
+    "line": 697,
     "content": "// TODO: Store token with tenant isolation",
     "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
     "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
