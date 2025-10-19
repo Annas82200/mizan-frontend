@@ -297,16 +297,21 @@ class AuthService {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
         },
       });
 
       if (!response.ok) {
+        console.error('Token refresh failed:', response.status, response.statusText);
         return false;
       }
 
       const data = await response.json();
       if (data.token) {
         localStorage.setItem('mizan_auth_token', data.token);
+        localStorage.setItem('mizan_user', JSON.stringify(data.user));
+        // Update API client token
+        apiClient.setToken(data.token);
         return true;
       }
 
