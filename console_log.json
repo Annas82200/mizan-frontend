@@ -1,0 +1,95 @@
+2025-10-19T17:45:00.308563428Z [inf]  
+2025-10-19T17:45:02.837294865Z [inf]  [35m[Region: us-east4][0m
+2025-10-19T17:45:02.845568964Z [inf]  [35m=========================
+2025-10-19T17:45:02.845606396Z [inf]  Using Detected Dockerfile
+2025-10-19T17:45:02.845610804Z [inf]  =========================
+2025-10-19T17:45:02.845615924Z [inf]  [0m
+2025-10-19T17:45:02.845630049Z [inf]  context: zfsd-Sy_b
+2025-10-19T17:45:02.995401662Z [inf]  [internal] load build definition from Dockerfile.prod
+2025-10-19T17:45:02.995465139Z [inf]  [internal] load build definition from Dockerfile.prod
+2025-10-19T17:45:02.995483512Z [inf]  [internal] load build definition from Dockerfile.prod
+2025-10-19T17:45:03.006331181Z [inf]  [internal] load build definition from Dockerfile.prod
+2025-10-19T17:45:03.009238555Z [inf]  [internal] load metadata for docker.io/library/node:20-alpine
+2025-10-19T17:45:03.016723692Z [inf]  [auth] library/node:pull token for registry-1.docker.io
+2025-10-19T17:45:03.016766971Z [inf]  [auth] library/node:pull token for registry-1.docker.io
+2025-10-19T17:45:03.121394610Z [inf]  [internal] load metadata for docker.io/library/node:20-alpine
+2025-10-19T17:45:03.121752867Z [inf]  [internal] load .dockerignore
+2025-10-19T17:45:03.121789774Z [inf]  [internal] load .dockerignore
+2025-10-19T17:45:03.121807649Z [inf]  [internal] load .dockerignore
+2025-10-19T17:45:03.133117953Z [inf]  [internal] load .dockerignore
+2025-10-19T17:45:03.137957164Z [inf]  [builder 8/8] RUN npm prune --production
+2025-10-19T17:45:03.138008529Z [inf]  [builder 7/8] RUN npm run build
+2025-10-19T17:45:03.138020491Z [inf]  [builder 3/8] COPY package*.json ./
+2025-10-19T17:45:03.138027941Z [inf]  [production 9/9] RUN mkdir -p /app/logs /app/uploads && chown -R mizan:nodejs /app/logs /app/uploads
+2025-10-19T17:45:03.138038830Z [inf]  [builder 1/8] FROM docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48
+2025-10-19T17:45:03.138046757Z [inf]  [production 6/9] COPY --from=builder --chown=mizan:nodejs /app/node_modules ./node_modules
+2025-10-19T17:45:03.138058721Z [inf]  [production 8/9] COPY --from=builder --chown=mizan:nodejs /app/db ./db
+2025-10-19T17:45:03.138065280Z [inf]  [builder 2/8] WORKDIR /app
+2025-10-19T17:45:03.138080884Z [inf]  [production 2/9] RUN addgroup -g 1001 -S nodejs
+2025-10-19T17:45:03.138089751Z [inf]  [production 3/9] RUN adduser -S mizan -u 1001
+2025-10-19T17:45:03.138096121Z [inf]  [builder 4/8] COPY tsconfig.json ./
+2025-10-19T17:45:03.138106263Z [inf]  [production 5/9] COPY --from=builder --chown=mizan:nodejs /app/dist ./dist
+2025-10-19T17:45:03.138114213Z [inf]  [production 7/9] COPY --from=builder --chown=mizan:nodejs /app/package*.json ./
+2025-10-19T17:45:03.138124461Z [inf]  [builder 6/8] COPY . .
+2025-10-19T17:45:03.138130323Z [inf]  [internal] load build context
+2025-10-19T17:45:03.138136547Z [inf]  [production 4/9] WORKDIR /app
+2025-10-19T17:45:03.138142456Z [inf]  [builder 5/8] RUN npm ci && npm cache clean --force
+2025-10-19T17:45:03.138160672Z [inf]  [internal] load build context
+2025-10-19T17:45:03.138171894Z [inf]  [builder 1/8] FROM docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48
+2025-10-19T17:45:03.144991368Z [inf]  [internal] load build context
+2025-10-19T17:45:03.200129852Z [inf]  [internal] load build context
+2025-10-19T17:45:03.203619229Z [inf]  [builder 2/8] WORKDIR /app
+2025-10-19T17:45:03.203669389Z [inf]  [builder 3/8] COPY package*.json ./
+2025-10-19T17:45:03.203679388Z [inf]  [builder 4/8] COPY tsconfig.json ./
+2025-10-19T17:45:03.203687390Z [inf]  [builder 5/8] RUN npm ci && npm cache clean --force
+2025-10-19T17:45:03.203702865Z [inf]  [builder 6/8] COPY . .
+2025-10-19T17:45:03.282247206Z [inf]  [builder 6/8] COPY . .
+2025-10-19T17:45:03.284689612Z [inf]  [builder 7/8] RUN npm run build
+2025-10-19T17:45:03.631684851Z [inf]  
+> mizan-server@1.0.0 build
+> tsc
+
+
+2025-10-19T17:45:14.083385986Z [inf]  src/services/agents/lxp/lxp-agent.ts(9,3): error TS2305: Module '"../../../../db/schema/lxp-extended"' has no exported member 'lxpSkillsAcquiredTable'.
+
+2025-10-19T17:45:14.083471799Z [inf]  src/services/agents/lxp/lxp-agent.ts(10,3): error TS2305: Module '"../../../../db/schema/lxp-extended"' has no exported member 'lxpBehaviorChangesTable'.
+
+2025-10-19T17:45:14.083480369Z [inf]  src/services/agents/lxp/lxp-agent.ts(11,3): error TS2305: Module '"../../../../db/schema/lxp-extended"' has no exported member 'lxpPerformanceImpactTable'.
+
+2025-10-19T17:45:14.08351131Z [inf]  src/services/agents/lxp/lxp-agent.ts(222,9): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(value: { tenantId: string | SQL<unknown> | Placeholder<string, any>; employeeId: string | SQL<unknown> | Placeholder<string, any>; workflowType: string | SQL<...> | Placeholder<...>; ... 5 more ...; triggeredBy?: string | ... 1 more ... | Placeholder<...>; }): PgInsertBase<...>', gave the following error.
+    Object literal may only specify known properties, and 'learningExperienceId' does not exist in type '{ tenantId: string | SQL<unknown> | Placeholder<string, any>; employeeId: string | SQL<unknown> | Placeholder<string, any>; workflowType: string | SQL<...> | Placeholder<...>; ... 5 more ...; triggeredBy?: string | ... 1 more ... | Placeholder<...>; }'.
+  Overload 2 of 2, '(values: { tenantId: string | SQL<unknown> | Placeholder<string, any>; employeeId: string | SQL<unknown> | Placeholder<string, any>; workflowType: string | SQL<...> | Placeholder<...>; ... 5 more ...; triggeredBy?: string | ... 1 more ... | Placeholder<...>; }[]): PgInsertBase<...>', gave the following error.
+    Object literal may only specify known properties, and 'learningExperienceId' does not exist in type '{ tenantId: string | SQL<unknown> | Placeholder<string, any>; employeeId: string | SQL<unknown> | Placeholder<string, any>; workflowType: string | SQL<...> | Placeholder<...>; ... 5 more ...; triggeredBy?: string | ... 1 more ... | Placeholder<...>; }[]'.
+src/services/agents/lxp/lxp-agent.ts(268,33): error TS2339: Property 'learningExperienceId' does not exist on type 'PgTableWithColumns<{ name: "lxp_workflows"; schema: undefined; columns: { id: PgColumn<{ name: "id"; tableName: "lxp_workflows"; dataType: "string"; columnType: "PgUUID"; data: string; driverParam: string; notNull: true; hasDefault: true; enumValues: undefined; baseColumn: never; }, {}, {}>; ... 7 more ...; updatedA...'.
+
+2025-10-19T17:45:14.083557665Z [inf]  src/services/agents/lxp/lxp-agent.ts(456,11): error TS2353: Object literal may only specify known properties, and 'completedAt' does not exist in type '{ id?: string | SQL<unknown>; tenantId?: string | SQL<unknown>; employeeId?: string | SQL<unknown>; workflowType?: string | SQL<unknown>; status?: string | SQL<unknown>; triggeredBy?: string | SQL<...>; metadata?: unknown; createdAt?: SQL<...> | Date; updatedAt?: SQL<...> | Date; }'.
+src/services/agents/lxp/lxp-agent.ts(461,33): error TS2339: Property 'learningExperienceId' does not exist on type 'PgTableWithColumns<{ name: "lxp_workflows"; schema: undefined; columns: { id: PgColumn<{ name: "id"; tableName: "lxp_workflows"; dataType: "string"; columnType: "PgUUID"; data: string; driverParam: string; notNull: true; hasDefault: true; enumValues: undefined; baseColumn: never; }, {}, {}>; ... 7 more ...; updatedA...'.
+src/services/agents/lxp/lxp-agent.ts(553,36): error TS2339: Property 'learningExperienceId' does not exist on type 'PgTableWithColumns<{ name: "lxp_workflows"; schema: undefined; columns: { id: PgColumn<{ name: "id"; tableName: "lxp_workflows"; dataType: "string"; columnType: "PgUUID"; data: string; driverParam: string; notNull: true; hasDefault: true; enumValues: undefined; baseColumn: never; }, {}, {}>; ... 7 more ...; updatedA...'.
+
+2025-10-19T17:45:14.083582356Z [inf]  src/services/agents/lxp/lxp-agent.ts(559,26): error TS2339: Property 'learningDesign' does not exist on type '{ id: string; status: string; createdAt: Date; updatedAt: Date; tenantId: string; metadata: unknown; employeeId: string; workflowType: string; triggeredBy: string; }'.
+
+2025-10-19T17:45:14.083721121Z [inf]  src/services/agents/lxp/lxp-agent.ts(561,17): error TS2339: Property 'learningExperienceId' does not exist on type '{ id: string; status: string; createdAt: Date; updatedAt: Date; tenantId: string; metadata: unknown; employeeId: string; workflowType: string; triggeredBy: string; }'.
+src/services/agents/lxp/lxp-agent.ts(588,33): error TS2339: Property 'learningExperienceId' does not exist on type 'PgTableWithColumns<{ name: "lxp_workflows"; schema: undefined; columns: { id: PgColumn<{ name: "id"; tableName: "lxp_workflows"; dataType: "string"; columnType: "PgUUID"; data: string; driverParam: string; notNull: true; hasDefault: true; enumValues: undefined; baseColumn: never; }, {}, {}>; ... 7 more ...; updatedA...'.
+
+2025-10-19T17:45:14.083769127Z [inf]  src/services/agents/lxp/lxp-agent.ts(628,35): error TS2339: Property 'learningExperienceId' does not exist on type '{ id: string; status: string; createdAt: Date; updatedAt: Date; tenantId: string; metadata: unknown; employeeId: string; workflowType: string; triggeredBy: string; }'.
+src/services/agents/lxp/lxp-agent.ts(629,27): error TS2339: Property 'currentLevel' does not exist on type '{ id: string; status: string; createdAt: Date; updatedAt: Date; tenantId: string; metadata: unknown; employeeId: string; workflowType: string; triggeredBy: string; }'.
+
+2025-10-19T17:45:14.083778233Z [inf]  src/services/agents/lxp/lxp-agent.ts(630,25): error TS2339: Property 'totalScore' does not exist on type '{ id: string; status: string; createdAt: Date; updatedAt: Date; tenantId: string; metadata: unknown; employeeId: string; workflowType: string; triggeredBy: string; }'.
+
+2025-10-19T17:45:14.083791489Z [inf]  src/services/agents/lxp/lxp-agent.ts(631,42): error TS2339: Property 'completionPercentage' does not exist on type '{ id: string; status: string; createdAt: Date; updatedAt: Date; tenantId: string; metadata: unknown; employeeId: string; workflowType: string; triggeredBy: string; }'.
+
+2025-10-19T17:45:14.083803275Z [inf]  src/services/agents/lxp/lxp-agent.ts(632,24): error TS2339: Property 'timeSpent' does not exist on type '{ id: string; status: string; createdAt: Date; updatedAt: Date; tenantId: string; metadata: unknown; employeeId: string; workflowType: string; triggeredBy: string; }'.
+
+2025-10-19T17:45:14.083822379Z [inf]  src/services/agents/lxp/lxp-agent.ts(633,27): error TS2339: Property 'lastActivity' does not exist on type '{ id: string; status: string; createdAt: Date; updatedAt: Date; tenantId: string; metadata: unknown; employeeId: string; workflowType: string; triggeredBy: string; }'.
+
+2025-10-19T17:45:14.283339307Z [err]  [builder 7/8] RUN npm run build
+2025-10-19T17:45:14.301226518Z [err]  Dockerfile.prod:19
+2025-10-19T17:45:14.302841640Z [err]  -------------------
+2025-10-19T17:45:14.302851323Z [err]  17 |
+2025-10-19T17:45:14.302858373Z [err]  18 |     # Build the application
+2025-10-19T17:45:14.302939535Z [err]  19 | >>> RUN npm run build
+2025-10-19T17:45:14.302952247Z [err]  20 |
+2025-10-19T17:45:14.302966938Z [err]  21 |     # Remove devDependencies after build (keep only production dependencies)
+2025-10-19T17:45:14.302974620Z [err]  -------------------
+2025-10-19T17:45:14.302982441Z [err]  ERROR: failed to build: failed to solve: process "/bin/sh -c npm run build" did not complete successfully: exit code: 2
