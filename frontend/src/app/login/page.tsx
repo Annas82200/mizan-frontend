@@ -67,6 +67,10 @@ export default function LoginPage() {
       localStorage.setItem('mizan_auth_token', data.token);
       localStorage.setItem('mizan_user', JSON.stringify(data.user));
 
+      // Set token in API client for subsequent requests
+      const apiClient = (await import('@/lib/api-client')).default;
+      apiClient.setToken(data.token);
+
       // Show success message
       setLoginSuccess(true);
 

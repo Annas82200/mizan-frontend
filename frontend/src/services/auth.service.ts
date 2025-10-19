@@ -4,6 +4,7 @@
  */
 
 import { z } from 'zod';
+import apiClient from '../lib/api-client';
 
 // Validation schemas
 const loginSchema = z.object({
@@ -85,10 +86,12 @@ class AuthService {
         throw new Error(data.error || data.message || 'Login failed');
       }
 
-      // Store auth token
+      // Store auth token and set it in API client
       if (data.token) {
         localStorage.setItem('mizan_auth_token', data.token);
         localStorage.setItem('mizan_user', JSON.stringify(data.user));
+        // Set token in API client for subsequent requests
+        apiClient.setToken(data.token);
       }
 
       return {
@@ -147,10 +150,12 @@ class AuthService {
         throw new Error(responseData.error || responseData.message || 'Registration failed');
       }
 
-      // Store auth token
+      // Store auth token and set it in API client
       if (responseData.token) {
         localStorage.setItem('mizan_auth_token', responseData.token);
         localStorage.setItem('mizan_user', JSON.stringify(responseData.user));
+        // Set token in API client for subsequent requests
+        apiClient.setToken(responseData.token);
       }
 
       return {
@@ -183,6 +188,21 @@ class AuthService {
   }
 
   /**
+   * Initialize authentication from stored token
+   * Should be called on app initialization
+   */
+  initializeAuth() {
+    try {
+      const token = localStorage.getItem('mizan_auth_token');
+      if (token) {
+        apiClient.setToken(token);
+      }
+    } catch (error) {
+      console.error('Error initializing auth:', error);
+    }
+  }
+
+  /**
    * Logout user
    * Clears authentication data from localStorage
    */
@@ -202,9 +222,10 @@ class AuthService {
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
-      // Always clear local storage
+      // Always clear local storage and API client token
       localStorage.removeItem('mizan_auth_token');
       localStorage.removeItem('mizan_user');
+      apiClient.setToken(null);
     }
   }
 

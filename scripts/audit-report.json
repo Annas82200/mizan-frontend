@@ -1,13 +1,13 @@
 {
   "summary": {
-    "timestamp": "2025-10-18T01:07:35.885Z",
-    "totalViolations": 318,
-    "criticalCount": 54,
-    "highCount": 3,
+    "timestamp": "2025-10-19T13:45:46.987Z",
+    "totalViolations": 402,
+    "criticalCount": 65,
+    "highCount": 4,
     "mediumCount": 0,
-    "lowCount": 261,
-    "filesScanned": 263,
-    "totalLines": 78104
+    "lowCount": 333,
+    "filesScanned": 265,
+    "totalLines": 78603
   },
   "violations": [
     {
@@ -32,17 +32,8 @@
       "type": "typescript",
       "severity": "low",
       "file": "frontend/src/lib/api-client.ts",
-      "line": 107,
-      "content": "this.request<{ user: any; token: string }>(\"/api/auth/login\", {",
-      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
-      "rule": "STRICT TYPESCRIPT TYPES"
-    },
-    {
-      "type": "typescript",
-      "severity": "low",
-      "file": "frontend/src/lib/api-client.ts",
-      "line": 119,
-      "content": "this.request<{ user: any; token: string }>(\"/api/auth/register\", {",
+      "line": 116,
+      "content": "async post<T = any>(endpoint: string, data?: any, options?: { headers?: Record<string, string> }): Promise<{ data: T }> {",
       "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
       "rule": "STRICT TYPESCRIPT TYPES"
     },
@@ -51,6 +42,42 @@
       "severity": "low",
       "file": "frontend/src/lib/api-client.ts",
       "line": 125,
+      "content": "async put<T = any>(endpoint: string, data?: any, options?: { headers?: Record<string, string> }): Promise<{ data: T }> {",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "frontend/src/lib/api-client.ts",
+      "line": 142,
+      "content": "async patch<T = any>(endpoint: string, data?: any, options?: { headers?: Record<string, string> }): Promise<{ data: T }> {",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "frontend/src/lib/api-client.ts",
+      "line": 154,
+      "content": "this.request<{ user: any; token: string }>(\"/api/auth/login\", {",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "frontend/src/lib/api-client.ts",
+      "line": 166,
+      "content": "this.request<{ user: any; token: string }>(\"/api/auth/register\", {",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "frontend/src/lib/api-client.ts",
+      "line": 172,
       "content": "this.request<{ user: any }>(\"/api/auth/me\"),",
       "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
       "rule": "STRICT TYPESCRIPT TYPES"
@@ -59,7 +86,7 @@
       "type": "typescript",
       "severity": "low",
       "file": "frontend/src/lib/api-client.ts",
-      "line": 147,
+      "line": 194,
       "content": "analyze: (data: any) =>",
       "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
       "rule": "STRICT TYPESCRIPT TYPES"
@@ -68,7 +95,7 @@
       "type": "typescript",
       "severity": "low",
       "file": "frontend/src/lib/api-client.ts",
-      "line": 176,
+      "line": 223,
       "content": "this.request<{ valid: boolean; survey: any }>(\"/api/culture/survey/validate-token\", {",
       "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
       "rule": "STRICT TYPESCRIPT TYPES"
@@ -77,7 +104,7 @@
       "type": "typescript",
       "severity": "low",
       "file": "frontend/src/lib/api-client.ts",
-      "line": 346,
+      "line": 393,
       "content": "this.request<{ tenants: any[] }>(\"/api/admin/tenants\"),",
       "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
       "rule": "STRICT TYPESCRIPT TYPES"
@@ -86,7 +113,7 @@
       "type": "typescript",
       "severity": "low",
       "file": "frontend/src/lib/api-client.ts",
-      "line": 385,
+      "line": 432,
       "content": "this.request<{ tenants: any[] }>(\"/api/superadmin/tenants\"),",
       "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
       "rule": "STRICT TYPESCRIPT TYPES"
@@ -95,7 +122,7 @@
       "type": "typescript",
       "severity": "low",
       "file": "frontend/src/lib/api-client.ts",
-      "line": 390,
+      "line": 437,
       "content": "updateTenantSettings: (tenantId: string, settings: any) =>",
       "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
       "rule": "STRICT TYPESCRIPT TYPES"
@@ -104,7 +131,7 @@
       "type": "typescript",
       "severity": "low",
       "file": "frontend/src/lib/api-client.ts",
-      "line": 412,
+      "line": 459,
       "content": "const params = new URLSearchParams(filters as any).toString();",
       "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
       "rule": "STRICT TYPESCRIPT TYPES"
@@ -113,7 +140,7 @@
       "type": "typescript",
       "severity": "low",
       "file": "frontend/src/lib/api-client.ts",
-      "line": 420,
+      "line": 467,
       "content": "this.request<{ plans: any[] }>(\"/api/billing/plans\"),",
       "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
       "rule": "STRICT TYPESCRIPT TYPES"
@@ -122,7 +149,7 @@
       "type": "typescript",
       "severity": "low",
       "file": "frontend/src/lib/api-client.ts",
-      "line": 453,
+      "line": 500,
       "content": "this.request<{ invoices: any[] }>(\"/api/billing/invoices\"),",
       "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
       "rule": "STRICT TYPESCRIPT TYPES"
@@ -131,7 +158,7 @@
       "type": "typescript",
       "severity": "low",
       "file": "frontend/src/lib/api-client.ts",
-      "line": 456,
+      "line": 503,
       "content": "this.request<{ paymentMethods: any[] }>(\"/api/billing/payment-methods\"),",
       "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
       "rule": "STRICT TYPESCRIPT TYPES"
@@ -178,6 +205,33 @@
       "file": "frontend/src/components/ui/mizan-logo-animation.tsx",
       "line": 274,
       "content": "export function useMizanLogoAnimation() {",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "frontend/src/components/dashboard/TenantSelector.tsx",
+      "line": 52,
+      "content": "const mappedTenants = ((response as any).tenants || []).map((t: any) => ({",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "frontend/src/components/dashboard/TenantSelector.tsx",
+      "line": 52,
+      "content": "const mappedTenants = ((response as any).tenants || []).map((t: any) => ({",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "frontend/src/components/dashboard/TenantSelector.tsx",
+      "line": 348,
+      "content": "const mappedEmployees = (response.employees || []).map((emp: any) => ({",
       "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
       "rule": "STRICT TYPESCRIPT TYPES"
     },
@@ -302,7 +356,7 @@
       "type": "typescript",
       "severity": "low",
       "file": "frontend/src/app/resources/page.tsx",
-      "line": 14,
+      "line": 27,
       "content": "export default function ResourcesPage() {",
       "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
       "rule": "STRICT TYPESCRIPT TYPES"
@@ -382,6 +436,51 @@
     {
       "type": "typescript",
       "severity": "low",
+      "file": "frontend/src/app/dashboard/superadmin/page.tsx",
+      "line": 99,
+      "content": "monthlyRevenue: (statsResponse as any).monthlyRevenue || statsResponse.totalRevenue / 12,",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "frontend/src/app/dashboard/superadmin/page.tsx",
+      "line": 100,
+      "content": "platformHealth: (statsResponse as any).platformHealth || 95",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "frontend/src/app/dashboard/superadmin/page.tsx",
+      "line": 102,
+      "content": "if (tenantsResponse) setTenants((tenantsResponse.tenants || []).map((t: any) => ({",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "frontend/src/app/dashboard/superadmin/page.tsx",
+      "line": 107,
+      "content": "if (revenueResponse) setRevenueData((revenueResponse as any).data || (revenueResponse as any).monthlyRevenue || []);",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "frontend/src/app/dashboard/superadmin/page.tsx",
+      "line": 108,
+      "content": "if (activityResponse) setActivities(Array.isArray(activityResponse) ? activityResponse : (activityResponse as any).activities || []);",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
       "file": "frontend/src/app/dashboard/superadmin/triggers/page.tsx",
       "line": 23,
       "content": "export default function TriggersPage() {",
@@ -394,6 +493,24 @@
       "file": "frontend/src/app/dashboard/superadmin/tenants/page.tsx",
       "line": 35,
       "content": "export default function TenantManagement() {",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "frontend/src/app/dashboard/superadmin/tenants/page.tsx",
+      "line": 58,
+      "content": "const mappedTenants = ((response as any).tenants || []).map((t: any) => ({",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "frontend/src/app/dashboard/superadmin/tenants/page.tsx",
+      "line": 58,
+      "content": "const mappedTenants = ((response as any).tenants || []).map((t: any) => ({",
       "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
       "rule": "STRICT TYPESCRIPT TYPES"
     },
@@ -508,6 +625,114 @@
     {
       "type": "typescript",
       "severity": "low",
+      "file": "frontend/src/app/dashboard/superadmin/analytics/page.tsx",
+      "line": 88,
+      "content": "dau: (usage as any).activeUsers || 0,",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "frontend/src/app/dashboard/superadmin/analytics/page.tsx",
+      "line": 89,
+      "content": "wau: (usage as any).totalAnalyses || 0,",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "frontend/src/app/dashboard/superadmin/analytics/page.tsx",
+      "line": 90,
+      "content": "mau: (usage as any).totalApiCalls || 0,",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "frontend/src/app/dashboard/superadmin/analytics/page.tsx",
+      "line": 91,
+      "content": "featureAdoption: (usage as any).featureAdoption || {}",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "frontend/src/app/dashboard/superadmin/analytics/page.tsx",
+      "line": 94,
+      "content": "totalCalls: (api as any).totalCalls || 0,",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "frontend/src/app/dashboard/superadmin/analytics/page.tsx",
+      "line": 95,
+      "content": "avgResponseTime: (api as any).avgResponseTime || 0,",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "frontend/src/app/dashboard/superadmin/analytics/page.tsx",
+      "line": 96,
+      "content": "p95ResponseTime: (api as any).p95ResponseTime || 0,",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "frontend/src/app/dashboard/superadmin/analytics/page.tsx",
+      "line": 97,
+      "content": "p99ResponseTime: (api as any).p99ResponseTime || 0,",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "frontend/src/app/dashboard/superadmin/analytics/page.tsx",
+      "line": 98,
+      "content": "errorRate: (api as any).errorRate || 0,",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "frontend/src/app/dashboard/superadmin/analytics/page.tsx",
+      "line": 99,
+      "content": "topEndpoints: (api as any).topEndpoints || []",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "frontend/src/app/dashboard/superadmin/analytics/page.tsx",
+      "line": 101,
+      "content": "setAgentStats((agents as any).agents || []);",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "frontend/src/app/dashboard/superadmin/analytics/page.tsx",
+      "line": 102,
+      "content": "setPerformanceMetrics((performance as any).metrics || []);",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
       "file": "frontend/src/app/dashboard/superadmin/ai-training/page.tsx",
       "line": 43,
       "content": "export default function AITrainingPage() {",
@@ -547,6 +772,141 @@
       "file": "backend/src/utils/module-access.ts",
       "line": 131,
       "content": "export function requireModuleAccess(moduleName: ModuleName) {",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/utils/culture-helpers.ts",
+      "line": 100,
+      "content": "function calculateValuesAlignment(assessment: any): number {",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/utils/culture-helpers.ts",
+      "line": 120,
+      "content": "function calculateExperienceGap(assessment: any): number {",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/utils/culture-helpers.ts",
+      "line": 140,
+      "content": "function calculateOverallCultureScore(assessment: any): number {",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/utils/culture-helpers.ts",
+      "line": 167,
+      "content": "function generateCultureInsights(assessment: any): string[] {",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/utils/culture-helpers.ts",
+      "line": 209,
+      "content": "function generateRecommendations(assessment: any): string[] {",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/types/agent-types.ts",
+      "line": 76,
+      "content": "knowledgeEngine: any;",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/types/agent-types.ts",
+      "line": 77,
+      "content": "dataEngine: any;",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/types/agent-types.ts",
+      "line": 78,
+      "content": "reasoningEngine: any;",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/types/agent-types.ts",
+      "line": 81,
+      "content": "analyze(input: any): Promise<any>;",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/types/agent-types.ts",
+      "line": 82,
+      "content": "process(data: any): Promise<any>;",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/types/agent-types.ts",
+      "line": 83,
+      "content": "generateInsights(context: any): Promise<any>;",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/types/agent-types.ts",
+      "line": 86,
+      "content": "triggerModule?(targetModule: string, data: any): Promise<void>;",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/types/agent-types.ts",
+      "line": 87,
+      "content": "receiveData?(sourceModule: string, data: any): Promise<void>;",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/types/agent-types.ts",
+      "line": 101,
+      "content": "results: any;",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/types/agent-types.ts",
+      "line": 102,
+      "content": "metadata?: any;",
       "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
       "rule": "STRICT TYPESCRIPT TYPES"
     },
@@ -698,10 +1058,136 @@
       "type": "placeholder-content",
       "severity": "critical",
       "file": "backend/src/services/skills/skillsBotService.ts",
-      "line": 515,
+      "line": 519,
       "content": "currentIntent: 'general_help', // Placeholder, will be updated by analyzeQueryIntent",
       "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
       "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/services/orchestrator/architect-ai.ts",
+      "line": 265,
+      "content": "parentId: (d as any).parentId || undefined, // parentId is optional, only use if exists",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/services/orchestrator/architect-ai.ts",
+      "line": 267,
+      "content": "manager: (d as any).manager || (d as any).headId || undefined // manager is optional",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/services/orchestrator/architect-ai.ts",
+      "line": 269,
+      "content": "reportingLines: ((orgChartData as any).reportingLines || []).map((line: any) => ({",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/services/orchestrator/architect-ai.ts",
+      "line": 269,
+      "content": "reportingLines: ((orgChartData as any).reportingLines || []).map((line: any) => ({",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/services/orchestrator/architect-ai.ts",
+      "line": 276,
+      "content": "roles: (orgChartData.employees || (orgChartData as any).roles || []).map((e: any) => ({",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/services/orchestrator/architect-ai.ts",
+      "line": 276,
+      "content": "roles: (orgChartData.employees || (orgChartData as any).roles || []).map((e: any) => ({",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/services/orchestrator/architect-ai.ts",
+      "line": 294,
+      "content": "gaps: result.gaps.map(g => typeof g === 'string' ? g : (g as any).description || g), // Handle both string and object gaps",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/services/orchestrator/architect-ai.ts",
+      "line": 295,
+      "content": "hiringNeeds: (result.hiringNeeds || []).map((h: any) => ({",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/services/orchestrator/architect-ai.ts",
+      "line": 300,
+      "content": "recommendations: (result.recommendations || []).map((r: any) => ({",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/services/orchestrator/architect-ai.ts",
+      "line": 387,
+      "content": "recommendedTraining: result.lxpTriggers?.map(trigger => (trigger as any).skill || 'general') || [],",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/services/orchestrator/architect-ai.ts",
+      "line": 389,
+      "content": "area: (trigger as any).skill || 'general',",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/services/orchestrator/architect-ai.ts",
+      "line": 390,
+      "content": "priority: (trigger as any).priority || 'medium'",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/services/orchestrator/architect-ai.ts",
+      "line": 393,
+      "content": "title: typeof r === 'string' ? r : (r as any).title || 'Recommendation',",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/services/orchestrator/architect-ai.ts",
+      "line": 394,
+      "content": "description: typeof r === 'string' ? r : (r as any).description || ''",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
     },
     {
       "type": "typescript",
@@ -725,8 +1211,35 @@
       "type": "placeholder-content",
       "severity": "critical",
       "file": "backend/src/services/agents/performance/performance-agent.ts",
-      "line": 341,
-      "content": "employeeId: 'system', // Department-level goals use system as placeholder",
+      "line": 363,
+      "content": "employeeId: tenantId, // TODO: This should be the actual employee ID - using tenantId as placeholder",
+      "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+      "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+    },
+    {
+      "type": "placeholder-content",
+      "severity": "critical",
+      "file": "backend/src/services/agents/performance/performance-agent.ts",
+      "line": 363,
+      "content": "employeeId: tenantId, // TODO: This should be the actual employee ID - using tenantId as placeholder",
+      "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+      "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+    },
+    {
+      "type": "placeholder-content",
+      "severity": "critical",
+      "file": "backend/src/services/agents/performance/performance-agent.ts",
+      "line": 364,
+      "content": "managerId: tenantId, // TODO: This should be the actual manager ID - using tenantId as placeholder",
+      "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+      "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+    },
+    {
+      "type": "placeholder-content",
+      "severity": "critical",
+      "file": "backend/src/services/agents/performance/performance-agent.ts",
+      "line": 364,
+      "content": "managerId: tenantId, // TODO: This should be the actual manager ID - using tenantId as placeholder",
       "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
       "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
     },
@@ -734,7 +1247,7 @@
       "type": "typescript",
       "severity": "low",
       "file": "backend/src/services/agents/lxp/lxp-agent.ts",
-      "line": 122,
+      "line": 132,
       "content": "createTrigger(trigger: any): Promise<any>;",
       "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
       "rule": "STRICT TYPESCRIPT TYPES"
@@ -743,7 +1256,16 @@
       "type": "typescript",
       "severity": "low",
       "file": "backend/src/services/agents/lxp/lxp-agent.ts",
-      "line": 182,
+      "line": 179,
+      "content": "} as any",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/services/agents/lxp/lxp-agent.ts",
+      "line": 201,
       "content": "design: any",
       "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
       "rule": "STRICT TYPESCRIPT TYPES"
@@ -752,8 +1274,8 @@
       "type": "typescript",
       "severity": "low",
       "file": "backend/src/services/agents/lxp/lxp-agent.ts",
-      "line": 499,
-      "content": "gameType: row.gameType as any,",
+      "line": 559,
+      "content": "const design = row.learningDesign as any;",
       "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
       "rule": "STRICT TYPESCRIPT TYPES"
     },
@@ -761,8 +1283,8 @@
       "type": "typescript",
       "severity": "low",
       "file": "backend/src/services/agents/lxp/lxp-agent.ts",
-      "line": 504,
-      "content": "status: row.status as any,",
+      "line": 571,
+      "content": "status: row.status === 'assigned' ? 'design' : row.status === 'in_progress' ? 'active' : row.status as any,",
       "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
       "rule": "STRICT TYPESCRIPT TYPES"
     },
@@ -770,7 +1292,7 @@
       "type": "typescript",
       "severity": "low",
       "file": "backend/src/services/agents/lxp/lxp-agent.ts",
-      "line": 563,
+      "line": 677,
       "content": "private async generateLearningLevels(design: any, skillsGaps: SkillGap[]): Promise<LearningLevel[]> {",
       "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
       "rule": "STRICT TYPESCRIPT TYPES"
@@ -779,7 +1301,7 @@
       "type": "typescript",
       "severity": "low",
       "file": "backend/src/services/agents/lxp/lxp-agent.ts",
-      "line": 568,
+      "line": 682,
       "content": "private createScoringSystem(design: any): ScoringConfig {",
       "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
       "rule": "STRICT TYPESCRIPT TYPES"
@@ -788,7 +1310,7 @@
       "type": "typescript",
       "severity": "low",
       "file": "backend/src/services/agents/lxp/lxp-agent.ts",
-      "line": 605,
+      "line": 719,
       "content": "private async updateBehaviorChangeMetrics(learningExperienceId: string, employeeId: string, behaviorChanges: any[]): Promise<void> {",
       "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
       "rule": "STRICT TYPESCRIPT TYPES"
@@ -797,7 +1319,7 @@
       "type": "typescript",
       "severity": "low",
       "file": "backend/src/services/agents/lxp/lxp-agent.ts",
-      "line": 714,
+      "line": 828,
       "content": "initialValue: any;",
       "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
       "rule": "STRICT TYPESCRIPT TYPES"
@@ -806,8 +1328,44 @@
       "type": "typescript",
       "severity": "low",
       "file": "backend/src/services/agents/lxp/lxp-agent.ts",
-      "line": 715,
+      "line": 829,
       "content": "constraints: any;",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/services/agents/hiring/hiring-agent.ts",
+      "line": 172,
+      "content": ": (requisition.responsibilities as any)?.length > 0",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/services/agents/hiring/hiring-agent.ts",
+      "line": 173,
+      "content": "? Object.values(requisition.responsibilities as any)",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/services/agents/hiring/hiring-agent.ts",
+      "line": 177,
+      "content": ": (requisition.qualifications as any)?.length > 0",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/services/agents/hiring/hiring-agent.ts",
+      "line": 178,
+      "content": "? Object.values(requisition.qualifications as any)",
       "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
       "rule": "STRICT TYPESCRIPT TYPES"
     },
@@ -842,10 +1400,82 @@
       "type": "typescript",
       "severity": "low",
       "file": "backend/src/routes/orchestrator.ts",
-      "line": 312,
+      "line": 314,
       "content": "type: agentType as any,",
       "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
       "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "placeholder-content",
+      "severity": "critical",
+      "file": "backend/src/routes/modules.ts",
+      "line": 9,
+      "content": "// Note: moduleExecutions table not yet implemented in schema",
+      "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+      "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+    },
+    {
+      "type": "placeholder-content",
+      "severity": "critical",
+      "file": "backend/src/routes/modules.ts",
+      "line": 75,
+      "content": "// Note: moduleExecutions table not yet implemented",
+      "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+      "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+    },
+    {
+      "type": "placeholder-content",
+      "severity": "critical",
+      "file": "backend/src/routes/modules.ts",
+      "line": 131,
+      "content": "// TODO: Implement when moduleExecutions table is added",
+      "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+      "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+    },
+    {
+      "type": "placeholder-content",
+      "severity": "critical",
+      "file": "backend/src/routes/modules.ts",
+      "line": 170,
+      "content": "// TODO: Implement when moduleExecutions table is added",
+      "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+      "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+    },
+    {
+      "type": "placeholder-content",
+      "severity": "critical",
+      "file": "backend/src/routes/modules.ts",
+      "line": 201,
+      "content": "const updated = []; // Placeholder until table is implemented",
+      "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+      "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+    },
+    {
+      "type": "placeholder-content",
+      "severity": "critical",
+      "file": "backend/src/routes/modules.ts",
+      "line": 244,
+      "content": "// TODO: Implement when moduleExecutions table is added",
+      "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+      "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+    },
+    {
+      "type": "placeholder-content",
+      "severity": "critical",
+      "file": "backend/src/routes/modules.ts",
+      "line": 254,
+      "content": "const deleted = []; // Placeholder until table is implemented",
+      "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+      "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
+    },
+    {
+      "type": "placeholder-content",
+      "severity": "critical",
+      "file": "backend/src/routes/lxp-minimal.ts",
+      "line": 7,
+      "content": "// Placeholder route - actual implementation pending",
+      "description": "RULE VIOLATION: NO TODO COMMENTS OR PLACEHOLDERS",
+      "rule": "NO TODO COMMENTS OR PLACEHOLDERS"
     },
     {
       "type": "placeholder-content",
@@ -862,6 +1492,24 @@
       "file": "backend/src/routes/framework.ts",
       "line": 302,
       "content": "function getDefaultFramework() {",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/routes/demo.ts",
+      "line": 228,
+      "content": ": undefined as any) // Production-ready: use 'any' as last resort for Drizzle type compatibility",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/routes/demo.ts",
+      "line": 239,
+      "content": ": undefined as any);",
       "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
       "rule": "STRICT TYPESCRIPT TYPES"
     },
@@ -918,6 +1566,15 @@
       "content": "const { user } = req as any;",
       "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
       "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "incomplete",
+      "severity": "high",
+      "file": "backend/src/routes/billing.ts",
+      "line": 84,
+      "content": "// Note: requireTenant is already being used on individual routes",
+      "description": "RULE VIOLATION: COMPLETE FEATURE IMPLEMENTATION",
+      "rule": "COMPLETE FEATURE IMPLEMENTATION"
     },
     {
       "type": "typescript",
@@ -1003,6 +1660,105 @@
     {
       "type": "typescript",
       "severity": "low",
+      "file": "backend/src/middleware/validation.ts",
+      "line": 14,
+      "content": "export function validate(schema: ZodSchema, target: 'body' | 'query' | 'params' = 'body') {",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/middleware/validation.ts",
+      "line": 50,
+      "content": "export function validateBody(schema: ZodSchema) {",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/middleware/validation.ts",
+      "line": 57,
+      "content": "export function validateQuery(schema: ZodSchema) {",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/middleware/validation.ts",
+      "line": 64,
+      "content": "export function validateParams(schema: ZodSchema) {",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/middleware/validation.ts",
+      "line": 83,
+      "content": "req.query = await schemas.query.parseAsync(req.query) as any;",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/middleware/validation.ts",
+      "line": 87,
+      "content": "req.params = await schemas.params.parseAsync(req.params) as any;",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/middleware/validation.ts",
+      "line": 117,
+      "content": "export function sanitizeInput(input: any): any {",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/middleware/validation.ts",
+      "line": 133,
+      "content": "const sanitized: any = {};",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/middleware/validation.ts",
+      "line": 148,
+      "content": "export function sanitizeMiddleware(req: Request, res: Response, next: NextFunction) {",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/middleware/validation.ts",
+      "line": 150,
+      "content": "req.query = sanitizeInput(req.query) as any;",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
+      "file": "backend/src/middleware/validation.ts",
+      "line": 151,
+      "content": "req.params = sanitizeInput(req.params) as any;",
+      "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
+      "rule": "STRICT TYPESCRIPT TYPES"
+    },
+    {
+      "type": "typescript",
+      "severity": "low",
       "file": "backend/src/middleware/tenant.ts",
       "line": 31,
       "content": "export async function tenantMiddleware(req: Request, res: Response, next: NextFunction) {",
@@ -1013,7 +1769,7 @@
       "type": "typescript",
       "severity": "low",
       "file": "backend/src/middleware/auth.ts",
-      "line": 26,
+      "line": 28,
       "content": "export async function authenticate(req: Request, res: Response, next: NextFunction) {",
       "description": "RULE VIOLATION: STRICT TYPESCRIPT TYPES",
       "rule": "STRICT TYPESCRIPT TYPES"
