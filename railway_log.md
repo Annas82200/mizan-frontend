@@ -1,270 +1,331 @@
-2025-10-20T14:35:32.000000000Z [inf]  Starting Container
-2025-10-20T14:35:33.672911931Z [inf]  ========================================
-2025-10-20T14:35:33.672921289Z [inf]  🚀 Mizan Server Process Starting...
-2025-10-20T14:35:33.672928294Z [inf]  📅 Timestamp: 2025-10-20T14:35:32.975Z
-2025-10-20T14:35:33.672935140Z [inf]  🌍 Node Version: v20.19.5
-2025-10-20T14:35:33.672943476Z [inf]  📦 Environment: production
-2025-10-20T14:35:33.672948892Z [inf]  🔄 Deployment Version: 7df2998 - Enhanced error logging
-2025-10-20T14:35:33.672953759Z [inf]  ========================================
-2025-10-20T14:35:33.672958591Z [inf]  ⚙️  Environment variables ready (injected by platform)
-2025-10-20T14:35:33.672963026Z [inf]  📊 Environment Check:
-2025-10-20T14:35:33.672968175Z [inf]    - PORT: 8080
-2025-10-20T14:35:33.672973000Z [inf]    - DATABASE_URL: ✅ SET
-2025-10-20T14:35:33.672979355Z [inf]    - SESSION_SECRET: ⚠️  NOT SET
-2025-10-20T14:35:33.672983532Z [inf]    - JWT_SECRET: ✅ SET
-2025-10-20T14:35:33.672987616Z [inf]  📚 Loading database module...
-2025-10-20T14:35:33.672991681Z [inf]  ✅ Database module loaded
-2025-10-20T14:35:33.672997043Z [inf]  💡 Configured Port: 8080
-2025-10-20T14:35:33.673001853Z [inf]  💡 Configured Host: 0.0.0.0
-2025-10-20T14:35:33.673006225Z [inf]  🌐 CORS configured with dynamic origin checking
-2025-10-20T14:35:33.673011289Z [inf]  ✅ Allowed origins (static): [
-2025-10-20T14:35:33.673016166Z [inf]    'http://localhost:3000',
-2025-10-20T14:35:33.673021442Z [inf]    'http://localhost:3001',
-2025-10-20T14:35:33.673028120Z [inf]    'https://mizan.work',
-2025-10-20T14:35:33.673033092Z [inf]    'https://www.mizan.work',
-2025-10-20T14:35:33.673037563Z [inf]    'https://api.mizan.work',
-2025-10-20T14:35:33.673042469Z [inf]    'https://mizan-platform-final.vercel.app',
-2025-10-20T14:35:33.673047362Z [inf]    'https://mizan-frontend-ten.vercel.app',
-2025-10-20T14:35:33.673051808Z [inf]    'https://mizan-api.railway.app'
-2025-10-20T14:35:33.673832811Z [inf]  ]
-2025-10-20T14:35:33.673839665Z [inf]  ✅ Dynamic patterns: *.vercel.app, *.railway.app
-2025-10-20T14:35:33.673844913Z [inf]  🔧 CLIENT_URL environment variable: https://mizan.work
-2025-10-20T14:35:33.673850861Z [inf]  🔧 FRONTEND_URL environment variable: https://mizan.work
-2025-10-20T14:35:33.673856746Z [inf]  🎬 Invoking startServer() function...
-2025-10-20T14:35:33.673862880Z [inf]  
-2025-10-20T14:35:33.673868819Z [inf]  ═══════════════════════════════════════════════════════════
-2025-10-20T14:35:33.673876423Z [inf]  🚀 STARTING MIZAN PLATFORM SERVER v2.0.0
-2025-10-20T14:35:33.673882616Z [inf]  ═══════════════════════════════════════════════════════════
-2025-10-20T14:35:33.673892660Z [inf]  📍 Environment: production
-2025-10-20T14:35:33.673899335Z [inf]  🔌 Port: 8080
-2025-10-20T14:35:33.673905239Z [inf]  🖥️  Host: 0.0.0.0
-2025-10-20T14:35:33.673910782Z [inf]  
-2025-10-20T14:35:33.673916346Z [inf]  🔐 Security Configuration:
-2025-10-20T14:35:33.673930883Z [inf]    ✅ DATABASE_URL is configured
-2025-10-20T14:35:33.673936546Z [inf]    ✅ JWT/SESSION_SECRET is configured
-2025-10-20T14:35:33.673942392Z [inf]  
-2025-10-20T14:35:33.673949238Z [inf]  🌐 Starting HTTP server...
-2025-10-20T14:35:33.673957134Z [inf]     Binding to: 0.0.0.0:8080
-2025-10-20T14:35:33.673963691Z [inf]  🔍 Database connection attempt 1/2...
-2025-10-20T14:35:33.673969470Z [inf]  🔍 Testing database connection...
-2025-10-20T14:35:33.673983047Z [inf]  
-2025-10-20T14:35:33.673988995Z [inf]  ═══════════════════════════════════════════════════════════
-2025-10-20T14:35:33.674696713Z [inf]  ✅ MIZAN PLATFORM SERVER ONLINE
-2025-10-20T14:35:33.674701885Z [inf]  ═══════════════════════════════════════════════════════════
-2025-10-20T14:35:33.674709217Z [inf]  🌐 Server: http://0.0.0.0:8080
-2025-10-20T14:35:33.674715819Z [inf]  🏥 Health: http://0.0.0.0:8080/health
-2025-10-20T14:35:33.674722191Z [inf]  📊 Features: Three-Engine AI, Multi-Provider Consensus
-2025-10-20T14:35:33.674733353Z [inf]  🔒 Security: CORS, Helmet, Rate Limiting
-2025-10-20T14:35:33.674739718Z [inf]  🗄️  Database: Testing connection in background...
-2025-10-20T14:35:33.674745685Z [inf]  ═══════════════════════════════════════════════════════════
-2025-10-20T14:35:33.674752686Z [inf]  
-2025-10-20T14:35:33.674759717Z [inf]  ✅ startServer() invocation completed successfully
-2025-10-20T14:35:33.721928578Z [inf]  ✅ Database connection established
-2025-10-20T14:35:33.724003578Z [inf]  ✅ Database connection established
-2025-10-20T14:35:33.725953795Z [inf]  ✅ Database connection successful
-2025-10-20T14:35:33.725959842Z [inf]  ✅ Database fully connected and operational
-2025-10-20T14:35:33.731695774Z [inf]  ✅ Database connection validated successfully
-2025-10-20T14:35:34.138858914Z [inf]  🏥 Health check requested. Reporting current status:
-2025-10-20T14:35:34.138867432Z [inf]    - Server Status: running
-2025-10-20T14:35:34.138873503Z [inf]    - Database Status: connected
-2025-10-20T14:35:34.138879921Z [inf]    - DATABASE_URL: Set (hidden)
-2025-10-20T14:36:04.212620091Z [inf]  📤 Database connection removed from pool
-2025-10-20T14:36:04.212630156Z [inf]  📤 Database connection removed from pool
-2025-10-20T14:36:34.211637721Z [inf]  📥 [Request] {
-2025-10-20T14:36:34.211648275Z [inf]    method: 'GET',
-2025-10-20T14:36:34.211654494Z [inf]    path: '/api/superadmin/tenants',
-2025-10-20T14:36:34.211660794Z [inf]    origin: 'https://www.mizan.work',
-2025-10-20T14:36:34.211666743Z [inf]    hasAuth: true,
-2025-10-20T14:36:34.211672183Z [inf]    contentType: 'application/json'
-2025-10-20T14:36:34.211678182Z [inf]  }
-2025-10-20T14:36:34.211683692Z [inf]  ✅ Database connection established
-2025-10-20T14:36:34.211688080Z [inf]  Fetching tenants for user: a8b36994-723d-45b8-a5bc-d7eea4f2bc18
-2025-10-20T14:36:34.211692870Z [inf]  Database connection verified for tenants
-2025-10-20T14:36:34.211698797Z [inf]  Fetched tenants: 3
-2025-10-20T14:36:34.211704736Z [inf]  ✅ Converted tenant ID: "superadmin-tenant" -> 1 (type: number)
-2025-10-20T14:36:34.211710848Z [inf]  ✅ Database connection established
-2025-10-20T14:36:34.211716402Z [inf]  ✅ Converted tenant ID: "1ce32fe3-6788-44e9-82c5-fb799a0501ab" -> 484650980 (type: number)
-2025-10-20T14:36:34.211721894Z [inf]  ✅ Database connection established
-2025-10-20T14:36:34.211727186Z [inf]  ✅ Converted tenant ID: "99c97d43-d075-4ebe-b719-24511cd287d6" -> 580118854 (type: number)
-2025-10-20T14:36:38.621138993Z [inf]  📥 [Request] {
-2025-10-20T14:36:38.621146138Z [inf]    method: 'GET',
-2025-10-20T14:36:38.621150858Z [inf]    path: '/api/superadmin/tenants',
-2025-10-20T14:36:38.621155980Z [inf]    origin: 'https://www.mizan.work',
-2025-10-20T14:36:38.621160860Z [inf]    hasAuth: true,
-2025-10-20T14:36:38.621165979Z [inf]    contentType: 'application/json'
-2025-10-20T14:36:38.621171052Z [inf]  }
-2025-10-20T14:36:38.622913506Z [inf]  Fetching tenants for user: a8b36994-723d-45b8-a5bc-d7eea4f2bc18
-2025-10-20T14:36:38.625059291Z [inf]  Database connection verified for tenants
-2025-10-20T14:36:38.633700787Z [inf]  Fetched tenants: 3
-2025-10-20T14:36:38.633708869Z [inf]  ✅ Converted tenant ID: "superadmin-tenant" -> 1 (type: number)
-2025-10-20T14:36:38.633715328Z [inf]  ✅ Converted tenant ID: "99c97d43-d075-4ebe-b719-24511cd287d6" -> 580118854 (type: number)
-2025-10-20T14:36:38.633728670Z [inf]  ✅ Converted tenant ID: "1ce32fe3-6788-44e9-82c5-fb799a0501ab" -> 484650980 (type: number)
-2025-10-20T14:36:48.608216609Z [inf]    contentType: 'none'
-2025-10-20T14:36:48.608234105Z [inf]  }
-2025-10-20T14:36:48.608257514Z [inf]  📥 [Request] {
-2025-10-20T14:36:48.608265664Z [inf]    method: 'GET',
-2025-10-20T14:36:48.608280534Z [inf]    path: '/api/demo/requests',
-2025-10-20T14:36:48.608293079Z [inf]    origin: 'https://www.mizan.work',
-2025-10-20T14:36:48.608299667Z [inf]    hasAuth: true,
-2025-10-20T14:37:08.149967681Z [inf]  📥 [Request] {
-2025-10-20T14:37:08.149974885Z [inf]    method: 'GET',
-2025-10-20T14:37:08.149981762Z [inf]    path: '/api/superadmin/analytics/api',
-2025-10-20T14:37:08.149987868Z [inf]    origin: 'https://www.mizan.work',
-2025-10-20T14:37:08.149994375Z [inf]    hasAuth: true,
-2025-10-20T14:37:08.150001172Z [inf]    contentType: 'application/json'
-2025-10-20T14:37:08.150007303Z [inf]  }
-2025-10-20T14:37:08.150013151Z [inf]  📥 [Request] {
-2025-10-20T14:37:08.150018832Z [inf]    method: 'GET',
-2025-10-20T14:37:08.150024510Z [inf]    path: '/api/superadmin/analytics/usage',
-2025-10-20T14:37:08.150031794Z [inf]    origin: 'https://www.mizan.work',
-2025-10-20T14:37:08.150046462Z [inf]    hasAuth: true,
-2025-10-20T14:37:08.150052793Z [inf]    contentType: 'application/json'
-2025-10-20T14:37:08.150058169Z [inf]  }
-2025-10-20T14:37:08.150065500Z [inf]  📥 [Request] {
-2025-10-20T14:37:08.150071164Z [inf]    method: 'GET',
-2025-10-20T14:37:08.150076691Z [inf]    path: '/api/superadmin/analytics/agents',
-2025-10-20T14:37:08.150081948Z [inf]    origin: 'https://www.mizan.work',
-2025-10-20T14:37:08.150087108Z [inf]    hasAuth: true,
-2025-10-20T14:37:08.150092413Z [inf]    contentType: 'application/json'
-2025-10-20T14:37:08.150097822Z [inf]  }
-2025-10-20T14:37:08.150103688Z [inf]  📥 [Request] {
-2025-10-20T14:37:08.150109679Z [inf]    method: 'GET',
-2025-10-20T14:37:08.150115774Z [inf]    path: '/api/superadmin/analytics/performance',
-2025-10-20T14:37:08.150121955Z [inf]    origin: 'https://www.mizan.work',
-2025-10-20T14:37:08.150127494Z [inf]    hasAuth: true,
-2025-10-20T14:37:08.150133461Z [inf]    contentType: 'application/json'
-2025-10-20T14:37:08.150139923Z [inf]  }
-2025-10-20T14:37:08.150145636Z [inf]  ✅ Database connection established
-2025-10-20T14:37:10.797626916Z [inf]  }
-2025-10-20T14:37:10.797638562Z [inf]  📥 [Request] {
-2025-10-20T14:37:10.797646217Z [inf]    method: 'GET',
-2025-10-20T14:37:10.797652756Z [inf]    path: '/api/superadmin/analytics/agents',
-2025-10-20T14:37:10.797660762Z [inf]    origin: 'https://www.mizan.work',
-2025-10-20T14:37:10.797667727Z [inf]    hasAuth: true,
-2025-10-20T14:37:10.797674250Z [inf]    contentType: 'application/json'
-2025-10-20T14:37:10.797677631Z [inf]  📥 [Request] {
-2025-10-20T14:37:10.797682413Z [inf]    method: 'GET',
-2025-10-20T14:37:10.797687083Z [inf]  }
-2025-10-20T14:37:10.797687859Z [inf]    path: '/api/superadmin/analytics/usage',
-2025-10-20T14:37:10.797692803Z [inf]    origin: 'https://www.mizan.work',
-2025-10-20T14:37:10.797697822Z [inf]    hasAuth: true,
-2025-10-20T14:37:10.797702638Z [inf]    contentType: 'application/json'
-2025-10-20T14:37:10.797708657Z [inf]  }
-2025-10-20T14:37:10.797714071Z [inf]  📥 [Request] {
-2025-10-20T14:37:10.797718513Z [inf]    method: 'GET',
-2025-10-20T14:37:10.797722344Z [inf]    path: '/api/superadmin/analytics/api',
-2025-10-20T14:37:10.797727298Z [inf]    origin: 'https://www.mizan.work',
-2025-10-20T14:37:10.797731592Z [inf]    hasAuth: true,
-2025-10-20T14:37:10.797736340Z [inf]    contentType: 'application/json'
-2025-10-20T14:37:10.797741285Z [inf]  }
-2025-10-20T14:37:10.797747702Z [inf]  📥 [Request] {
-2025-10-20T14:37:10.797751835Z [inf]    method: 'GET',
-2025-10-20T14:37:10.797757056Z [inf]    path: '/api/superadmin/analytics/performance',
-2025-10-20T14:37:10.797762287Z [inf]    origin: 'https://www.mizan.work',
-2025-10-20T14:37:10.797766695Z [inf]    hasAuth: true,
-2025-10-20T14:37:10.797770860Z [inf]    contentType: 'application/json'
-2025-10-20T14:37:17.833250457Z [inf]  📥 [Request] {
-2025-10-20T14:37:17.833256370Z [inf]    method: 'GET',
-2025-10-20T14:37:17.833262231Z [inf]    path: '/api/superadmin/tenants',
-2025-10-20T14:37:17.833268173Z [inf]    origin: 'https://www.mizan.work',
-2025-10-20T14:37:17.833274150Z [inf]    hasAuth: true,
-2025-10-20T14:37:17.833280437Z [inf]    contentType: 'application/json'
-2025-10-20T14:37:17.833286670Z [inf]  }
-2025-10-20T14:37:17.833292853Z [inf]  Fetching tenants for user: a8b36994-723d-45b8-a5bc-d7eea4f2bc18
-2025-10-20T14:37:17.833299570Z [inf]  Database connection verified for tenants
-2025-10-20T14:37:17.833305917Z [inf]  Fetched tenants: 3
-2025-10-20T14:37:17.833312036Z [inf]  ✅ Converted tenant ID: "1ce32fe3-6788-44e9-82c5-fb799a0501ab" -> 484650980 (type: number)
-2025-10-20T14:37:17.833319839Z [inf]  ✅ Converted tenant ID: "99c97d43-d075-4ebe-b719-24511cd287d6" -> 580118854 (type: number)
-2025-10-20T14:37:17.833325871Z [inf]  ✅ Converted tenant ID: "superadmin-tenant" -> 1 (type: number)
-2025-10-20T14:37:37.481960635Z [inf]  📥 [Request] {
-2025-10-20T14:37:37.481974570Z [inf]    method: 'POST',
-2025-10-20T14:37:37.481983601Z [inf]    path: '/api/upload/org-chart',
-2025-10-20T14:37:37.481991561Z [inf]    origin: 'https://www.mizan.work',
-2025-10-20T14:37:37.481998858Z [inf]    hasAuth: true,
-2025-10-20T14:37:37.482007559Z [inf]    contentType: 'multipart/form-data; boundary=----WebKitFormBoundarymgIS4AWvPwXYBwRu'
-2025-10-20T14:37:37.482015022Z [inf]  }
-2025-10-20T14:37:41.038271959Z [inf]  📤 Database connection removed from pool
-2025-10-20T14:37:48.061189486Z [inf]  📤 Database connection removed from pool
-2025-10-20T14:37:48.061195553Z [inf]  📤 Database connection removed from pool
-2025-10-20T14:37:48.180818059Z [err]  Provider gemini confidence too low: 0.7
-2025-10-20T14:37:50.668989033Z [err]  Provider openai confidence too low: 0.7
-2025-10-20T14:37:56.234411744Z [err]  Provider mistral confidence too low: 0.7999999999999999
-2025-10-20T14:38:00.483630202Z [inf]  📤 Database connection removed from pool
-2025-10-20T14:38:20.535370916Z [err]  Provider anthropic confidence too low: 0.7
-2025-10-20T14:38:40.208904046Z [err]      at async handleOrgChartUpload (/app/dist/src/routes/upload.js:375:24)
-2025-10-20T14:38:40.208909575Z [err]  Failed to parse knowledge output: SyntaxError: Unexpected non-whitespace character after JSON at position 1837
-2025-10-20T14:38:40.208916803Z [err]      at JSON.parse (<anonymous>)
-2025-10-20T14:38:40.208919026Z [err]  Raw response: ```json
-2025-10-20T14:38:40.208924929Z [err]      at StructureAgent.parseKnowledgeOutput (/app/dist/src/services/agents/structure-agent.js:463:25)
-2025-10-20T14:38:40.208929974Z [err]  {
-2025-10-20T14:38:40.208932620Z [err]      at StructureAgent.runKnowledgeEngine (/app/dist/src/services/agents/base/three-engine-agent.js:69:26)
-2025-10-20T14:38:40.208940324Z [err]      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-2025-10-20T14:38:40.208946564Z [err]      at async StructureAgent.analyze (/app/dist/src/services/agents/base/three-engine-agent.js:33:37)
-2025-10-20T14:38:40.208946843Z [err]    "applicable_frameworks": [
-2025-10-20T14:38:40.208955274Z [err]      "galbraithStar",
-2025-10-20T14:38:40.208956513Z [err]      at async StructureAgent.analyzeOrganizationStructure (/app/dist/src/services/agents/structure-agent.js:36:24)
-2025-10-20T14:38:40.208964666Z [err]      "chandlerPrinciple",
-2025-10-20T14:38:40.208969784Z [err]      "milesSnow",
-2025-10-20T14:38:40.208975628Z [err]      "mckinsey7S",
-2025-10-20T14:38:40.208980000Z [err]      "mintzbergTypes",
-2025-10-20T14:38:40.208986430Z [err]      "spanGuidelines",
-2025-10-20T14:38:40.208990993Z [err]      "layerGuidelines",
-2025-10-20T14:38:40.208997357Z [inf]      "decisionRights"
-2025-10-20T14:38:40.209002048Z [err]    ],
-2025-10-20T14:38:40.209008403Z [err]    "strategy_structure_fit": {
-2025-10-20T14:38:40.209016337Z [err]      "chandlerPrinciple": "Evaluate if the current structure aligns with the organization's strategic focus. If the strategy emphasizes innovation, consider a matrix or flat structure. For efficiency, a hierarchical structure may be more suitable.",
-2025-10-20T14:38:40.212269777Z [err]      "milesSnow": "Identify the strategic type (Defender, Prospector, Analyzer) and ensure the structure matches. For example, a Prospector strategy requires a decentralized, flat structure.",
-2025-10-20T14:38:40.212283990Z [err]      "galbraithStar": "Ensure alignment across all dimensions: Strategy, Structure, Processes, Rewards, and People. Misalignment in any dimension can hinder strategy execution."
-2025-10-20T14:38:40.212291599Z [err]    },
-2025-10-20T14:38:40.212297787Z [err]    "misalignment_risks": {
-2025-10-20T14:38:40.212305872Z [err]      "mckinsey7S": "Structure alone cannot resolve misalignment. Ensure all 7 elements (Strategy, Structure, Systems, Shared Values, Style, Staff, Skills) are aligned to prevent execution risks.",
-2025-10-20T14:38:40.212313441Z [err]      "layerGuidelines": "Excessive layers can slow decision-making and dilute strategy communication. Ensure the number of layers is appropriate for the organization's size.",
-2025-10-20T14:38:40.212322689Z [err]      "spanGuidelines": "Inappropriate spans of control can lead to inefficiencies. Ensure spans are optimal for the level of oversight required."
-2025-10-20T14:38:40.212330013Z [err]    },
-2025-10-20T14:38:40.212336078Z [err]    "optimal_patterns": {
-2025-10-20T14:38:40.212347845Z [err]      "mintzbergTypes": "Consider the organizational configuration that best fits the strategy. For innovation, an Adhocracy or Simple Structure may be ideal. For efficiency, a Machine Bureaucracy might be more appropriate.",
-2025-10-20T14:38:40.212354190Z [err]      "decisionRights": "Clarify decision rights to prevent bottlenecks. Decisions should be made at the lowest competent level, with strategic decisions escalated appropriately."
-2025-10-20T14:38:40.212359691Z [err]    }
-2025-10-20T14:38:40.212368204Z [err]  }
-2025-10-20T14:38:40.212374858Z [err]  ```
-2025-10-20T14:38:40.212382298Z [err]  
-2025-10-20T14:38:40.212388577Z [err]  ### Explanation:
-2025-10-20T14:38:40.214693082Z [err]  
-2025-10-20T14:38:40.214704723Z [err]  1. **Applicable Frameworks**: The frameworks listed are relevant for analyzing the organization's structure in relation to its strategy. Each framework provides a different lens through which to assess alignment and potential misalignments.
-2025-10-20T14:38:40.214712077Z [err]  
-2025-10-20T14:38:40.214717496Z [err]  2. **Strategy-Structure Fit**: 
-2025-10-20T14:38:40.214723313Z [err]     - **Chandler's Principle** emphasizes the need for the structure to follow the strategy. If the strategy changes, the structure must adapt accordingly.
-2025-10-20T14:38:40.214729161Z [err]     - **Miles & Snow** helps identify the strategic type and align the structure to support it.
-2025-10-20T14:38:40.214735034Z [err]     - **Galbraith Star Model** stresses the importance of aligning all organizational dimensions to support the strategy.
-2025-10-20T14:38:40.214742806Z [err]  
-2025-10-20T14:38:40.214748448Z [err]  3. **Misalignment Risks**:
-2025-10-20T14:38:40.214755100Z [err]     - **McKinsey 7S** highlights that structure alone cannot fix misalignment; all elements must be in harmony.
-2025-10-20T14:38:40.214761835Z [err]     - **Layer Guidelines** warn against too many organizational layers, which can impede communication and decision-making.
-2025-10-20T14:38:40.214767366Z [err]     - **Span Guidelines** ensure that spans of control are optimal for effective management and oversight.
-2025-10-20T14:38:40.214773523Z [err]  
-2025-10-20T14:38:40.214778531Z [err]  4. **Optimal Patterns**:
-2025-10-20T14:38:40.214783804Z [err]     - **Mintzberg Configurations** suggest choosing a structural archetype that fits the strategic needs, whether it be innovation or efficiency.
-2025-10-20T14:38:40.214789175Z [err]     - **Decision Rights** emphasize the importance of clear decision-making authority to facilitate strategy execution and prevent bottlenecks.
-2025-10-20T14:38:40.214795344Z [inf]  ✅ Database connection established
-2025-10-20T14:38:40.216670836Z [err]  structure analysis failed: Error: No organization structure found for tenant
-2025-10-20T14:38:40.216682746Z [err]      at StructureAgent.processData (/app/dist/src/services/agents/structure-agent.js:311:19)
-2025-10-20T14:38:40.216689756Z [err]      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-2025-10-20T14:38:40.216695873Z [err]      at async StructureAgent.runDataEngine (/app/dist/src/services/agents/base/three-engine-agent.js:77:31)
-2025-10-20T14:38:40.216701082Z [err]      at async StructureAgent.analyze (/app/dist/src/services/agents/base/three-engine-agent.js:34:32)
-2025-10-20T14:38:40.216708103Z [err]      at async StructureAgent.analyzeOrganizationStructure (/app/dist/src/services/agents/structure-agent.js:36:24)
-2025-10-20T14:38:40.216713297Z [err]      at async handleOrgChartUpload (/app/dist/src/routes/upload.js:375:24)
-2025-10-20T14:38:40.216719588Z [err]  Save org structure failed: Error: No organization structure found for tenant
-2025-10-20T14:38:40.216725254Z [err]      at StructureAgent.processData (/app/dist/src/services/agents/structure-agent.js:311:19)
-2025-10-20T14:38:40.216732117Z [err]      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-2025-10-20T14:38:40.216737611Z [err]      at async StructureAgent.runDataEngine (/app/dist/src/services/agents/base/three-engine-agent.js:77:31)
-2025-10-20T14:38:40.216743235Z [err]      at async StructureAgent.analyze (/app/dist/src/services/agents/base/three-engine-agent.js:34:32)
-2025-10-20T14:38:40.216749064Z [err]      at async StructureAgent.analyzeOrganizationStructure (/app/dist/src/services/agents/structure-agent.js:36:24)
-2025-10-20T14:38:40.216754952Z [err]      at async handleOrgChartUpload (/app/dist/src/routes/upload.js:375:24)
-2025-10-20T14:38:40.216760359Z [err]  Error stack: Error: No organization structure found for tenant
-2025-10-20T14:38:40.216766829Z [err]      at StructureAgent.processData (/app/dist/src/services/agents/structure-agent.js:311:19)
-2025-10-20T14:38:40.218171119Z [err]      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-2025-10-20T14:38:40.218181478Z [err]      at async StructureAgent.runDataEngine (/app/dist/src/services/agents/base/three-engine-agent.js:77:31)
-2025-10-20T14:38:40.218189879Z [err]      at async StructureAgent.analyze (/app/dist/src/services/agents/base/three-engine-agent.js:34:32)
-2025-10-20T14:38:40.218196992Z [err]      at async StructureAgent.analyzeOrganizationStructure (/app/dist/src/services/agents/structure-agent.js:36:24)
-2025-10-20T14:38:40.218202796Z [err]      at async handleOrgChartUpload (/app/dist/src/routes/upload.js:375:24)
-
+2025-10-20T15:49:07.000000000Z [inf]  Starting Container
+2025-10-20T15:49:09.264016282Z [inf]  🔌 Port: 8080
+2025-10-20T15:49:09.264019384Z [inf]  ✅ Database fully connected and operational
+2025-10-20T15:49:09.264029153Z [inf]  🖥️  Host: 0.0.0.0
+2025-10-20T15:49:09.264033166Z [inf]  ✅ Database connection validated successfully
+2025-10-20T15:49:09.264038949Z [inf]  
+2025-10-20T15:49:09.264046675Z [inf]  🔐 Security Configuration:
+2025-10-20T15:49:09.264054725Z [inf]  
+2025-10-20T15:49:09.264055408Z [inf]    ✅ DATABASE_URL is configured
+2025-10-20T15:49:09.264064818Z [inf]    ✅ JWT/SESSION_SECRET is configured
+2025-10-20T15:49:09.264065870Z [inf]  ✅ startServer() invocation completed successfully
+2025-10-20T15:49:09.264074799Z [inf]  
+2025-10-20T15:49:09.264076771Z [inf]  ✅ Database connection established
+2025-10-20T15:49:09.264085598Z [inf]  🌐 Starting HTTP server...
+2025-10-20T15:49:09.264086049Z [inf]  ✅ Database connection established
+2025-10-20T15:49:09.264097745Z [inf]     Binding to: 0.0.0.0:8080
+2025-10-20T15:49:09.264099577Z [inf]  ✅ Database connection successful
+2025-10-20T15:49:09.264100357Z [inf]  📊 Features: Three-Engine AI, Multi-Provider Consensus
+2025-10-20T15:49:09.264103501Z [inf]  ═══════════════════════════════════════════════════════════
+2025-10-20T15:49:09.264109573Z [inf]  🔍 Database connection attempt 1/2...
+2025-10-20T15:49:09.264120130Z [inf]  🔍 Testing database connection...
+2025-10-20T15:49:09.264124642Z [inf]  ═══════════════════════════════════════════════════════════
+2025-10-20T15:49:09.264127880Z [inf]  🔒 Security: CORS, Helmet, Rate Limiting
+2025-10-20T15:49:09.264132644Z [inf]  ✅ MIZAN PLATFORM SERVER ONLINE
+2025-10-20T15:49:09.264134281Z [inf]  
+2025-10-20T15:49:09.264142411Z [inf]  🌐 Server: http://0.0.0.0:8080
+2025-10-20T15:49:09.264147943Z [inf]  🗄️  Database: Testing connection in background...
+2025-10-20T15:49:09.264158193Z [inf]  🏥 Health: http://0.0.0.0:8080/health
+2025-10-20T15:49:09.264162956Z [inf]  ═══════════════════════════════════════════════════════════
+2025-10-20T15:49:09.264594157Z [inf]  ========================================
+2025-10-20T15:49:09.264599578Z [inf]  🚀 Mizan Server Process Starting...
+2025-10-20T15:49:09.264604493Z [inf]  📅 Timestamp: 2025-10-20T15:49:07.742Z
+2025-10-20T15:49:09.264609662Z [inf]  🌍 Node Version: v20.19.5
+2025-10-20T15:49:09.264617117Z [inf]  📦 Environment: production
+2025-10-20T15:49:09.264621784Z [inf]  🔄 Deployment Version: 7df2998 - Enhanced error logging
+2025-10-20T15:49:09.264627460Z [inf]  ========================================
+2025-10-20T15:49:09.264633128Z [inf]  ⚙️  Environment variables ready (injected by platform)
+2025-10-20T15:49:09.264637918Z [inf]  📊 Environment Check:
+2025-10-20T15:49:09.264642424Z [inf]    - PORT: 8080
+2025-10-20T15:49:09.264646478Z [inf]    - DATABASE_URL: ✅ SET
+2025-10-20T15:49:09.264650929Z [inf]    - SESSION_SECRET: ⚠️  NOT SET
+2025-10-20T15:49:09.264655801Z [inf]    - JWT_SECRET: ✅ SET
+2025-10-20T15:49:09.264661464Z [inf]  📚 Loading database module...
+2025-10-20T15:49:09.264666941Z [inf]  ✅ Database module loaded
+2025-10-20T15:49:09.264672364Z [inf]  💡 Configured Port: 8080
+2025-10-20T15:49:09.264677599Z [inf]  💡 Configured Host: 0.0.0.0
+2025-10-20T15:49:09.264682959Z [inf]  🌐 CORS configured with dynamic origin checking
+2025-10-20T15:49:09.264709222Z [inf]  ✅ Allowed origins (static): [
+2025-10-20T15:49:09.264713943Z [inf]    'http://localhost:3000',
+2025-10-20T15:49:09.264718651Z [inf]    'http://localhost:3001',
+2025-10-20T15:49:09.264724453Z [inf]    'https://mizan.work',
+2025-10-20T15:49:09.264730396Z [inf]    'https://www.mizan.work',
+2025-10-20T15:49:09.264735216Z [inf]    'https://api.mizan.work',
+2025-10-20T15:49:09.264740722Z [inf]    'https://mizan-platform-final.vercel.app',
+2025-10-20T15:49:09.264778427Z [inf]    'https://mizan-frontend-ten.vercel.app',
+2025-10-20T15:49:09.264784643Z [inf]    'https://mizan-api.railway.app'
+2025-10-20T15:49:09.264791306Z [inf]  ]
+2025-10-20T15:49:09.264797075Z [inf]  ✅ Dynamic patterns: *.vercel.app, *.railway.app
+2025-10-20T15:49:09.264804435Z [inf]  🔧 CLIENT_URL environment variable: https://mizan.work
+2025-10-20T15:49:09.264811578Z [inf]  🔧 FRONTEND_URL environment variable: https://mizan.work
+2025-10-20T15:49:09.264817320Z [inf]  🎬 Invoking startServer() function...
+2025-10-20T15:49:09.264822302Z [inf]  
+2025-10-20T15:49:09.264827266Z [inf]  ═══════════════════════════════════════════════════════════
+2025-10-20T15:49:09.264831805Z [inf]  🚀 STARTING MIZAN PLATFORM SERVER v2.0.0
+2025-10-20T15:49:09.264836724Z [inf]  ═══════════════════════════════════════════════════════════
+2025-10-20T15:49:09.264841032Z [inf]  📍 Environment: production
+2025-10-20T15:49:09.350749629Z [inf]  🏥 Health check requested. Reporting current status:
+2025-10-20T15:49:09.350757821Z [inf]    - Server Status: running
+2025-10-20T15:49:09.350764629Z [inf]    - Database Status: connected
+2025-10-20T15:49:09.350771588Z [inf]    - DATABASE_URL: Set (hidden)
+2025-10-20T15:49:39.348488867Z [inf]  📤 Database connection removed from pool
+2025-10-20T15:49:39.348494347Z [inf]  📤 Database connection removed from pool
+2025-10-20T15:49:42.311552843Z [inf]  ✅ Database connection established
+2025-10-20T15:49:42.311564096Z [inf]  ✅ Database connection established
+2025-10-20T15:49:42.311572132Z [inf]  ✅ Converted tenant ID: "99c97d43-d075-4ebe-b719-24511cd287d6" -> 580118854 (type: number)
+2025-10-20T15:49:42.311580670Z [inf]  ✅ Converted tenant ID: "1ce32fe3-6788-44e9-82c5-fb799a0501ab" -> 484650980 (type: number)
+2025-10-20T15:49:42.311592988Z [inf]  ✅ Database connection established
+2025-10-20T15:49:42.311598203Z [inf]  Fetching tenants for user: a8b36994-723d-45b8-a5bc-d7eea4f2bc18
+2025-10-20T15:49:42.311602910Z [inf]  Database connection verified for tenants
+2025-10-20T15:49:42.311608121Z [inf]  Fetched tenants: 3
+2025-10-20T15:49:42.311615215Z [inf]  ✅ Converted tenant ID: "superadmin-tenant" -> 1 (type: number)
+2025-10-20T15:49:42.311624587Z [inf]  📥 [Request] {
+2025-10-20T15:49:42.311635279Z [inf]    method: 'GET',
+2025-10-20T15:49:42.311641158Z [inf]    path: '/api/superadmin/tenants',
+2025-10-20T15:49:42.311646831Z [inf]    origin: 'https://www.mizan.work',
+2025-10-20T15:49:42.311652981Z [inf]    hasAuth: true,
+2025-10-20T15:49:42.311660318Z [inf]    contentType: 'application/json'
+2025-10-20T15:49:42.311666403Z [inf]  }
+2025-10-20T15:49:44.567471548Z [inf]  📥 [Request] {
+2025-10-20T15:49:44.567480844Z [inf]    method: 'GET',
+2025-10-20T15:49:44.567486575Z [inf]    path: '/api/superadmin/stats',
+2025-10-20T15:49:44.567492905Z [inf]    origin: 'https://www.mizan.work',
+2025-10-20T15:49:44.567498870Z [inf]    hasAuth: true,
+2025-10-20T15:49:44.567505207Z [inf]    contentType: 'application/json'
+2025-10-20T15:49:44.567511119Z [inf]  }
+2025-10-20T15:49:44.570992558Z [inf]  Fetching superadmin stats for user: a8b36994-723d-45b8-a5bc-d7eea4f2bc18
+2025-10-20T15:49:44.575984736Z [inf]  Database connection verified
+2025-10-20T15:49:44.579476292Z [inf]  Fetched tenants: 3
+2025-10-20T15:49:44.582504270Z [inf]  Fetched users: 23
+2025-10-20T15:49:44.582514034Z [inf]  Stats calculated successfully: {
+2025-10-20T15:49:44.582519972Z [inf]    totalTenants: 3,
+2025-10-20T15:49:44.582532817Z [inf]    totalUsers: 23,
+2025-10-20T15:49:44.582538118Z [inf]    activeTenants: 3,
+2025-10-20T15:49:44.582545121Z [inf]    totalRevenue: 1220,
+2025-10-20T15:49:44.582550510Z [inf]    monthlyGrowth: 8.7,
+2025-10-20T15:49:44.582556126Z [inf]    totalAnalyses: 6
+2025-10-20T15:49:44.582562962Z [inf]  }
+2025-10-20T15:49:44.585206862Z [inf]  📥 [Request] {
+2025-10-20T15:49:44.585214464Z [inf]    method: 'GET',
+2025-10-20T15:49:44.585221512Z [inf]    path: '/api/superadmin/activity',
+2025-10-20T15:49:44.585226706Z [inf]    origin: 'https://www.mizan.work',
+2025-10-20T15:49:44.585231951Z [inf]    hasAuth: true,
+2025-10-20T15:49:44.585237019Z [inf]    contentType: 'application/json'
+2025-10-20T15:49:44.585242473Z [inf]  }
+2025-10-20T15:49:44.587601961Z [inf]  📥 [Request] {
+2025-10-20T15:49:44.587608303Z [inf]    method: 'GET',
+2025-10-20T15:49:44.587616224Z [inf]    path: '/api/superadmin/revenue',
+2025-10-20T15:49:44.587622526Z [inf]    origin: 'https://www.mizan.work',
+2025-10-20T15:49:44.587629654Z [inf]    hasAuth: true,
+2025-10-20T15:49:44.587635665Z [inf]    contentType: 'application/json'
+2025-10-20T15:49:44.587641972Z [inf]  }
+2025-10-20T15:49:44.593678544Z [inf]  📥 [Request] {
+2025-10-20T15:49:44.593683042Z [inf]    method: 'GET',
+2025-10-20T15:49:44.593688481Z [inf]    path: '/api/superadmin/tenants',
+2025-10-20T15:49:44.593693884Z [inf]    origin: 'https://www.mizan.work',
+2025-10-20T15:49:44.593698417Z [inf]    hasAuth: true,
+2025-10-20T15:49:44.593703726Z [inf]    contentType: 'application/json'
+2025-10-20T15:49:44.593708415Z [inf]  }
+2025-10-20T15:49:44.596416476Z [inf]  Fetching activity data for user: a8b36994-723d-45b8-a5bc-d7eea4f2bc18
+2025-10-20T15:49:44.599722312Z [inf]  Database connection verified for activity
+2025-10-20T15:49:44.602307920Z [inf]  Fetching revenue data for user: a8b36994-723d-45b8-a5bc-d7eea4f2bc18
+2025-10-20T15:49:44.602315611Z [inf]  Fetching tenants for user: a8b36994-723d-45b8-a5bc-d7eea4f2bc18
+2025-10-20T15:49:44.602320527Z [inf]  Fetched recent tenants: 3
+2025-10-20T15:49:44.605375499Z [inf]  Activity: User amanda@company.com TenantID: 1ce32fe3-6788-44e9-82c5-fb799a0501ab -> 484650980
+2025-10-20T15:49:44.605389550Z [inf]  Activity: User robert@company.com TenantID: 1ce32fe3-6788-44e9-82c5-fb799a0501ab -> 484650980
+2025-10-20T15:49:44.605389591Z [inf]  Database connection verified for revenue
+2025-10-20T15:49:44.605400605Z [inf]  Database connection verified for tenants
+2025-10-20T15:49:44.605406744Z [inf]  Fetched recent users: 5
+2025-10-20T15:49:44.605412630Z [inf]  Activity: Tenant test ID: 99c97d43-d075-4ebe-b719-24511cd287d6 -> 580118854
+2025-10-20T15:49:44.605419127Z [inf]  Activity: Tenant TEst ID: 1ce32fe3-6788-44e9-82c5-fb799a0501ab -> 484650980
+2025-10-20T15:49:44.605425616Z [inf]  Activity: Tenant Mizan Superadmin ID: superadmin-tenant -> 1
+2025-10-20T15:49:44.605431611Z [inf]  Activity: User chris@company.com TenantID: 1ce32fe3-6788-44e9-82c5-fb799a0501ab -> 484650980
+2025-10-20T15:49:44.605437956Z [inf]  Activity: User lisa@company.com TenantID: 1ce32fe3-6788-44e9-82c5-fb799a0501ab -> 484650980
+2025-10-20T15:49:44.605443530Z [inf]  Activity: User james@company.com TenantID: 1ce32fe3-6788-44e9-82c5-fb799a0501ab -> 484650980
+2025-10-20T15:49:44.610035909Z [inf]  Fetched all tenants: 3
+2025-10-20T15:49:44.635999900Z [inf]  Fetched tenants: 3
+2025-10-20T15:49:44.639315405Z [inf]  ✅ Converted tenant ID: "superadmin-tenant" -> 1 (type: number)
+2025-10-20T15:49:44.639325238Z [inf]  ✅ Converted tenant ID: "99c97d43-d075-4ebe-b719-24511cd287d6" -> 580118854 (type: number)
+2025-10-20T15:49:44.639331839Z [inf]  ✅ Converted tenant ID: "1ce32fe3-6788-44e9-82c5-fb799a0501ab" -> 484650980 (type: number)
+2025-10-20T15:49:45.357445323Z [inf]  📥 [Request] {
+2025-10-20T15:49:45.357454437Z [inf]    method: 'GET',
+2025-10-20T15:49:45.357460887Z [inf]    path: '/api/superadmin/tenants',
+2025-10-20T15:49:45.357466658Z [inf]    origin: 'https://www.mizan.work',
+2025-10-20T15:49:45.357472328Z [inf]    hasAuth: true,
+2025-10-20T15:49:45.357478446Z [inf]    contentType: 'application/json'
+2025-10-20T15:49:45.357484189Z [inf]  }
+2025-10-20T15:49:45.365022064Z [inf]  Fetching tenants for user: a8b36994-723d-45b8-a5bc-d7eea4f2bc18
+2025-10-20T15:49:45.368322957Z [inf]  Database connection verified for tenants
+2025-10-20T15:49:45.383181240Z [inf]  Fetched tenants: 3
+2025-10-20T15:49:45.383189576Z [inf]  ✅ Converted tenant ID: "superadmin-tenant" -> 1 (type: number)
+2025-10-20T15:49:45.383197218Z [inf]  ✅ Converted tenant ID: "1ce32fe3-6788-44e9-82c5-fb799a0501ab" -> 484650980 (type: number)
+2025-10-20T15:49:45.383204881Z [inf]  ✅ Converted tenant ID: "99c97d43-d075-4ebe-b719-24511cd287d6" -> 580118854 (type: number)
+2025-10-20T15:49:46.781212695Z [inf]  📥 [Request] {
+2025-10-20T15:49:46.781223814Z [inf]    method: 'GET',
+2025-10-20T15:49:46.781231283Z [inf]    path: '/api/demo/requests',
+2025-10-20T15:49:46.781238699Z [inf]    origin: 'https://www.mizan.work',
+2025-10-20T15:49:46.781244705Z [inf]    hasAuth: true,
+2025-10-20T15:49:46.781250866Z [inf]    contentType: 'none'
+2025-10-20T15:49:46.781256951Z [inf]  }
+2025-10-20T15:49:47.427029748Z [err]  Get demo requests error: error: column "notes" does not exist
+2025-10-20T15:49:47.427036265Z [err]      at /app/node_modules/pg-pool/index.js:45:11
+2025-10-20T15:49:47.427042608Z [err]      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-10-20T15:49:47.427048722Z [err]      at async /app/node_modules/drizzle-orm/node-postgres/session.cjs:82:22
+2025-10-20T15:49:47.427055165Z [err]      at async /app/dist/src/routes/demo.js:191:26 {
+2025-10-20T15:49:47.427061481Z [err]    length: 106,
+2025-10-20T15:49:47.427068756Z [err]    severity: 'ERROR',
+2025-10-20T15:49:47.427074344Z [err]    code: '42703',
+2025-10-20T15:49:47.428435065Z [err]    detail: undefined,
+2025-10-20T15:49:47.428447487Z [err]    hint: undefined,
+2025-10-20T15:49:47.428458140Z [err]    position: '260',
+2025-10-20T15:49:47.428470301Z [err]    internalPosition: undefined,
+2025-10-20T15:49:47.428477243Z [err]    internalQuery: undefined,
+2025-10-20T15:49:47.428483728Z [err]    where: undefined,
+2025-10-20T15:49:47.428490225Z [err]    schema: undefined,
+2025-10-20T15:49:47.428497243Z [err]    table: undefined,
+2025-10-20T15:49:47.428502606Z [err]    column: undefined,
+2025-10-20T15:49:47.428510496Z [err]    dataType: undefined,
+2025-10-20T15:49:47.428516770Z [err]    constraint: undefined,
+2025-10-20T15:49:47.428523001Z [err]    file: 'parse_relation.c',
+2025-10-20T15:49:47.428529216Z [err]    line: '3716',
+2025-10-20T15:49:47.428535314Z [err]    routine: 'errorMissingColumn'
+2025-10-20T15:49:47.428541456Z [err]  }
+2025-10-20T15:49:47.428548572Z [inf]  📤 Database connection removed from pool
+2025-10-20T15:50:17.417610757Z [inf]    path: '/api/superadmin/analytics/api',
+2025-10-20T15:50:17.417614105Z [inf]    origin: 'https://www.mizan.work',
+2025-10-20T15:50:17.417621825Z [inf]    origin: 'https://www.mizan.work',
+2025-10-20T15:50:17.417628188Z [inf]    hasAuth: true,
+2025-10-20T15:50:17.417631175Z [inf]    hasAuth: true,
+2025-10-20T15:50:17.417637925Z [inf]    contentType: 'application/json'
+2025-10-20T15:50:17.417639760Z [inf]    contentType: 'application/json'
+2025-10-20T15:50:17.417647543Z [inf]  }
+2025-10-20T15:50:17.417647648Z [inf]  }
+2025-10-20T15:50:17.417654064Z [inf]  📥 [Request] {
+2025-10-20T15:50:17.417658721Z [inf]    method: 'GET',
+2025-10-20T15:50:17.417665426Z [inf]    path: '/api/superadmin/analytics/agents',
+2025-10-20T15:50:17.417665677Z [inf]  📤 Database connection removed from pool
+2025-10-20T15:50:17.417672572Z [inf]    origin: 'https://www.mizan.work',
+2025-10-20T15:50:17.417674735Z [inf]  📤 Database connection removed from pool
+2025-10-20T15:50:17.417679532Z [inf]    hasAuth: true,
+2025-10-20T15:50:17.417683452Z [inf]  📥 [Request] {
+2025-10-20T15:50:17.417687697Z [inf]    contentType: 'application/json'
+2025-10-20T15:50:17.417692273Z [inf]    method: 'GET',
+2025-10-20T15:50:17.417695518Z [inf]  }
+2025-10-20T15:50:17.417702208Z [inf]    path: '/api/superadmin/analytics/usage',
+2025-10-20T15:50:17.417702338Z [inf]  📥 [Request] {
+2025-10-20T15:50:17.417709293Z [inf]    method: 'GET',
+2025-10-20T15:50:17.417712003Z [inf]    origin: 'https://www.mizan.work',
+2025-10-20T15:50:17.417716615Z [inf]    path: '/api/superadmin/analytics/performance',
+2025-10-20T15:50:17.417720967Z [inf]    hasAuth: true,
+2025-10-20T15:50:17.417727706Z [inf]    contentType: 'application/json'
+2025-10-20T15:50:17.417736690Z [inf]  }
+2025-10-20T15:50:17.417742579Z [inf]  📥 [Request] {
+2025-10-20T15:50:17.417748028Z [inf]    method: 'GET',
+2025-10-20T15:50:17.419113755Z [inf]  ✅ Database connection established
+2025-10-20T15:50:17.419122756Z [inf]  ✅ Database connection established
+2025-10-20T15:50:17.419128938Z [inf]  ✅ Database connection established
+2025-10-20T15:50:17.419134394Z [inf]  ✅ Database connection established
+2025-10-20T15:50:36.963025622Z [inf]  📥 [Request] {
+2025-10-20T15:50:36.963032687Z [inf]    method: 'GET',
+2025-10-20T15:50:36.963040096Z [inf]    path: '/api/superadmin/tenants',
+2025-10-20T15:50:36.963046857Z [inf]    origin: 'https://www.mizan.work',
+2025-10-20T15:50:36.963053608Z [inf]    hasAuth: true,
+2025-10-20T15:50:36.963060958Z [inf]    contentType: 'application/json'
+2025-10-20T15:50:36.963068718Z [inf]  }
+2025-10-20T15:50:36.963075378Z [inf]  Fetching tenants for user: a8b36994-723d-45b8-a5bc-d7eea4f2bc18
+2025-10-20T15:50:36.963082346Z [inf]  Database connection verified for tenants
+2025-10-20T15:50:36.963089471Z [inf]  Fetched tenants: 3
+2025-10-20T15:50:36.963096356Z [inf]  ✅ Converted tenant ID: "99c97d43-d075-4ebe-b719-24511cd287d6" -> 580118854 (type: number)
+2025-10-20T15:50:36.963103388Z [inf]  ✅ Converted tenant ID: "1ce32fe3-6788-44e9-82c5-fb799a0501ab" -> 484650980 (type: number)
+2025-10-20T15:50:36.963109751Z [inf]  ✅ Converted tenant ID: "superadmin-tenant" -> 1 (type: number)
+2025-10-20T15:50:40.941179564Z [inf]  📥 [Request] {
+2025-10-20T15:50:40.941185780Z [inf]    method: 'POST',
+2025-10-20T15:50:40.941191336Z [inf]    path: '/api/upload/org-chart',
+2025-10-20T15:50:40.941197029Z [inf]    origin: 'https://www.mizan.work',
+2025-10-20T15:50:40.941201814Z [inf]    hasAuth: true,
+2025-10-20T15:50:40.941207224Z [inf]    contentType: 'multipart/form-data; boundary=----WebKitFormBoundary613V8LxNk3niCYiF'
+2025-10-20T15:50:40.941212352Z [inf]  }
+2025-10-20T15:50:46.512098618Z [inf]  📤 Database connection removed from pool
+2025-10-20T15:51:06.076982766Z [err]  Provider gemini confidence too low: 0.5999999999999999
+2025-10-20T15:51:06.076987659Z [inf]  📤 Database connection removed from pool
+2025-10-20T15:51:06.076991968Z [inf]  📤 Database connection removed from pool
+2025-10-20T15:51:07.597594709Z [err]  Provider mistral confidence too low: 0.5999999999999999
+2025-10-20T15:51:10.980353022Z [err]  Provider openai confidence too low: 0.7
+2025-10-20T15:51:11.150570966Z [inf]  📤 Database connection removed from pool
+2025-10-20T15:51:18.629259931Z [err]  Provider anthropic confidence too low: 0.5999999999999999
+2025-10-20T15:51:48.236105550Z [inf]  ✅ Database connection established
+2025-10-20T15:51:48.236111834Z [inf]  📊 Fetching organization structure for tenant: 484650980
+2025-10-20T15:51:48.236118020Z [inf]  ✅ Database connection established
+2025-10-20T15:51:48.236123528Z [err]  ❌ No organization structure found for tenant: 484650980
+2025-10-20T15:51:48.236128425Z [err]  💡 User action required: Upload an organization chart before running structure analysis
+2025-10-20T15:51:48.236133313Z [err]  structure analysis failed: Error: No organization structure found for tenant. Please upload an organization chart first.
+2025-10-20T15:51:48.236139165Z [err]      at StructureAgent.processData (/app/dist/src/services/agents/structure-agent.js:320:19)
+2025-10-20T15:51:48.236144544Z [err]      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-10-20T15:51:48.236149991Z [err]      at async StructureAgent.runDataEngine (/app/dist/src/services/agents/base/three-engine-agent.js:77:31)
+2025-10-20T15:51:48.236155183Z [err]      at async StructureAgent.analyze (/app/dist/src/services/agents/base/three-engine-agent.js:34:32)
+2025-10-20T15:51:48.236160415Z [err]      at async StructureAgent.analyzeOrganizationStructure (/app/dist/src/services/agents/structure-agent.js:39:24)
+2025-10-20T15:51:48.236165569Z [err]      at async handleOrgChartUpload (/app/dist/src/routes/upload.js:375:24)
+2025-10-20T15:51:48.236170338Z [err]  Save org structure failed: Error: No organization structure found for tenant. Please upload an organization chart first.
+2025-10-20T15:51:48.236173842Z [err]      at StructureAgent.processData (/app/dist/src/services/agents/structure-agent.js:320:19)
+2025-10-20T15:51:48.236177683Z [err]      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-10-20T15:51:48.236184547Z [err]      at async StructureAgent.runDataEngine (/app/dist/src/services/agents/base/three-engine-agent.js:77:31)
+2025-10-20T15:51:48.239831641Z [err]      at async StructureAgent.analyze (/app/dist/src/services/agents/base/three-engine-agent.js:34:32)
+2025-10-20T15:51:48.239840546Z [err]      at async StructureAgent.analyzeOrganizationStructure (/app/dist/src/services/agents/structure-agent.js:39:24)
+2025-10-20T15:51:48.239871052Z [err]      at async handleOrgChartUpload (/app/dist/src/routes/upload.js:375:24)
+2025-10-20T15:51:48.239878359Z [err]  Error stack: Error: No organization structure found for tenant. Please upload an organization chart first.
+2025-10-20T15:51:48.239890441Z [err]      at StructureAgent.processData (/app/dist/src/services/agents/structure-agent.js:320:19)
+2025-10-20T15:51:48.239897631Z [err]      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-10-20T15:51:48.239903910Z [err]      at async StructureAgent.runDataEngine (/app/dist/src/services/agents/base/three-engine-agent.js:77:31)
+2025-10-20T15:51:48.239911142Z [err]      at async StructureAgent.analyze (/app/dist/src/services/agents/base/three-engine-agent.js:34:32)
+2025-10-20T15:51:48.239918528Z [err]      at async StructureAgent.analyzeOrganizationStructure (/app/dist/src/services/agents/structure-agent.js:39:24)
+2025-10-20T15:51:48.239924894Z [err]      at async handleOrgChartUpload (/app/dist/src/routes/upload.js:375:24)
+2025-10-20T15:52:18.239499438Z [inf]  📤 Database connection removed from pool
+2025-10-20T15:52:19.118649471Z [inf]  📥 [Request] {
+2025-10-20T15:52:19.118662110Z [inf]    method: 'GET',
+2025-10-20T15:52:19.118669134Z [inf]    path: '/api/superadmin/tenants',
+2025-10-20T15:52:19.118676543Z [inf]    origin: 'https://www.mizan.work',
+2025-10-20T15:52:19.118684583Z [inf]    hasAuth: true,
+2025-10-20T15:52:19.118694889Z [inf]    contentType: 'application/json'
+2025-10-20T15:52:19.118702211Z [inf]  }
+2025-10-20T15:52:19.118709438Z [inf]  ✅ Database connection established
+2025-10-20T15:52:19.118717337Z [inf]  Fetching tenants for user: a8b36994-723d-45b8-a5bc-d7eea4f2bc18
+2025-10-20T15:52:19.118726296Z [inf]  Database connection verified for tenants
+2025-10-20T15:52:19.118734614Z [inf]  Fetched tenants: 3
+2025-10-20T15:52:19.118741699Z [inf]  ✅ Converted tenant ID: "superadmin-tenant" -> 1 (type: number)
+2025-10-20T15:52:19.118749837Z [inf]  ✅ Database connection established
+2025-10-20T15:52:19.118758238Z [inf]  ✅ Database connection established
+2025-10-20T15:52:19.118766812Z [inf]  ✅ Converted tenant ID: "1ce32fe3-6788-44e9-82c5-fb799a0501ab" -> 484650980 (type: number)
+2025-10-20T15:52:19.118775908Z [inf]  ✅ Converted tenant ID: "99c97d43-d075-4ebe-b719-24511cd287d6" -> 580118854 (type: number)
+2025-10-20T15:52:26.146075411Z [err]    severity: 'ERROR',
+2025-10-20T15:52:26.146089372Z [err]    code: '42703',
+2025-10-20T15:52:26.146111036Z [err]      at /app/node_modules/pg-pool/index.js:45:11
+2025-10-20T15:52:26.146120357Z [err]      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-10-20T15:52:26.146142287Z [err]      at async /app/node_modules/drizzle-orm/node-postgres/session.cjs:82:22
+2025-10-20T15:52:26.146143213Z [inf]  🎯 COMPANY REPORT - Endpoint hit for tenant: 484650980
+2025-10-20T15:52:26.146155730Z [inf]  📥 [Request] {
+2025-10-20T15:52:26.146157648Z [inf]    hasAuth: true,
+2025-10-20T15:52:26.146158607Z [err]      at async /app/dist/src/routes/culture-assessment.js:616:29 {
+2025-10-20T15:52:26.146171739Z [inf]  🎯 COMPANY REPORT - No cache, generating new report...
+2025-10-20T15:52:26.146176119Z [err]    length: 137,
+2025-10-20T15:52:26.146177294Z [inf]    contentType: 'none'
+2025-10-20T15:52:26.146178342Z [inf]    method: 'GET',
+2025-10-20T15:52:26.146192502Z [err]  Error generating company report: error: column cultureAssessments.additional_comments does not exist
+2025-10-20T15:52:26.146198169Z [inf]  }
+2025-10-20T15:52:26.146198631Z [inf]    path: '/api/culture-assessment/report/company',
+2025-10-20T15:52:26.146213274Z [inf]    origin: 'https://www.mizan.work',
+2025-10-20T15:52:26.146257850Z [err]    detail: undefined,
+2025-10-20T15:52:26.146268821Z [err]    hint: undefined,
+2025-10-20T15:52:26.146276714Z [err]    position: '333',
+2025-10-20T15:52:26.146286784Z [err]    internalPosition: undefined,
+2025-10-20T15:52:26.146296297Z [err]    internalQuery: undefined,
+2025-10-20T15:52:26.146304329Z [err]    where: undefined,
+2025-10-20T15:52:26.146313423Z [err]    schema: undefined,
+2025-10-20T15:52:26.146324570Z [err]    table: undefined,
+2025-10-20T15:52:26.146333374Z [err]    column: undefined,
+2025-10-20T15:52:26.146349098Z [err]    dataType: undefined,
+2025-10-20T15:52:26.150800025Z [err]    constraint: undefined,
+2025-10-20T15:52:26.150808575Z [err]    file: 'parse_relation.c',
+2025-10-20T15:52:26.150813610Z [err]    line: '3716',
+2025-10-20T15:52:26.150818251Z [err]    routine: 'errorMissingColumn'
+2025-10-20T15:52:26.150823888Z [err]  }
+2025-10-20T15:52:26.150828505Z [inf]  📤 Database connection removed from pool
