@@ -1,13 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
-  output: 'standalone',
   experimental: {
     optimizePackageImports: ['lucide-react', 'recharts'],
   },
   env: {
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001',
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001',
   },
   images: {
     domains: ['localhost', 'mizan-backend-production.up.railway.app'],
@@ -17,13 +15,6 @@ const nextConfig = {
         hostname: '**.railway.app',
       },
     ],
-  },
-  // Disable automatic static optimization for authenticated routes
-  // This prevents RSC prefetch errors for protected pages
-  experimental: {
-    optimizePackageImports: ['lucide-react', 'recharts'],
-    // Disable prefetching for dashboard routes to prevent auth issues
-    serverActions: true,
   },
   // Add headers for API requests
   async headers() {
@@ -38,7 +29,7 @@ const nextConfig = {
           },
           {
             key: 'Access-Control-Allow-Origin',
-            value: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001',
+            value: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001',
           },
           {
             key: 'Access-Control-Allow-Methods',
@@ -52,16 +43,8 @@ const nextConfig = {
       },
     ];
   },
-  // Ensure proper static exports and chunking
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false,
-        net: false,
-        tls: false,
-      };
-    }
+  // Simplified webpack config - removed client-side fallbacks that could interfere with CSS
+  webpack: (config) => {
     return config;
   },
 }
