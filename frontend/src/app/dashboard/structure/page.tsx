@@ -63,7 +63,7 @@ export default function StructureAnalysisPage({}: StructureAnalysisPageProps) {
         const token = localStorage.getItem('token');
         const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
 
-        const response = await fetch(`${apiUrl}/api/structure/analyses`, {
+        const response = await fetch(`${apiUrl}/api/upload/structures`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -77,7 +77,9 @@ export default function StructureAnalysisPage({}: StructureAnalysisPageProps) {
         }
 
         const data = await response.json();
-        setAnalysisData(data);
+        // Backend returns { structures: [...] }, get the latest one
+        const structures = data.structures || [];
+        setAnalysisData(structures.length > 0 ? structures[0] : null);
         setError(null);
       } catch (error) {
         console.error('Error fetching structure analysis:', error);
