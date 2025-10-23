@@ -4,6 +4,7 @@
  */
 
 import { z } from 'zod';
+import apiClient from '../lib/api-client';
 
 // Validation schemas
 const loginSchema = z.object({
@@ -76,7 +77,6 @@ class AuthService {
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include', // ✅ PRODUCTION: Include httpOnly cookies
         body: JSON.stringify(validatedData),
       });
 
@@ -86,10 +86,12 @@ class AuthService {
         throw new Error(data.error || data.message || 'Login failed');
       }
 
-      // ✅ PRODUCTION: Token now stored in httpOnly cookie by backend
-      // Only store non-sensitive user info in localStorage
-      if (data.user) {
+      // Store auth token and set it in API client
+      if (data.token) {
+        localStorage.setItem('mizan_auth_token', data.token);
         localStorage.setItem('mizan_user', JSON.stringify(data.user));
+        // Set token in API client for subsequent requests
+        apiClient.setToken(data.token);
       }
 
       return {
@@ -135,7 +137,6 @@ class AuthService {
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include', // ✅ PRODUCTION: Include httpOnly cookies
         body: JSON.stringify({
           name: validatedData.name,
           email: validatedData.email,
@@ -149,10 +150,12 @@ class AuthService {
         throw new Error(responseData.error || responseData.message || 'Registration failed');
       }
 
-      // ✅ PRODUCTION: Token now stored in httpOnly cookie by backend
-      // Only store non-sensitive user info in localStorage
-      if (responseData.user) {
+      // Store auth token and set it in API client
+      if (responseData.token) {
+        localStorage.setItem('mizan_auth_token', responseData.token);
         localStorage.setItem('mizan_user', JSON.stringify(responseData.user));
+        // Set token in API client for subsequent requests
+        apiClient.setToken(responseData.token);
       }
 
       return {
@@ -186,29 +189,43 @@ class AuthService {
 
   /**
    * Initialize authentication from stored token
-   * ✅ PRODUCTION: No longer needed - token is in httpOnly cookie
-   * Kept for backward compatibility but does nothing
+   * Should be called on app initialization
    */
   initializeAuth() {
-    // No-op: Token is now in httpOnly cookie, managed by browser
+    try {
+      const token = localStorage.getItem('mizan_auth_token');
+      if (token) {
+        apiClient.setToken(token);
+      }
+    } catch (error) {
+      console.error('Error initializing auth:', error);
+    }
   }
 
   /**
    * Logout user
-   * ✅ PRODUCTION: Clears httpOnly cookie on backend, clears localStorage
+   * Clears authentication data from localStorage
    */
   async logout(): Promise<void> {
     try {
-      // Notify backend to clear httpOnly cookie
-      await fetch(`${this.apiUrl}/api/auth/logout`, {
-        method: 'POST',
-        credentials: 'include', // ✅ PRODUCTION: Send cookie to backend
-      });
+      const token = localStorage.getItem('mizan_auth_token');
+      
+      if (token) {
+        // Notify backend about logout
+        await fetch(`${this.apiUrl}/api/auth/logout`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+      }
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
-      // Always clear user info from localStorage
+      // Always clear local storage and API client token
+      localStorage.removeItem('mizan_auth_token');
       localStorage.removeItem('mizan_user');
+      apiClient.setToken(null);
     }
   }
 
@@ -228,32 +245,31 @@ class AuthService {
 
   /**
    * Check if user is authenticated
-   * ✅ PRODUCTION: Check if user info exists (token is in httpOnly cookie)
    */
   isAuthenticated(): boolean {
-    return !!localStorage.getItem('mizan_user');
+    return !!localStorage.getItem('mizan_auth_token');
   }
 
   /**
    * Get auth token
-   * ✅ PRODUCTION: Token is in httpOnly cookie, not accessible from JavaScript
-   * Returns null for backward compatibility
    */
   getToken(): string | null {
-    return null; // Token is in httpOnly cookie, not accessible
+    return localStorage.getItem('mizan_auth_token');
   }
 
   /**
    * Verify token validity
-   * ✅ PRODUCTION: Token sent automatically via httpOnly cookie
    */
   async verifyToken(): Promise<boolean> {
     try {
-      if (!this.isAuthenticated()) return false;
+      const token = this.getToken();
+      if (!token) return false;
 
       const response = await fetch(`${this.apiUrl}/api/auth/verify`, {
         method: 'GET',
-        credentials: 'include', // ✅ PRODUCTION: Send httpOnly cookie
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
       });
 
       if (!response.ok) {
@@ -271,18 +287,18 @@ class AuthService {
 
   /**
    * Refresh authentication token
-   * ✅ PRODUCTION: Token sent/received automatically via httpOnly cookie
    */
   async refreshToken(): Promise<boolean> {
     try {
-      if (!this.isAuthenticated()) return false;
+      const token = this.getToken();
+      if (!token) return false;
 
       const response = await fetch(`${this.apiUrl}/api/auth/refresh`, {
         method: 'POST',
         headers: {
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
-        credentials: 'include', // ✅ PRODUCTION: Send/receive httpOnly cookie
       });
 
       if (!response.ok) {
@@ -291,9 +307,11 @@ class AuthService {
       }
 
       const data = await response.json();
-      if (data.user) {
-        // Update user info in localStorage (token is in httpOnly cookie)
+      if (data.token) {
+        localStorage.setItem('mizan_auth_token', data.token);
         localStorage.setItem('mizan_user', JSON.stringify(data.user));
+        // Update API client token
+        apiClient.setToken(data.token);
         return true;
       }
 

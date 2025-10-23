@@ -25,17 +25,18 @@ export interface ApiResponse<T> {
  * Implements comprehensive error handling and type safety
  */
 export class ApiClient {
+  private token: string | null = null;
+
   /**
-   * ✅ PRODUCTION: Removed token management - now using httpOnly cookies
-   * setToken() method kept for backward compatibility but does nothing
+   * Set authentication token for API requests
+   * @param token - JWT token or null to clear
    */
-  setToken(_token: string | null) {
-    // No-op: Token is now in httpOnly cookie, managed by browser
+  setToken(token: string | null) {
+    this.token = token;
   }
 
   /**
    * Generic request handler with full error handling and automatic token refresh
-   * ✅ PRODUCTION: Uses httpOnly cookies for authentication
    * @param endpoint - API endpoint path
    * @param options - Fetch options
    * @returns Typed response data
@@ -65,36 +66,47 @@ export class ApiClient {
       }
     }
 
+    // Add authentication token if available
+    if (this.token) {
+      headers.Authorization = `Bearer ${this.token}`;
+    }
+
     try {
       const response = await fetch(url, {
         ...options,
         headers,
-        credentials: 'include', // ✅ PRODUCTION: Send httpOnly cookies
       });
 
       // Handle 401 errors with automatic token refresh
-      if (response.status === 401) {
-        console.log('Authentication expired, attempting refresh...');
-
+      if (response.status === 401 && this.token) {
+        console.log('Token expired, attempting refresh...');
+        
         // Import auth service dynamically to avoid circular dependency
         const { default: authService } = await import('../services/auth.service');
         const refreshSuccess = await authService.refreshToken();
-
+        
         if (refreshSuccess) {
-          // Retry the request (cookie automatically refreshed)
-          const retryResponse = await fetch(url, {
-            ...options,
-            headers,
-            credentials: 'include', // ✅ PRODUCTION: Send refreshed cookie
-          });
-
-          if (retryResponse.ok) {
-            const data = await retryResponse.json();
-            return data;
+          // Retry the request with the new token
+          const newToken = authService.getToken();
+          if (newToken) {
+            this.setToken(newToken);
+            headers.Authorization = `Bearer ${newToken}`;
+            
+            const retryResponse = await fetch(url, {
+              ...options,
+              headers,
+            });
+            
+            if (retryResponse.ok) {
+              const data = await retryResponse.json();
+              return data;
+            }
           }
         }
-
-        // If refresh failed, clear user data and redirect to login
+        
+        // If refresh failed, clear token and redirect to login
+        this.setToken(null);
+        localStorage.removeItem('mizan_auth_token');
         localStorage.removeItem('mizan_user');
         window.location.href = '/login';
         throw new Error('Authentication expired. Please log in again.');
@@ -290,7 +302,7 @@ export class ApiClient {
 
       const response = await fetch(`${API_BASE}/api/skills/resume/upload`, {
         method: "POST",
-        credentials: 'include', // ✅ PRODUCTION: Send httpOnly cookie
+        headers: this.token ? { Authorization: `Bearer ${this.token}` } : {},
         body: formData,
       });
 
