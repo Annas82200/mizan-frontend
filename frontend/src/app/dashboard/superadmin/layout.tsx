@@ -52,11 +52,16 @@ export default function SuperadminLayout({
           const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://mizan-backend-production.up.railway.app';
           console.log('[Auth] Verifying authentication with backend:', `${apiUrl}/api/auth/me`);
 
+          // ✅ PRODUCTION: Get token from localStorage for Authorization header (hybrid auth)
+          // Backend supports both httpOnly cookie AND Authorization header
+          const token = localStorage.getItem('mizan_auth_token');
+
           const response = await fetch(`${apiUrl}/api/auth/me`, {
             method: 'GET',
             credentials: 'include', // CRITICAL: Send httpOnly cookie
             headers: {
               'Content-Type': 'application/json',
+              ...(token && { Authorization: `Bearer ${token}` }),
             },
           });
 
