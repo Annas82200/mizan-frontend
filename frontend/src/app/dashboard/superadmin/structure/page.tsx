@@ -157,9 +157,15 @@ export default function StructureAnalysisPage() {
         formData.append('tenantId', selectedTenant.id);
 
         // ✅ PRODUCTION: Use httpOnly cookies for authentication (Phase 1 Security)
+        // Get token from localStorage for Authorization header (hybrid auth)
+        const token = localStorage.getItem('mizan_auth_token');
+
         const uploadResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/upload/org-chart`, {
           method: 'POST',
           credentials: 'include',  // Send httpOnly cookie automatically
+          headers: {
+            ...(token && { Authorization: `Bearer ${token}` }),
+          },
           body: formData
         });
 
@@ -186,10 +192,14 @@ export default function StructureAnalysisPage() {
       }
 
       // ✅ PRODUCTION: Use httpOnly cookies for authentication (Phase 1 Security)
+      // Get token from localStorage for Authorization header (hybrid auth)
+      const token = localStorage.getItem('mizan_auth_token');
+
       const analysisResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/analyses/structure`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }),
         },
         credentials: 'include',  // Send httpOnly cookie automatically
         body: JSON.stringify({
@@ -654,10 +664,14 @@ export default function StructureAnalysisPage() {
                 try {
                   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
                   // ✅ PRODUCTION: Use httpOnly cookies for authentication (Phase 1 Security)
+                  // Get token from localStorage for Authorization header (hybrid auth)
+                  const token = localStorage.getItem('mizan_auth_token');
+
                   const response = await fetch(`${API_URL}/api/export/structure`, {
                     method: 'POST',
                     headers: {
                       'Content-Type': 'application/json',
+                      ...(token && { Authorization: `Bearer ${token}` }),
                     },
                     credentials: 'include',  // Send httpOnly cookie automatically
                     body: JSON.stringify({
