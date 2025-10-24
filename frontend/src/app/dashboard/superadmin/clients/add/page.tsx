@@ -75,12 +75,6 @@ export default function AddClientPage() {
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
-      // Get auth token from localStorage
-      const token = localStorage.getItem('mizan_auth_token');
-      if (!token) {
-        throw new Error('Authentication required. Please log in again.');
-      }
-
       // Create FormData for file upload
       const submitData = new FormData();
       submitData.append('companyName', formData.name);
@@ -96,11 +90,10 @@ export default function AddClientPage() {
         submitData.append('structureFile', formData.structureFile);
       }
 
+      // ✅ PRODUCTION: Use httpOnly cookies for authentication (Phase 1 Security)
       const response = await fetch(`${apiUrl}/api/superadmin/clients`, {
         method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
+        credentials: 'include',  // Send httpOnly cookie automatically
         body: submitData,
       });
 

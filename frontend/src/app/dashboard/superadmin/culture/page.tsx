@@ -181,12 +181,13 @@ export default function CultureAnalysisPage() {
       setAnalyzing(true);
       setError(null);
 
+      // ✅ PRODUCTION: Use httpOnly cookies for authentication (Phase 1 Security)
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/analyses/culture`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('mizan_auth_token')}`
         },
+        credentials: 'include',  // Send httpOnly cookie automatically
         body: JSON.stringify({
           tenantId: selectedTenant.id,
           targetType: 'company'

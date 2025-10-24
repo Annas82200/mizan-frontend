@@ -119,10 +119,9 @@ export function IndividualEmployeeView({ tenantId, tenantName }: IndividualEmplo
       setLoading(true);
       setError(null);
 
+      // ✅ PRODUCTION: Use httpOnly cookies for authentication (Phase 1 Security)
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/culture-assessment/employees?tenantId=${tenantId}`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('mizan_auth_token')}`
-        }
+        credentials: 'include'  // Send httpOnly cookie automatically
       });
 
       if (!response.ok) {
@@ -151,12 +150,13 @@ export function IndividualEmployeeView({ tenantId, tenantName }: IndividualEmplo
       setAnalyzing(true);
       setError(null);
 
+      // ✅ PRODUCTION: Use httpOnly cookies for authentication (Phase 1 Security)
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/culture-assessment/report/employee/${employeeId}/regenerate`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('mizan_auth_token')}`,
           'Content-Type': 'application/json'
-        }
+        },
+        credentials: 'include'  // Send httpOnly cookie automatically
       });
 
       if (!response.ok) {
@@ -196,11 +196,10 @@ export function IndividualEmployeeView({ tenantId, tenantName }: IndividualEmplo
         throw new Error('Employee has not completed the culture survey yet');
       }
 
+      // ✅ PRODUCTION: Use httpOnly cookies for authentication (Phase 1 Security)
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/culture-assessment/report/employee/${employee.id}`, {
         method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('mizan_auth_token')}`
-        }
+        credentials: 'include'  // Send httpOnly cookie automatically
       });
 
       if (!response.ok) {

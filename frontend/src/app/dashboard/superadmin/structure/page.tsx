@@ -156,11 +156,10 @@ export default function StructureAnalysisPage() {
         formData.append('file', file);
         formData.append('tenantId', selectedTenant.id);
 
+        // ✅ PRODUCTION: Use httpOnly cookies for authentication (Phase 1 Security)
         const uploadResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/upload/org-chart`, {
           method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('mizan_auth_token')}`
-          },
+          credentials: 'include',  // Send httpOnly cookie automatically
           body: formData
         });
 
@@ -186,13 +185,13 @@ export default function StructureAnalysisPage() {
         };
       }
 
-      // Run analysis
+      // ✅ PRODUCTION: Use httpOnly cookies for authentication (Phase 1 Security)
       const analysisResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/analyses/structure`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('mizan_auth_token')}`
         },
+        credentials: 'include',  // Send httpOnly cookie automatically
         body: JSON.stringify({
           tenantId: selectedTenant.id,
           structureData
@@ -654,12 +653,13 @@ export default function StructureAnalysisPage() {
               onClick={async () => {
                 try {
                   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+                  // ✅ PRODUCTION: Use httpOnly cookies for authentication (Phase 1 Security)
                   const response = await fetch(`${API_URL}/api/export/structure`, {
                     method: 'POST',
                     headers: {
                       'Content-Type': 'application/json',
-                      'Authorization': `Bearer ${localStorage.getItem('mizan_auth_token')}`
                     },
+                    credentials: 'include',  // Send httpOnly cookie automatically
                     body: JSON.stringify({
                       analysisData: results,
                       tenantName: selectedTenant?.name || 'Organization'

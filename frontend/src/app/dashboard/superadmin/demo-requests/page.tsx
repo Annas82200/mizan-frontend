@@ -44,17 +44,15 @@ export default function DemoRequestsPage() {
   const fetchDemoRequests = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem('mizan_auth_token');
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
       const url = statusFilter === 'all'
         ? `${apiUrl}/api/demo/requests`
         : `${apiUrl}/api/demo/requests?status=${statusFilter}`;
 
+      // ✅ PRODUCTION: Use httpOnly cookies for authentication (Phase 1 Security)
       const response = await fetch(url, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+        credentials: 'include'  // Send httpOnly cookie automatically
       });
 
       if (!response.ok) {
@@ -74,15 +72,15 @@ export default function DemoRequestsPage() {
 
   const updateStatus = async (id: number, newStatus: string) => {
     try {
-      const token = localStorage.getItem('mizan_auth_token');
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
+      // ✅ PRODUCTION: Use httpOnly cookies for authentication (Phase 1 Security)
       const response = await fetch(`${apiUrl}/api/demo/requests/${id}/status`, {
         method: 'PATCH',
         headers: {
-          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
+        credentials: 'include',  // Send httpOnly cookie automatically
         body: JSON.stringify({ status: newStatus })
       });
 
@@ -181,15 +179,15 @@ export default function DemoRequestsPage() {
 
     try {
       setGeneratingLink(true);
-      const token = localStorage.getItem('mizan_auth_token');
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
+      // ✅ PRODUCTION: Use httpOnly cookies for authentication (Phase 1 Security)
       const response = await fetch(`${apiUrl}/api/payment/create-checkout-session`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
+        credentials: 'include',  // Send httpOnly cookie automatically
         body: JSON.stringify({
           demoRequestId: selectedRequest.id,
           plan: selectedPlan,

@@ -15,14 +15,14 @@ export default function SuperadminLayout({
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check authentication - runs after component mounts (client-side only)
+    // ✅ PRODUCTION: Check authentication using user data (Phase 1 Security)
+    // Token is in httpOnly cookie, so we check for user data in localStorage
     const checkAuth = () => {
       try {
         // Safe localStorage access (client-side only)
-        const token = localStorage.getItem('mizan_auth_token');
         const userStr = localStorage.getItem('mizan_user');
 
-        if (!token || !userStr) {
+        if (!userStr) {
           console.warn('[Auth] No valid session found, redirecting to login');
           router.push('/login');
           return;

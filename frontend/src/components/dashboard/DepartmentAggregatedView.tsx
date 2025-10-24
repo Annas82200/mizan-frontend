@@ -81,12 +81,10 @@ export function DepartmentAggregatedView({ tenantId, tenantName }: DepartmentAgg
       setAnalyzing(true);
       setError(null);
 
-      // Use the company report endpoint with tenantId
+      // ✅ PRODUCTION: Use httpOnly cookies for authentication (Phase 1 Security)
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/culture-assessment/report/company?tenantId=${tenantId}`, {
         method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('mizan_auth_token')}`
-        }
+        credentials: 'include'  // Send httpOnly cookie automatically
       });
 
       if (!response.ok) {
