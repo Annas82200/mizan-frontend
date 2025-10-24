@@ -56,11 +56,7 @@ export default function SuperadminHome() {
   const [activities, setActivities] = useState<ActivityItem[]>([]);
 
   useEffect(() => {
-    // Ensure token is initialized before fetching data
-    const token = authService.getToken();
-    if (token) {
-      apiClient.setToken(token);
-    }
+    // ✅ PRODUCTION: No token management needed - httpOnly cookies handled automatically (Phase 1 Security)
     fetchDashboardData();
   }, [timeRange]);
 
