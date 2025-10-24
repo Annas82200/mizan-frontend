@@ -8,12 +8,6 @@
 // ✅ PRODUCTION: Default to Railway backend if NEXT_PUBLIC_API_URL not set
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "https://mizan-backend-production.up.railway.app";
 
-// DEBUG: Log API_BASE to verify configuration
-if (typeof window !== 'undefined') {
-  console.log('[API Client] API_BASE configured:', API_BASE);
-  console.log('[API Client] NEXT_PUBLIC_API_URL env var:', process.env.NEXT_PUBLIC_API_URL);
-}
-
 export interface ApiError {
   error: string;
   details?: any;
@@ -53,10 +47,6 @@ export class ApiClient {
     options: RequestInit = {}
   ): Promise<T> {
     const url = `${API_BASE}${endpoint}`;
-
-    // DEBUG: Log the full URL being called
-    console.log('[API Client] Making request to:', url);
-    console.log('[API Client] With credentials: include');
 
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
@@ -133,9 +123,6 @@ export class ApiClient {
       return data;
     } catch (error) {
       console.error(`API Request Error [${endpoint}]:`, error);
-      console.error('[API Client] Failed URL was:', url);
-      console.error('[API Client] Error type:', error instanceof TypeError ? 'TypeError' : typeof error);
-      console.error('[API Client] Error message:', error instanceof Error ? error.message : String(error));
       throw error;
     }
   }
