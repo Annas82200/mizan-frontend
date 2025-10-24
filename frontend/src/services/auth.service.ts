@@ -89,10 +89,14 @@ class AuthService {
         throw new Error(data.error || data.message || 'Login failed');
       }
 
-      // ✅ PRODUCTION: Token now stored in httpOnly cookie by backend
-      // Only store non-sensitive user info in localStorage
+      // ✅ PRODUCTION: Store both user data and token
+      // Token stored temporarily until custom domain (api.mizan.work) is set up
+      // Once custom domain is configured, httpOnly cookies will work and token won't be needed
       if (data.user) {
         localStorage.setItem('mizan_user', JSON.stringify(data.user));
+      }
+      if (data.token) {
+        localStorage.setItem('mizan_auth_token', data.token);
       }
 
       return {
@@ -210,8 +214,9 @@ class AuthService {
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
-      // Always clear user info from localStorage (cookie is cleared by backend)
+      // Always clear all auth data from localStorage
       localStorage.removeItem('mizan_user');
+      localStorage.removeItem('mizan_auth_token');
     }
   }
 
@@ -239,10 +244,15 @@ class AuthService {
 
   /**
    * Get auth token
-   * ✅ PRODUCTION: Token is in httpOnly cookie, not accessible to JavaScript
+   * ✅ PRODUCTION: Returns token from localStorage (hybrid auth until custom domain set up)
    */
   getToken(): string | null {
-    return null;  // Token is in httpOnly cookie, not accessible
+    try {
+      return localStorage.getItem('mizan_auth_token');
+    } catch (error) {
+      console.error('Error getting token:', error);
+      return null;
+    }
   }
 
   /**

@@ -52,6 +52,13 @@ export class ApiClient {
       "Content-Type": "application/json",
     };
 
+    // ✅ PRODUCTION: Add Authorization header if token exists (hybrid auth until custom domain)
+    // Backend supports both httpOnly cookie AND Authorization header
+    const token = typeof window !== 'undefined' ? localStorage.getItem('mizan_auth_token') : null;
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+
     // Merge existing headers
     if (options.headers) {
       if (options.headers instanceof Headers) {
