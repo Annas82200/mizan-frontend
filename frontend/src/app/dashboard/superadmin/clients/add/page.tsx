@@ -91,9 +91,15 @@ export default function AddClientPage() {
       }
 
       // ✅ PRODUCTION: Use httpOnly cookies for authentication (Phase 1 Security)
+      // Get token from localStorage for Authorization header (hybrid auth)
+      const token = localStorage.getItem('mizan_auth_token');
+
       const response = await fetch(`${apiUrl}/api/superadmin/clients`, {
         method: 'POST',
         credentials: 'include',  // Send httpOnly cookie automatically
+        headers: {
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
         body: submitData,
       });
 
