@@ -62,6 +62,12 @@ class AuthService {
   constructor() {
     // ✅ PRODUCTION: Default to Railway backend if NEXT_PUBLIC_API_URL not set
     this.apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://mizan-backend-production.up.railway.app';
+
+    // DEBUG: Log auth service configuration
+    if (typeof window !== 'undefined') {
+      console.log('[Auth Service] API URL configured:', this.apiUrl);
+      console.log('[Auth Service] NEXT_PUBLIC_API_URL env var:', process.env.NEXT_PUBLIC_API_URL);
+    }
   }
 
   /**
@@ -73,8 +79,14 @@ class AuthService {
       // Validate input
       const validatedData = loginSchema.parse(credentials);
 
+      const loginUrl = `${this.apiUrl}/api/auth/login`;
+
+      // DEBUG: Log login request details
+      console.log('[Auth Service] Attempting login to:', loginUrl);
+      console.log('[Auth Service] With credentials: include');
+
       // ✅ PRODUCTION: Include credentials to receive httpOnly cookie (Phase 1 Security)
-      const response = await fetch(`${this.apiUrl}/api/auth/login`, {
+      const response = await fetch(loginUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -82,6 +94,9 @@ class AuthService {
         credentials: 'include',  // CRITICAL: Required to receive Set-Cookie from backend
         body: JSON.stringify(validatedData),
       });
+
+      console.log('[Auth Service] Login response status:', response.status);
+      console.log('[Auth Service] Login response ok:', response.ok);
 
       const data = await response.json();
 
