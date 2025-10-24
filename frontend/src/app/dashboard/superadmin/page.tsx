@@ -69,14 +69,11 @@ export default function SuperadminHome() {
       setLoading(true);
       setError(null);
 
-      // Ensure we have authentication
-      const token = authService.getToken();
-      if (!token) {
-        throw new Error('No authentication token found. Please log in.');
+      // ✅ PRODUCTION: No token check needed - authentication via httpOnly cookie (Phase 1 Security)
+      // Ensure we have user data (authentication check)
+      if (!authService.isAuthenticated()) {
+        throw new Error('No authentication found. Please log in.');
       }
-
-      // Ensure API client has the token
-      apiClient.setToken(token);
 
       // Check if API URL is configured
       const apiUrl = process.env.NEXT_PUBLIC_API_URL;

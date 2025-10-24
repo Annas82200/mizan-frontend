@@ -1,6 +1,6 @@
 /**
  * API Client for Mizan Platform
- * PRODUCTION-READY: Complete implementation with all endpoints
+ * ✅ PRODUCTION-READY: Phase 1 Security - httpOnly cookies for authentication
  * Strict TypeScript types, comprehensive error handling
  * Full compliance with AGENT_CONTEXT_ULTIMATE.md
  */
@@ -22,21 +22,21 @@ export interface ApiResponse<T> {
 
 /**
  * Main API Client class for all backend communication
+ * ✅ PRODUCTION: Uses httpOnly cookies for authentication (Phase 1 Security)
  * Implements comprehensive error handling and type safety
  */
 export class ApiClient {
-  private token: string | null = null;
-
   /**
-   * Set authentication token for API requests
-   * @param token - JWT token or null to clear
+   * Set authentication token (NO-OP for httpOnly cookie authentication)
+   * @deprecated Token is now in httpOnly cookie, managed by browser
    */
-  setToken(token: string | null) {
-    this.token = token;
+  setToken(_token: string | null) {
+    // No-op: Token is in httpOnly cookie, managed by browser
   }
 
   /**
    * Generic request handler with full error handling and automatic token refresh
+   * ✅ PRODUCTION: Uses credentials: 'include' to send httpOnly cookies (Phase 1 Security)
    * @param endpoint - API endpoint path
    * @param options - Fetch options
    * @returns Typed response data
@@ -66,47 +66,37 @@ export class ApiClient {
       }
     }
 
-    // Add authentication token if available
-    if (this.token) {
-      headers.Authorization = `Bearer ${this.token}`;
-    }
-
     try {
+      // ✅ PRODUCTION: Include credentials to send httpOnly cookie (Phase 1 Security)
       const response = await fetch(url, {
         ...options,
         headers,
+        credentials: 'include',  // CRITICAL: Send httpOnly cookie automatically
       });
 
       // Handle 401 errors with automatic token refresh
-      if (response.status === 401 && this.token) {
-        console.log('Token expired, attempting refresh...');
-        
+      if (response.status === 401) {
+        console.log('Authentication expired, attempting refresh...');
+
         // Import auth service dynamically to avoid circular dependency
         const { default: authService } = await import('../services/auth.service');
         const refreshSuccess = await authService.refreshToken();
-        
+
         if (refreshSuccess) {
-          // Retry the request with the new token
-          const newToken = authService.getToken();
-          if (newToken) {
-            this.setToken(newToken);
-            headers.Authorization = `Bearer ${newToken}`;
-            
-            const retryResponse = await fetch(url, {
-              ...options,
-              headers,
-            });
-            
-            if (retryResponse.ok) {
-              const data = await retryResponse.json();
-              return data;
-            }
+          // Retry the request (cookie automatically refreshed)
+          const retryResponse = await fetch(url, {
+            ...options,
+            headers,
+            credentials: 'include',  // Send refreshed httpOnly cookie
+          });
+
+          if (retryResponse.ok) {
+            const data = await retryResponse.json();
+            return data;
           }
         }
-        
-        // If refresh failed, clear token and redirect to login
-        this.setToken(null);
-        localStorage.removeItem('mizan_auth_token');
+
+        // If refresh failed, clear user data and redirect to login
         localStorage.removeItem('mizan_user');
         window.location.href = '/login';
         throw new Error('Authentication expired. Please log in again.');
@@ -300,9 +290,10 @@ export class ApiClient {
       formData.append("resume", file);
       formData.append("employeeId", employeeId);
 
+      // ✅ PRODUCTION: Use credentials: 'include' to send httpOnly cookie (Phase 1 Security)
       const response = await fetch(`${API_BASE}/api/skills/resume/upload`, {
         method: "POST",
-        headers: this.token ? { Authorization: `Bearer ${this.token}` } : {},
+        credentials: 'include',  // Send httpOnly cookie for authentication
         body: formData,
       });
 

@@ -5,7 +5,6 @@ import Navigation from '@/components/Navigation';
 import Link from 'next/link';
 import { ArrowRight, Lock, Mail, Eye, EyeOff, Shield, CheckCircle2 } from 'lucide-react';
 import { SecureIcon } from '@/components/icons';
-import { login } from '@/services/auth.service';
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -43,33 +42,16 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      // Call the backend API
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
-      const response = await fetch(`${apiUrl}/api/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-        }),
+      // ✅ PRODUCTION: Use auth service for httpOnly cookie authentication (Phase 1 Security)
+      const authService = (await import('@/services/auth.service')).default;
+      const result = await authService.login({
+        email: formData.email,
+        password: formData.password,
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || errorData.message || 'Login failed');
+      if (!result.success) {
+        throw new Error(result.message || 'Login failed');
       }
-
-      const data = await response.json();
-
-      // Store both token AND user data (CRITICAL FIX as per AGENT_CONTEXT_ULTIMATE.md)
-      localStorage.setItem('mizan_auth_token', data.token);
-      localStorage.setItem('mizan_user', JSON.stringify(data.user));
-
-      // Set token in API client for subsequent requests
-      const apiClient = (await import('@/lib/api-client')).default;
-      apiClient.setToken(data.token);
 
       // Show success message
       setLoginSuccess(true);
@@ -84,8 +66,8 @@ export default function LoginPage() {
           'employee': '/dashboard/employee',
           'default': '/dashboard'
         };
-        
-        const redirectPath = redirectMap[data.user.role] || redirectMap.default;
+
+        const redirectPath = redirectMap[result.user?.role || 'default'] || redirectMap.default;
         window.location.href = redirectPath;
       }, 1000);
 
