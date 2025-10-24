@@ -60,7 +60,8 @@ class AuthService {
   private readonly apiUrl: string;
 
   constructor() {
-    this.apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+    // ✅ PRODUCTION: Default to Railway backend if NEXT_PUBLIC_API_URL not set
+    this.apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://mizan-backend-production.up.railway.app';
   }
 
   /**

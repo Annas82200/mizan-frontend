@@ -5,7 +5,8 @@
  * Full compliance with AGENT_CONTEXT_ULTIMATE.md
  */
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
+// ✅ PRODUCTION: Default to Railway backend if NEXT_PUBLIC_API_URL not set
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "https://mizan-backend-production.up.railway.app";
 
 export interface ApiError {
   error: string;
