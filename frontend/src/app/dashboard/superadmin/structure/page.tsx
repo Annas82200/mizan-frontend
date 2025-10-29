@@ -176,45 +176,41 @@ export default function StructureAnalysisPage() {
 
         structureData = await uploadResponse.json();
       } else if (uploadMethod === 'text') {
-        // Parse text input
-        const lines = textInput.trim().split('\n');
-        structureData = {
-          success: true,
-          data: lines.map(line => {
-            const parts = line.split(',').map(p => p.trim());
-            return {
-              name: parts[0] || '',
-              title: parts[1] || '',
-              reports_to: parts[2] || null
-            };
+        // Send text input to the same endpoint using orgText in body
+        const token = localStorage.getItem('mizan_auth_token');
+
+        const textUploadResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/upload/org-chart`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token && { Authorization: `Bearer ${token}` }),
+          },
+          credentials: 'include',
+          body: JSON.stringify({
+            orgText: textInput.trim(),
+            tenantId: selectedTenant.id
           })
-        };
+        });
+
+        if (!textUploadResponse.ok) {
+          const errorData = await textUploadResponse.json();
+          throw new Error(errorData.error || 'Failed to upload structure data');
+        }
+
+        structureData = await textUploadResponse.json();
       }
 
-      // ✅ PRODUCTION: Use httpOnly cookies for authentication (Phase 1 Security)
-      // Get token from localStorage for Authorization header (hybrid auth)
-      const token = localStorage.getItem('mizan_auth_token');
-
-      const analysisResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/analyses/structure`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(token && { Authorization: `Bearer ${token}` }),
-        },
-        credentials: 'include',  // Send httpOnly cookie automatically
-        body: JSON.stringify({
-          tenantId: selectedTenant.id,
-          structureData
-        })
-      });
-
-      if (!analysisResponse.ok) {
-        const errorData = await analysisResponse.json();
-        throw new Error(errorData.error || 'Analysis failed');
+      // ✅ FIX: /api/upload/org-chart already returns complete analysis results
+      // Backend runs generateRichStructureAnalysis and includes results in response
+      // The analysis is spread into the response along with wrapper fields (success, dataSaved, etc.)
+      // Extract just the analysis fields we need
+      if (structureData.success) {
+        // Remove wrapper fields and keep only analysis data
+        const { success, dataSaved, analysisCompleted, employeesCreated, id, ...analysisData } = structureData as any;
+        setResults(analysisData as StructureAnalysisOutput);
+      } else {
+        throw new Error(structureData.error || 'Analysis failed');
       }
-
-      const analysisResults = await analysisResponse.json();
-      setResults(analysisResults);
       setSaveSuccess(true);
       setTimeout(() => setSaveSuccess(false), 3000);
     } catch (err: unknown) {
