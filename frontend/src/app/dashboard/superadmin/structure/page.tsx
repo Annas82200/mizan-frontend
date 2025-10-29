@@ -490,7 +490,7 @@ export default function StructureAnalysisPage() {
                 <div>
                   <p className="text-sm text-mizan-secondary mb-2">Distribution</p>
                   <div className="space-y-1">
-                    {Object.entries(results.spanAnalysis.distribution).map(([span, count]) => (
+                    {Object.entries(results.spanAnalysis?.distribution || {}).map(([span, count]) => (
                       <div key={span} className="flex items-center justify-between text-sm">
                         <span className="text-mizan-secondary">{span} reports</span>
                         <span className="font-medium text-mizan-primary">{count} managers</span>
@@ -547,11 +547,11 @@ export default function StructureAnalysisPage() {
           </div>
 
           {/* Span Outliers */}
-          {results.spanAnalysis.outliers.length > 0 && (
+          {results.spanAnalysis?.outliers?.length > 0 && (
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
               <h3 className="text-lg font-semibold text-mizan-primary mb-4">Span of Control Outliers</h3>
               <div className="space-y-3">
-                {results.spanAnalysis.outliers.map((outlier, idx) => (
+                {(results.spanAnalysis?.outliers || []).map((outlier, idx) => (
                   <div key={idx} className="flex items-start space-x-3 p-4 bg-yellow-50 border border-yellow-200 rounded-xl">
                     <AlertCircle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
                     <div className="flex-1">
@@ -567,18 +567,18 @@ export default function StructureAnalysisPage() {
           )}
 
           {/* Layer Bottlenecks */}
-          {results.layerAnalysis.bottlenecks.length > 0 && (
+          {results.layerAnalysis?.bottlenecks?.length > 0 && (
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
               <h3 className="text-lg font-semibold text-mizan-primary mb-4">Layer Bottlenecks</h3>
               <div className="space-y-3">
-                {results.layerAnalysis.bottlenecks.map((bottleneck, idx) => (
+                {(results.layerAnalysis?.bottlenecks || []).map((bottleneck, idx) => (
                   <div key={idx} className="p-4 bg-red-50 border border-red-200 rounded-xl">
                     <p className="font-semibold text-mizan-primary mb-2">
                       Layer {bottleneck.layer}
                     </p>
                     <p className="text-sm text-mizan-secondary mb-2">{bottleneck.issue}</p>
                     <div className="flex flex-wrap gap-2">
-                      {bottleneck.roles.map((role, roleIdx) => (
+                      {(bottleneck.roles || []).map((role, roleIdx) => (
                         <span key={roleIdx} className="px-3 py-1 bg-white border border-red-200 rounded-full text-xs font-medium text-red-700">
                           {role}
                         </span>
@@ -591,11 +591,11 @@ export default function StructureAnalysisPage() {
           )}
 
           {/* Strategy Misalignments */}
-          {results.strategyAlignment.misalignments.length > 0 && (
+          {results.strategyAlignment?.misalignments?.length > 0 && (
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
               <h3 className="text-lg font-semibold text-mizan-primary mb-4">Strategy Misalignments</h3>
               <div className="space-y-3">
-                {results.strategyAlignment.misalignments.map((misalignment, idx) => (
+                {(results.strategyAlignment?.misalignments || []).map((misalignment, idx) => (
                   <div key={idx} className="p-4 border-2 rounded-xl" style={{
                     borderColor: misalignment.impact === 'high' ? '#FCA5A5' :
                                 misalignment.impact === 'medium' ? '#FCD34D' : '#86EFAC',
@@ -619,7 +619,7 @@ export default function StructureAnalysisPage() {
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
             <h3 className="text-lg font-semibold text-mizan-primary mb-4">Recommendations</h3>
             <div className="space-y-4">
-              {results.recommendations.map((rec, idx) => (
+              {(results.recommendations || []).map((rec, idx) => (
                 <div key={idx} className="p-4 border-2 rounded-xl bg-gray-50 border-gray-200">
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex-1">
@@ -638,7 +638,7 @@ export default function StructureAnalysisPage() {
                       <div className="space-y-2">
                         <p className="text-sm font-medium text-mizan-primary">Action Items:</p>
                         <ul className="space-y-1">
-                          {rec.actionItems.map((item, itemIdx) => (
+                          {(rec.actionItems || []).map((item, itemIdx) => (
                             <li key={itemIdx} className="flex items-start space-x-2 text-sm text-mizan-secondary">
                               <CheckCircle2 className="w-4 h-4 text-mizan-gold flex-shrink-0 mt-0.5" />
                               <span>{item}</span>
