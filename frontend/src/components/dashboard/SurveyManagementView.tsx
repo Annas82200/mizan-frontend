@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Mail, Users, Link as LinkIcon, Calendar, CheckCircle2, Clock, XCircle, Loader2, Send, Copy, Check } from 'lucide-react';
+import { ApiClient } from '@/lib/api-client';
 
 interface SurveyManagementViewProps {
   tenantId: string;
@@ -37,26 +38,23 @@ export function SurveyManagementView({ tenantId, tenantName }: SurveyManagementV
       setLoading(true);
       setError(null);
 
-      // ✅ PRODUCTION: Use httpOnly cookies for authentication (Phase 1 Security)
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/culture-assessment/distribute`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',  // Send httpOnly cookie automatically
-        body: JSON.stringify({
-          tenantId,
-          campaignName,
-          expiryDays
-        })
-      });
+      // ✅ PRODUCTION: Use apiClient for automatic authentication (Phase 1 Security)
+      const apiClient = new ApiClient();
+      const data = await apiClient.request<Campaign>(
+        '/api/culture-assessment/distribute',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            tenantId,
+            campaignName,
+            expiryDays
+          })
+        }
+      );
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to distribute survey');
-      }
-
-      const data = await response.json();
       setCampaign(data);
     } catch (err: unknown) {
       console.error('Survey distribution error:', err);

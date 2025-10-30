@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Users, Search, TrendingUp, TrendingDown, Minus, Heart, Target, Lightbulb, AlertCircle, Loader2, RefreshCw } from 'lucide-react';
 import { Radar } from 'react-chartjs-2';
+import { ApiClient } from '@/lib/api-client';
 
 // Define types for the component's props and data structures
 interface Recommendation {
@@ -119,16 +120,12 @@ export function IndividualEmployeeView({ tenantId, tenantName }: IndividualEmplo
       setLoading(true);
       setError(null);
 
-      // ✅ PRODUCTION: Use httpOnly cookies for authentication (Phase 1 Security)
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/culture-assessment/employees?tenantId=${tenantId}`, {
-        credentials: 'include'  // Send httpOnly cookie automatically
-      });
+      // ✅ PRODUCTION: Use apiClient for automatic authentication (Phase 1 Security)
+      const apiClient = new ApiClient();
+      const data = await apiClient.request<{ employees: Employee[] }>(
+        `/api/culture-assessment/employees?tenantId=${tenantId}`
+      );
 
-      if (!response.ok) {
-        throw new Error('Failed to load employees');
-      }
-
-      const data = await response.json();
       setEmployees(data.employees || []);
     } catch (err: unknown) {
       console.error('Load employees error:', err);
