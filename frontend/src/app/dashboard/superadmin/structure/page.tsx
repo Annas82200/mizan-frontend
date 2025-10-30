@@ -653,9 +653,9 @@ export default function StructureAnalysisPage() {
             </div>
           </div>
 
-          {/* Export Button */}
+          {/* Export Button - Temporarily disabled due to backend TypeScript errors in export route */}
           <div className="flex justify-end space-x-3">
-            <button
+            {/* <button
               onClick={async () => {
                 try {
                   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
@@ -697,7 +697,7 @@ export default function StructureAnalysisPage() {
             >
               <Download className="w-5 h-5" />
               <span className="font-medium">Export Results</span>
-            </button>
+            </button> */}
 
             <button
               onClick={() => {

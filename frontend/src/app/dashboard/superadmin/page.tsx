@@ -404,14 +404,7 @@ export default function SuperadminHome() {
                 ))}
               </div>
 
-              <div className="p-4 border-t border-gray-200 text-center">
-                <Link
-                  href="/dashboard/superadmin/activity"
-                  className="text-sm font-medium text-mizan-gold"
-                >
-                  View All Activity
-                </Link>
-              </div>
+              {/* Activity link temporarily removed - activity page not yet implemented */}
             </div>
           </div>
         </div>
