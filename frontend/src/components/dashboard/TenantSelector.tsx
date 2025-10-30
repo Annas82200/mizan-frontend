@@ -51,7 +51,7 @@ export function TenantSelector({
       // Map tenants to ensure correct types
       const mappedTenants = ((response as any).tenants || []).map((t: any) => ({
         ...t,
-        id: String(t.id), // Ensure id is a string
+        id: t.id, // ✅ FIXED: No longer need String() conversion - backend returns UUID strings
         updatedAt: t.updatedAt || t.lastActivity || new Date().toISOString()
       }));
       setTenants(mappedTenants);
@@ -346,7 +346,7 @@ export function EmployeeSelector({
       });
       // Map the service response to match the component's Employee interface
       const mappedEmployees = (response.employees || []).map((emp: any) => ({
-        id: String(emp.id),
+        id: emp.id, // ✅ FIXED: No longer need String() conversion - backend returns UUID strings
         name: emp.name,
         email: emp.email,
         title: emp.position || null,

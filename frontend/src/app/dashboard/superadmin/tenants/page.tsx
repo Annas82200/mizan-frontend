@@ -57,7 +57,7 @@ export default function TenantManagement() {
       // Map tenants to include required fields
       const mappedTenants = ((response as any).tenants || []).map((t: any) => ({
         ...t,
-        id: String(t.id), // Ensure id is a string
+        id: t.id, // ✅ FIXED: No longer need String() conversion - backend returns UUID strings
         updatedAt: t.updatedAt || t.lastActivity || new Date().toISOString(),
         employeeCount: t.employeeCount || t.userCount || null
       }));

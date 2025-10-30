@@ -41,7 +41,7 @@ const SuperadminStatsSchema = z.object({
 });
 
 const TenantSchema = z.object({
-  id: z.number().positive(),
+  id: z.string().uuid(), // ✅ FIXED: Changed from z.number() to z.string().uuid() for UUID support
   name: z.string().min(1),
   domain: z.string().min(1),
   plan: z.enum(['starter', 'professional', 'enterprise']),
@@ -71,10 +71,10 @@ const RevenueDataSchema = z.object({
 });
 
 const ActivityItemSchema = z.object({
-  id: z.number().positive(),
+  id: z.string().uuid(), // ✅ FIXED: UUID support
   type: z.enum(['tenant_created', 'analysis_completed', 'user_registered', 'subscription_changed']),
   description: z.string().min(1),
-  tenantId: z.number().positive().optional(),
+  tenantId: z.string().uuid().optional(), // ✅ FIXED: UUID support
   tenantName: z.string().min(1).optional(),
   timestamp: z.string().datetime(),
   metadata: z.record(z.string(), z.unknown()).optional(),
@@ -160,8 +160,8 @@ const BillingOverviewSchema = z.object({
 });
 
 const InvoiceSchema = z.object({
-  id: z.number().positive(),
-  tenantId: z.number().positive(),
+  id: z.string().uuid(), // ✅ FIXED: UUID support
+  tenantId: z.string().uuid(), // ✅ FIXED: UUID support
   tenantName: z.string().min(1),
   amount: z.number().nonnegative(),
   status: z.enum(['paid', 'pending', 'overdue', 'cancelled']),
@@ -203,7 +203,7 @@ const CylinderHealthSchema = z.object({
 });
 
 const RecentAnalysisSchema = z.object({
-  id: z.number().positive(),
+  id: z.string().uuid(), // ✅ FIXED: UUID support
   type: z.enum(['structure', 'culture', 'skills', 'performance']),
   title: z.string().min(1),
   status: z.enum(['pending', 'processing', 'completed', 'failed']),
@@ -212,7 +212,7 @@ const RecentAnalysisSchema = z.object({
 });
 
 const EmployeeSchema = z.object({
-  id: z.number().positive(),
+  id: z.string().uuid(), // ✅ FIXED: UUID support
   name: z.string().min(1),
   email: z.string().email(),
   position: z.string().min(1),
@@ -227,14 +227,14 @@ const CreateEmployeeSchema = z.object({
   email: z.string().email().max(255),
   position: z.string().min(1).max(255),
   department: z.string().min(1).max(255),
-  managerId: z.number().positive().optional(),
+  managerId: z.string().uuid().optional(), // ✅ FIXED: UUID support
 });
 
 const UpdateEmployeeSchema = z.object({
   name: z.string().min(1).max(255).optional(),
   position: z.string().min(1).max(255).optional(),
   department: z.string().min(1).max(255).optional(),
-  managerId: z.number().positive().optional(),
+  managerId: z.string().uuid().optional(), // ✅ FIXED: UUID support
   status: z.enum(['active', 'inactive', 'pending']).optional(),
 });
 
@@ -248,28 +248,28 @@ const CultureSurveyLaunchSchema = z.object({
 
 // Employee schemas
 const TaskSchema = z.object({
-  id: z.number().positive(),
+  id: z.string().uuid(), // ✅ FIXED: UUID support
   title: z.string().min(1),
   dueDate: z.string().datetime(),
   priority: z.enum(['low', 'medium', 'high']),
 });
 
 const FeedbackItemSchema = z.object({
-  id: z.number().positive(),
+  id: z.string().uuid(), // ✅ FIXED: UUID support
   from: z.string().min(1),
   message: z.string().min(1),
   date: z.string().datetime(),
 });
 
 const GoalItemSchema = z.object({
-  id: z.number().positive(),
+  id: z.string().uuid(), // ✅ FIXED: UUID support
   title: z.string().min(1),
   progress: z.number().min(0).max(100),
   dueDate: z.string().datetime(),
 });
 
 const TeamUpdateSchema = z.object({
-  id: z.number().positive(),
+  id: z.string().uuid(), // ✅ FIXED: UUID support
   message: z.string().min(1),
   author: z.string().min(1),
   date: z.string().datetime(),
@@ -283,12 +283,12 @@ const EmployeeDashboardSchema = z.object({
 });
 
 const EmployeeProfileSchema = z.object({
-  id: z.number().positive(),
+  id: z.string().uuid(), // ✅ FIXED: UUID support
   name: z.string().min(1),
   email: z.string().email(),
   position: z.string().min(1),
   department: z.string().min(1),
-  managerId: z.number().positive().optional(),
+  managerId: z.string().uuid().optional(), // ✅ FIXED: UUID support
   managerName: z.string().min(1).optional(),
   joinDate: z.string().date(),
   skills: z.array(z.string().min(1)),
@@ -301,7 +301,7 @@ const UpdateProfileSchema = z.object({
 });
 
 const GoalSchema = z.object({
-  id: z.number().positive(),
+  id: z.string().uuid(), // ✅ FIXED: UUID support
   title: z.string().min(1),
   description: z.string().min(1),
   progress: z.number().min(0).max(100),
@@ -310,9 +310,9 @@ const GoalSchema = z.object({
 });
 
 const FeedbackSchema = z.object({
-  id: z.number().positive(),
+  id: z.string().uuid(), // ✅ FIXED: UUID support
   from: z.string().min(1),
-  fromId: z.number().positive(),
+  fromId: z.string().uuid(), // ✅ FIXED: UUID support
   message: z.string().min(1),
   type: z.enum(['praise', 'constructive', 'suggestion']),
   date: z.string().datetime(),
@@ -320,7 +320,7 @@ const FeedbackSchema = z.object({
 });
 
 const TeamMemberSchema = z.object({
-  id: z.number().positive(),
+  id: z.string().uuid(), // ✅ FIXED: UUID support
   name: z.string().min(1),
   position: z.string().min(1),
   email: z.string().email(),
@@ -330,7 +330,7 @@ const TeamMemberSchema = z.object({
 
 // Common schemas
 const NotificationSchema = z.object({
-  id: z.number().positive(),
+  id: z.string().uuid(), // ✅ FIXED: UUID support
   title: z.string().min(1),
   message: z.string().min(1),
   type: z.enum(['info', 'warning', 'success', 'error']),
@@ -339,11 +339,11 @@ const NotificationSchema = z.object({
 });
 
 const CurrentUserSchema = z.object({
-  id: z.number().positive(),
+  id: z.string().uuid(), // ✅ FIXED: UUID support
   name: z.string().min(1),
   email: z.string().email(),
   role: z.enum(['superadmin', 'admin', 'employee']),
-  tenantId: z.number().positive(),
+  tenantId: z.string().uuid(), // ✅ FIXED: UUID support
   tenantName: z.string().min(1),
   permissions: z.array(z.string().min(1)),
 });
@@ -532,9 +532,9 @@ export const superadminService = {
   },
 
   // Tenant Management
-  async getTenantById(id: number): Promise<Tenant> {
+  async getTenantById(id: string): Promise<Tenant> { // ✅ FIXED: Accept UUID string
     try {
-      const validatedId = z.number().positive().parse(id);
+      const validatedId = z.string().uuid().parse(id); // ✅ FIXED: Validate UUID
       const response = await apiClient.get(`/api/superadmin/tenants/${validatedId}`);
       return TenantSchema.parse(response.data);
     } catch (error) {
@@ -552,9 +552,9 @@ export const superadminService = {
     }
   },
 
-  async updateTenant(id: number, data: UpdateTenantData): Promise<Tenant> {
+  async updateTenant(id: string, data: UpdateTenantData): Promise<Tenant> { // ✅ FIXED: Accept UUID string
     try {
-      const validatedId = z.number().positive().parse(id);
+      const validatedId = z.string().uuid().parse(id); // ✅ FIXED: Validate UUID
       const validatedData = UpdateTenantSchema.parse(data);
       const response = await apiClient.put(`/api/superadmin/tenants/${validatedId}`, validatedData);
       return TenantSchema.parse(response.data);
@@ -563,9 +563,9 @@ export const superadminService = {
     }
   },
 
-  async suspendTenant(id: number): Promise<SuccessResponse> {
+  async suspendTenant(id: string): Promise<SuccessResponse> { // ✅ FIXED: Accept UUID string
     try {
-      const validatedId = z.number().positive().parse(id);
+      const validatedId = z.string().uuid().parse(id); // ✅ FIXED: Validate UUID
       const response = await apiClient.post(`/api/superadmin/tenants/${validatedId}/suspend`);
       return SuccessResponseSchema.parse(response.data);
     } catch (error) {
@@ -573,9 +573,9 @@ export const superadminService = {
     }
   },
 
-  async impersonateTenant(id: number): Promise<ImpersonationResponse> {
+  async impersonateTenant(id: string): Promise<ImpersonationResponse> { // ✅ FIXED: Accept UUID string
     try {
-      const validatedId = z.number().positive().parse(id);
+      const validatedId = z.string().uuid().parse(id); // ✅ FIXED: Validate UUID
       const response = await apiClient.post(`/api/superadmin/tenants/${validatedId}/impersonate`);
       return ImpersonationResponseSchema.parse(response.data);
     } catch (error) {
@@ -625,9 +625,9 @@ export const superadminService = {
   },
 
   // Module Access (with tenant selector)
-  async runStructureAnalysis(tenantId: number, data: StructureAnalysisData): Promise<AnalysisResponse> {
+  async runStructureAnalysis(tenantId: string, data: StructureAnalysisData): Promise<AnalysisResponse> { // ✅ FIXED: Accept UUID string
     try {
-      const validatedTenantId = z.number().positive().parse(tenantId);
+      const validatedTenantId = z.string().uuid().parse(tenantId); // ✅ FIXED: Validate UUID
       const validatedData = StructureAnalysisDataSchema.parse(data);
       const response = await apiClient.post(`/api/superadmin/structure/analyze?tenantId=${validatedTenantId}`, validatedData);
       return AnalysisResponseSchema.parse(response.data);
@@ -636,9 +636,9 @@ export const superadminService = {
     }
   },
 
-  async getStructureReports(tenantId: number): Promise<RecentAnalysis[]> {
+  async getStructureReports(tenantId: string): Promise<RecentAnalysis[]> { // ✅ FIXED: Accept UUID string
     try {
-      const validatedTenantId = z.number().positive().parse(tenantId);
+      const validatedTenantId = z.string().uuid().parse(tenantId); // ✅ FIXED: Validate UUID
       const response = await apiClient.get(`/api/superadmin/structure/reports?tenantId=${validatedTenantId}`);
       return z.array(RecentAnalysisSchema).parse(response.data);
     } catch (error) {
@@ -646,9 +646,9 @@ export const superadminService = {
     }
   },
 
-  async runCultureAnalysis(tenantId: number, data: CultureAnalysisData): Promise<AnalysisResponse> {
+  async runCultureAnalysis(tenantId: string, data: CultureAnalysisData): Promise<AnalysisResponse> { // ✅ FIXED: Accept UUID string
     try {
-      const validatedTenantId = z.number().positive().parse(tenantId);
+      const validatedTenantId = z.string().uuid().parse(tenantId); // ✅ FIXED: Validate UUID
       const validatedData = CultureAnalysisDataSchema.parse(data);
       const response = await apiClient.post(`/api/superadmin/culture/analyze?tenantId=${validatedTenantId}`, validatedData);
       return AnalysisResponseSchema.parse(response.data);
@@ -657,9 +657,9 @@ export const superadminService = {
     }
   },
 
-  async getCultureReports(tenantId: number): Promise<RecentAnalysis[]> {
+  async getCultureReports(tenantId: string): Promise<RecentAnalysis[]> { // ✅ FIXED: Accept UUID string
     try {
-      const validatedTenantId = z.number().positive().parse(tenantId);
+      const validatedTenantId = z.string().uuid().parse(tenantId); // ✅ FIXED: Validate UUID
       const response = await apiClient.get(`/api/superadmin/culture/reports?tenantId=${validatedTenantId}`);
       return z.array(RecentAnalysisSchema).parse(response.data);
     } catch (error) {
