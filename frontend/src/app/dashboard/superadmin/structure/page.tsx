@@ -51,9 +51,16 @@ const formatDescription = (text: string) => {
 // Types based on backend structure-agent.ts
 interface StructureAnalysisOutput {
   overallScore: number;
+  overallHealthInterpretation?: string;
+  humanImpact?: {
+    interpretation?: string;
+    employeeExperience?: string;
+    culturalImpact?: string;
+  };
   spanAnalysis: {
     average: number;
     distribution: { [span: string]: number };
+    interpretation?: string;
     outliers: Array<{
       role: string;
       span: number;
@@ -63,6 +70,7 @@ interface StructureAnalysisOutput {
   layerAnalysis: {
     totalLayers: number;
     averageLayersToBottom: number;
+    interpretation?: string;
     bottlenecks: Array<{
       layer: number;
       roles: string[];
@@ -71,6 +79,7 @@ interface StructureAnalysisOutput {
   };
   strategyAlignment: {
     score: number;
+    interpretation?: string;
     misalignments: Array<{
       area: string;
       issue: string;
@@ -452,7 +461,7 @@ export default function StructureAnalysisPage() {
         <div className="space-y-6">
           {/* Overall Score */}
           <div className={`bg-white rounded-2xl p-8 shadow-sm border-2 ${getScoreBg(results.overallScore)}`}>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mb-4">
               <div>
                 <p className="text-mizan-secondary text-sm font-medium mb-1">Overall Structure Score</p>
                 <h2 className={`text-5xl font-bold ${getScoreColor(results.overallScore)}`}>
@@ -470,6 +479,13 @@ export default function StructureAnalysisPage() {
                 </p>
               </div>
             </div>
+            {results.overallHealthInterpretation && (
+              <div className="mt-4 pt-4 border-t border-gray-200">
+                <p className="text-base text-mizan-secondary leading-relaxed whitespace-pre-line">
+                  {results.overallHealthInterpretation}
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Metrics Grid */}
@@ -498,6 +514,13 @@ export default function StructureAnalysisPage() {
                     ))}
                   </div>
                 </div>
+                {results.spanAnalysis.interpretation && (
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <p className="text-sm text-mizan-secondary leading-relaxed whitespace-pre-line">
+                      {results.spanAnalysis.interpretation}
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -520,6 +543,13 @@ export default function StructureAnalysisPage() {
                     {results.layerAnalysis.averageLayersToBottom.toFixed(1)}
                   </p>
                 </div>
+                {results.layerAnalysis.interpretation && (
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <p className="text-sm text-mizan-secondary leading-relaxed whitespace-pre-line">
+                      {results.layerAnalysis.interpretation}
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -542,6 +572,13 @@ export default function StructureAnalysisPage() {
                     {results.strategyAlignment.misalignments.length}
                   </p>
                 </div>
+                {results.strategyAlignment.interpretation && (
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <p className="text-sm text-mizan-secondary leading-relaxed whitespace-pre-line">
+                      {results.strategyAlignment.interpretation}
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -612,6 +649,38 @@ export default function StructureAnalysisPage() {
                   </div>
                 ))}
               </div>
+            </div>
+          )}
+
+          {/* Human Impact */}
+          {results.humanImpact && (
+            <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-6 shadow-sm border border-blue-100">
+              <h3 className="text-lg font-semibold text-mizan-primary mb-4 flex items-center gap-2">
+                <span className="text-2xl">👥</span> Human Impact Analysis
+              </h3>
+              {results.humanImpact.interpretation && (
+                <div className="bg-white/70 rounded-lg p-4 mb-4">
+                  <p className="text-base text-mizan-secondary leading-relaxed whitespace-pre-line">
+                    {results.humanImpact.interpretation}
+                  </p>
+                </div>
+              )}
+              {results.humanImpact.employeeExperience && (
+                <div className="bg-white/70 rounded-lg p-4 mb-4">
+                  <h4 className="text-sm font-semibold text-mizan-primary mb-2">Employee Experience</h4>
+                  <p className="text-sm text-mizan-secondary leading-relaxed whitespace-pre-line">
+                    {results.humanImpact.employeeExperience}
+                  </p>
+                </div>
+              )}
+              {results.humanImpact.culturalImpact && (
+                <div className="bg-white/70 rounded-lg p-4">
+                  <h4 className="text-sm font-semibold text-mizan-primary mb-2">Cultural Impact</h4>
+                  <p className="text-sm text-mizan-secondary leading-relaxed whitespace-pre-line">
+                    {results.humanImpact.culturalImpact}
+                  </p>
+                </div>
+              )}
             </div>
           )}
 

@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Building2, TrendingUp, TrendingDown, AlertTriangle, Target, Loader2, BarChart3, Users } from 'lucide-react';
+import apiClient from '@/lib/api-client';
 
 interface DepartmentAggregatedViewProps {
   tenantId: string;
@@ -81,18 +82,12 @@ export function DepartmentAggregatedView({ tenantId, tenantName }: DepartmentAgg
       setAnalyzing(true);
       setError(null);
 
-      // ✅ PRODUCTION: Use httpOnly cookies for authentication (Phase 1 Security)
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/culture-assessment/report/company?tenantId=${tenantId}`, {
-        method: 'GET',
-        credentials: 'include'  // Send httpOnly cookie automatically
+      // ✅ PRODUCTION: Use ApiClient for automatic authentication (hybrid cookie + header)
+      const response = await apiClient.get('/api/culture-assessment/report/company', {
+        params: { tenantId }
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to load analysis');
-      }
-
-      const data = await response.json();
+      const data = response.data;
 
       // Transform the backend report structure to frontend expected structure
       const report = data.report || {};

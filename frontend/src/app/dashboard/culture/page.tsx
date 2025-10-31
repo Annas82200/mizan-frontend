@@ -17,6 +17,7 @@ import {
   Download,
   RefreshCw
 } from 'lucide-react';
+import apiClient from '@/lib/api-client';
 
 // Helper to format rich text with subtitles
 const formatDescription = (text: string) => {
@@ -209,28 +210,13 @@ export default function CultureAnalysisPage() {
       setAnalyzing(true);
       setError(null);
 
-      const token = localStorage.getItem('token');
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
-
-      const response = await fetch(`${apiUrl}/api/analyses/culture`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-          tenantId: tenantId,
-          targetType: 'company'
-        })
+      // ✅ PRODUCTION: Use ApiClient for automatic authentication (hybrid cookie + header)
+      const response = await apiClient.post('/api/analyses/culture', {
+        tenantId: tenantId,
+        targetType: 'company'
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Analysis failed');
-      }
-
-      const analysisResults = await response.json();
+      const analysisResults = response.data;
       setResults(analysisResults);
     } catch (err: unknown) {
       console.error('Culture analysis error:', err);
