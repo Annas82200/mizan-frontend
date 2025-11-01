@@ -147,21 +147,13 @@ export function IndividualEmployeeView({ tenantId, tenantName }: IndividualEmplo
       setAnalyzing(true);
       setError(null);
 
-      // ✅ PRODUCTION: Use httpOnly cookies for authentication (Phase 1 Security)
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/culture-assessment/report/employee/${employeeId}/regenerate`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include'  // Send httpOnly cookie automatically
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to regenerate report');
-      }
-
-      const data = await response.json();
+      // ✅ PRODUCTION: Use apiClient for automatic authentication (Phase 1 Security)
+      // ApiClient automatically adds Authorization header from localStorage + httpOnly cookies
+      const apiClient = new ApiClient();
+      const response = await apiClient.request<{ success: boolean; message: string }>(
+        `/api/culture-assessment/report/employee/${employeeId}/regenerate`,
+        { method: 'POST' }
+      );
 
       // Wait a moment for background processing
       setTimeout(() => {
@@ -172,7 +164,7 @@ export function IndividualEmployeeView({ tenantId, tenantName }: IndividualEmplo
         }
       }, 2000);
 
-      alert('Report regeneration started! It will be ready in 10-15 seconds.');
+      alert(response.message || 'Report regeneration started! It will be ready in 10-15 seconds.');
     } catch (err: unknown) {
       console.error('Regenerate report error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Failed to regenerate report';
@@ -196,18 +188,12 @@ export function IndividualEmployeeView({ tenantId, tenantName }: IndividualEmplo
         return; // Return early, don't throw error (no console spam)
       }
 
-      // ✅ PRODUCTION: Use httpOnly cookies for authentication (Phase 1 Security)
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/culture-assessment/report/employee/${employee.id}`, {
-        method: 'GET',
-        credentials: 'include'  // Send httpOnly cookie automatically
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to load employee report');
-      }
-
-      const data = await response.json();
+      // ✅ PRODUCTION: Use apiClient for automatic authentication (Phase 1 Security)
+      // ApiClient automatically adds Authorization header from localStorage + httpOnly cookies
+      const apiClient = new ApiClient();
+      const data = await apiClient.request<{ success: boolean; report: any }>(
+        `/api/culture-assessment/report/employee/${employee.id}`
+      );
 
       // Transform backend report structure to frontend expected structure
       const transformedAnalysis: EmployeeAnalysis = {
