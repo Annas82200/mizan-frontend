@@ -642,7 +642,7 @@ export default function StructureAnalysisPage() {
                     <div className="flex items-start justify-between mb-2">
                       <p className="font-semibold text-mizan-primary">{misalignment.area}</p>
                       <span className={`px-3 py-1 rounded-full text-xs font-medium ${getImpactColor(misalignment.impact)}`}>
-                        {misalignment.impact.toUpperCase()} IMPACT
+                        {(misalignment.impact?.toUpperCase() ?? 'UNKNOWN')} IMPACT
                       </span>
                     </div>
                     <p className="text-sm text-mizan-secondary">{misalignment.issue}</p>
