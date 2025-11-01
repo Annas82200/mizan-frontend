@@ -188,9 +188,12 @@ export function IndividualEmployeeView({ tenantId, tenantName }: IndividualEmplo
       setError(null);
       setSelectedEmployee(employee);
 
-      // Check if employee has completed survey
+      // Check if employee has completed survey BEFORE making API call
+      // This is expected business logic, not an error condition
       if (!employee.hasCompletedSurvey) {
-        throw new Error('Employee has not completed the culture survey yet');
+        setAnalyzing(false);
+        setError('This employee has not completed the culture survey yet. Once they complete it, their analysis will be available here.');
+        return; // Return early, don't throw error (no console spam)
       }
 
       // ✅ PRODUCTION: Use httpOnly cookies for authentication (Phase 1 Security)
