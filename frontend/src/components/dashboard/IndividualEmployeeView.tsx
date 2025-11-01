@@ -195,10 +195,15 @@ export function IndividualEmployeeView({ tenantId, tenantName }: IndividualEmplo
         `/api/culture-assessment/report/employee/${employee.id}`
       );
 
+      // Defensive check: Ensure report exists before transforming
+      if (!data.report) {
+        throw new Error('Report data is missing. The report may still be generating. Please try again in a few seconds.');
+      }
+
       // Transform backend report structure to frontend expected structure
       const transformedAnalysis: EmployeeAnalysis = {
-        employeeId: data.report.employeeId,
-        employeeName: data.report.employeeName,
+        employeeId: data.report.employeeId || employee.id,
+        employeeName: data.report.employeeName || employee.name,
         personalValuesInterpretation: {
           strengths: data.report.personalValues?.strengths || [],
           limitingFactors: data.report.personalValues?.limitingFactors || [],
