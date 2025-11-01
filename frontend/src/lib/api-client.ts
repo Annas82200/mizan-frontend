@@ -281,27 +281,49 @@ export class ApiClient {
       this.request(`/api/culture/analysis/${analysisId}/agents/${agentType}`),
   };
 
-  // Skills Analysis endpoints
+  // Skills Analysis endpoints - Phase 3.1 Complete API Client
   skills = {
-    createAssessment: (data: {
-      tenantId: string;
+    // Dashboard & Stats
+    getDashboardStats: () =>
+      this.request("/api/skills/dashboard/stats"),
+
+    // Workflow Management
+    startWorkflow: (data: {
       strategy: string;
       industry: string;
+      organizationName: string;
     }) =>
-      this.request("/api/skills/assessment/create", {
+      this.request("/api/skills/workflow/start", {
         method: "POST",
         body: JSON.stringify(data),
       }),
 
+    getWorkflowSessions: () =>
+      this.request("/api/skills/workflow/sessions"),
+
+    // Framework Management
+    createFramework: (data: {
+      industry: string;
+      strategy: string;
+      organizationName: string;
+    }) =>
+      this.request("/api/skills/framework", {
+        method: "POST",
+        body: JSON.stringify(data),
+      }),
+
+    getFrameworks: () =>
+      this.request("/api/skills/frameworks"),
+
+    // Resume Upload
     uploadResume: async (file: File, employeeId: string) => {
       const formData = new FormData();
       formData.append("resume", file);
       formData.append("employeeId", employeeId);
 
-      // ✅ PRODUCTION: Use credentials: 'include' to send httpOnly cookie (Phase 1 Security)
       const response = await fetch(`${API_BASE}/api/skills/resume/upload`, {
         method: "POST",
-        credentials: 'include',  // Send httpOnly cookie for authentication
+        credentials: 'include',
         body: formData,
       });
 
@@ -313,16 +335,79 @@ export class ApiClient {
       return response.json();
     },
 
-    getGapAnalysis: (employeeId: string) =>
-      this.request(`/api/skills/gap-analysis/${employeeId}`),
+    // CSV Import
+    importCSV: async (file: File) => {
+      const formData = new FormData();
+      formData.append("csv", file);
 
-    getStrategicAssessment: (tenantId: string) =>
-      this.request(`/api/skills/strategic-assessment/${tenantId}`),
-
-    triggerLXP: (employeeId: string, skillGaps: string[]) =>
-      this.request("/api/skills/trigger-lxp", {
+      const response = await fetch(`${API_BASE}/api/skills/csv/import`, {
         method: "POST",
-        body: JSON.stringify({ employeeId, skillGaps }),
+        credentials: 'include',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || "CSV import failed");
+      }
+
+      return response.json();
+    },
+
+    // Employee Skills Management
+    getEmployeeSkills: (employeeId: string) =>
+      this.request(`/api/skills/employee/${employeeId}`),
+
+    updateEmployeeSkills: (employeeId: string, skills: Array<{
+      name: string;
+      category: string;
+      level: string;
+      yearsOfExperience?: number;
+    }>) =>
+      this.request(`/api/skills/employee/${employeeId}`, {
+        method: "POST",
+        body: JSON.stringify({ skills }),
+      }),
+
+    deleteEmployeeSkill: (employeeId: string, skillName: string) =>
+      this.request(`/api/skills/employee/${employeeId}/skill/${skillName}`, {
+        method: "DELETE",
+      }),
+
+    // Gap Analysis (Fixed endpoint paths)
+    getEmployeeGapAnalysis: (employeeId: string) =>
+      this.request(`/api/skills/employee/${employeeId}/gap`),
+
+    getAllGaps: () =>
+      this.request("/api/skills/gaps"),
+
+    // Department & Organization Analysis
+    getDepartmentAnalysis: (departmentId: string) =>
+      this.request(`/api/skills/department/${departmentId}/analysis`),
+
+    getOrganizationAnalysis: () =>
+      this.request("/api/skills/organization/analysis"),
+
+    // Assessments
+    getAssessments: () =>
+      this.request("/api/skills/assessments"),
+
+    // Skills Bot
+    queryBot: (query: string, context?: Record<string, unknown>) =>
+      this.request("/api/skills/bot/query", {
+        method: "POST",
+        body: JSON.stringify({ query, context }),
+      }),
+
+    // Notifications
+    sendNotification: (data: {
+      notificationType: string;
+      recipients: Array<{ email: string; name: string }>;
+      data: Record<string, unknown>;
+    }) =>
+      this.request("/api/skills/notify", {
+        method: "POST",
+        body: JSON.stringify(data),
       }),
   };
 

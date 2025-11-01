@@ -5,11 +5,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { 
-  Bot, 
-  Send, 
-  Upload, 
-  FileText, 
+import apiClient from '@/lib/api-client';
+import {
+  Bot,
+  Send,
+  Upload,
+  FileText,
   MessageCircle,
   Lightbulb,
   BookOpen,
@@ -128,10 +129,11 @@ export const SkillsBotInterface: React.FC<SkillsBotInterfaceProps> = ({ userRole
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
 
+    const userQuery = inputValue.trim();
     const userMessage: BotMessage = {
       id: Date.now().toString(),
       type: 'user',
-      content: inputValue.trim(),
+      content: userQuery,
       timestamp: new Date()
     };
 
@@ -141,12 +143,22 @@ export const SkillsBotInterface: React.FC<SkillsBotInterfaceProps> = ({ userRole
     setIsTyping(true);
 
     try {
-      // Simulate API call to Skills BOT service
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      const botResponse = await generateBotResponse(inputValue.trim(), userRole);
-      
-      setMessages(prev => [...prev, botResponse]);
+      // Real API call to Skills BOT service using apiClient
+      const response: any = await apiClient.skills.queryBot(userQuery, { userRole });
+
+      if (response.success && response.response) {
+        const botData = response.response;
+        const botMessage: BotMessage = {
+          id: Date.now().toString(),
+          type: 'bot',
+          content: botData.answer || "I'm not sure how to respond to that. Could you rephrase your question?",
+          timestamp: new Date(),
+          suggestions: botData.suggestions || []
+        };
+        setMessages(prev => [...prev, botMessage]);
+      } else {
+        throw new Error('Invalid bot response');
+      }
     } catch (error) {
       console.error('Error sending message:', error);
       const errorMessage: BotMessage = {

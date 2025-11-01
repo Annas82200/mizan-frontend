@@ -5,12 +5,12 @@ import { useRouter } from 'next/navigation';
 import { SkillsIcon } from '@/components/icons';
 import { SkillsAnalysisDashboard } from '@/components/skills/SkillsAnalysisDashboard';
 import { SkillsBotInterface } from '@/components/skills/bot/SkillsBotInterface';
-// import { SkillsWorkflowManager } from '@/components/skills/SkillsWorkflowManager';
-// import { StrategicFrameworkManager } from '@/components/skills/StrategicFrameworkManager';
-// import { IndividualSkillsAssessment } from '@/components/skills/IndividualSkillsAssessment';
-// import { SkillsGapAnalysis } from '@/components/skills/SkillsGapAnalysis';
-// import { SkillsProgressTracking } from '@/components/skills/SkillsProgressTracking';
-// import { SkillsReporting } from '@/components/skills/SkillsReporting';
+import { SkillsWorkflowManager } from '@/components/skills/SkillsWorkflowManager';
+import { StrategicFrameworkManager } from '@/components/skills/StrategicFrameworkManager';
+import { IndividualSkillsAssessment } from '@/components/skills/IndividualSkillsAssessment';
+import { SkillsGapAnalysis } from '@/components/skills/SkillsGapAnalysis';
+import { SkillsProgressTracking } from '@/components/skills/SkillsProgressTracking';
+import { SkillsReporting } from '@/components/skills/SkillsReporting';
 
 interface SkillsAnalysisPageProps {}
 
@@ -121,17 +121,17 @@ export default function SkillsAnalysisPage({}: SkillsAnalysisPageProps) {
       case 'dashboard':
         return <SkillsAnalysisDashboard userRole={userRole} />;
       case 'workflow':
-        return <div className="p-6"><h3 className="text-lg font-semibold">Workflow Manager - Coming Soon</h3></div>;
+        return <SkillsWorkflowManager userRole={userRole} />;
       case 'framework':
-        return <div className="p-6"><h3 className="text-lg font-semibold">Strategic Framework Manager - Coming Soon</h3></div>;
+        return <StrategicFrameworkManager userRole={userRole} />;
       case 'assessment':
-        return <div className="p-6"><h3 className="text-lg font-semibold">Individual Skills Assessment - Coming Soon</h3></div>;
+        return <IndividualSkillsAssessment userRole={userRole} />;
       case 'gaps':
-        return <div className="p-6"><h3 className="text-lg font-semibold">Skills Gap Analysis - Coming Soon</h3></div>;
+        return <SkillsGapAnalysis userRole={userRole} />;
       case 'progress':
-        return <div className="p-6"><h3 className="text-lg font-semibold">Skills Progress Tracking - Coming Soon</h3></div>;
+        return <SkillsProgressTracking userRole={userRole} />;
       case 'reporting':
-        return <div className="p-6"><h3 className="text-lg font-semibold">Skills Reporting - Coming Soon</h3></div>;
+        return <SkillsReporting userRole={userRole} />;
       case 'bot':
         return <SkillsBotInterface userRole={userRole} />;
       default:
