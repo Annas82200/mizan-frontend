@@ -87,6 +87,13 @@ export const IndividualSkillsAssessment: React.FC<IndividualSkillsAssessmentProp
       return;
     }
 
+    // Validate file size (5MB limit)
+    const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
+    if (file.size > maxSizeInBytes) {
+      setError(`File size must be less than 5MB. Your file is ${(file.size / (1024 * 1024)).toFixed(2)}MB`);
+      return;
+    }
+
     try {
       setLoading(true);
       setError(null);
