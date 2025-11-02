@@ -186,6 +186,7 @@ export interface GapFilters {
   category?: string;
   departmentId?: string;
   employeeId?: string;
+  searchTerm?: string;
 }
 
 export interface SkillsFilters {
