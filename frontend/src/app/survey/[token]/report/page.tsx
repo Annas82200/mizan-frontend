@@ -46,6 +46,8 @@ export default function SurveyReportPage() {
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<'pending' | 'completed'>('pending');
   const [showFrameworkIntro, setShowFrameworkIntro] = useState(true);
+  const [pollingAttempts, setPollingAttempts] = useState(0);
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
 
   const fetchReport = async () => {
     try {
@@ -62,17 +64,80 @@ export default function SurveyReportPage() {
       const data = await response.json();
       setReport(data.report);
       setStatus(data.status);
+
+      // If report is ready, stop polling
+      if (data.status === 'completed' && data.report) {
+        return true; // Signal that polling should stop
+      }
+      return false;
     } catch (err: unknown) {
       console.error('Report fetch error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Failed to load report';
       setError(errorMessage);
+      return false;
     } finally {
       setLoading(false);
     }
   };
 
+  // Auto-polling effect with progress tracking
   useEffect(() => {
-    fetchReport();
+    let pollingInterval: NodeJS.Timeout | null = null;
+    let timerInterval: NodeJS.Timeout | null = null;
+    let isPolling = true;
+
+    const startPolling = async () => {
+      // Initial fetch
+      const reportReady = await fetchReport();
+      if (reportReady) {
+        isPolling = false;
+        return;
+      }
+
+      // Start progress timer (update every second)
+      timerInterval = setInterval(() => {
+        setElapsedSeconds(prev => prev + 1);
+      }, 1000);
+
+      // Poll every 10 seconds for up to 5 minutes (30 attempts)
+      pollingInterval = setInterval(async () => {
+        if (!isPolling) {
+          if (pollingInterval) clearInterval(pollingInterval);
+          if (timerInterval) clearInterval(timerInterval);
+          return;
+        }
+
+        setPollingAttempts(prev => {
+          const newAttempts = prev + 1;
+
+          // Stop after 30 attempts (5 minutes)
+          if (newAttempts >= 30) {
+            isPolling = false;
+            if (pollingInterval) clearInterval(pollingInterval);
+            if (timerInterval) clearInterval(timerInterval);
+            setError('Report generation is taking longer than expected. Please contact support.');
+          }
+
+          return newAttempts;
+        });
+
+        const reportReady = await fetchReport();
+        if (reportReady) {
+          isPolling = false;
+          if (pollingInterval) clearInterval(pollingInterval);
+          if (timerInterval) clearInterval(timerInterval);
+        }
+      }, 10000); // Poll every 10 seconds
+    };
+
+    startPolling();
+
+    // Cleanup on unmount
+    return () => {
+      isPolling = false;
+      if (pollingInterval) clearInterval(pollingInterval);
+      if (timerInterval) clearInterval(timerInterval);
+    };
   }, [token]);
 
   if (loading) {
@@ -87,23 +152,72 @@ export default function SurveyReportPage() {
   }
 
   if (error || status === 'pending') {
+    const formatTime = (seconds: number) => {
+      const mins = Math.floor(seconds / 60);
+      const secs = seconds % 60;
+      return `${mins}:${secs.toString().padStart(2, '0')}`;
+    };
+
     return (
       <div className="min-h-screen bg-gradient-to-br from-mizan-primary/5 to-mizan-gold/5 flex items-center justify-center p-4">
         <div className="max-w-md w-full bg-white rounded-2xl p-8 shadow-lg text-center">
-          <AlertCircle className="w-16 h-16 text-mizan-gold mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-mizan-primary mb-4">
-            Your Report is Being Generated
-          </h1>
-          <p className="text-mizan-secondary mb-6">
-            Our AI agents are analyzing your responses and creating personalized insights. This usually takes 1-2 minutes.
-          </p>
-          <button
-            onClick={fetchReport}
-            className="w-full px-6 py-3 bg-mizan-gold text-white rounded-xl hover:bg-mizan-gold/90 transition-all duration-400 flex items-center justify-center space-x-2"
-          >
-            <RefreshCw className="w-5 h-5" />
-            <span>Check Again</span>
-          </button>
+          {error ? (
+            <>
+              <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
+              <h1 className="text-2xl font-bold text-mizan-primary mb-4">
+                Unable to Load Report
+              </h1>
+              <p className="text-mizan-secondary mb-6">{error}</p>
+              <button
+                onClick={fetchReport}
+                className="w-full px-6 py-3 bg-mizan-gold text-white rounded-xl hover:bg-mizan-gold/90 transition-all duration-400 flex items-center justify-center space-x-2"
+              >
+                <RefreshCw className="w-5 h-5" />
+                <span>Try Again</span>
+              </button>
+            </>
+          ) : (
+            <>
+              <div className="relative w-16 h-16 mx-auto mb-4">
+                <Loader2 className="w-16 h-16 text-mizan-gold animate-spin" />
+              </div>
+              <h1 className="text-2xl font-bold text-mizan-primary mb-4">
+                Generating Your Personalized Report
+              </h1>
+              <p className="text-mizan-secondary mb-2">
+                Our AI agents are analyzing your responses using the Mizan 7-Cylinder Framework to create personalized insights.
+              </p>
+              <p className="text-sm text-mizan-secondary/70 mb-6">
+                This typically takes 2-3 minutes. We'll automatically update when ready.
+              </p>
+
+              {/* Progress Indicator */}
+              <div className="bg-mizan-primary/5 rounded-xl p-4 mb-6">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm font-medium text-mizan-primary">Processing...</span>
+                  <span className="text-sm font-mono text-mizan-gold">{formatTime(elapsedSeconds)}</span>
+                </div>
+                <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-mizan-gold to-mizan-primary rounded-full transition-all duration-1000 animate-pulse"
+                    style={{ width: `${Math.min((elapsedSeconds / 180) * 100, 95)}%` }}
+                  />
+                </div>
+                <p className="text-xs text-mizan-secondary/60 mt-2">
+                  Poll attempt {pollingAttempts} of 30
+                </p>
+              </div>
+
+              <button
+                onClick={fetchReport}
+                disabled={loading}
+                className="w-full px-6 py-3 bg-mizan-primary/10 text-mizan-primary rounded-xl hover:bg-mizan-primary/20 transition-all duration-400 flex items-center justify-center space-x-2 disabled:opacity-50"
+              >
+                <RefreshCw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
+                <span>Check Now</span>
+              </button>
+            </>
+          )}
         </div>
       </div>
     );
