@@ -194,3 +194,57 @@ export interface SkillsFilters {
   category?: string;
   searchTerm?: string;
 }
+
+// Progress Tracking Types
+export interface ProgressMilestone {
+  name: string;
+  description: string;
+  achievedAt: string;
+  level: 'beginner' | 'intermediate' | 'advanced' | 'expert';
+}
+
+export interface SkillProgress {
+  id: string;
+  employeeId: string;
+  skillName: string;
+  currentLevel: 'beginner' | 'intermediate' | 'advanced' | 'expert';
+  targetLevel: 'beginner' | 'intermediate' | 'advanced' | 'expert';
+  progressPercentage: number;
+  learningPathId?: string;
+  milestones: ProgressMilestone[];
+  lastUpdated: string;
+  createdAt: string;
+}
+
+export interface EmployeeProgressMetrics {
+  employeeId: string;
+  employeeName: string;
+  totalSkillsTracking: number;
+  averageProgress: number;
+  skillsProgress: SkillProgress[];
+  completedMilestones: (ProgressMilestone & { skillName: string })[];
+}
+
+export interface DepartmentProgressMetrics {
+  departmentId: string;
+  departmentName: string;
+  totalEmployees: number;
+  employeesWithProgress: number;
+  averageDepartmentProgress: number;
+  skillProgressionBySkill: {
+    skillName: string;
+    averageProgressPercentage: number;
+    employeeCount: number;
+    levelDistribution: Record<string, number>;
+    averageCurrentLevel: string;
+  }[];
+}
+
+export interface ProgressFilters {
+  employeeId?: string;
+  departmentId?: string;
+  skillName?: string;
+  minProgress?: number;
+  sortBy?: 'lastUpdated' | 'progressPercentage' | 'skillName';
+  sortOrder?: 'asc' | 'desc';
+}

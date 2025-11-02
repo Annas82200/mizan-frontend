@@ -427,6 +427,31 @@ export class ApiClient {
         method: "POST",
         body: JSON.stringify(data),
       }),
+
+    // Progress Tracking
+    getEmployeeProgress: (employeeId: string) =>
+      this.request(`/api/skills/progress/${employeeId}`),
+
+    logEmployeeProgress: (employeeId: string, data: {
+      skillName: string;
+      currentLevel: 'beginner' | 'intermediate' | 'advanced' | 'expert';
+      targetLevel: 'beginner' | 'intermediate' | 'advanced' | 'expert';
+      progressPercentage: number;
+      learningPathId?: string;
+      milestones?: Array<{
+        name: string;
+        description: string;
+        achievedAt: string;
+        level: 'beginner' | 'intermediate' | 'advanced' | 'expert';
+      }>;
+    }) =>
+      this.request(`/api/skills/progress/${employeeId}`, {
+        method: "POST",
+        body: JSON.stringify(data),
+      }),
+
+    getDepartmentProgress: (departmentId: string) =>
+      this.request(`/api/skills/progress/department/${departmentId}`),
   };
 
   // Performance Module endpoints
