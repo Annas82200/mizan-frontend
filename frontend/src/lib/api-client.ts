@@ -315,6 +315,24 @@ export class ApiClient {
     getFrameworks: () =>
       this.request("/api/skills/frameworks"),
 
+    updateFramework: (id: string, data: {
+      frameworkName?: string;
+      industry?: string;
+      strategicSkills?: any[];
+      technicalSkills?: any[];
+      softSkills?: any[];
+      prioritization?: any[];
+    }) =>
+      this.request(`/api/skills/framework/${id}`, {
+        method: "PUT",
+        body: JSON.stringify(data),
+      }),
+
+    deleteFramework: (id: string) =>
+      this.request(`/api/skills/framework/${id}`, {
+        method: "DELETE",
+      }),
+
     // Resume Upload
     uploadResume: async (file: File, employeeId: string) => {
       const formData = new FormData();
