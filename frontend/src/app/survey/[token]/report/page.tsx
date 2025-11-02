@@ -6,36 +6,55 @@ import { CheckCircle2, TrendingUp, AlertCircle, Loader2, RefreshCw } from 'lucid
 import { FrameworkIntro } from '@/components/culture/FrameworkIntro';
 import { Radar } from 'react-chartjs-2';
 
-// Define types for the report data
-interface DevelopmentArea {
-    area: string;
-    description: string;
+// Define types for the new 4-section report structure
+interface IdentifiedStrength {
+    name: string;
+    explanation: string;
+    behavioralIndicators: string[];
+    cylinderLevel: number;
+}
+
+interface EngagementStrategy {
+    strength: string;
+    engagementAction: string;
+    expectedImpact: string;
+}
+
+interface ReflectionQuestion {
+    question: string;
+    purpose: string;
 }
 
 interface Report {
     employeeName: string;
-    overallSummary: {
-        strengths: string[];
-        developmentAreas: DevelopmentArea[];
-        nextSteps?: string[];
-    };
-    cylinderScores: {
-        [key: string]: number;
-    };
-    personalValues?: {
+    assessmentDate: string;
+
+    // SECTION 1: What Your Values Mean
+    personalValues: {
+        selected: string[];
+        cylinderScores: { [key: string]: number };
         interpretation: string;
     };
-    alignment?: {
-        personalVsCurrent: number;
+
+    // SECTION 2: How Your Strengths Build Healthy Culture
+    strengthsAnalysis: {
+        identifiedStrengths: IdentifiedStrength[];
+        pathwayToHealth: string;
+        keyInsights: string[];
     };
-    engagement?: {
-        interpretation?: string;
-        analysis?: string;
+
+    // SECTION 3: Increase Engagement Using Your Strengths
+    engagementStrategy: {
+        currentLevel: number;
+        strengthsToLeverage: EngagementStrategy[];
+        actionableSteps: string[];
+        expectedImpact: string;
     };
-    recognition?: {
-        interpretation?: string;
-        analysis?: string;
-    };
+
+    // SECTION 4: Customized Reflection Questions
+    reflectionQuestions: ReflectionQuestion[];
+
+    generatedAt: string;
 }
 
 export default function SurveyReportPage() {
@@ -262,104 +281,153 @@ export default function SurveyReportPage() {
           </p>
         </div>
 
-        {/* Overall Summary */}
-        {report.overallSummary && (
+        {/* SECTION 1: What Your Values Mean */}
+        {report.personalValues && (
           <div className="bg-white rounded-2xl p-8 shadow-lg">
-            <h2 className="text-2xl font-bold text-mizan-primary mb-6">Overall Summary</h2>
+            <h2 className="text-2xl font-bold text-mizan-primary mb-6">
+              1. What Your Values Mean
+            </h2>
+            <div className="prose prose-mizan max-w-none">
+              <p className="text-mizan-secondary leading-relaxed whitespace-pre-line">
+                {report.personalValues.interpretation}
+              </p>
+            </div>
+          </div>
+        )}
 
-            {report.overallSummary.strengths && report.overallSummary.strengths.length > 0 && (
-              <div className="mb-6">
-                <h3 className="font-semibold text-mizan-primary mb-3">Your Key Strengths</h3>
+        {/* SECTION 2: How Your Strengths Build Healthy Culture */}
+        {report.strengthsAnalysis && (
+          <div className="bg-white rounded-2xl p-8 shadow-lg">
+            <h2 className="text-2xl font-bold text-mizan-primary mb-6">
+              2. How Your Strengths Build Healthy Culture
+            </h2>
+
+            {/* Key Insights */}
+            {report.strengthsAnalysis.keyInsights && report.strengthsAnalysis.keyInsights.length > 0 && (
+              <div className="mb-8 p-6 bg-mizan-gold/10 rounded-xl border-l-4 border-mizan-gold">
+                <h3 className="font-semibold text-mizan-primary mb-3">Key Insights</h3>
                 <ul className="space-y-2">
-                  {report.overallSummary.strengths.map((strength: string, idx: number) => (
+                  {report.strengthsAnalysis.keyInsights.map((insight: string, idx: number) => (
                     <li key={idx} className="flex items-start space-x-2">
-                      <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-mizan-secondary">{strength}</span>
+                      <CheckCircle2 className="w-5 h-5 text-mizan-gold flex-shrink-0 mt-0.5" />
+                      <span className="text-mizan-secondary">{insight}</span>
                     </li>
                   ))}
                 </ul>
               </div>
             )}
 
-            {report.overallSummary.developmentAreas && report.overallSummary.developmentAreas.length > 0 && (
-              <div>
-                <h3 className="font-semibold text-mizan-primary mb-3">Development Opportunities</h3>
-                <div className="bg-white p-6 rounded-lg shadow">
-                  <h3 className="text-xl font-semibold mb-4 text-mizan-secondary">Areas for Development</h3>
-                  <ul className="space-y-4">
-                    {report.overallSummary.developmentAreas.map((area, idx) => (
-                      <li key={idx}>
-                        <p className="font-semibold">{area.area}</p>
-                        <p className="text-gray-600">{area.description}</p>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+            {/* Identified Strengths with Detailed Explanations */}
+            {report.strengthsAnalysis.identifiedStrengths && report.strengthsAnalysis.identifiedStrengths.length > 0 && (
+              <div className="space-y-6 mb-8">
+                <h3 className="font-semibold text-mizan-primary text-lg">Your Identified Strengths</h3>
+                {report.strengthsAnalysis.identifiedStrengths.map((strength, idx) => (
+                  <div key={idx} className="p-6 bg-mizan-primary/5 rounded-xl">
+                    <div className="flex items-center space-x-2 mb-3">
+                      <div className="w-8 h-8 bg-mizan-gold rounded-full flex items-center justify-center text-white font-bold">
+                        {strength.cylinderLevel}
+                      </div>
+                      <h4 className="text-xl font-semibold text-mizan-primary">{strength.name}</h4>
+                    </div>
+                    <p className="text-mizan-secondary mb-4 leading-relaxed">{strength.explanation}</p>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="text-sm font-medium text-mizan-primary">Behavioral Indicators:</span>
+                      {strength.behavioralIndicators.map((indicator, i) => (
+                        <span key={i} className="px-3 py-1 bg-white rounded-full text-sm text-mizan-secondary border border-mizan-primary/20">
+                          {indicator}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Pathway to Cultural Health */}
+            {report.strengthsAnalysis.pathwayToHealth && (
+              <div className="p-6 bg-gradient-to-r from-mizan-primary/5 to-mizan-gold/5 rounded-xl">
+                <h3 className="font-semibold text-mizan-primary mb-3 text-lg">Your Pathway to Cultural Health</h3>
+                <p className="text-mizan-secondary leading-relaxed whitespace-pre-line">
+                  {report.strengthsAnalysis.pathwayToHealth}
+                </p>
               </div>
             )}
           </div>
         )}
 
-        {/* Personal Values */}
-        {report.personalValues && (
+        {/* SECTION 3: Increase Engagement Using Your Strengths */}
+        {report.engagementStrategy && (
           <div className="bg-white rounded-2xl p-8 shadow-lg">
-            <h2 className="text-2xl font-bold text-mizan-primary mb-6">Your Personal Values</h2>
-            <div className="prose prose-mizan max-w-none">
-              <p className="text-mizan-secondary mb-4">{report.personalValues.interpretation}</p>
-            </div>
-          </div>
-        )}
+            <h2 className="text-2xl font-bold text-mizan-primary mb-6">
+              3. Increase Engagement Using Your Strengths
+            </h2>
 
-        {/* Alignment */}
-        {report.alignment && (
-          <div className="bg-white rounded-2xl p-8 shadow-lg">
-            <h2 className="text-2xl font-bold text-mizan-primary mb-6">Values Alignment</h2>
-            <div className="mb-6">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-mizan-secondary">Alignment Score</span>
-                <span className="text-2xl font-bold text-mizan-primary">{report.alignment.personalVsCurrent}%</span>
+            {/* Current Engagement Level */}
+            <div className="mb-8 p-6 bg-mizan-primary/5 rounded-xl">
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-lg font-semibold text-mizan-primary">Current Engagement Level</span>
+                <span className="text-3xl font-bold text-mizan-gold">{report.engagementStrategy.currentLevel}/5</span>
               </div>
               <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-mizan-gold rounded-full transition-all duration-500"
-                  style={{ width: `${report.alignment.personalVsCurrent}%` }}
+                  className="h-full bg-gradient-to-r from-mizan-gold to-mizan-primary rounded-full transition-all duration-500"
+                  style={{ width: `${(report.engagementStrategy.currentLevel / 5) * 100}%` }}
                 />
               </div>
             </div>
+
+            {/* Strengths to Leverage */}
+            {report.engagementStrategy.strengthsToLeverage && report.engagementStrategy.strengthsToLeverage.length > 0 && (
+              <div className="mb-8">
+                <h3 className="font-semibold text-mizan-primary mb-4 text-lg">How to Leverage Your Strengths</h3>
+                <div className="space-y-4">
+                  {report.engagementStrategy.strengthsToLeverage.map((strategy, idx) => (
+                    <div key={idx} className="p-5 border border-mizan-primary/20 rounded-xl hover:border-mizan-gold transition-colors">
+                      <h4 className="font-semibold text-mizan-primary mb-2">{strategy.strength}</h4>
+                      <p className="text-mizan-secondary mb-3"><strong>Action:</strong> {strategy.engagementAction}</p>
+                      <p className="text-sm text-mizan-secondary/80 italic">
+                        <strong>Expected Impact:</strong> {strategy.expectedImpact}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Actionable Steps */}
+            {report.engagementStrategy.actionableSteps && report.engagementStrategy.actionableSteps.length > 0 && (
+              <div className="p-6 bg-mizan-gold/10 rounded-xl">
+                <h3 className="font-semibold text-mizan-primary mb-4 text-lg">Your Action Plan</h3>
+                <ul className="space-y-3">
+                  {report.engagementStrategy.actionableSteps.map((step, idx) => (
+                    <li key={idx} className="flex items-start space-x-3">
+                      <span className="flex-shrink-0 w-6 h-6 bg-mizan-gold rounded-full flex items-center justify-center text-white text-sm font-bold">
+                        {idx + 1}
+                      </span>
+                      <span className="text-mizan-secondary">{step}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         )}
 
-        {/* Engagement & Recognition */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {report.engagement && (
-            <div className="bg-white rounded-2xl p-6 shadow-lg">
-              <h3 className="text-xl font-bold text-mizan-primary mb-4">Engagement Insights</h3>
-              <p className="text-mizan-secondary">{report.engagement.interpretation || report.engagement.analysis}</p>
-            </div>
-          )}
-
-          {report.recognition && (
-            <div className="bg-white rounded-2xl p-6 shadow-lg">
-              <h3 className="text-xl font-bold text-mizan-primary mb-4">Recognition Insights</h3>
-              <p className="text-mizan-secondary">{report.recognition.interpretation || report.recognition.analysis}</p>
-            </div>
-          )}
-        </div>
-
-        {/* Next Steps */}
-        {report.overallSummary?.nextSteps && (
-          <div className="bg-mizan-primary text-white rounded-2xl p-8 shadow-lg">
-            <h2 className="text-2xl font-bold mb-6">Next Steps</h2>
-            <ul className="space-y-3">
-              {report.overallSummary.nextSteps.map((step: string, idx: number) => (
-                <li key={idx} className="flex items-start space-x-3">
-                  <span className="flex-shrink-0 w-6 h-6 bg-mizan-gold rounded-full flex items-center justify-center text-sm font-bold">
-                    {idx + 1}
-                  </span>
-                  <span>{step}</span>
-                </li>
+        {/* SECTION 4: Customized Reflection Questions */}
+        {report.reflectionQuestions && report.reflectionQuestions.length > 0 && (
+          <div className="bg-gradient-to-br from-mizan-primary to-mizan-primary/90 text-white rounded-2xl p-8 shadow-lg">
+            <h2 className="text-2xl font-bold mb-6">4. Reflection Questions for Your Growth</h2>
+            <p className="mb-6 text-white/90">
+              These personalized questions are designed to deepen your self-awareness and guide your development journey.
+            </p>
+            <div className="space-y-6">
+              {report.reflectionQuestions.map((item, idx) => (
+                <div key={idx} className="p-6 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
+                  <p className="text-lg font-medium mb-2">{item.question}</p>
+                  <p className="text-sm text-white/80 italic">{item.purpose}</p>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         )}
       </div>
