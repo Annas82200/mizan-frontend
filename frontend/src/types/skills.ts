@@ -248,3 +248,40 @@ export interface ProgressFilters {
   sortBy?: 'lastUpdated' | 'progressPercentage' | 'skillName';
   sortOrder?: 'asc' | 'desc';
 }
+
+// Reporting Types
+export interface ReportConfig {
+  reportType: 'organization' | 'department';
+  departmentId?: string;
+  format: 'pdf' | 'excel' | 'csv';
+}
+
+export interface ReportPreviewData {
+  reportType: 'organization' | 'department';
+  departmentId?: string;
+  totalEmployees: number;
+  assessedEmployees: number;
+  criticalGapsCount: number;
+  totalGapsCount: number;
+  bySeverity: {
+    critical: number;
+    high: number;
+    medium: number;
+    low: number;
+  };
+  criticalGaps: SkillGap[];
+  topRecommendations: {
+    skillName: string;
+    recommendations: string[];
+  }[];
+}
+
+export interface ReportFilters {
+  dateRange?: {
+    start: string;
+    end: string;
+  };
+  departmentId?: string;
+  skillCategory?: string;
+  severity?: ('critical' | 'high' | 'medium' | 'low')[];
+}

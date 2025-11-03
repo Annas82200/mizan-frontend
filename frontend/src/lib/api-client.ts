@@ -452,6 +452,66 @@ export class ApiClient {
 
     getDepartmentProgress: (departmentId: string) =>
       this.request(`/api/skills/progress/department/${departmentId}`),
+
+    // Reporting
+    getReportPreview: (reportType: 'organization' | 'department', departmentId?: string) => {
+      const params = new URLSearchParams({ reportType });
+      if (departmentId) {
+        params.append('departmentId', departmentId);
+      }
+      return this.request(`/api/skills/report/preview?${params.toString()}`);
+    },
+
+    generateReport: async (config: {
+      reportType: 'organization' | 'department';
+      departmentId?: string;
+      format: 'pdf' | 'excel' | 'csv';
+    }) => {
+      const response = await fetch(`${API_BASE}/api/skills/report/generate`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(config),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Report generation failed');
+      }
+
+      // Return blob for file download
+      const blob = await response.blob();
+      const filename = response.headers.get('Content-Disposition')
+        ?.split('filename=')[1]
+        ?.replace(/"/g, '') || `report.${config.format}`;
+
+      return { blob, filename };
+    },
+
+    exportCSV: (data: any[], filename: string = 'export.csv') => {
+      // Client-side CSV generation
+      if (!data || data.length === 0) {
+        throw new Error('No data to export');
+      }
+
+      // Get headers from first object
+      const headers = Object.keys(data[0]);
+      const csvRows = [
+        headers.join(','),
+        ...data.map(row =>
+          headers.map(header => {
+            const value = row[header];
+            // Escape quotes and wrap in quotes if contains comma or quotes
+            const escaped = String(value).replace(/"/g, '""');
+            return escaped.includes(',') || escaped.includes('"') ? `"${escaped}"` : escaped;
+          }).join(',')
+        )
+      ];
+
+      return csvRows.join('\n');
+    },
   };
 
   // Performance Module endpoints
