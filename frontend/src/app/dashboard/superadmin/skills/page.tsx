@@ -80,7 +80,7 @@ export default function SuperadminSkillsPage({}: SuperadminSkillsPageProps) {
 
           // Verify superadmin role from backend
           const data = await response.json();
-          if (data.user?.role !== 'superadmin') {
+          if (data.role !== 'superadmin') {
             console.error('User is not a superadmin');
             router.push('/dashboard');
             return;
