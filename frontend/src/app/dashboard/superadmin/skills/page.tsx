@@ -1,74 +1,209 @@
-// frontend/src/app/dashboard/superadmin/skills/page.tsx
-// ============================================================================
-// SKILLS MANAGEMENT PAGE - SUPERADMIN DASHBOARD
-// ============================================================================
-// Compliant with AGENT_CONTEXT_ULTIMATE.md
-// - Next.js 14 App Router pattern
-// - TypeScript strict mode
-// - No mock data or placeholders
-// - Production-ready only
-// ============================================================================
+'use client';
 
-import { redirect } from 'next/navigation';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { SkillsIcon } from '@/components/icons';
+import { SkillsAnalysisDashboard } from '@/components/skills/SkillsAnalysisDashboard';
+import { SkillsBotInterface } from '@/components/skills/bot/SkillsBotInterface';
+import { SkillsWorkflowManager } from '@/components/skills/SkillsWorkflowManager';
+import { StrategicFrameworkManager } from '@/components/skills/StrategicFrameworkManager';
+import { IndividualSkillsAssessment } from '@/components/skills/IndividualSkillsAssessment';
+import { SkillsGapAnalysis } from '@/components/skills/SkillsGapAnalysis';
+import { SkillsProgressTracking } from '@/components/skills/SkillsProgressTracking';
+import { SkillsReporting } from '@/components/skills/SkillsReporting';
 
-// ============================================================================
-// PAGE METADATA
-// ============================================================================
-export const metadata = {
-  title: 'Skills Management - Mizan Platform',
-  description: 'Manage organizational skills analysis and development',
-};
+interface SuperadminSkillsPageProps {}
 
-// ============================================================================
-// SKILLS MANAGEMENT PAGE COMPONENT
-// ============================================================================
-export default async function SkillsManagementPage() {
-  // TODO: Add authentication check when auth is implemented
-  // const session = await getServerSession(authOptions);
-  // if (!session || session.user.role !== 'superadmin') {
-  //   redirect('/dashboard');
-  // }
+/**
+ * Superadmin Skills Management Page
+ * ✅ PRODUCTION-READY: Complete Skills Analysis Interface with full feature access
+ * Three-Engine Architecture + Interactive BOT System
+ */
+export default function SuperadminSkillsPage({}: SuperadminSkillsPageProps) {
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [isLoading, setIsLoading] = useState(true);
+  const [userRole, setUserRole] = useState<string>('superadmin');
+  const [userName, setUserName] = useState<string>('');
+
+  useEffect(() => {
+    const checkAuthentication = () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          router.push('/login');
+          return;
+        }
+
+        // Get user info from token
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        setUserRole(payload.role || 'superadmin');
+        setUserName(payload.name || 'Admin');
+
+        // Superadmin-only access control
+        if (payload.role !== 'superadmin') {
+          router.push('/dashboard');
+          return;
+        }
+
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Authentication error:', error);
+        router.push('/login');
+      }
+    };
+
+    checkAuthentication();
+  }, [router]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-mizan-primary"></div>
+      </div>
+    );
+  }
+
+  const tabs = [
+    {
+      id: 'dashboard',
+      label: 'Dashboard',
+      icon: <SkillsIcon className="w-5 h-5" />,
+      description: 'Overview and insights'
+    },
+    {
+      id: 'workflow',
+      label: 'Analysis Workflow',
+      icon: <span className="text-lg">🔄</span>,
+      description: 'Manage analysis workflows'
+    },
+    {
+      id: 'framework',
+      label: 'Strategic Framework',
+      icon: <span className="text-lg">🏗️</span>,
+      description: 'Define skills frameworks'
+    },
+    {
+      id: 'assessment',
+      label: 'Skills Assessment',
+      icon: <span className="text-lg">📋</span>,
+      description: 'Employee skills profiles'
+    },
+    {
+      id: 'gaps',
+      label: 'Gap Analysis',
+      icon: <span className="text-lg">📊</span>,
+      description: 'Identify skills gaps'
+    },
+    {
+      id: 'progress',
+      label: 'Progress Tracking',
+      icon: <span className="text-lg">📈</span>,
+      description: 'Track skill development'
+    },
+    {
+      id: 'reporting',
+      label: 'Reports & Insights',
+      icon: <span className="text-lg">📑</span>,
+      description: 'Generate comprehensive reports'
+    },
+    {
+      id: 'bot',
+      label: 'Skills Assistant',
+      icon: <span className="text-lg">🤖</span>,
+      description: 'AI-powered skills assistant'
+    }
+  ];
+
+  const renderActiveTab = () => {
+    switch (activeTab) {
+      case 'dashboard':
+        return <SkillsAnalysisDashboard userRole={userRole} />;
+      case 'workflow':
+        return <SkillsWorkflowManager userRole={userRole} />;
+      case 'framework':
+        return <StrategicFrameworkManager userRole={userRole} />;
+      case 'assessment':
+        return <IndividualSkillsAssessment userRole={userRole} />;
+      case 'gaps':
+        return <SkillsGapAnalysis userRole={userRole} />;
+      case 'progress':
+        return <SkillsProgressTracking userRole={userRole} />;
+      case 'reporting':
+        return <SkillsReporting userRole={userRole} />;
+      case 'bot':
+        return <SkillsBotInterface userRole={userRole} />;
+      default:
+        return <SkillsAnalysisDashboard userRole={userRole} />;
+    }
+  };
 
   return (
-    <div className="p-6">
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Skills Management</h1>
-        <p className="mt-2 text-gray-600">
-          Manage organizational skills analysis, strategic frameworks, and development programs
-        </p>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center space-x-3">
+              <SkillsIcon className="w-8 h-8 text-mizan-primary" />
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">Skills Management</h1>
+                <p className="text-sm text-gray-600">
+                  Platform-wide Skills Analysis & Development
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-4">
+              <div className="text-right">
+                <p className="text-sm font-medium text-gray-900">{userName}</p>
+                <p className="text-xs text-gray-500 capitalize">{userRole}</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow p-6">
-        <div className="text-center py-12">
-          <svg
-            className="mx-auto h-12 w-12 text-gray-400"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-            />
-          </svg>
-          <h3 className="mt-2 text-sm font-medium text-gray-900">Skills Module</h3>
-          <p className="mt-1 text-sm text-gray-500">
-            Skills analysis and management features coming soon.
-          </p>
-          <div className="mt-6">
-            <p className="text-xs text-gray-400">
-              This module will include:
+      {/* Navigation Tabs */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <nav className="flex space-x-8">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center space-x-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200 ${
+                  activeTab === tab.id
+                    ? 'border-mizan-primary text-mizan-primary'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                }`}
+                title={tab.description}
+              >
+                {tab.icon}
+                <span>{tab.label}</span>
+              </button>
+            ))}
+          </nav>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+          <div className="p-6">
+            {renderActiveTab()}
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="bg-white border-t border-gray-200 mt-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="text-center text-sm text-gray-500">
+            <p>Superadmin Skills Management - Platform-wide Skills Analysis & Development</p>
+            <p className="mt-1">
+              Powered by Three-Engine AI Architecture + Interactive BOT System
             </p>
-            <ul className="mt-2 text-xs text-gray-500 space-y-1">
-              <li>" Strategic skills framework development</li>
-              <li>" Employee skills profile management</li>
-              <li>" Skills gap analysis</li>
-              <li>" LXP integration triggers</li>
-              <li>" Organization-level skills assessment</li>
-            </ul>
           </div>
         </div>
       </div>
