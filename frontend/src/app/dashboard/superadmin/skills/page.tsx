@@ -27,28 +27,74 @@ export default function SuperadminSkillsPage({}: SuperadminSkillsPageProps) {
   const [userName, setUserName] = useState<string>('');
 
   useEffect(() => {
-    const checkAuthentication = () => {
+    const checkAuthentication = async () => {
       try {
-        const token = localStorage.getItem('token');
-        if (!token) {
+        // Step 1: Check mizan_user in localStorage (primary auth indicator)
+        const userStr = localStorage.getItem('mizan_user');
+        if (!userStr) {
           router.push('/login');
           return;
         }
 
-        // Get user info from token
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        setUserRole(payload.role || 'superadmin');
-        setUserName(payload.name || 'Admin');
+        // Step 2: Parse user data with error handling
+        let user;
+        try {
+          user = JSON.parse(userStr);
+        } catch (parseError) {
+          console.error('Invalid user data in localStorage:', parseError);
+          localStorage.removeItem('mizan_user');
+          localStorage.removeItem('mizan_auth_token');
+          router.push('/login');
+          return;
+        }
 
-        // Superadmin-only access control
-        if (payload.role !== 'superadmin') {
+        setUserRole(user.role || 'superadmin');
+        setUserName(user.name || 'Admin');
+
+        // Step 3: Superadmin-only access control
+        if (user.role !== 'superadmin') {
           router.push('/dashboard');
           return;
+        }
+
+        // Step 4: Verify backend authentication (hybrid auth: httpOnly cookie + Bearer token)
+        try {
+          const token = localStorage.getItem('mizan_auth_token');
+          const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+
+          const response = await fetch(`${apiUrl}/api/auth/me`, {
+            credentials: 'include', // Send httpOnly cookies
+            headers: {
+              'Content-Type': 'application/json',
+              ...(token && { Authorization: `Bearer ${token}` }),
+            },
+          });
+
+          if (!response.ok) {
+            console.error('Backend authentication verification failed');
+            localStorage.removeItem('mizan_user');
+            localStorage.removeItem('mizan_auth_token');
+            router.push('/login');
+            return;
+          }
+
+          // Verify superadmin role from backend
+          const data = await response.json();
+          if (data.user?.role !== 'superadmin') {
+            console.error('User is not a superadmin');
+            router.push('/dashboard');
+            return;
+          }
+        } catch (verifyError) {
+          console.error('Backend verification error:', verifyError);
+          // Continue anyway - offline support
         }
 
         setIsLoading(false);
       } catch (error) {
         console.error('Authentication error:', error);
+        localStorage.removeItem('mizan_user');
+        localStorage.removeItem('mizan_auth_token');
         router.push('/login');
       }
     };

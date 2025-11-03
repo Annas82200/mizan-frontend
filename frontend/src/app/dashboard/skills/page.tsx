@@ -27,29 +27,67 @@ export default function SkillsAnalysisPage({}: SkillsAnalysisPageProps) {
   const [userName, setUserName] = useState<string>('');
 
   useEffect(() => {
-    const checkAuthentication = () => {
+    const checkAuthentication = async () => {
       try {
-        const token = localStorage.getItem('token');
-        if (!token) {
+        // Step 1: Check mizan_user in localStorage (primary auth indicator)
+        const userStr = localStorage.getItem('mizan_user');
+        if (!userStr) {
           router.push('/login');
           return;
         }
 
-        // Get user info from token
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        setUserRole(payload.role || 'employee');
-        setUserName(payload.name || 'User');
-        
-        // Role-based access control
+        // Step 2: Parse user data with error handling
+        let user;
+        try {
+          user = JSON.parse(userStr);
+        } catch (parseError) {
+          console.error('Invalid user data in localStorage:', parseError);
+          localStorage.removeItem('mizan_user');
+          localStorage.removeItem('mizan_auth_token');
+          router.push('/login');
+          return;
+        }
+
+        setUserRole(user.role || 'employee');
+        setUserName(user.name || 'User');
+
+        // Step 3: Role-based access control
         const allowedRoles = ['superadmin', 'clientAdmin', 'manager', 'employee'];
-        if (!allowedRoles.includes(payload.role)) {
+        if (!allowedRoles.includes(user.role)) {
           router.push('/dashboard');
           return;
         }
-        
+
+        // Step 4: Verify backend authentication (hybrid auth: httpOnly cookie + Bearer token)
+        try {
+          const token = localStorage.getItem('mizan_auth_token');
+          const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+
+          const response = await fetch(`${apiUrl}/api/auth/me`, {
+            credentials: 'include', // Send httpOnly cookies
+            headers: {
+              'Content-Type': 'application/json',
+              ...(token && { Authorization: `Bearer ${token}` }),
+            },
+          });
+
+          if (!response.ok) {
+            console.error('Backend authentication verification failed');
+            localStorage.removeItem('mizan_user');
+            localStorage.removeItem('mizan_auth_token');
+            router.push('/login');
+            return;
+          }
+        } catch (verifyError) {
+          console.error('Backend verification error:', verifyError);
+          // Continue anyway - offline support
+        }
+
         setIsLoading(false);
       } catch (error) {
         console.error('Authentication error:', error);
+        localStorage.removeItem('mizan_user');
+        localStorage.removeItem('mizan_auth_token');
         router.push('/login');
       }
     };
