@@ -284,8 +284,8 @@ export class ApiClient {
   // Skills Analysis endpoints - Phase 3.1 Complete API Client
   skills = {
     // Dashboard & Stats
-    getDashboardStats: () =>
-      this.request("/api/skills/dashboard/stats"),
+    getDashboardStats: (tenantId?: string) =>
+      this.request(`/api/skills/dashboard/stats${tenantId ? `?tenantId=${tenantId}` : ""}`),
 
     // Workflow Management
     startWorkflow: (data: {

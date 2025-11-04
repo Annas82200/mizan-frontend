@@ -162,8 +162,7 @@ export default function SuperadminSkillsPage({}: SuperadminSkillsPageProps) {
 
     switch (activeTab) {
       case 'organization':
-        // For now, pass userRole only - tenantId will be integrated later
-        return <SkillsAnalysisDashboard userRole={userRole} />;
+        return <SkillsAnalysisDashboard userRole={userRole} tenantId={selectedTenantId} />;
       case 'individuals':
         return (
           <div className="space-y-6">
@@ -211,7 +210,7 @@ export default function SuperadminSkillsPage({}: SuperadminSkillsPageProps) {
               <div className="bg-white rounded-xl p-6 border-2 border-gray-200">
                 <h3 className="text-lg font-semibold text-mizan-primary mb-4">Reports & Insights</h3>
                 {selectedTenantId ? (
-                  <SkillsReporting userRole={userRole} />
+                  <SkillsReporting userRole={userRole} tenantId={selectedTenantId} />
                 ) : (
                   <div className="text-center py-8">
                     <FileText className="w-12 h-12 text-mizan-secondary/30 mx-auto mb-3" />

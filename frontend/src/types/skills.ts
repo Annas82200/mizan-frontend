@@ -285,3 +285,20 @@ export interface ReportFilters {
   skillCategory?: string;
   severity?: ('critical' | 'high' | 'medium' | 'low')[];
 }
+
+// Narrative Types - AI-Generated Explanations
+export interface SkillsAnalysisNarrative {
+  scoreNarrative: string;           // Explains what the scores mean in plain language
+  readinessAssessment: string;      // Answers "Does this organization have the right skills to execute strategy?" with detailed WHY
+  readinessStatus: 'ready' | 'partial' | 'not_ready';  // Ready/Partially Ready/Not Ready
+  gapAnalysisNarrative: string;     // Explains critical gaps and their impact on strategy execution
+}
+
+export interface SkillsAnalysisWithNarrative {
+  overallScore: number;
+  strategicAlignment: number;
+  skillsCoverage: number;
+  criticalGaps: SkillGap[];
+  narrative: SkillsAnalysisNarrative;
+  // ... other fields
+}

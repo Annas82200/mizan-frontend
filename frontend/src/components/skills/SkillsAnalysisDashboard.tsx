@@ -25,6 +25,7 @@ import {
 
 interface SkillsAnalysisDashboardProps {
   userRole: string;
+  tenantId?: string | null;
 }
 
 interface DashboardStats {
@@ -53,22 +54,22 @@ interface DashboardStats {
  * Main dashboard for Skills Analysis module
  * Role-based content display
  */
-export const SkillsAnalysisDashboard: React.FC<SkillsAnalysisDashboardProps> = ({ userRole }) => {
+export const SkillsAnalysisDashboard: React.FC<SkillsAnalysisDashboardProps> = ({ userRole, tenantId }) => {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetchDashboardStats();
-  }, []);
+  }, [tenantId]);
 
   const fetchDashboardStats = async () => {
     try {
       setIsLoading(true);
       setError(null);
 
-      // Use apiClient to fetch real dashboard stats
-      const response: any = await apiClient.skills.getDashboardStats();
+      // Use apiClient to fetch real dashboard stats (pass tenantId for superadmin)
+      const response: any = await apiClient.skills.getDashboardStats(tenantId || undefined);
 
       if (response.success && response.stats) {
         const backendStats = response.stats;

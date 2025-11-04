@@ -11,6 +11,7 @@ import { ReportPreviewData } from '@/types/skills';
 
 interface SkillsReportingProps {
   userRole: string;
+  tenantId?: string | null;
 }
 
 /**
@@ -18,7 +19,7 @@ interface SkillsReportingProps {
  * ✅ PRODUCTION-READY: Full API integration with PDF/Excel/CSV export
  * Generates and displays skills gap analysis reports
  */
-export const SkillsReporting: React.FC<SkillsReportingProps> = ({ userRole }) => {
+export const SkillsReporting: React.FC<SkillsReportingProps> = ({ userRole, tenantId }) => {
   const [reportPreview, setReportPreview] = useState<ReportPreviewData | null>(null);
   const [loading, setLoading] = useState(false);
   const [exporting, setExporting] = useState(false);
