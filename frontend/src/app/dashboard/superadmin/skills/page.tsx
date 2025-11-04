@@ -3,14 +3,11 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { SkillsIcon } from '@/components/icons';
-import { RefreshCw, Building2, ClipboardList, BarChart3, TrendingUp, FileText, Bot } from 'lucide-react';
+import { Building2, Users, ClipboardList, FileText, AlertCircle } from 'lucide-react';
+import { TenantSelector, EmployeeSelector } from '@/components/dashboard/TenantSelector';
 import { SkillsAnalysisDashboard } from '@/components/skills/SkillsAnalysisDashboard';
 import { SkillsBotInterface } from '@/components/skills/bot/SkillsBotInterface';
-import { SkillsWorkflowManager } from '@/components/skills/SkillsWorkflowManager';
-import { StrategicFrameworkManager } from '@/components/skills/StrategicFrameworkManager';
 import { IndividualSkillsAssessment } from '@/components/skills/IndividualSkillsAssessment';
-import { SkillsGapAnalysis } from '@/components/skills/SkillsGapAnalysis';
-import { SkillsProgressTracking } from '@/components/skills/SkillsProgressTracking';
 import { SkillsReporting } from '@/components/skills/SkillsReporting';
 
 interface SuperadminSkillsPageProps {}
@@ -22,10 +19,16 @@ interface SuperadminSkillsPageProps {}
  */
 export default function SuperadminSkillsPage({}: SuperadminSkillsPageProps) {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [activeTab, setActiveTab] = useState('organization');
   const [isLoading, setIsLoading] = useState(true);
   const [userRole, setUserRole] = useState<string>('superadmin');
   const [userName, setUserName] = useState<string>('');
+
+  // Tenant and Employee Selection
+  const [selectedTenantId, setSelectedTenantId] = useState<string | null>(null);
+  const [selectedTenant, setSelectedTenant] = useState<any>(null);
+  const [selectedEmployeeId, setSelectedEmployeeId] = useState<string | null>(null);
+  const [selectedEmployee, setSelectedEmployee] = useState<any>(null);
 
   useEffect(() => {
     const checkAuthentication = async () => {
@@ -111,75 +114,118 @@ export default function SuperadminSkillsPage({}: SuperadminSkillsPageProps) {
     );
   }
 
+  // Simplified 4-tab structure (matching Culture module pattern)
   const tabs = [
     {
-      id: 'dashboard',
-      label: 'Dashboard',
-      icon: <SkillsIcon className="w-5 h-5" />,
-      description: 'Overview and insights'
-    },
-    {
-      id: 'workflow',
-      label: 'Analysis Workflow',
-      icon: <RefreshCw className="w-5 h-5" />,
-      description: 'Manage analysis workflows'
-    },
-    {
-      id: 'framework',
-      label: 'Strategic Framework',
+      id: 'organization',
+      label: 'Organization Analysis',
       icon: <Building2 className="w-5 h-5" />,
-      description: 'Define skills frameworks'
+      description: 'Company-wide skills analysis and strategic readiness'
     },
     {
-      id: 'assessment',
-      label: 'Skills Assessment',
+      id: 'individuals',
+      label: 'Individual Employees',
+      icon: <Users className="w-5 h-5" />,
+      description: 'Employee skills profiles and personal gap analysis'
+    },
+    {
+      id: 'departments',
+      label: 'Department View',
       icon: <ClipboardList className="w-5 h-5" />,
-      description: 'Employee skills profiles'
+      description: 'Department-level skills and team readiness'
     },
     {
-      id: 'gaps',
-      label: 'Gap Analysis',
-      icon: <BarChart3 className="w-5 h-5" />,
-      description: 'Identify skills gaps'
-    },
-    {
-      id: 'progress',
-      label: 'Progress Tracking',
-      icon: <TrendingUp className="w-5 h-5" />,
-      description: 'Track skill development'
-    },
-    {
-      id: 'reporting',
-      label: 'Reports & Insights',
+      id: 'reports',
+      label: 'Reports & Assistant',
       icon: <FileText className="w-5 h-5" />,
-      description: 'Generate comprehensive reports'
-    },
-    {
-      id: 'bot',
-      label: 'Skills Assistant',
-      icon: <Bot className="w-5 h-5" />,
-      description: 'AI-powered skills assistant'
+      description: 'Generate reports and use AI assistant'
     }
   ];
 
   const renderActiveTab = () => {
+    // Show placeholder if no tenant selected
+    if (!selectedTenantId && activeTab !== 'reports') {
+      return (
+        <div className="flex items-center justify-center h-96">
+          <div className="text-center max-w-md">
+            <AlertCircle className="w-16 h-16 text-mizan-secondary/30 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-mizan-primary mb-2">
+              Select a Client
+            </h3>
+            <p className="text-mizan-secondary">
+              Please select a client from the dropdown above to view their skills analysis.
+            </p>
+          </div>
+        </div>
+      );
+    }
+
     switch (activeTab) {
-      case 'dashboard':
+      case 'organization':
+        // For now, pass userRole only - tenantId will be integrated later
         return <SkillsAnalysisDashboard userRole={userRole} />;
-      case 'workflow':
-        return <SkillsWorkflowManager userRole={userRole} />;
-      case 'framework':
-        return <StrategicFrameworkManager userRole={userRole} />;
-      case 'assessment':
-        return <IndividualSkillsAssessment userRole={userRole} />;
-      case 'gaps':
-        return <SkillsGapAnalysis userRole={userRole} />;
-      case 'progress':
-        return <SkillsProgressTracking userRole={userRole} />;
-      case 'reporting':
-        return <SkillsReporting userRole={userRole} />;
-      case 'bot':
-        return <SkillsBotInterface userRole={userRole} />;
+      case 'individuals':
+        return (
+          <div className="space-y-6">
+            <EmployeeSelector
+              tenantId={selectedTenantId!}
+              selectedEmployeeId={selectedEmployeeId}
+              onSelectEmployee={(id, employee) => {
+                setSelectedEmployeeId(id);
+                setSelectedEmployee(employee);
+              }}
+              label="Select Employee"
+              placeholder="Choose an employee to view their skills..."
+              className="max-w-2xl"
+            />
+            {selectedEmployeeId ? (
+              <IndividualSkillsAssessment userRole={userRole} employeeId={selectedEmployeeId} />
+            ) : (
+              <div className="flex items-center justify-center h-64 bg-white rounded-xl border-2 border-gray-200">
+                <div className="text-center">
+                  <Users className="w-12 h-12 text-mizan-secondary/30 mx-auto mb-3" />
+                  <p className="text-mizan-secondary">Select an employee to view their skills profile</p>
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      case 'departments':
+        return (
+          <div className="flex items-center justify-center h-96 bg-white rounded-xl border-2 border-gray-200">
+            <div className="text-center max-w-md">
+              <ClipboardList className="w-16 h-16 text-mizan-secondary/30 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold text-mizan-primary mb-2">
+                Department View Coming Soon
+              </h3>
+              <p className="text-mizan-secondary">
+                Department-level aggregated skills analysis will be available here.
+              </p>
+            </div>
+          </div>
+        );
+      case 'reports':
+        return (
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="bg-white rounded-xl p-6 border-2 border-gray-200">
+                <h3 className="text-lg font-semibold text-mizan-primary mb-4">Reports & Insights</h3>
+                {selectedTenantId ? (
+                  <SkillsReporting userRole={userRole} />
+                ) : (
+                  <div className="text-center py-8">
+                    <FileText className="w-12 h-12 text-mizan-secondary/30 mx-auto mb-3" />
+                    <p className="text-mizan-secondary text-sm">Select a client to generate reports</p>
+                  </div>
+                )}
+              </div>
+              <div className="bg-white rounded-xl p-6 border-2 border-gray-200">
+                <h3 className="text-lg font-semibold text-mizan-primary mb-4">Skills Assistant</h3>
+                <SkillsBotInterface userRole={userRole} />
+              </div>
+            </div>
+          </div>
+        );
       default:
         return <SkillsAnalysisDashboard userRole={userRole} />;
     }
@@ -208,6 +254,25 @@ export default function SuperadminSkillsPage({}: SuperadminSkillsPageProps) {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Tenant Selector */}
+      <div className="bg-gradient-to-br from-mizan-primary/5 to-mizan-gold/5 border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <TenantSelector
+            selectedTenantId={selectedTenantId}
+            onSelectTenant={(id, tenant) => {
+              setSelectedTenantId(id);
+              setSelectedTenant(tenant);
+              // Reset employee selection when tenant changes
+              setSelectedEmployeeId(null);
+              setSelectedEmployee(null);
+            }}
+            label="Select Client for Skills Analysis"
+            placeholder="Choose a client to analyze their skills..."
+            required
+          />
         </div>
       </div>
 
