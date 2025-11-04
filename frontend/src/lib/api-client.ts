@@ -339,9 +339,17 @@ export class ApiClient {
       formData.append("resume", file);
       formData.append("employeeId", employeeId);
 
+      // Add Authorization header if token exists (same pattern as request() method)
+      const headers: Record<string, string> = {};
+      const token = typeof window !== 'undefined' ? localStorage.getItem('mizan_auth_token') : null;
+      if (token) {
+        headers.Authorization = `Bearer ${token}`;
+      }
+
       const response = await fetch(`${API_BASE}/api/skills/resume/upload`, {
         method: "POST",
         credentials: 'include',
+        headers,
         body: formData,
       });
 
@@ -358,9 +366,17 @@ export class ApiClient {
       const formData = new FormData();
       formData.append("csv", file);
 
+      // Add Authorization header if token exists (same pattern as request() method)
+      const headers: Record<string, string> = {};
+      const token = typeof window !== 'undefined' ? localStorage.getItem('mizan_auth_token') : null;
+      if (token) {
+        headers.Authorization = `Bearer ${token}`;
+      }
+
       const response = await fetch(`${API_BASE}/api/skills/csv/import`, {
         method: "POST",
         credentials: 'include',
+        headers,
         body: formData,
       });
 
