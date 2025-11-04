@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { SkillsIcon } from '@/components/icons';
+import { RefreshCw, Building2, ClipboardList, BarChart3, TrendingUp, FileText, Bot } from 'lucide-react';
 import { SkillsAnalysisDashboard } from '@/components/skills/SkillsAnalysisDashboard';
 import { SkillsBotInterface } from '@/components/skills/bot/SkillsBotInterface';
 import { SkillsWorkflowManager } from '@/components/skills/SkillsWorkflowManager';
@@ -113,43 +114,43 @@ export default function SkillsAnalysisPage({}: SkillsAnalysisPageProps) {
     {
       id: 'workflow',
       label: 'Analysis Workflow',
-      icon: <span className="text-lg">🔄</span>,
+      icon: <RefreshCw className="w-5 h-5" />,
       roles: ['superadmin', 'clientAdmin']
     },
     {
       id: 'framework',
       label: 'Strategic Framework',
-      icon: <span className="text-lg">🏗️</span>,
+      icon: <Building2 className="w-5 h-5" />,
       roles: ['superadmin', 'clientAdmin']
     },
     {
       id: 'assessment',
       label: 'Skills Assessment',
-      icon: <span className="text-lg">📋</span>,
+      icon: <ClipboardList className="w-5 h-5" />,
       roles: ['superadmin', 'clientAdmin', 'manager', 'employee']
     },
     {
       id: 'gaps',
       label: 'Gap Analysis',
-      icon: <span className="text-lg">📊</span>,
+      icon: <BarChart3 className="w-5 h-5" />,
       roles: ['superadmin', 'clientAdmin', 'manager']
     },
     {
       id: 'progress',
       label: 'Progress Tracking',
-      icon: <span className="text-lg">📈</span>,
+      icon: <TrendingUp className="w-5 h-5" />,
       roles: ['superadmin', 'clientAdmin', 'manager', 'employee']
     },
     {
       id: 'reporting',
       label: 'Reports & Insights',
-      icon: <span className="text-lg">📑</span>,
+      icon: <FileText className="w-5 h-5" />,
       roles: ['superadmin', 'clientAdmin', 'manager']
     },
     {
       id: 'bot',
       label: 'Skills Assistant',
-      icon: <span className="text-lg">🤖</span>,
+      icon: <Bot className="w-5 h-5" />,
       roles: ['superadmin', 'clientAdmin', 'manager', 'employee']
     }
   ].filter(tab => tab.roles.includes(userRole));
