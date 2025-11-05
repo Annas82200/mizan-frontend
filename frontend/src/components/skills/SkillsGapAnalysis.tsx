@@ -17,7 +17,8 @@ import {
   BookOpen,
   Target,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Building2
 } from 'lucide-react';
 import apiClient from '@/lib/api-client';
 import {
@@ -42,7 +43,7 @@ export const SkillsGapAnalysis: React.FC<SkillsGapAnalysisProps> = ({ userRole }
   const [selectedEmployeeAnalysis, setSelectedEmployeeAnalysis] = useState<EmployeeGapAnalysis | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [view, setView] = useState<'organization' | 'individual'>('organization');
+  const [view, setView] = useState<'organization' | 'department' | 'individual'>('organization');
   const [showFilters, setShowFilters] = useState(false);
   const [expandedGapId, setExpandedGapId] = useState<string | null>(null);
 
@@ -56,12 +57,37 @@ export const SkillsGapAnalysis: React.FC<SkillsGapAnalysisProps> = ({ userRole }
   // Employee ID for individual analysis
   const [employeeId, setEmployeeId] = useState<string>('');
 
+  // Department state for department view
+  const [departments, setDepartments] = useState<Array<{ id: string; name: string; description?: string }>>([]);
+  const [selectedDepartmentId, setSelectedDepartmentId] = useState<string>('');
+  const [loadingDepartments, setLoadingDepartments] = useState(false);
+
   // Load organization gaps on mount
   useEffect(() => {
     if (view === 'organization') {
       loadOrganizationGaps();
+    } else if (view === 'department' && departments.length === 0) {
+      fetchDepartments();
     }
   }, [view]);
+
+  /**
+   * Fetch departments list
+   */
+  const fetchDepartments = async () => {
+    try {
+      setLoadingDepartments(true);
+      const response = await apiClient.admin.getDepartments();
+      if (response.success && response.data) {
+        setDepartments(response.data);
+      }
+    } catch (error) {
+      console.error('Failed to load departments:', error);
+      setError('Failed to load departments list');
+    } finally {
+      setLoadingDepartments(false);
+    }
+  };
 
   /**
    * Load organization-wide skills gaps
@@ -81,6 +107,36 @@ export const SkillsGapAnalysis: React.FC<SkillsGapAnalysisProps> = ({ userRole }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to load skills gaps';
       console.error('Failed to load organization gaps:', err);
+      setError(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  /**
+   * Load department-specific skills gaps
+   */
+  const loadDepartmentGaps = async (deptId: string) => {
+    if (!deptId) {
+      setError('Please select a department');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      const response = await apiClient.skills.getDepartmentAnalysis(deptId) as ApiResponse<{ criticalGaps: SkillGap[] }>;
+
+      if (response.success && response.data?.criticalGaps) {
+        // Reuse organizationGaps state to display department gaps
+        setOrganizationGaps(response.data.criticalGaps);
+      } else {
+        throw new Error(response.error || 'Failed to load department gaps');
+      }
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to load department gaps';
+      console.error('Failed to load department gaps:', err);
       setError(errorMessage);
     } finally {
       setLoading(false);
@@ -217,6 +273,17 @@ export const SkillsGapAnalysis: React.FC<SkillsGapAnalysisProps> = ({ userRole }
             Organization
           </Button>
           <Button
+            variant={view === 'department' ? 'default' : 'outline'}
+            onClick={() => {
+              setView('department');
+              setSelectedEmployeeAnalysis(null);
+              setError(null);
+            }}
+          >
+            <Building2 className="w-4 h-4 mr-2" />
+            Department
+          </Button>
+          <Button
             variant={view === 'individual' ? 'default' : 'outline'}
             onClick={() => {
               setView('individual');
@@ -245,6 +312,44 @@ export const SkillsGapAnalysis: React.FC<SkillsGapAnalysisProps> = ({ userRole }
             </Button>
           </div>
         </div>
+      )}
+
+      {/* Department View - Department Selection */}
+      {view === 'department' && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Select Department</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="departmentSelect">Department</Label>
+                <select
+                  id="departmentSelect"
+                  value={selectedDepartmentId}
+                  onChange={(e) => {
+                    setSelectedDepartmentId(e.target.value);
+                    if (e.target.value) {
+                      loadDepartmentGaps(e.target.value);
+                    }
+                  }}
+                  disabled={loadingDepartments}
+                  className="w-full mt-2 px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white disabled:bg-gray-100 disabled:cursor-not-allowed"
+                >
+                  <option value="">-- Select Department --</option>
+                  {departments.map(dept => (
+                    <option key={dept.id} value={dept.id}>
+                      {dept.name}
+                    </option>
+                  ))}
+                </select>
+                <p className="text-xs text-gray-500 mt-1">
+                  {loadingDepartments ? 'Loading departments...' : 'Select a department to view its gap analysis'}
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       )}
 
       {/* Individual View - Employee Selection */}

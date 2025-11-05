@@ -659,6 +659,9 @@ export class ApiClient {
 
     getAnalytics: (tenantId: string, timeRange: '7d' | '30d' | '90d' | '1y') =>
       this.request(`/api/admin/${tenantId}/analytics?timeRange=${timeRange}`),
+
+    getDepartments: () =>
+      this.request<{ success: boolean; data: Array<{ id: string; name: string; description?: string }> }>("/api/admin/departments"),
   };
 
   // Superadmin endpoints

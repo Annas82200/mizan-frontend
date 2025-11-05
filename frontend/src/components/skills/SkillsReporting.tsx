@@ -26,6 +26,8 @@ export const SkillsReporting: React.FC<SkillsReportingProps> = ({ userRole, tena
   const [error, setError] = useState<string | null>(null);
   const [reportType, setReportType] = useState<'organization' | 'department'>('organization');
   const [selectedDepartment, setSelectedDepartment] = useState<string>('');
+  const [departments, setDepartments] = useState<Array<{ id: string; name: string; description?: string }>>([]);
+  const [loadingDepartments, setLoadingDepartments] = useState(false);
 
   /**
    * Load report preview data
@@ -52,6 +54,31 @@ export const SkillsReporting: React.FC<SkillsReportingProps> = ({ userRole, tena
       setLoading(false);
     }
   };
+
+  /**
+   * Fetch departments list
+   */
+  const fetchDepartments = async () => {
+    try {
+      setLoadingDepartments(true);
+      const response = await apiClient.admin.getDepartments();
+      if (response.success && response.data) {
+        setDepartments(response.data);
+      }
+    } catch (error) {
+      console.error('Failed to load departments:', error);
+      setError('Failed to load departments list');
+    } finally {
+      setLoadingDepartments(false);
+    }
+  };
+
+  // Fetch departments when report type switches to 'department'
+  useEffect(() => {
+    if (reportType === 'department' && departments.length === 0) {
+      fetchDepartments();
+    }
+  }, [reportType]);
 
   // Load preview on mount and when report type changes
   useEffect(() => {
@@ -176,15 +203,23 @@ export const SkillsReporting: React.FC<SkillsReportingProps> = ({ userRole, tena
             {reportType === 'department' && (
               <div>
                 <Label htmlFor="department">Select Department</Label>
-                <input
+                <select
                   id="department"
-                  type="text"
                   value={selectedDepartment}
                   onChange={(e) => setSelectedDepartment(e.target.value)}
-                  placeholder="Enter department ID"
-                  className="w-full mt-2 px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-                <p className="text-xs text-gray-500 mt-1">Enter the department ID to generate a department-specific report</p>
+                  disabled={loadingDepartments}
+                  className="w-full mt-2 px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white disabled:bg-gray-100 disabled:cursor-not-allowed"
+                >
+                  <option value="">-- Select a department --</option>
+                  {departments.map(dept => (
+                    <option key={dept.id} value={dept.id}>
+                      {dept.name}
+                    </option>
+                  ))}
+                </select>
+                <p className="text-xs text-gray-500 mt-1">
+                  {loadingDepartments ? 'Loading departments...' : 'Select a department to generate a department-specific report'}
+                </p>
               </div>
             )}
 

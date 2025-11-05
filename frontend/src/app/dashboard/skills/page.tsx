@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { SkillsIcon } from '@/components/icons';
-import { RefreshCw, Building2, ClipboardList, BarChart3, TrendingUp, FileText, Bot } from 'lucide-react';
+import { RefreshCw, Building2, ClipboardList, BarChart3, TrendingUp, FileText, Bot, Users, Target } from 'lucide-react';
 import { SkillsAnalysisDashboard } from '@/components/skills/SkillsAnalysisDashboard';
 import { SkillsBotInterface } from '@/components/skills/bot/SkillsBotInterface';
 import { SkillsWorkflowManager } from '@/components/skills/SkillsWorkflowManager';
@@ -12,6 +12,8 @@ import { IndividualSkillsAssessment } from '@/components/skills/IndividualSkills
 import { SkillsGapAnalysis } from '@/components/skills/SkillsGapAnalysis';
 import { SkillsProgressTracking } from '@/components/skills/SkillsProgressTracking';
 import { SkillsReporting } from '@/components/skills/SkillsReporting';
+import { DepartmentAnalysis } from '@/components/skills/DepartmentAnalysis';
+import { OrganizationAnalysis } from '@/components/skills/OrganizationAnalysis';
 
 interface SkillsAnalysisPageProps {}
 
@@ -130,6 +132,18 @@ export default function SkillsAnalysisPage({}: SkillsAnalysisPageProps) {
       roles: ['superadmin', 'clientAdmin', 'manager', 'employee']
     },
     {
+      id: 'department',
+      label: 'Department Analysis',
+      icon: <Users className="w-5 h-5" />,
+      roles: ['superadmin', 'clientAdmin', 'manager']
+    },
+    {
+      id: 'organization',
+      label: 'Organization Analysis',
+      icon: <Target className="w-5 h-5" />,
+      roles: ['superadmin', 'clientAdmin']
+    },
+    {
       id: 'gaps',
       label: 'Gap Analysis',
       icon: <BarChart3 className="w-5 h-5" />,
@@ -165,6 +179,10 @@ export default function SkillsAnalysisPage({}: SkillsAnalysisPageProps) {
         return <StrategicFrameworkManager userRole={userRole} />;
       case 'assessment':
         return <IndividualSkillsAssessment userRole={userRole} />;
+      case 'department':
+        return <DepartmentAnalysis userRole={userRole} />;
+      case 'organization':
+        return <OrganizationAnalysis userRole={userRole} />;
       case 'gaps':
         return <SkillsGapAnalysis userRole={userRole} />;
       case 'progress':
