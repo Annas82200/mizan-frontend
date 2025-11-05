@@ -133,7 +133,7 @@ export default function SkillsAnalysisPage({}: SkillsAnalysisPageProps) {
       id: 'gaps',
       label: 'Gap Analysis',
       icon: <BarChart3 className="w-5 h-5" />,
-      roles: ['superadmin', 'clientAdmin', 'manager']
+      roles: ['superadmin', 'clientAdmin', 'manager', 'employee']
     },
     {
       id: 'progress',
@@ -158,7 +158,7 @@ export default function SkillsAnalysisPage({}: SkillsAnalysisPageProps) {
   const renderActiveTab = () => {
     switch (activeTab) {
       case 'dashboard':
-        return <SkillsAnalysisDashboard userRole={userRole} />;
+        return <SkillsAnalysisDashboard userRole={userRole} onNavigateToTab={setActiveTab} />;
       case 'workflow':
         return <SkillsWorkflowManager userRole={userRole} />;
       case 'framework':

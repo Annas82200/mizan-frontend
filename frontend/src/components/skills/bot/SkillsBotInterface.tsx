@@ -14,9 +14,6 @@ import {
   MessageCircle,
   Lightbulb,
   BookOpen,
-  User,
-  Clock,
-  CheckCircle,
   AlertCircle,
   Loader2
 } from 'lucide-react';
@@ -175,120 +172,11 @@ export const SkillsBotInterface: React.FC<SkillsBotInterfaceProps> = ({ userRole
     }
   };
 
-  const generateBotResponse = async (query: string, role: string): Promise<BotMessage> => {
-    // Mock response generation - in production, this would call the Skills BOT API
-    const lowerQuery = query.toLowerCase();
-    
-    if (lowerQuery.includes('resume') || lowerQuery.includes('upload')) {
-      return {
-        id: Date.now().toString(),
-        type: 'bot',
-        content: "I can help you upload and process your resume for skills extraction. Please upload your resume file, and I'll extract your skills automatically. You can upload PDF or Word documents.",
-        timestamp: new Date(),
-        suggestions: [
-          'Upload your resume in PDF or Word format',
-          'Ensure all sections are complete',
-          'Include relevant work experience',
-          'Add education and certifications'
-        ],
-        requiresAction: true,
-        actionType: 'upload_resume',
-        resources: [
-          {
-            title: 'Resume Upload Guide',
-            url: '/help/resume-upload',
-            type: 'article'
-          }
-        ]
-      };
-    }
-    
-    if (lowerQuery.includes('gap') || lowerQuery.includes('missing')) {
-      return {
-        id: Date.now().toString(),
-        type: 'bot',
-        content: "I can explain your skill gaps in simple terms and help you understand what they mean for your career development. Let me analyze your current skills against your role requirements.",
-        timestamp: new Date(),
-        suggestions: [
-          'Review your current skill gaps',
-          'Understand the impact of each gap',
-          'Explore learning opportunities',
-          'Create a development timeline'
-        ],
-        resources: [
-          {
-            title: 'Skills Gap Analysis Guide',
-            url: '/help/skills-gaps',
-            type: 'article'
-          },
-          {
-            title: 'Learning Path Recommendations',
-            url: '/learning/paths',
-            type: 'course'
-          }
-        ]
-      };
-    }
-    
-    if (lowerQuery.includes('learn') || lowerQuery.includes('course')) {
-      return {
-        id: Date.now().toString(),
-        type: 'bot',
-        content: "I can recommend personalized learning paths and resources based on your skill gaps and career goals. Let me find the best learning opportunities for you.",
-        timestamp: new Date(),
-        suggestions: [
-          'Browse recommended courses',
-          'Find learning resources',
-          'Create a learning plan',
-          'Track your progress'
-        ],
-        resources: [
-          {
-            title: 'Personalized Learning Paths',
-            url: '/learning/personalized',
-            type: 'course'
-          },
-          {
-            title: 'Skills Development Courses',
-            url: '/courses/skills-development',
-            type: 'course'
-          }
-        ]
-      };
-    }
-    
-    // Default response
-    return {
-      id: Date.now().toString(),
-      type: 'bot',
-      content: "I'm here to help you with your skills development journey. I can assist with resume uploads, skill gap analysis, learning recommendations, and development planning. What specific area would you like help with?",
-      timestamp: new Date(),
-      suggestions: [
-        'Upload your resume for skills extraction',
-        'Complete your skills assessment',
-        'Explore learning opportunities',
-        'Create a development plan'
-      ],
-      resources: [
-        {
-          title: 'Skills Assessment Guide',
-          url: '/help/skills-assessment',
-          type: 'article'
-        },
-        {
-          title: 'Getting Started Guide',
-          url: '/help/getting-started',
-          type: 'article'
-        }
-      ]
-    };
-  };
-
   const handleSuggestionClick = (suggestion: string) => {
     setInputValue(suggestion);
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
@@ -423,7 +311,7 @@ export const SkillsBotInterface: React.FC<SkillsBotInterfaceProps> = ({ userRole
               <Input
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                onKeyPress={handleKeyPress}
+                onKeyDown={handleKeyDown}
                 placeholder="Ask me anything about skills assessment and development..."
                 disabled={isLoading}
                 className="flex-1"

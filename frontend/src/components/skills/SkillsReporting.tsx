@@ -55,7 +55,16 @@ export const SkillsReporting: React.FC<SkillsReportingProps> = ({ userRole, tena
 
   // Load preview on mount and when report type changes
   useEffect(() => {
-    loadReportPreview();
+    // Only load preview if:
+    // 1. Report type is 'organization' (no department needed), OR
+    // 2. Report type is 'department' AND a department is selected
+    if (reportType === 'organization' || (reportType === 'department' && selectedDepartment)) {
+      loadReportPreview();
+    } else if (reportType === 'department' && !selectedDepartment) {
+      // Clear preview and show helpful message when switching to department without selection
+      setReportPreview(null);
+      setError('Please select a department to view the report preview');
+    }
   }, [reportType, selectedDepartment]);
 
   /**
@@ -63,6 +72,12 @@ export const SkillsReporting: React.FC<SkillsReportingProps> = ({ userRole, tena
    */
   const handleExport = async (format: 'pdf' | 'excel' | 'csv') => {
     try {
+      // Validate department selection for department reports
+      if (reportType === 'department' && !selectedDepartment) {
+        setError('Please select a department before exporting the report');
+        return;
+      }
+
       setExporting(true);
       setError(null);
 

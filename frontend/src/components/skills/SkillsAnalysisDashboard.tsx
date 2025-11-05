@@ -26,6 +26,7 @@ import {
 interface SkillsAnalysisDashboardProps {
   userRole: string;
   tenantId?: string | null;
+  onNavigateToTab?: (tabId: string) => void;
 }
 
 interface DashboardStats {
@@ -54,7 +55,7 @@ interface DashboardStats {
  * Main dashboard for Skills Analysis module
  * Role-based content display
  */
-export const SkillsAnalysisDashboard: React.FC<SkillsAnalysisDashboardProps> = ({ userRole, tenantId }) => {
+export const SkillsAnalysisDashboard: React.FC<SkillsAnalysisDashboardProps> = ({ userRole, tenantId, onNavigateToTab }) => {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -88,11 +89,11 @@ export const SkillsAnalysisDashboard: React.FC<SkillsAnalysisDashboardProps> = (
             timestamp: new Date(assessment.createdAt).toLocaleDateString(),
             status: 'completed'
           })),
-          skillCategories: Object.entries(backendStats.distribution.byCategory || {}).map(([category, count]) => ({
+          skillCategories: Object.entries(backendStats.distribution.byCategory || {}).map(([category, data]: [string, any]) => ({
             category,
-            score: Math.floor(Math.random() * 30 + 60), // Placeholder until we have real scores
-            gapCount: 0,
-            trend: 'stable' as const
+            score: data.averageScore || 0, // Real average score from skills levels
+            gapCount: data.gapCount || 0, // Real gap count from skills_gaps table
+            trend: 'stable' as const // TODO: Calculate trend from historical data
           }))
         };
 
@@ -218,18 +219,34 @@ export const SkillsAnalysisDashboard: React.FC<SkillsAnalysisDashboardProps> = (
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Critical Gaps</CardTitle>
-            <AlertTriangle className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-red-600">{stats.criticalGaps}</div>
-            <p className="text-xs text-muted-foreground">
-              Require immediate attention
-            </p>
-          </CardContent>
-        </Card>
+        <div
+          className="cursor-pointer"
+          onClick={() => onNavigateToTab?.('gaps')}
+        >
+          <Card
+            className={`transition-all hover:shadow-md ${
+              stats.criticalGaps > 0 ? 'border-red-500 bg-red-50' : ''
+            }`}
+          >
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Critical Gaps</CardTitle>
+              <AlertTriangle className={`h-4 w-4 ${stats.criticalGaps > 0 ? 'text-red-500' : 'text-muted-foreground'}`} />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-red-600">{stats.criticalGaps}</div>
+              <p className="text-xs text-muted-foreground flex items-center">
+                {stats.criticalGaps > 0 ? (
+                  <>
+                    Require immediate attention
+                    <ArrowRight className="ml-1 h-3 w-3" />
+                  </>
+                ) : (
+                  'No critical gaps found'
+                )}
+              </p>
+            </CardContent>
+          </Card>
+        </div>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -373,11 +390,20 @@ export const SkillsAnalysisDashboard: React.FC<SkillsAnalysisDashboardProps> = (
               </>
             ) : null}
             
+            <Button
+              variant="outline"
+              className="h-20 flex-col space-y-2"
+              onClick={() => onNavigateToTab?.('gaps')}
+            >
+              <AlertTriangle className="h-6 w-6 text-orange-500" />
+              <span>View Gap Analysis</span>
+            </Button>
+
             <Button variant="outline" className="h-20 flex-col space-y-2">
               <Bot className="h-6 w-6" />
               <span>Skills Assistant</span>
             </Button>
-            
+
             <Button variant="outline" className="h-20 flex-col space-y-2">
               <BookOpen className="h-6 w-6" />
               <span>Learning Paths</span>
