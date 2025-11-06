@@ -359,37 +359,18 @@ export const SkillsAnalysisDashboard: React.FC<SkillsAnalysisDashboardProps> = (
           <CardTitle>Quick Actions</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {userRole === 'superadmin' || userRole === 'clientAdmin' ? (
-              <>
-                <Button className="h-20 flex-col space-y-2">
-                  <FileText className="h-6 w-6" />
-                  <span>Run Complete Analysis</span>
-                </Button>
-                <Button variant="outline" className="h-20 flex-col space-y-2">
-                  <Target className="h-6 w-6" />
-                  <span>Create Framework</span>
-                </Button>
-                <Button variant="outline" className="h-20 flex-col space-y-2">
-                  <BarChart3 className="h-6 w-6" />
-                  <span>View Reports</span>
-                </Button>
-              </>
-            ) : null}
-            
-            {userRole === 'manager' ? (
-              <>
-                <Button variant="outline" className="h-20 flex-col space-y-2">
-                  <Users className="h-6 w-6" />
-                  <span>Team Overview</span>
-                </Button>
-                <Button variant="outline" className="h-20 flex-col space-y-2">
-                  <Target className="h-6 w-6" />
-                  <span>Development Plans</span>
-                </Button>
-              </>
-            ) : null}
-            
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {(userRole === 'superadmin' || userRole === 'clientAdmin') && (
+              <Button
+                variant="outline"
+                className="h-20 flex-col space-y-2"
+                onClick={() => onNavigateToTab?.('framework')}
+              >
+                <Target className="h-6 w-6 text-blue-600" />
+                <span>Create Framework</span>
+              </Button>
+            )}
+
             <Button
               variant="outline"
               className="h-20 flex-col space-y-2"
@@ -399,14 +380,13 @@ export const SkillsAnalysisDashboard: React.FC<SkillsAnalysisDashboardProps> = (
               <span>View Gap Analysis</span>
             </Button>
 
-            <Button variant="outline" className="h-20 flex-col space-y-2">
-              <Bot className="h-6 w-6" />
+            <Button
+              variant="outline"
+              className="h-20 flex-col space-y-2"
+              onClick={() => onNavigateToTab?.('bot')}
+            >
+              <Bot className="h-6 w-6 text-purple-600" />
               <span>Skills Assistant</span>
-            </Button>
-
-            <Button variant="outline" className="h-20 flex-col space-y-2">
-              <BookOpen className="h-6 w-6" />
-              <span>Learning Paths</span>
             </Button>
           </div>
         </CardContent>

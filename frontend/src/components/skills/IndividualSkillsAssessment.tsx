@@ -94,7 +94,14 @@ export const IndividualSkillsAssessment: React.FC<IndividualSkillsAssessmentProp
       const response: any = await apiClient.skills.getEmployeeGapAnalysis(employeeId);
 
       if (response.success && response.data) {
-        setGapAnalysis(response.data);
+        // Check if framework is missing
+        if (response.data.frameworkMissing) {
+          // Framework missing - show helpful message but don't treat as error
+          setGapAnalysis(response.data);
+        } else {
+          // Normal gap analysis data
+          setGapAnalysis(response.data);
+        }
       }
     } catch (err: any) {
       console.error('Failed to load gap analysis:', err);
@@ -574,16 +581,43 @@ export const IndividualSkillsAssessment: React.FC<IndividualSkillsAssessmentProp
           {/* Gap analysis results */}
           {gapAnalysis && !loadingGapAnalysis && (
             <>
+              {/* Framework Missing Message */}
+              {gapAnalysis.frameworkMissing && (
+                <Card className="border-yellow-200 bg-yellow-50">
+                  <CardHeader>
+                    <CardTitle className="flex items-center space-x-2">
+                      <AlertCircle className="w-5 h-5 text-yellow-600" />
+                      <span>Skills Framework Required</span>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-gray-700 mb-3">{gapAnalysis.message}</p>
+                    <p className="text-xs text-gray-600 mb-4">{gapAnalysis.helpText}</p>
+                    {gapAnalysis.recommendations && gapAnalysis.recommendations.length > 0 && (
+                      <ul className="space-y-2">
+                        {gapAnalysis.recommendations.map((rec: string, index: number) => (
+                          <li key={index} className="flex items-start space-x-2 text-sm text-gray-700">
+                            <span className="text-yellow-600 mt-1">•</span>
+                            <span>{rec}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </CardContent>
+                </Card>
+              )}
+
               {/* Overall Gap Score */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <UserCheck className="w-5 h-5 text-blue-600" />
-                    <span>Gap Analysis Results</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {!gapAnalysis.frameworkMissing && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center space-x-2">
+                      <UserCheck className="w-5 h-5 text-blue-600" />
+                      <span>Gap Analysis Results</span>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div className="text-center p-4 bg-blue-50 rounded-lg border border-blue-200">
                       <p className="text-sm text-gray-600 mb-2">Overall Gap Score</p>
                       <p className="text-3xl font-bold text-blue-600">
@@ -607,9 +641,10 @@ export const IndividualSkillsAssessment: React.FC<IndividualSkillsAssessmentProp
                   </div>
                 </CardContent>
               </Card>
+              )}
 
               {/* Critical Skills Gaps */}
-              {gapAnalysis.criticalGaps && gapAnalysis.criticalGaps.length > 0 && (
+              {!gapAnalysis.frameworkMissing && gapAnalysis.criticalGaps && gapAnalysis.criticalGaps.length > 0 && (
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center space-x-2">
@@ -652,7 +687,7 @@ export const IndividualSkillsAssessment: React.FC<IndividualSkillsAssessmentProp
               )}
 
               {/* Strengths */}
-              {gapAnalysis.strengths && gapAnalysis.strengths.length > 0 && (
+              {!gapAnalysis.frameworkMissing && gapAnalysis.strengths && gapAnalysis.strengths.length > 0 && (
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center space-x-2">
@@ -681,7 +716,7 @@ export const IndividualSkillsAssessment: React.FC<IndividualSkillsAssessmentProp
               )}
 
               {/* Recommendations */}
-              {gapAnalysis.recommendations && gapAnalysis.recommendations.length > 0 && (
+              {!gapAnalysis.frameworkMissing && gapAnalysis.recommendations && gapAnalysis.recommendations.length > 0 && (
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center space-x-2">
@@ -703,7 +738,8 @@ export const IndividualSkillsAssessment: React.FC<IndividualSkillsAssessmentProp
               )}
 
               {/* Empty gap analysis state */}
-              {(!gapAnalysis.criticalGaps || gapAnalysis.criticalGaps.length === 0) &&
+              {!gapAnalysis.frameworkMissing &&
+               (!gapAnalysis.criticalGaps || gapAnalysis.criticalGaps.length === 0) &&
                (!gapAnalysis.strengths || gapAnalysis.strengths.length === 0) &&
                (!gapAnalysis.recommendations || gapAnalysis.recommendations.length === 0) && (
                 <Card>
