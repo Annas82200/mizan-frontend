@@ -201,7 +201,7 @@ export const SkillsBotInterface: React.FC<SkillsBotInterfaceProps> = ({ userRole
       </div>
 
       {/* Chat Interface */}
-      <Card className="h-96 flex flex-col">
+      <Card className="min-h-96 max-h-[600px] flex flex-col">
         <CardHeader className="pb-3">
           <CardTitle className="flex items-center space-x-2">
             <MessageCircle className="w-5 h-5" />

@@ -49,6 +49,11 @@ export const IndividualSkillsAssessment: React.FC<IndividualSkillsAssessmentProp
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Gap analysis state
+  const [gapAnalysis, setGapAnalysis] = useState<any>(null);
+  const [loadingGapAnalysis, setLoadingGapAnalysis] = useState(false);
+  const [gapAnalysisError, setGapAnalysisError] = useState<string | null>(null);
+
   // Load existing skills on mount
   useEffect(() => {
     loadEmployeeSkills();
@@ -65,12 +70,37 @@ export const IndividualSkillsAssessment: React.FC<IndividualSkillsAssessmentProp
 
       if (response.success && response.data?.skills) {
         setSkills(response.data.skills);
+        // Load gap analysis if skills exist
+        if (response.data.skills.length > 0) {
+          loadGapAnalysis();
+        }
       }
     } catch (err: any) {
       console.error('Failed to load skills:', err);
       setError(err.message || 'Failed to load skills');
     } finally {
       setLoading(false);
+    }
+  };
+
+  /**
+   * Load gap analysis for the employee
+   */
+  const loadGapAnalysis = async () => {
+    try {
+      setLoadingGapAnalysis(true);
+      setGapAnalysisError(null);
+
+      const response: any = await apiClient.skills.getEmployeeGapAnalysis(employeeId);
+
+      if (response.success && response.data) {
+        setGapAnalysis(response.data);
+      }
+    } catch (err: any) {
+      console.error('Failed to load gap analysis:', err);
+      setGapAnalysisError(err.message || 'Failed to load gap analysis');
+    } finally {
+      setLoadingGapAnalysis(false);
     }
   };
 
@@ -109,10 +139,16 @@ export const IndividualSkillsAssessment: React.FC<IndividualSkillsAssessmentProp
           (s: Skill) => !existingSkillNames.includes(s.name.toLowerCase())
         );
 
-        setSkills([...skills, ...newSkills]);
+        const updatedSkills = [...skills, ...newSkills];
+        setSkills(updatedSkills);
 
         // Auto-save to backend
-        await saveSkills([...skills, ...newSkills]);
+        await saveSkills(updatedSkills);
+
+        // Load gap analysis after skills are added
+        if (updatedSkills.length > 0) {
+          loadGapAnalysis();
+        }
       }
 
       setTimeout(() => setUploadProgress(0), 2000);
@@ -208,6 +244,9 @@ export const IndividualSkillsAssessment: React.FC<IndividualSkillsAssessmentProp
       });
       setShowManualForm(false);
       setError(null);
+
+      // Load gap analysis after adding skills
+      loadGapAnalysis();
     }
   };
 
@@ -499,6 +538,187 @@ export const IndividualSkillsAssessment: React.FC<IndividualSkillsAssessmentProp
             </p>
           </CardContent>
         </Card>
+      )}
+
+      {/* Gap Analysis Section */}
+      {skills.length > 0 && (
+        <>
+          {/* Loading state for gap analysis */}
+          {loadingGapAnalysis && (
+            <Card>
+              <CardContent className="py-8 text-center">
+                <Loader2 className="w-8 h-8 animate-spin text-blue-500 mx-auto mb-3" />
+                <p className="text-sm text-gray-600">Analyzing skills gaps...</p>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Gap analysis error */}
+          {gapAnalysisError && !loadingGapAnalysis && (
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 flex items-start space-x-2">
+              <AlertCircle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="text-sm text-yellow-800">{gapAnalysisError}</p>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-yellow-600 p-0 h-auto mt-1"
+                  onClick={() => loadGapAnalysis()}
+                >
+                  Retry
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {/* Gap analysis results */}
+          {gapAnalysis && !loadingGapAnalysis && (
+            <>
+              {/* Overall Gap Score */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <UserCheck className="w-5 h-5 text-blue-600" />
+                    <span>Gap Analysis Results</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="text-center p-4 bg-blue-50 rounded-lg border border-blue-200">
+                      <p className="text-sm text-gray-600 mb-2">Overall Gap Score</p>
+                      <p className="text-3xl font-bold text-blue-600">
+                        {gapAnalysis.overallGapScore !== undefined
+                          ? Math.round(gapAnalysis.overallGapScore)
+                          : 'N/A'}%
+                      </p>
+                    </div>
+                    <div className="text-center p-4 bg-red-50 rounded-lg border border-red-200">
+                      <p className="text-sm text-gray-600 mb-2">Critical Gaps</p>
+                      <p className="text-3xl font-bold text-red-600">
+                        {gapAnalysis.criticalGaps?.length || 0}
+                      </p>
+                    </div>
+                    <div className="text-center p-4 bg-green-50 rounded-lg border border-green-200">
+                      <p className="text-sm text-gray-600 mb-2">Strengths</p>
+                      <p className="text-3xl font-bold text-green-600">
+                        {gapAnalysis.strengths?.length || 0}
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Critical Skills Gaps */}
+              {gapAnalysis.criticalGaps && gapAnalysis.criticalGaps.length > 0 && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center space-x-2">
+                      <AlertCircle className="w-5 h-5 text-red-600" />
+                      <span>Critical Skills Gaps</span>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      {gapAnalysis.criticalGaps.map((gap: any, index: number) => (
+                        <div key={index} className="p-4 bg-red-50 border border-red-200 rounded-lg">
+                          <div className="flex items-start justify-between">
+                            <div className="flex-1">
+                              <h4 className="font-semibold text-gray-900">{gap.skillName || gap.skill}</h4>
+                              <p className="text-sm text-gray-600 mt-1">
+                                Category: {gap.category || 'General'}
+                              </p>
+                              <div className="flex items-center space-x-2 mt-2">
+                                <Badge variant="outline" className="text-xs">
+                                  {gap.currentLevel || 'None'} → {gap.requiredLevel || 'Required'}
+                                </Badge>
+                                {gap.gapScore !== undefined && (
+                                  <span className="text-sm text-red-600">
+                                    Gap Score: {Math.round(gap.gapScore)}%
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                            {gap.gapSeverity && (
+                              <Badge className="bg-red-100 text-red-800 border-red-200">
+                                {gap.gapSeverity.toUpperCase()}
+                              </Badge>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Strengths */}
+              {gapAnalysis.strengths && gapAnalysis.strengths.length > 0 && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center space-x-2">
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <span>Your Strengths</span>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {gapAnalysis.strengths.map((strength: any, index: number) => (
+                        <div key={index} className="p-4 bg-green-50 border border-green-200 rounded-lg">
+                          <h4 className="font-semibold text-gray-900">{strength.skillName || strength.skill}</h4>
+                          <p className="text-sm text-gray-600 mt-1">
+                            {strength.category || 'General'}
+                          </p>
+                          <div className="mt-2">
+                            <Badge variant="secondary" className="text-xs">
+                              {strength.level || strength.proficiencyLevel || 'Proficient'}
+                            </Badge>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Recommendations */}
+              {gapAnalysis.recommendations && gapAnalysis.recommendations.length > 0 && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center space-x-2">
+                      <FileText className="w-5 h-5 text-blue-600" />
+                      <span>Recommendations</span>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-3">
+                      {gapAnalysis.recommendations.map((recommendation: string, index: number) => (
+                        <li key={index} className="flex items-start space-x-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                          <span className="text-blue-600 mt-1 font-bold">{index + 1}.</span>
+                          <span className="text-sm text-gray-700 flex-1">{recommendation}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Empty gap analysis state */}
+              {(!gapAnalysis.criticalGaps || gapAnalysis.criticalGaps.length === 0) &&
+               (!gapAnalysis.strengths || gapAnalysis.strengths.length === 0) &&
+               (!gapAnalysis.recommendations || gapAnalysis.recommendations.length === 0) && (
+                <Card>
+                  <CardContent className="py-8 text-center">
+                    <CheckCircle className="w-12 h-12 mx-auto text-green-500 mb-4" />
+                    <h4 className="font-semibold text-gray-900 mb-2">Analysis Complete</h4>
+                    <p className="text-sm text-gray-600">
+                      Gap analysis is being processed. Check back soon for detailed insights.
+                    </p>
+                  </CardContent>
+                </Card>
+              )}
+            </>
+          )}
+        </>
       )}
     </div>
   );
