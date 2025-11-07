@@ -46,6 +46,11 @@ export const SkillsGapAnalysis: React.FC<SkillsGapAnalysisProps> = ({ userRole }
   const [view, setView] = useState<'organization' | 'department' | 'individual'>('organization');
   const [showFilters, setShowFilters] = useState(false);
   const [expandedGapId, setExpandedGapId] = useState<string | null>(null);
+  const [frameworkMissing, setFrameworkMissing] = useState<{
+    message: string;
+    helpText: string;
+    recommendations: string[];
+  } | null>(null);
 
   // Filter state
   const [filters, setFilters] = useState<GapFilters>({
@@ -155,11 +160,26 @@ export const SkillsGapAnalysis: React.FC<SkillsGapAnalysisProps> = ({ userRole }
     try {
       setLoading(true);
       setError(null);
+      setFrameworkMissing(null);
 
-      const response = await apiClient.skills.getEmployeeGapAnalysis(empId) as ApiResponse<{ gapAnalysis: EmployeeGapAnalysis }>;
+      const response = await apiClient.skills.getEmployeeGapAnalysis(empId) as any;
 
-      if (response.success && response.data?.gapAnalysis) {
-        setSelectedEmployeeAnalysis(response.data.gapAnalysis);
+      if (response.success && response.data) {
+        // Check if framework is missing
+        if (response.data.frameworkMissing) {
+          setFrameworkMissing({
+            message: response.data.message || 'No skills framework has been created for your organization yet.',
+            helpText: response.data.helpText || 'Please create a framework to enable gap analysis.',
+            recommendations: response.data.recommendations || []
+          });
+          setSelectedEmployeeAnalysis(null);
+        } else if (response.data.gapAnalysis) {
+          // Normal gap analysis data
+          setSelectedEmployeeAnalysis(response.data.gapAnalysis);
+          setFrameworkMissing(null);
+        } else {
+          throw new Error('Invalid response format');
+        }
       } else {
         throw new Error(response.error || 'Failed to load employee gap analysis');
       }
@@ -168,6 +188,7 @@ export const SkillsGapAnalysis: React.FC<SkillsGapAnalysisProps> = ({ userRole }
       console.error('Failed to load employee analysis:', err);
       setError(errorMessage);
       setSelectedEmployeeAnalysis(null);
+      setFrameworkMissing(null);
     } finally {
       setLoading(false);
     }
@@ -384,6 +405,35 @@ export const SkillsGapAnalysis: React.FC<SkillsGapAnalysisProps> = ({ userRole }
                 </Button>
               </div>
             </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Framework Missing Message */}
+      {view === 'individual' && frameworkMissing && (
+        <Card className="border-yellow-200 bg-yellow-50">
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <AlertCircle className="w-5 h-5 text-yellow-600" />
+              <span>Skills Framework Required</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-gray-700 mb-3">{frameworkMissing.message}</p>
+            <p className="text-xs text-gray-600 mb-4">{frameworkMissing.helpText}</p>
+            {frameworkMissing.recommendations && frameworkMissing.recommendations.length > 0 && (
+              <div>
+                <h5 className="text-sm font-semibold text-gray-900 mb-2">Next Steps:</h5>
+                <ul className="space-y-2">
+                  {frameworkMissing.recommendations.map((rec: string, index: number) => (
+                    <li key={index} className="flex items-start space-x-2 text-sm text-gray-700">
+                      <span className="text-yellow-600 mt-1">•</span>
+                      <span>{rec}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </CardContent>
         </Card>
       )}
