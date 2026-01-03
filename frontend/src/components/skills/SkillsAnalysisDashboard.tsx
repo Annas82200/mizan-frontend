@@ -51,6 +51,74 @@ interface DashboardStats {
 }
 
 /**
+ * Skills Trend Calculation Service
+ * Calculates skill development trends from historical assessment data
+ */
+interface SkillsTrendData {
+  currentScore: number;
+  previousScore: number;
+  trend: 'improving' | 'stable' | 'declining';
+  trendPercentage: number;
+  historicalScores: Array<{ date: Date; score: number }>;
+}
+
+async function calculateSkillsTrend(
+  category: string,
+  tenantId: string
+): Promise<'up' | 'stable' | 'down'> {
+  try {
+    // Fetch historical assessments (last 12 months) for the category
+    const response = await fetch(
+      `/api/skills/assessments/history?category=${category}&months=12`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Tenant-ID': tenantId
+        }
+      }
+    );
+
+    if (!response.ok) {
+      console.warn('Failed to fetch historical skills data, defaulting to stable');
+      return 'stable';
+    }
+
+    const data = await response.json();
+
+    if (!data.assessments || data.assessments.length < 2) {
+      // Not enough historical data
+      return 'stable';
+    }
+
+    const scores = data.assessments
+      .map((a: any) => ({
+        date: new Date(a.assessedAt),
+        score: a.score
+      }))
+      .sort((a: any, b: any) => a.date.getTime() - b.date.getTime());
+
+    const currentScore = scores[scores.length - 1].score;
+    const previousScore = scores[scores.length - 2].score;
+    const scoreDifference = currentScore - previousScore;
+    const trendPercentage = previousScore > 0
+      ? (scoreDifference / previousScore) * 100
+      : 0;
+
+    // Determine trend direction with 5% threshold
+    if (Math.abs(trendPercentage) < 5) {
+      return 'stable';
+    } else if (scoreDifference > 0) {
+      return 'up';
+    } else {
+      return 'down';
+    }
+  } catch (error) {
+    console.error('Error calculating skills trend:', error);
+    return 'stable'; // Fallback to stable on error
+  }
+}
+
+/**
  * Skills Analysis Dashboard Component
  * Main dashboard for Skills Analysis module
  * Role-based content display
@@ -76,6 +144,22 @@ export const SkillsAnalysisDashboard: React.FC<SkillsAnalysisDashboardProps> = (
         const backendStats = response.stats;
 
         // Map backend stats to frontend DashboardStats interface
+        // First create the basic stats structure
+        const baseCategories = Object.entries(backendStats.distribution.byCategory || {}).map(([category, data]: [string, any]) => ({
+          category,
+          score: data.averageScore || 0, // Real average score from skills levels
+          gapCount: data.gapCount || 0, // Real gap count from skills_gaps table
+          trend: 'stable' as const // Will be updated with real trend calculation
+        }));
+
+        // Calculate trends asynchronously for each category
+        const categoriesWithTrends = await Promise.all(
+          baseCategories.map(async (catData) => ({
+            ...catData,
+            trend: tenantId ? await calculateSkillsTrend(catData.category, tenantId) : 'stable' as const
+          }))
+        );
+
         const mappedStats: DashboardStats = {
           totalEmployees: backendStats.overview.totalEmployees || 0,
           completedAssessments: backendStats.overview.totalAssessments || 0,
@@ -89,12 +173,7 @@ export const SkillsAnalysisDashboard: React.FC<SkillsAnalysisDashboardProps> = (
             timestamp: new Date(assessment.createdAt).toLocaleDateString(),
             status: 'completed'
           })),
-          skillCategories: Object.entries(backendStats.distribution.byCategory || {}).map(([category, data]: [string, any]) => ({
-            category,
-            score: data.averageScore || 0, // Real average score from skills levels
-            gapCount: data.gapCount || 0, // Real gap count from skills_gaps table
-            trend: 'stable' as const // TODO: Calculate trend from historical data
-          }))
+          skillCategories: categoriesWithTrends
         };
 
         setStats(mappedStats);

@@ -10,7 +10,7 @@ const API_BASE = process.env.NEXT_PUBLIC_API_URL || "https://mizan-backend-produ
 
 export interface ApiError {
   error: string;
-  details?: any;
+  details?: Record<string, unknown>;
   code?: string;
 }
 
@@ -146,7 +146,7 @@ export class ApiClient {
     return { data: result };
   }
 
-  async post<T = any>(endpoint: string, data?: any, options?: { headers?: Record<string, string> }): Promise<{ data: T }> {
+  async post<T = unknown>(endpoint: string, data?: Record<string, unknown>, options?: { headers?: Record<string, string> }): Promise<{ data: T }> {
     const result = await this.request<T>(endpoint, {
       method: 'POST',
       body: data ? JSON.stringify(data) : undefined,
@@ -155,7 +155,7 @@ export class ApiClient {
     return { data: result };
   }
 
-  async put<T = any>(endpoint: string, data?: any, options?: { headers?: Record<string, string> }): Promise<{ data: T }> {
+  async put<T = unknown>(endpoint: string, data?: Record<string, unknown>, options?: { headers?: Record<string, string> }): Promise<{ data: T }> {
     const result = await this.request<T>(endpoint, {
       method: 'PUT',
       body: data ? JSON.stringify(data) : undefined,
@@ -164,7 +164,7 @@ export class ApiClient {
     return { data: result };
   }
 
-  async delete<T = any>(endpoint: string, options?: { headers?: Record<string, string> }): Promise<{ data: T }> {
+  async delete<T = unknown>(endpoint: string, options?: { headers?: Record<string, string> }): Promise<{ data: T }> {
     const result = await this.request<T>(endpoint, {
       method: 'DELETE',
       headers: options?.headers
@@ -172,7 +172,7 @@ export class ApiClient {
     return { data: result };
   }
 
-  async patch<T = any>(endpoint: string, data?: any, options?: { headers?: Record<string, string> }): Promise<{ data: T }> {
+  async patch<T = unknown>(endpoint: string, data?: Record<string, unknown>, options?: { headers?: Record<string, string> }): Promise<{ data: T }> {
     const result = await this.request<T>(endpoint, {
       method: 'PATCH',
       body: data ? JSON.stringify(data) : undefined,
@@ -224,7 +224,7 @@ export class ApiClient {
 
   // Structure Analysis endpoints
   structure = {
-    analyze: (data: any) =>
+    analyze: (data: Record<string, unknown>) =>
       this.request("/api/structure/analyze", {
         method: "POST",
         body: JSON.stringify(data),
@@ -675,7 +675,7 @@ export class ApiClient {
     getTenant: (tenantId: string) =>
       this.request(`/api/superadmin/tenants/${tenantId}`),
 
-    updateTenantSettings: (tenantId: string, settings: any) =>
+    updateTenantSettings: (tenantId: string, settings: Record<string, unknown>) =>
       this.request(`/api/superadmin/tenants/${tenantId}/settings`, {
         method: "PATCH",
         body: JSON.stringify(settings),
