@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { logger } from '@/lib/logger';
 import {
   Brain,
   BookOpen,
@@ -130,7 +131,7 @@ export default function AITrainingPage() {
         }, 2000);
       }
     } catch (err) {
-      console.error('Upload error:', err);
+      logger.error('Upload error:', err);
     } finally {
       setUploading(false);
     }
@@ -151,7 +152,7 @@ export default function AITrainingPage() {
         `**Analysis Result:**\n\nBased on the 7-Cylinder framework, the organization shows strong performance in:\n\n• **Cylinder 5 (Integrity & Justice)**: 85% alignment with stated values\n• **Cylinder 6 (Collaboration & Unity)**: 78% team cohesion score\n• **Cylinder 3 (Growth & Achievement)**: 72% employee development engagement\n\nAreas for improvement:\n\n• **Cylinder 1 (Safety & Survival)**: Only 58% feel psychologically safe\n• **Cylinder 7 (Vision & Purpose)**: 62% understand strategic direction\n\n**Recommendations:**\n1. Implement anonymous feedback channels to increase psychological safety\n2. Conduct quarterly vision workshops to improve strategic alignment\n3. Establish cross-functional collaboration initiatives`
       );
     } catch (err) {
-      console.error('Test error:', err);
+      logger.error('Test error:', err);
     } finally {
       setTesting(false);
     }
