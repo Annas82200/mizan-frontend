@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import { CheckCircle2, TrendingUp, AlertCircle, Loader2, RefreshCw } from 'lucide-react';
 import { FrameworkIntro } from '@/components/culture/FrameworkIntro';
 import { Radar } from 'react-chartjs-2';
+import { logger } from '@/lib/logger';
 
 // Define types for the new 4-section report structure
 interface IdentifiedStrength {
@@ -90,7 +91,7 @@ export default function SurveyReportPage() {
       }
       return false;
     } catch (err: unknown) {
-      console.error('Report fetch error:', err);
+      logger.error('Report fetch error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Failed to load report';
       setError(errorMessage);
       return false;
