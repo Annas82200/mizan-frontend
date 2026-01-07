@@ -4,6 +4,7 @@ import { DashboardLayout } from '@/components/dashboard';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
+import { logger } from '@/lib/logger';
 
 export default function SuperadminLayout({
   children,
@@ -23,7 +24,7 @@ export default function SuperadminLayout({
         const userStr = localStorage.getItem('mizan_user');
 
         if (!userStr) {
-          console.warn('[Auth] No user data in localStorage, redirecting to login');
+          logger.warn('[Auth] No user data in localStorage, redirecting to login');
           router.push('/login');
           return;
         }
@@ -33,7 +34,7 @@ export default function SuperadminLayout({
         try {
           user = JSON.parse(userStr);
         } catch (parseError) {
-          console.error('[Auth] Invalid user data in localStorage');
+          logger.error('[Auth] Invalid user data in localStorage');
           localStorage.removeItem('mizan_user');
           router.push('/login');
           return;
@@ -41,7 +42,7 @@ export default function SuperadminLayout({
 
         // Step 3: Verify role requirement
         if (user.role !== 'superadmin') {
-          console.warn('[Auth] User is not superadmin, redirecting to appropriate dashboard');
+          logger.warn('[Auth] User is not superadmin, redirecting to appropriate dashboard');
           router.push('/dashboard');
           return;
         }
@@ -50,7 +51,7 @@ export default function SuperadminLayout({
         // This prevents stale localStorage from granting access without valid cookie
         try {
           const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://mizan-backend-production.up.railway.app';
-          console.log('[Auth] Verifying authentication with backend:', `${apiUrl}/api/auth/me`);
+          logger.debug('[Auth] Verifying authentication with backend:', `${apiUrl}/api/auth/me`);
 
           // ✅ PRODUCTION: Get token from localStorage for Authorization header (hybrid auth)
           // Backend supports both httpOnly cookie AND Authorization header
@@ -65,10 +66,10 @@ export default function SuperadminLayout({
             },
           });
 
-          console.log('[Auth] Backend verification response status:', response.status);
+          logger.debug('[Auth] Backend verification response status:', response.status);
 
           if (!response.ok) {
-            console.error('[Auth] Backend authentication failed - no valid cookie');
+            logger.error('[Auth] Backend authentication failed - no valid cookie');
             // Clear stale localStorage data
             localStorage.removeItem('mizan_user');
             router.push('/login');
@@ -76,11 +77,11 @@ export default function SuperadminLayout({
           }
 
           // Backend confirmed authentication is valid
-          console.log('[Auth] Backend authentication verified successfully');
+          logger.debug('[Auth] Backend authentication verified successfully');
           setIsAuthenticated(true);
 
         } catch (fetchError) {
-          console.error('[Auth] Failed to verify authentication with backend:', fetchError);
+          logger.error('[Auth] Failed to verify authentication with backend:', fetchError);
           // Clear stale data and redirect to login
           localStorage.removeItem('mizan_user');
           router.push('/login');
@@ -88,7 +89,7 @@ export default function SuperadminLayout({
         }
 
       } catch (error) {
-        console.error('[Auth] Authentication check failed:', error);
+        logger.error('[Auth] Authentication check failed:', error);
         localStorage.removeItem('mizan_user');
         router.push('/login');
       } finally {
