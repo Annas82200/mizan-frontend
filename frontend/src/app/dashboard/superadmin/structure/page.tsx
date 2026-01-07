@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { logger } from '@/lib/logger';
 import {
   Network,
   Upload,
@@ -223,7 +224,7 @@ export default function StructureAnalysisPage() {
       setSaveSuccess(true);
       setTimeout(() => setSaveSuccess(false), 3000);
     } catch (err: unknown) {
-      console.error('Analysis error:', err);
+      logger.error('Analysis error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Failed to analyze structure';
       setError(errorMessage);
     } finally {
@@ -758,7 +759,7 @@ export default function StructureAnalysisPage() {
                     newWindow.document.close();
                   }
                 } catch (error) {
-                  console.error('Export error:', error);
+                  logger.error('Export error:', error);
                   alert('Failed to export results. Please try again.');
                 }
               }}
