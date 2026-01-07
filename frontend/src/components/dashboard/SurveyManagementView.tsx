@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Mail, Users, Link as LinkIcon, Calendar, CheckCircle2, Clock, XCircle, Loader2, Send, Copy, Check } from 'lucide-react';
 import { ApiClient } from '@/lib/api-client';
+import { logger } from '@/lib/logger';
 
 interface SurveyManagementViewProps {
   tenantId: string;
@@ -57,7 +58,7 @@ export function SurveyManagementView({ tenantId, tenantName }: SurveyManagementV
 
       setCampaign(data);
     } catch (err: unknown) {
-      console.error('Survey distribution error:', err);
+      logger.error('Survey distribution error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Failed to distribute survey';
       setError(errorMessage);
     } finally {
