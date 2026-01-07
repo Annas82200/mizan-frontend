@@ -5,6 +5,7 @@ import { Search, Filter, Download, X, Mail, Phone, MapPin, Calendar, Plus, Alert
 import { BuildingIcon } from '@/components/icons';
 import Link from 'next/link';
 import { superadminService } from '@/services/dashboard.service';
+import { logger } from '@/lib/logger';
 
 // Backend database structure
 interface Tenant {
@@ -63,7 +64,7 @@ export default function TenantManagement() {
       }));
       setTenants(mappedTenants);
     } catch (err: unknown) {
-      console.error('Error fetching tenants:', err);
+      logger.error('Error fetching tenants:', err);
       const errorMessage = err && typeof err === 'object' && 'response' in err 
         ? (err as { response?: { data?: { error?: string } } }).response?.data?.error || 'Failed to load tenants'
         : err instanceof Error 
