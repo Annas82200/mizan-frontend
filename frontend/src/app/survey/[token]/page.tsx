@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Heart, CheckCircle2, Loader2, AlertCircle } from 'lucide-react';
 import { MIZAN_VALUES_POOL, ALL_VALUES } from '@/lib/mizan-values';
+import { logger } from '@/lib/logger';
 
 interface SurveyData {
   personalValues: string[];
@@ -81,7 +82,7 @@ export default function SurveyPage() {
       }
 
     } catch (err) {
-      console.error('Token validation error:', err);
+      logger.error('Token validation error:', err);
       setError('Failed to validate survey link. Please try again.');
       setValidToken(false);
     } finally {
@@ -130,7 +131,7 @@ export default function SurveyPage() {
         window.location.href = `/survey/${token}/report`;
       }, 3000);
     } catch (err: unknown) {
-      console.error('Survey submission error:', err);
+      logger.error('Survey submission error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Failed to submit survey';
       setError(errorMessage);
     } finally {
