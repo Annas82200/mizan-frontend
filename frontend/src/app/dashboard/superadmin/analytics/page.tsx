@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Activity, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 import { APIIcon, PerformanceIcon, AgentIcon } from '@/components/icons';
 import { superadminService } from '@/services/dashboard.service';
+import { logger } from '@/lib/logger';
 
 interface UsageStats {
   dau: number;
@@ -101,7 +102,7 @@ export default function SystemAnalytics() {
       setAgentStats((agents as any).agents || []);
       setPerformanceMetrics((performance as any).metrics || []);
     } catch (err: unknown) {
-      console.error('Error fetching analytics:', err);
+      logger.error('Error fetching analytics:', err);
       setError(err instanceof Error ? err.message : 'Failed to load analytics data');
     } finally {
       setLoading(false);
