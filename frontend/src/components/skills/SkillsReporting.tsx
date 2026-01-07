@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { FileText, Download, BarChart3, TrendingUp, Loader2, AlertCircle, FileSpreadsheet, FileDown } from 'lucide-react';
 import apiClient from '@/lib/api-client';
 import { ReportPreviewData } from '@/types/skills';
+import { logger } from '@/lib/logger';
 
 interface SkillsReportingProps {
   userRole: string;
@@ -48,7 +49,7 @@ export const SkillsReporting: React.FC<SkillsReportingProps> = ({ userRole, tena
         throw new Error(response.error || 'Failed to load report preview');
       }
     } catch (err: any) {
-      console.error('Failed to load report preview:', err);
+      logger.error('Failed to load report preview:', err);
       setError(err.message || 'Failed to load report preview');
     } finally {
       setLoading(false);
@@ -61,24 +62,24 @@ export const SkillsReporting: React.FC<SkillsReportingProps> = ({ userRole, tena
   const fetchDepartments = async () => {
     try {
       setLoadingDepartments(true);
-      console.log('[SkillsReporting] Fetching departments...');
+      logger.debug('[SkillsReporting] Fetching departments...');
       const response = await apiClient.admin.getDepartments();
-      console.log('[SkillsReporting] Departments response:', response);
+      logger.debug('[SkillsReporting] Departments response:', response);
 
       if (response.success && response.data) {
-        console.log('[SkillsReporting] Departments loaded:', response.data.length, 'departments');
+        logger.debug('[SkillsReporting] Departments loaded:', response.data.length, 'departments');
         setDepartments(response.data);
 
         if (response.data.length === 0) {
-          console.warn('[SkillsReporting] No departments found in database');
+          logger.warn('[SkillsReporting] No departments found in database');
           setError('No departments available. Please create departments first.');
         }
       } else {
-        console.error('[SkillsReporting] Invalid response:', response);
+        logger.error('[SkillsReporting] Invalid response:', response);
         throw new Error('Invalid departments response');
       }
     } catch (error) {
-      console.error('[SkillsReporting] Failed to load departments:', error);
+      logger.error('[SkillsReporting] Failed to load departments:', error);
       setError('Failed to load departments list');
     } finally {
       setLoadingDepartments(false);
@@ -137,7 +138,7 @@ export const SkillsReporting: React.FC<SkillsReportingProps> = ({ userRole, tena
       window.URL.revokeObjectURL(url);
 
     } catch (err: any) {
-      console.error('Export failed:', err);
+      logger.error('Export failed:', err);
       setError(err.message || 'Failed to export report');
     } finally {
       setExporting(false);
