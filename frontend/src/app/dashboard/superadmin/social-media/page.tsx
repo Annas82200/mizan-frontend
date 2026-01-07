@@ -12,6 +12,7 @@ import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Loader2, Copy, Send, Calendar, Hash, Eye, Trash2, Download, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { toast } from '@/components/ui/use-toast';
+import { logger } from '@/lib/logger';
 
 interface GeneratedContent {
   postId: string;
@@ -76,7 +77,7 @@ export default function SocialMediaPage() {
         setPosts(data.data || []);
       }
     } catch (error) {
-      console.error('Failed to fetch posts:', error);
+      logger.error('Failed to fetch posts:', error);
     }
   };
 
@@ -93,7 +94,7 @@ export default function SocialMediaPage() {
         setStrategy(data.data.weeks || []);
       }
     } catch (error) {
-      console.error('Failed to fetch strategy:', error);
+      logger.error('Failed to fetch strategy:', error);
     }
   };
 
@@ -142,7 +143,7 @@ export default function SocialMediaPage() {
         });
       }
     } catch (error) {
-      console.error('Generation error:', error);
+      logger.error('Generation error:', error);
       toast({
         title: 'Error',
         description: 'Failed to generate content',
@@ -184,7 +185,7 @@ export default function SocialMediaPage() {
         });
       }
     } catch (error) {
-      console.error('Batch generation error:', error);
+      logger.error('Batch generation error:', error);
       toast({
         title: 'Error',
         description: 'Failed to generate batch content',
@@ -229,7 +230,7 @@ export default function SocialMediaPage() {
         });
       }
     } catch (error) {
-      console.error('Publish error:', error);
+      logger.error('Publish error:', error);
       toast({
         title: 'Error',
         description: 'Failed to publish post',
@@ -259,7 +260,7 @@ export default function SocialMediaPage() {
         });
       }
     } catch (error) {
-      console.error('Delete error:', error);
+      logger.error('Delete error:', error);
       toast({
         title: 'Error',
         description: 'Failed to delete post',
