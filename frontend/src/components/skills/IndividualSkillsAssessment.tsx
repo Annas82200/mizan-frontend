@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { UserCheck, Upload, FileText, CheckCircle, X, Plus, Loader2, AlertCircle } from 'lucide-react';
 import apiClient from '@/lib/api-client';
+import { logger } from '@/lib/logger';
 
 interface IndividualSkillsAssessmentProps {
   userRole: string;
@@ -76,7 +77,7 @@ export const IndividualSkillsAssessment: React.FC<IndividualSkillsAssessmentProp
         }
       }
     } catch (err: any) {
-      console.error('Failed to load skills:', err);
+      logger.error('Failed to load skills:', err);
       setError(err.message || 'Failed to load skills');
     } finally {
       setLoading(false);
@@ -104,7 +105,7 @@ export const IndividualSkillsAssessment: React.FC<IndividualSkillsAssessmentProp
         }
       }
     } catch (err: any) {
-      console.error('Failed to load gap analysis:', err);
+      logger.error('Failed to load gap analysis:', err);
       setGapAnalysisError(err.message || 'Failed to load gap analysis');
     } finally {
       setLoadingGapAnalysis(false);
@@ -160,7 +161,7 @@ export const IndividualSkillsAssessment: React.FC<IndividualSkillsAssessmentProp
 
       setTimeout(() => setUploadProgress(0), 2000);
     } catch (err: any) {
-      console.error('Resume upload failed:', err);
+      logger.error('Resume upload failed:', err);
       setError(err.message || 'Failed to upload resume');
       setUploadProgress(0);
     } finally {
@@ -212,7 +213,7 @@ export const IndividualSkillsAssessment: React.FC<IndividualSkillsAssessmentProp
       }
       throw new Error(response.error || 'Failed to save skills');
     } catch (err: any) {
-      console.error('Failed to save skills:', err);
+      logger.error('Failed to save skills:', err);
       setError(err.message || 'Failed to save skills');
       return false;
     }
@@ -270,7 +271,7 @@ export const IndividualSkillsAssessment: React.FC<IndividualSkillsAssessmentProp
       // Update local state
       setSkills(skills.filter(s => s.name !== skillName));
     } catch (err: any) {
-      console.error('Failed to delete skill:', err);
+      logger.error('Failed to delete skill:', err);
       setError(err.message || 'Failed to delete skill');
     } finally {
       setLoading(false);
