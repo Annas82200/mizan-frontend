@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Target, Plus, Edit, Trash2, Loader2, AlertCircle, X, FileText } from 'lucide-react';
 import apiClient from '@/lib/api-client';
+import { logger } from '@/lib/logger';
 
 interface StrategicFrameworkManagerProps {
   userRole: string;
@@ -65,7 +66,7 @@ export const StrategicFrameworkManager: React.FC<StrategicFrameworkManagerProps>
         setFrameworks(response.frameworks);
       }
     } catch (err: any) {
-      console.error('Failed to load frameworks:', err);
+      logger.error('Failed to load frameworks:', err);
       setError(err.message || 'Failed to load frameworks');
     } finally {
       setLoading(false);
@@ -100,7 +101,7 @@ export const StrategicFrameworkManager: React.FC<StrategicFrameworkManagerProps>
         setShowCreateModal(false);
       }
     } catch (err: any) {
-      console.error('Failed to create framework:', err);
+      logger.error('Failed to create framework:', err);
       setError(err.message || 'Failed to create framework');
     } finally {
       setLoading(false);
@@ -132,7 +133,7 @@ export const StrategicFrameworkManager: React.FC<StrategicFrameworkManagerProps>
         setShowEditModal(false);
       }
     } catch (err: any) {
-      console.error('Failed to update framework:', err);
+      logger.error('Failed to update framework:', err);
       setError(err.message || 'Failed to update framework');
     } finally {
       setLoading(false);
@@ -160,7 +161,7 @@ export const StrategicFrameworkManager: React.FC<StrategicFrameworkManagerProps>
         setShowDeleteConfirm(false);
       }
     } catch (err: any) {
-      console.error('Failed to delete framework:', err);
+      logger.error('Failed to delete framework:', err);
       setError(err.message || 'Failed to delete framework. This framework may have active assessment sessions.');
     } finally {
       setLoading(false);

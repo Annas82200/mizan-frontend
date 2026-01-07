@@ -21,6 +21,7 @@ import {
   Building2
 } from 'lucide-react';
 import apiClient from '@/lib/api-client';
+import { logger } from '@/lib/logger';
 import {
   SkillGap,
   EmployeeGapAnalysis,
@@ -87,7 +88,7 @@ export const SkillsGapAnalysis: React.FC<SkillsGapAnalysisProps> = ({ userRole }
         setDepartments(response.data);
       }
     } catch (error) {
-      console.error('Failed to load departments:', error);
+      logger.error('Failed to load departments:', error);
       setError('Failed to load departments list');
     } finally {
       setLoadingDepartments(false);
@@ -111,7 +112,7 @@ export const SkillsGapAnalysis: React.FC<SkillsGapAnalysisProps> = ({ userRole }
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to load skills gaps';
-      console.error('Failed to load organization gaps:', err);
+      logger.error('Failed to load organization gaps:', err);
       setError(errorMessage);
     } finally {
       setLoading(false);
@@ -141,7 +142,7 @@ export const SkillsGapAnalysis: React.FC<SkillsGapAnalysisProps> = ({ userRole }
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to load department gaps';
-      console.error('Failed to load department gaps:', err);
+      logger.error('Failed to load department gaps:', err);
       setError(errorMessage);
     } finally {
       setLoading(false);
@@ -185,7 +186,7 @@ export const SkillsGapAnalysis: React.FC<SkillsGapAnalysisProps> = ({ userRole }
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to load employee gap analysis';
-      console.error('Failed to load employee analysis:', err);
+      logger.error('Failed to load employee analysis:', err);
       setError(errorMessage);
       setSelectedEmployeeAnalysis(null);
       setFrameworkMissing(null);
@@ -266,7 +267,7 @@ export const SkillsGapAnalysis: React.FC<SkillsGapAnalysisProps> = ({ userRole }
    */
   const handleRecommendTraining = (gap: SkillGap) => {
     // Placeholder for future LXP integration
-    console.log('Recommend training for gap:', gap);
+    logger.debug('Recommend training for gap:', gap);
     alert(`Training recommendation feature coming in Phase 4!\n\nSkill: ${gap.skillName}\nSeverity: ${gap.gapSeverity}`);
   };
 
