@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import authService from '@/services/auth.service';
+import { logger } from '@/lib/logger';
 
 /**
  * AuthInitializer Component
@@ -19,7 +20,7 @@ export default function AuthInitializer({ children }: { children: React.ReactNod
       if (e.key === 'mizan_user') {
         // User data changed in another tab - could trigger re-fetch if needed
         // For now, just acknowledge the change
-        console.log('User data updated in another tab');
+        logger.debug('User data updated in another tab');
       }
     };
 
