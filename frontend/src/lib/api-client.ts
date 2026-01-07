@@ -5,6 +5,8 @@
  * Full compliance with AGENT_CONTEXT_ULTIMATE.md
  */
 
+import { logger } from './logger';
+
 // ✅ PRODUCTION: Default to Railway backend if NEXT_PUBLIC_API_URL not set
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "https://mizan-backend-production.up.railway.app";
 
@@ -84,7 +86,7 @@ export class ApiClient {
 
       // Handle 401 errors with automatic token refresh
       if (response.status === 401) {
-        console.log('Authentication expired, attempting refresh...');
+        logger.info('Authentication expired, attempting refresh...');
 
         // Import auth service dynamically to avoid circular dependency
         const { default: authService } = await import('../services/auth.service');
@@ -129,7 +131,7 @@ export class ApiClient {
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error(`API Request Error [${endpoint}]:`, error);
+      logger.error(`API Request Error [${endpoint}]:`, error);
       throw error;
     }
   }

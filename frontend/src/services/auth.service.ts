@@ -5,6 +5,7 @@
  */
 
 import { z } from 'zod';
+import { logger } from '@/lib/logger';
 
 // Validation schemas
 const loginSchema = z.object({
@@ -105,8 +106,8 @@ class AuthService {
         token: data.token,
       };
     } catch (error) {
-      console.error('Login error:', error);
-      
+      logger.error('Login error:', error);
+
       if (error instanceof z.ZodError) {
         return {
           success: false,
@@ -169,8 +170,8 @@ class AuthService {
         token: responseData.token,
       };
     } catch (error) {
-      console.error('Registration error:', error);
-      
+      logger.error('Registration error:', error);
+
       if (error instanceof z.ZodError) {
         return {
           success: false,
@@ -212,7 +213,7 @@ class AuthService {
         credentials: 'include',  // Send httpOnly cookie to backend
       });
     } catch (error) {
-      console.error('Logout error:', error);
+      logger.error('Logout error:', error);
     } finally {
       // Always clear all auth data from localStorage
       localStorage.removeItem('mizan_user');
@@ -229,7 +230,7 @@ class AuthService {
       if (!userStr) return null;
       return JSON.parse(userStr);
     } catch (error) {
-      console.error('Error getting current user:', error);
+      logger.error('Error getting current user:', error);
       return null;
     }
   }
@@ -250,7 +251,7 @@ class AuthService {
     try {
       return localStorage.getItem('mizan_auth_token');
     } catch (error) {
-      console.error('Error getting token:', error);
+      logger.error('Error getting token:', error);
       return null;
     }
   }
@@ -276,7 +277,7 @@ class AuthService {
 
       return true;
     } catch (error) {
-      console.error('Token verification error:', error);
+      logger.error('Token verification error:', error);
       return false;
     }
   }
@@ -298,7 +299,7 @@ class AuthService {
       });
 
       if (!response.ok) {
-        console.error('Token refresh failed:', response.status, response.statusText);
+        logger.error('Token refresh failed:', response.status, response.statusText);
         return false;
       }
 
@@ -312,7 +313,7 @@ class AuthService {
 
       return false;
     } catch (error) {
-      console.error('Token refresh error:', error);
+      logger.error('Token refresh error:', error);
       return false;
     }
   }

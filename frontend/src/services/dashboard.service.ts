@@ -1,5 +1,6 @@
 import apiClient from '@/lib/api-client';
 import { z } from 'zod';
+import { logger } from '@/lib/logger';
 
 // ============================================
 // ZOD VALIDATION SCHEMAS
@@ -448,8 +449,8 @@ export interface ServiceError extends Error {
 // ============================================
 
 const handleServiceError = (error: unknown, context: string): never => {
-  console.error(`${context}:`, error);
-  
+  logger.error(`${context}:`, error);
+
   if (error instanceof z.ZodError) {
     const serviceError = new Error(`Validation failed: ${error.errors.map(e => e.message).join(', ')}`) as ServiceError;
     serviceError.status = 400;
@@ -721,7 +722,7 @@ export const superadminService = {
       };
     } catch (error) {
       // Return empty result set on error to keep UI functional
-      console.warn('Failed to fetch employees, returning empty set:', error);
+      logger.warn('Failed to fetch employees, returning empty set:', error);
       return {
         employees: [],
         total: 0,
@@ -771,7 +772,7 @@ export const adminService = {
     try {
       const formData = new FormData();
       formData.append('file', file);
-      const response = await apiClient.post('/api/admin/structure/upload', formData, {
+      const response = await apiClient.post('/api/admin/structure/upload', formData as unknown as Record<string, unknown>, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       return FileUploadResponseSchema.parse(response.data);
