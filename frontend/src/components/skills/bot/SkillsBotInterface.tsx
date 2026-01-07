@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import apiClient from '@/lib/api-client';
+import { logger } from '@/lib/logger';
 import {
   Bot,
   Send,
@@ -157,7 +158,7 @@ export const SkillsBotInterface: React.FC<SkillsBotInterfaceProps> = ({ userRole
         throw new Error('Invalid bot response');
       }
     } catch (error) {
-      console.error('Error sending message:', error);
+      logger.error('Error sending message:', error);
       const errorMessage: BotMessage = {
         id: Date.now().toString() + '_error',
         type: 'bot',
