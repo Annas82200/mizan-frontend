@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, Calendar, CheckCircle2, Mail, User, Building, Users } from 'lucide-react';
 import Navigation from '@/components/Navigation';
+import { logger } from '@/lib/logger';
 
 export default function DemoPage() {
   const [formData, setFormData] = useState({
@@ -58,7 +59,7 @@ export default function DemoPage() {
 
       setSubmitted(true);
     } catch (err: unknown) {
-      console.error('Demo submission error:', err);
+      logger.error('Demo submission error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Something went wrong. Please try again.';
       setError(errorMessage);
     } finally {
