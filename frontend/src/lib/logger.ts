@@ -4,11 +4,13 @@
  * Production-ready logging wrapper that:
  * - Filters logs based on environment
  * - Provides structured logging
- * - Can integrate with external services (Sentry, LogRocket, etc.)
+ * - Integrates with Sentry for remote error tracking
  * - Maintains console API compatibility for easy migration
  *
  * Compliant with AGENT_CONTEXT_ULTIMATE.md - No console.* in production
  */
+
+import * as Sentry from '@sentry/nextjs';
 
 type LogLevel = 'debug' | 'info' | 'warn' | 'error';
 
@@ -65,15 +67,48 @@ class FrontendLogger {
   }
 
   /**
-   * Send logs to external service (Sentry, LogRocket, etc.)
+   * Send logs to external service (Sentry for error tracking)
    */
   private sendToRemoteService(level: LogLevel, message: string, data?: any) {
     if (!this.config.enableRemoteLogging) {
       return;
     }
 
-    // TODO: Integrate with Sentry or LogRocket
-    // Example: Sentry.captureMessage(message, { level, extra: data });
+    try {
+      // Map logger levels to Sentry severity levels
+      const sentryLevel: Sentry.SeverityLevel = level === 'debug' ? 'debug'
+        : level === 'info' ? 'info'
+        : level === 'warn' ? 'warning'
+        : 'error';
+
+      // Send to Sentry with appropriate context
+      if (level === 'error' && data instanceof Error) {
+        // Capture exceptions with full stack trace
+        Sentry.captureException(data, {
+          level: sentryLevel,
+          extra: { message }
+        });
+      } else {
+        // Capture messages with context
+        Sentry.captureMessage(message, {
+          level: sentryLevel,
+          extra: data ? { data } : undefined
+        });
+      }
+
+      // Add breadcrumb for context tracking
+      Sentry.addBreadcrumb({
+        message,
+        level: sentryLevel,
+        data: data || {}
+      });
+    } catch (error) {
+      // Silently fail if Sentry is not configured
+      // Don't break application if logging fails
+      if (this.isDevelopment) {
+        console.error('Failed to send log to Sentry:', error);
+      }
+    }
   }
 
   /**

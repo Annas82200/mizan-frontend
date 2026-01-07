@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.6.0",
+    "@sentry/nextjs": "^10.32.1",
     "@types/papaparse": "^5.3.16",
     "axios": "^1.6.8",
     "chart.js": "^4.5.1",
