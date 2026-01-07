@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Building2, TrendingUp, TrendingDown, AlertTriangle, Target, Loader2, BarChart3, Users } from 'lucide-react';
 import apiClient from '@/lib/api-client';
+import { logger } from '@/lib/logger';
 
 interface DepartmentAggregatedViewProps {
   tenantId: string;
@@ -144,7 +145,7 @@ export function DepartmentAggregatedView({ tenantId, tenantName }: DepartmentAgg
 
       setAnalysis(transformedAnalysis);
     } catch (err: unknown) {
-      console.error('Department analysis error:', err);
+      logger.error('Department analysis error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Failed to load analysis';
       setError(errorMessage);
     } finally {

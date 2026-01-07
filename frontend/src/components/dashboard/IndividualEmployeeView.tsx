@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Users, Search, TrendingUp, TrendingDown, Minus, Heart, Target, Lightbulb, AlertCircle, Loader2, RefreshCw } from 'lucide-react';
 import { Radar } from 'react-chartjs-2';
 import { ApiClient } from '@/lib/api-client';
+import { logger } from '@/lib/logger';
 
 // Define types for the component's props and data structures
 interface Recommendation {
@@ -128,7 +129,7 @@ export function IndividualEmployeeView({ tenantId, tenantName }: IndividualEmplo
 
       setEmployees(data.employees || []);
     } catch (err: unknown) {
-      console.error('Load employees error:', err);
+      logger.error('Load employees error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Failed to load employees';
       setError(errorMessage);
     } finally {
@@ -166,7 +167,7 @@ export function IndividualEmployeeView({ tenantId, tenantName }: IndividualEmplo
 
       alert(response.message || 'Report regeneration started! It will be ready in 10-15 seconds.');
     } catch (err: unknown) {
-      console.error('Regenerate report error:', err);
+      logger.error('Regenerate report error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Failed to regenerate report';
       setError(errorMessage);
     } finally {
@@ -254,7 +255,7 @@ export function IndividualEmployeeView({ tenantId, tenantName }: IndividualEmplo
 
       setAnalysis(transformedAnalysis);
     } catch (err: unknown) {
-      console.error('Employee analysis error:', err);
+      logger.error('Employee analysis error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Failed to analyze employee';
       setError(errorMessage);
     } finally {

@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import { logger } from "@/lib/logger";
 
 interface Toast {
   id: string;
@@ -36,5 +37,5 @@ export function useToast() {
 
 // Export a standalone toast function for convenience
 export const toast = ({ title, description, variant = "default" }: Omit<Toast, "id">) => {
-  console.log(`Toast: ${title || ""} - ${description || ""}`);
+  logger.debug(`Toast: ${title || ""} - ${description || ""}`);
 };

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Building2, ChevronDown, Search, Check, AlertCircle, Loader2 } from 'lucide-react';
 import { superadminService } from '@/services/dashboard.service';
+import { logger } from '@/lib/logger';
 
 interface Tenant {
   id: string;
@@ -56,7 +57,7 @@ export function TenantSelector({
       }));
       setTenants(mappedTenants);
     } catch (err: unknown) {
-      console.error('Error fetching tenants:', err);
+      logger.error('Error fetching tenants:', err);
       const errorMessage = err && typeof err === 'object' && 'response' in err && err.response && typeof err.response === 'object' && 'data' in err.response && err.response.data && typeof err.response.data === 'object' && 'error' in err.response.data
         ? String(err.response.data.error)
         : err instanceof Error ? err.message : 'Failed to load clients';
@@ -354,7 +355,7 @@ export function EmployeeSelector({
       }));
       setEmployees(mappedEmployees);
     } catch (err: unknown) {
-      console.error('Error fetching employees:', err);
+      logger.error('Error fetching employees:', err);
       const errorMessage = err && typeof err === 'object' && 'response' in err && err.response && typeof err.response === 'object' && 'data' in err.response && err.response.data && typeof err.response.data === 'object' && 'error' in err.response.data
         ? String(err.response.data.error)
         : err instanceof Error ? err.message : 'Failed to load employees';
