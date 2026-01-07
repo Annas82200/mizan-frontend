@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { logger } from '@/lib/logger';
 import {
   Heart,
   Shield,
@@ -206,7 +207,7 @@ export default function CultureAnalysisPage() {
       const analysisResults = await response.json();
       setResults(analysisResults);
     } catch (err: unknown) {
-      console.error('Culture analysis error:', err);
+      logger.error('Culture analysis error:', err);
       setError(err instanceof Error ? err.message : 'Failed to analyze culture');
     } finally {
       setAnalyzing(false);
