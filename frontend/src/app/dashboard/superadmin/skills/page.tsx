@@ -9,6 +9,7 @@ import { SkillsAnalysisDashboard } from '@/components/skills/SkillsAnalysisDashb
 import { SkillsBotInterface } from '@/components/skills/bot/SkillsBotInterface';
 import { IndividualSkillsAssessment } from '@/components/skills/IndividualSkillsAssessment';
 import { SkillsReporting } from '@/components/skills/SkillsReporting';
+import { logger } from '@/lib/logger';
 
 interface SuperadminSkillsPageProps {}
 
@@ -45,7 +46,7 @@ export default function SuperadminSkillsPage({}: SuperadminSkillsPageProps) {
         try {
           user = JSON.parse(userStr);
         } catch (parseError) {
-          console.error('Invalid user data in localStorage:', parseError);
+          logger.error('Invalid user data in localStorage:', parseError);
           localStorage.removeItem('mizan_user');
           localStorage.removeItem('mizan_auth_token');
           router.push('/login');
@@ -75,7 +76,7 @@ export default function SuperadminSkillsPage({}: SuperadminSkillsPageProps) {
           });
 
           if (!response.ok) {
-            console.error('Backend authentication verification failed');
+            logger.error('Backend authentication verification failed');
             localStorage.removeItem('mizan_user');
             localStorage.removeItem('mizan_auth_token');
             router.push('/login');
@@ -85,18 +86,18 @@ export default function SuperadminSkillsPage({}: SuperadminSkillsPageProps) {
           // Verify superadmin role from backend
           const data = await response.json();
           if (data.role !== 'superadmin') {
-            console.error('User is not a superadmin');
+            logger.error('User is not a superadmin');
             router.push('/dashboard');
             return;
           }
         } catch (verifyError) {
-          console.error('Backend verification error:', verifyError);
+          logger.error('Backend verification error:', verifyError);
           // Continue anyway - offline support
         }
 
         setIsLoading(false);
       } catch (error) {
-        console.error('Authentication error:', error);
+        logger.error('Authentication error:', error);
         localStorage.removeItem('mizan_user');
         localStorage.removeItem('mizan_auth_token');
         router.push('/login');
