@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Lock, Mail, ArrowLeft, CheckCircle2, Loader2 } from 'lucide-react';
+import { logger } from '@/lib/logger';
 
 export default function ForgotPasswordPage() {
   const router = useRouter();
@@ -33,7 +34,7 @@ export default function ForgotPasswordPage() {
 
       setSuccess(true);
     } catch (err) {
-      console.error('Forgot password error:', err);
+      logger.error('Forgot password error:', err);
       setError(err instanceof Error ? err.message : 'Failed to send reset email');
     } finally {
       setLoading(false);
