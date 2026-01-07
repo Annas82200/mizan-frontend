@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Mail, Phone, Building2, Users, Calendar, DollarSign, CheckCircle2, XCircle, Clock, Send, Copy, Check, X } from 'lucide-react';
+import { logger } from '@/lib/logger';
 
 interface DemoRequest {
   id: number;
@@ -68,9 +69,9 @@ export default function DemoRequestsPage() {
       const data = await response.json();
       setRequests(data.data.requests);
     } catch (error: unknown) {
-      console.error('Error fetching demo requests:', error);
+      logger.error('Error fetching demo requests:', error);
       const errorMessage = error instanceof Error ? error.message : 'Failed to fetch demo requests';
-      console.error('Demo requests error:', errorMessage);
+      logger.error('Demo requests error:', errorMessage);
     } finally {
       setLoading(false);
     }
@@ -101,7 +102,7 @@ export default function DemoRequestsPage() {
       // Refresh list
       fetchDemoRequests();
     } catch (error: unknown) {
-      console.error('Error updating status:', error);
+      logger.error('Error updating status:', error);
       const errorMessage = error instanceof Error ? error.message : 'Failed to update status';
       alert(errorMessage);
     }
@@ -220,7 +221,7 @@ export default function DemoRequestsPage() {
       // Refresh the demo requests list to show updated payment link status
       fetchDemoRequests();
     } catch (error: unknown) {
-      console.error('Error generating payment link:', error);
+      logger.error('Error generating payment link:', error);
       const errorMessage = error instanceof Error ? error.message : 'Failed to generate payment link. Please try again.';
       alert(errorMessage);
     } finally {
