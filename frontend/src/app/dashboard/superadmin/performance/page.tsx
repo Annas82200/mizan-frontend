@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { logger } from '@/lib/logger';
 import {
   Target,
   TrendingUp,
@@ -117,7 +118,7 @@ export default function PerformanceAnalysisPage() {
 
       setResults(analysisData);
     } catch (err: unknown) {
-      console.error('Performance analysis error:', err);
+      logger.error('Performance analysis error:', err);
       setError(err instanceof Error ? err.message : 'Failed to analyze performance');
     } finally {
       setAnalyzing(false);
