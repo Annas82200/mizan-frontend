@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { logger } from '@/lib/logger';
 import {
   Shield,
   Heart,
@@ -406,7 +407,7 @@ export default function FrameworkConfigPage() {
       const result = await response.json();
       alert(`Framework configuration saved successfully! Version ${result.version}`);
     } catch (error: unknown) {
-      console.error('Save error:', error);
+      logger.error('Save error:', error);
       alert(`Error saving framework: ${error instanceof Error ? error.message : 'Unknown error occurred'}`);
     }
   };
