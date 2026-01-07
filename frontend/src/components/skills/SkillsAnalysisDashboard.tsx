@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import apiClient from '@/lib/api-client';
+import { logger } from '@/lib/logger';
 import {
   TrendingUp,
   Users,
@@ -79,7 +80,7 @@ async function calculateSkillsTrend(
     );
 
     if (!response.ok) {
-      console.warn('Failed to fetch historical skills data, defaulting to stable');
+      logger.warn('Failed to fetch historical skills data, defaulting to stable');
       return 'stable';
     }
 
@@ -113,7 +114,7 @@ async function calculateSkillsTrend(
       return 'down';
     }
   } catch (error) {
-    console.error('Error calculating skills trend:', error);
+    logger.error('Error calculating skills trend:', error);
     return 'stable'; // Fallback to stable on error
   }
 }
@@ -181,7 +182,7 @@ export const SkillsAnalysisDashboard: React.FC<SkillsAnalysisDashboardProps> = (
         throw new Error('Invalid response format');
       }
     } catch (err) {
-      console.error('Dashboard API error:', err);
+      logger.error('Dashboard API error:', err);
       setError(err instanceof Error ? err.message : 'Failed to load dashboard stats');
 
       // Provide minimal fallback for UX

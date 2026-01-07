@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { TrendingUp, BookOpen, Target, Loader2, AlertCircle, RefreshCw } from 'lucide-react';
 import apiClient from '@/lib/api-client';
 import { EmployeeProgressMetrics } from '@/types/skills';
+import { logger } from '@/lib/logger';
 
 interface SkillsProgressTrackingProps {
   userRole: string;
@@ -43,7 +44,7 @@ export const SkillsProgressTracking: React.FC<SkillsProgressTrackingProps> = ({
         throw new Error(response.error || 'Failed to load progress data');
       }
     } catch (err: any) {
-      console.error('Failed to fetch progress data:', err);
+      logger.error('Failed to fetch progress data:', err);
       setError(err.message || 'Failed to load progress data');
     } finally {
       setLoading(false);

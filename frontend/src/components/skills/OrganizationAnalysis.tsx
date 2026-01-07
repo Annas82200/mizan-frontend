@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Building2, Users, TrendingUp, AlertCircle, Loader2, Award, Target, BarChart3 } from 'lucide-react';
 import apiClient from '@/lib/api-client';
+import { logger } from '@/lib/logger';
 
 interface OrganizationAnalysisProps {
   userRole: string;
@@ -65,7 +66,7 @@ export const OrganizationAnalysis: React.FC<OrganizationAnalysisProps> = ({ user
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to load organization analysis';
-      console.error('Failed to load organization analysis:', err);
+      logger.error('Failed to load organization analysis:', err);
       setError(errorMessage);
     } finally {
       setLoading(false);

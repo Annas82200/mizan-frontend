@@ -28,6 +28,7 @@ import {
   ChevronUp
 } from 'lucide-react';
 import apiClient from '@/lib/api-client';
+import { logger } from '@/lib/logger';
 import { WorkflowSession, ApiResponse } from '@/types/skills';
 
 interface SkillsWorkflowManagerProps {
@@ -207,7 +208,7 @@ export const SkillsWorkflowManager: React.FC<SkillsWorkflowManagerProps> = ({ us
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to load workflow sessions';
-      console.error('Failed to fetch workflow sessions:', err);
+      logger.error('Failed to fetch workflow sessions:', err);
       setError(errorMessage);
     } finally {
       setLoading(false);
@@ -257,7 +258,7 @@ export const SkillsWorkflowManager: React.FC<SkillsWorkflowManagerProps> = ({ us
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to start workflow';
-      console.error('Error starting workflow:', err);
+      logger.error('Error starting workflow:', err);
       setError(errorMessage);
     } finally {
       setIsRunning(false);
