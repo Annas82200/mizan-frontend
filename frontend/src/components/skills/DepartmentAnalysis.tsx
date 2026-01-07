@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Building2, Users, TrendingUp, AlertCircle, Loader2, Award, Target } from 'lucide-react';
 import apiClient from '@/lib/api-client';
+import { logger } from '@/lib/logger';
 
 interface DepartmentAnalysisProps {
   userRole: string;
@@ -57,24 +58,24 @@ export const DepartmentAnalysis: React.FC<DepartmentAnalysisProps> = ({ userRole
   const fetchDepartments = async () => {
     try {
       setLoadingDepartments(true);
-      console.log('[DepartmentAnalysis] Fetching departments...');
+      logger.debug('[DepartmentAnalysis] Fetching departments...');
       const response = await apiClient.admin.getDepartments();
-      console.log('[DepartmentAnalysis] Departments response:', response);
+      logger.debug('[DepartmentAnalysis] Departments response:', response);
 
       if (response.success && response.data) {
-        console.log('[DepartmentAnalysis] Departments loaded:', response.data.length, 'departments');
+        logger.debug('[DepartmentAnalysis] Departments loaded:', response.data.length, 'departments');
         setDepartments(response.data);
 
         if (response.data.length === 0) {
-          console.warn('[DepartmentAnalysis] No departments found in database');
+          logger.warn('[DepartmentAnalysis] No departments found in database');
           setError('No departments available. Please create departments first.');
         }
       } else {
-        console.error('[DepartmentAnalysis] Invalid response:', response);
+        logger.error('[DepartmentAnalysis] Invalid response:', response);
         throw new Error('Invalid departments response');
       }
     } catch (error) {
-      console.error('[DepartmentAnalysis] Failed to load departments:', error);
+      logger.error('[DepartmentAnalysis] Failed to load departments:', error);
       setError('Failed to load departments list');
     } finally {
       setLoadingDepartments(false);
@@ -103,7 +104,7 @@ export const DepartmentAnalysis: React.FC<DepartmentAnalysisProps> = ({ userRole
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to load department analysis';
-      console.error('Failed to load department analysis:', err);
+      logger.error('Failed to load department analysis:', err);
       setError(errorMessage);
     } finally {
       setLoading(false);
