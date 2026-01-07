@@ -6,6 +6,16 @@
  */
 
 import { logger } from './logger';
+import type {
+  User,
+  Tenant,
+  Skill,
+  PrioritizationItem,
+  SurveyData,
+  BillingPlan,
+  Invoice,
+  PaymentMethod,
+} from '@/types/api';
 
 // ✅ PRODUCTION: Default to Railway backend if NEXT_PUBLIC_API_URL not set
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "https://mizan-backend-production.up.railway.app";
@@ -139,8 +149,8 @@ export class ApiClient {
   /**
    * HTTP method helpers for axios-like interface
    */
-  async get<T = any>(endpoint: string, options?: { params?: Record<string, any>; headers?: Record<string, string> }): Promise<{ data: T }> {
-    const params = options?.params ? '?' + new URLSearchParams(options.params).toString() : '';
+  async get<T = unknown>(endpoint: string, options?: { params?: Record<string, unknown>; headers?: Record<string, string> }): Promise<{ data: T }> {
+    const params = options?.params ? '?' + new URLSearchParams(options.params as Record<string, string>).toString() : '';
     const result = await this.request<T>(`${endpoint}${params}`, {
       method: 'GET',
       headers: options?.headers
@@ -186,7 +196,7 @@ export class ApiClient {
   // Authentication endpoints
   auth = {
     login: (email: string, password: string) =>
-      this.request<{ user: any; token: string }>("/api/auth/login", {
+      this.request<{ user: User; token: string }>("/api/auth/login", {
         method: "POST",
         body: JSON.stringify({ email, password }),
       }),
@@ -198,13 +208,13 @@ export class ApiClient {
       company: string;
       role?: string;
     }) =>
-      this.request<{ user: any; token: string }>("/api/auth/register", {
+      this.request<{ user: User; token: string }>("/api/auth/register", {
         method: "POST",
         body: JSON.stringify(data),
       }),
 
     me: () =>
-      this.request<{ user: any }>("/api/auth/me"),
+      this.request<{ user: User }>("/api/auth/me"),
 
     changePassword: (oldPassword: string, newPassword: string) =>
       this.request<{ success: boolean; message: string }>("/api/auth/change-password", {
@@ -255,7 +265,7 @@ export class ApiClient {
       }),
 
     validateToken: (token: string) =>
-      this.request<{ valid: boolean; survey: any }>("/api/culture/survey/validate-token", {
+      this.request<{ valid: boolean; survey: SurveyData }>("/api/culture/survey/validate-token", {
         method: "POST",
         body: JSON.stringify({ token }),
       }),
@@ -320,10 +330,10 @@ export class ApiClient {
     updateFramework: (id: string, data: {
       frameworkName?: string;
       industry?: string;
-      strategicSkills?: any[];
-      technicalSkills?: any[];
-      softSkills?: any[];
-      prioritization?: any[];
+      strategicSkills?: Skill[];
+      technicalSkills?: Skill[];
+      softSkills?: Skill[];
+      prioritization?: PrioritizationItem[];
     }) =>
       this.request(`/api/skills/framework/${id}`, {
         method: "PUT",
@@ -508,7 +518,7 @@ export class ApiClient {
       return { blob, filename };
     },
 
-    exportCSV: (data: any[], filename: string = 'export.csv') => {
+    exportCSV: (data: Record<string, unknown>[], filename: string = 'export.csv') => {
       // Client-side CSV generation
       if (!data || data.length === 0) {
         throw new Error('No data to export');
@@ -630,7 +640,7 @@ export class ApiClient {
   // Admin endpoints
   admin = {
     getTenants: () =>
-      this.request<{ tenants: any[] }>("/api/admin/tenants"),
+      this.request<{ tenants: Tenant[] }>("/api/admin/tenants"),
 
     getTenantDetails: (tenantId: string) =>
       this.request(`/api/admin/tenants/${tenantId}`),
@@ -672,7 +682,7 @@ export class ApiClient {
       this.request("/api/superadmin/overview"),
 
     getAllTenants: () =>
-      this.request<{ tenants: any[] }>("/api/superadmin/tenants"),
+      this.request<{ tenants: Tenant[] }>("/api/superadmin/tenants"),
 
     getTenant: (tenantId: string) =>
       this.request(`/api/superadmin/tenants/${tenantId}`),
@@ -699,7 +709,7 @@ export class ApiClient {
       startDate?: string;
       endDate?: string;
     }) => {
-      const params = new URLSearchParams(filters as any).toString();
+      const params = new URLSearchParams(filters as Record<string, string>).toString();
       return this.request(`/api/superadmin/audit-logs${params ? `?${params}` : ''}`);
     },
   };
@@ -707,7 +717,7 @@ export class ApiClient {
   // Billing endpoints
   billing = {
     getPlans: () =>
-      this.request<{ plans: any[] }>("/api/billing/plans"),
+      this.request<{ plans: BillingPlan[] }>("/api/billing/plans"),
 
     getSubscription: () =>
       this.request("/api/billing/subscription"),
@@ -740,10 +750,10 @@ export class ApiClient {
       }),
 
     getInvoices: () =>
-      this.request<{ invoices: any[] }>("/api/billing/invoices"),
+      this.request<{ invoices: Invoice[] }>("/api/billing/invoices"),
 
     getPaymentMethods: () =>
-      this.request<{ paymentMethods: any[] }>("/api/billing/payment-methods"),
+      this.request<{ paymentMethods: PaymentMethod[] }>("/api/billing/payment-methods"),
   };
 
   // LXP Module endpoints (triggered)

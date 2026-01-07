@@ -84,14 +84,15 @@ export function DepartmentAggregatedView({ tenantId, tenantName }: DepartmentAgg
       setError(null);
 
       // ✅ PRODUCTION: Use ApiClient for automatic authentication (hybrid cookie + header)
-      const response = await apiClient.get('/api/culture-assessment/report/company', {
+      const response = await apiClient.get<{ report: Record<string, unknown> }>('/api/culture-assessment/report/company', {
         params: { tenantId }
       });
 
       const data = response.data;
 
       // Transform the backend report structure to frontend expected structure
-      const report = data.report || {};
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const report = data.report as any || {};
 
       const transformedAnalysis: DepartmentAnalysis = {
         department: selectedDepartment === 'all' ? 'Organization' : selectedDepartment,

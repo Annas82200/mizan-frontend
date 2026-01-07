@@ -705,7 +705,8 @@ export const superadminService = {
 
       // Temporarily use the admin endpoint with tenant context
       // This is a production-ready implementation that returns actual data
-      const response = await apiClient.get(`/api/admin/employees`, {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const response = await apiClient.get<any>(`/api/admin/employees`, {
         params: validatedParams,
         headers: {
           'X-Tenant-Id': params.tenantId
