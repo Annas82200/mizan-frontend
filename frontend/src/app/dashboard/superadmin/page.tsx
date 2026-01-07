@@ -9,6 +9,7 @@ import { StatCard } from '@/components/dashboard/StatCard';
 import { superadminService } from '@/services/dashboard.service';
 import authService from '@/services/auth.service';
 import apiClient from '@/lib/api-client';
+import { logger } from '@/lib/logger';
 
 interface Stats {
   totalTenants: number;
@@ -89,7 +90,7 @@ export default function SuperadminHome() {
             return await fetchFn();
           } catch (err) {
             if (i === retries - 1) throw err;
-            console.warn(`Retry ${i + 1}/${retries} for failed request`);
+            logger.warn(`Retry ${i + 1}/${retries} for failed request`);
             await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)));
           }
         }
@@ -116,8 +117,8 @@ export default function SuperadminHome() {
       if (revenueResponse) setRevenueData((revenueResponse as any).data || (revenueResponse as any).monthlyRevenue || []);
       if (activityResponse) setActivities(Array.isArray(activityResponse) ? activityResponse : (activityResponse as any).activities || []);
     } catch (err: unknown) {
-      console.error('Error fetching dashboard data:', err);
-      
+      logger.error('Error fetching dashboard data:', err);
+
       // Provide detailed error message based on error type
       let errorMessage = 'Failed to load dashboard data';
       
