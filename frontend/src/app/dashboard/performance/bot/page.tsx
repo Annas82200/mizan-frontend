@@ -1,14 +1,15 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
+import { useAuth } from '@/hooks/useAuth';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Send, Bot, User, Loader2, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
-import { apiClient } from '@/lib/api-client';
+import apiClient from '@/lib/api-client';
+import { logger } from '@/lib/logger';
 
 interface Message {
   id: string;
@@ -21,7 +22,7 @@ interface Message {
 }
 
 export default function PerformanceBotPage() {
-  const { data: session } = useSession();
+  const { user, loading: authLoading } = useAuth();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -86,7 +87,7 @@ How can I assist you today?`,
       }>('/api/performance/bot/query', {
         query: queryText,
         context: {
-          role: session?.user?.role
+          role: user?.role
         }
       });
 
@@ -102,7 +103,7 @@ How can I assist you today?`,
 
       setMessages(prev => [...prev, assistantMessage]);
     } catch (error) {
-      console.error('Error sending message:', error);
+      logger.error('Error sending message:', error);
       const errorMessage: Message = {
         id: `error-${Date.now()}`,
         role: 'assistant',
@@ -137,7 +138,7 @@ How can I assist you today?`,
       {/* Header */}
       <div className="flex items-center gap-4 mb-6">
         <Link href="/dashboard/performance">
-          <Button variant="outline" size="icon">
+          <Button variant="outline" size="sm" className="w-9 h-9 p-0">
             <ArrowLeft className="h-4 w-4" />
           </Button>
         </Link>
@@ -248,7 +249,8 @@ How can I assist you today?`,
               <Button
                 onClick={() => handleSend()}
                 disabled={loading || !input.trim()}
-                size="icon"
+                size="sm"
+                className="w-9 h-9 p-0"
               >
                 {loading ? (
                   <Loader2 className="h-4 w-4 animate-spin" />

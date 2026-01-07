@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
+import { useAuth } from '@/hooks/useAuth';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,7 +15,8 @@ import {
   SelectValue
 } from '@/components/ui/select';
 import { Settings, Save, Calendar, Bell, Target } from 'lucide-react';
-import { apiClient } from '@/lib/api-client';
+import apiClient from '@/lib/api-client';
+import { logger } from '@/lib/logger';
 
 interface PerformanceSettings {
   performanceCycle: 'quarterly' | 'semi-annual' | 'annual';
@@ -35,7 +36,7 @@ interface PerformanceSettings {
 }
 
 export default function PerformanceSettingsPage() {
-  const { data: session } = useSession();
+  const { user, loading: authLoading } = useAuth();
   const [settings, setSettings] = useState<PerformanceSettings>({
     performanceCycle: 'quarterly',
     goalApprovalRequired: true,
@@ -56,8 +57,10 @@ export default function PerformanceSettingsPage() {
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    loadSettings();
-  }, [session]);
+    if (!authLoading && user) {
+      loadSettings();
+    }
+  }, [user, authLoading]);
 
   const loadSettings = async () => {
     try {
@@ -65,7 +68,7 @@ export default function PerformanceSettingsPage() {
       const response = await apiClient.get<PerformanceSettings>('/api/performance/settings');
       setSettings(response.data);
     } catch (error) {
-      console.error('Error loading settings:', error);
+      logger.error('Error loading settings:', error);
     } finally {
       setLoading(false);
     }
@@ -74,10 +77,10 @@ export default function PerformanceSettingsPage() {
   const handleSaveSettings = async () => {
     try {
       setSaving(true);
-      await apiClient.put('/api/performance/settings', settings);
+      await apiClient.put('/api/performance/settings', settings as unknown as Record<string, unknown>);
       alert('Settings saved successfully!');
     } catch (error) {
-      console.error('Error saving settings:', error);
+      logger.error('Error saving settings:', error);
       alert('Failed to save settings. Please try again.');
     } finally {
       setSaving(false);
@@ -127,11 +130,11 @@ export default function PerformanceSettingsPage() {
             <Label htmlFor="performance-cycle">Performance Review Cycle</Label>
             <Select
               value={settings.performanceCycle}
-              onValueChange={(value: 'quarterly' | 'semi-annual' | 'annual') =>
-                setSettings({ ...settings, performanceCycle: value })
+              onValueChange={(value) =>
+                setSettings({ ...settings, performanceCycle: value as 'quarterly' | 'semi-annual' | 'annual' })
               }
             >
-              <SelectTrigger id="performance-cycle">
+              <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -192,11 +195,11 @@ export default function PerformanceSettingsPage() {
             <Label htmlFor="goals-visibility">Goals Visibility Level</Label>
             <Select
               value={settings.goalsVisibilityLevel}
-              onValueChange={(value: 'private' | 'team' | 'department' | 'company') =>
-                setSettings({ ...settings, goalsVisibilityLevel: value })
+              onValueChange={(value) =>
+                setSettings({ ...settings, goalsVisibilityLevel: value as 'private' | 'team' | 'department' | 'company' })
               }
             >
-              <SelectTrigger id="goals-visibility">
+              <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>

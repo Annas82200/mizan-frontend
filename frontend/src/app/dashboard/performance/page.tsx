@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
+import { useAuth } from '@/hooks/useAuth';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -16,7 +16,8 @@ import {
   Settings
 } from 'lucide-react';
 import Link from 'next/link';
-import { apiClient } from '@/lib/api-client';
+import apiClient from '@/lib/api-client';
+import { logger } from '@/lib/logger';
 
 interface PerformanceMetrics {
   overallScore: number;
@@ -52,18 +53,20 @@ interface RecentActivity {
 }
 
 export default function PerformancePage() {
-  const { data: session } = useSession();
+  const { user, loading: authLoading } = useAuth();
   const [metrics, setMetrics] = useState<PerformanceMetrics | null>(null);
   const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedTab, setSelectedTab] = useState('overview');
 
   useEffect(() => {
-    loadPerformanceData();
-  }, [session]);
+    if (!authLoading && user) {
+      loadPerformanceData();
+    }
+  }, [user, authLoading]);
 
   const loadPerformanceData = async () => {
-    if (!session?.user?.id) return;
+    if (!user?.id) return;
 
     try {
       setLoading(true);
@@ -75,7 +78,7 @@ export default function PerformancePage() {
       setMetrics(metricsData.data);
       setRecentActivity(activityData.data);
     } catch (error) {
-      console.error('Error loading performance data:', error);
+      logger.error('Error loading performance data:', error);
     } finally {
       setLoading(false);
     }

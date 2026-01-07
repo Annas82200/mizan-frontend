@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
+import { useAuth } from '@/hooks/useAuth';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -21,7 +21,8 @@ import {
   SelectValue
 } from '@/components/ui/select';
 import { Plus, Target, Edit, Trash2, CheckCircle } from 'lucide-react';
-import { apiClient } from '@/lib/api-client';
+import apiClient from '@/lib/api-client';
+import { logger } from '@/lib/logger';
 
 interface PerformanceGoal {
   id: string;
@@ -50,7 +51,7 @@ interface GoalFormData {
 }
 
 export default function GoalsPage() {
-  const { data: session } = useSession();
+  const { user, loading: authLoading } = useAuth();
   const [goals, setGoals] = useState<PerformanceGoal[]>([]);
   const [loading, setLoading] = useState(true);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
@@ -66,18 +67,20 @@ export default function GoalsPage() {
   });
 
   useEffect(() => {
-    loadGoals();
-  }, [session]);
+    if (!authLoading && user) {
+      loadGoals();
+    }
+  }, [user, authLoading]);
 
   const loadGoals = async () => {
-    if (!session?.user?.id) return;
+    if (!user?.id) return;
 
     try {
       setLoading(true);
       const response = await apiClient.get<PerformanceGoal[]>('/api/performance/goals');
       setGoals(response.data);
     } catch (error) {
-      console.error('Error loading goals:', error);
+      logger.error('Error loading goals:', error);
     } finally {
       setLoading(false);
     }
@@ -85,12 +88,12 @@ export default function GoalsPage() {
 
   const handleCreateGoal = async () => {
     try {
-      await apiClient.post('/api/performance/goals', formData);
+      await apiClient.post('/api/performance/goals', formData as unknown as Record<string, unknown>);
       setIsCreateDialogOpen(false);
       resetForm();
       await loadGoals();
     } catch (error) {
-      console.error('Error creating goal:', error);
+      logger.error('Error creating goal:', error);
     }
   };
 
@@ -99,7 +102,7 @@ export default function GoalsPage() {
       await apiClient.put(`/api/performance/goals/${goalId}`, updates);
       await loadGoals();
     } catch (error) {
-      console.error('Error updating goal:', error);
+      logger.error('Error updating goal:', error);
     }
   };
 
@@ -110,7 +113,7 @@ export default function GoalsPage() {
       await apiClient.delete(`/api/performance/goals/${goalId}`);
       await loadGoals();
     } catch (error) {
-      console.error('Error deleting goal:', error);
+      logger.error('Error deleting goal:', error);
     }
   };
 
@@ -319,7 +322,7 @@ export default function GoalsPage() {
                 <label className="text-sm font-medium">Goal Type</label>
                 <Select
                   value={formData.type}
-                  onValueChange={(value: 'individual' | 'departmental' | 'culture' | 'skills') => setFormData({ ...formData, type: value })}
+                  onValueChange={(value) => setFormData({ ...formData, type: value as 'individual' | 'departmental' | 'culture' | 'skills' })}
                 >
                   <SelectTrigger>
                     <SelectValue />
