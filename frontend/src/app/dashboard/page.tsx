@@ -16,6 +16,7 @@ import {
   Lightbulb
 } from 'lucide-react';
 import Link from 'next/link';
+import { logger } from '@/lib/logger';
 
 interface DashboardMetrics {
   culture: {
@@ -77,7 +78,7 @@ export default function DashboardPage() {
           setMetrics(data);
         }
       } catch (error) {
-        console.error('Dashboard data fetch error:', error);
+        logger.error('Dashboard data fetch error:', error);
       } finally {
         setLoading(false);
       }

@@ -14,6 +14,7 @@ import { SkillsProgressTracking } from '@/components/skills/SkillsProgressTracki
 import { SkillsReporting } from '@/components/skills/SkillsReporting';
 import { DepartmentAnalysis } from '@/components/skills/DepartmentAnalysis';
 import { OrganizationAnalysis } from '@/components/skills/OrganizationAnalysis';
+import { logger } from '@/lib/logger';
 
 interface SkillsAnalysisPageProps {}
 
@@ -44,7 +45,7 @@ export default function SkillsAnalysisPage({}: SkillsAnalysisPageProps) {
         try {
           user = JSON.parse(userStr);
         } catch (parseError) {
-          console.error('Invalid user data in localStorage:', parseError);
+          logger.error('Invalid user data in localStorage:', parseError);
           localStorage.removeItem('mizan_user');
           localStorage.removeItem('mizan_auth_token');
           router.push('/login');
@@ -75,20 +76,20 @@ export default function SkillsAnalysisPage({}: SkillsAnalysisPageProps) {
           });
 
           if (!response.ok) {
-            console.error('Backend authentication verification failed');
+            logger.error('Backend authentication verification failed');
             localStorage.removeItem('mizan_user');
             localStorage.removeItem('mizan_auth_token');
             router.push('/login');
             return;
           }
         } catch (verifyError) {
-          console.error('Backend verification error:', verifyError);
+          logger.error('Backend verification error:', verifyError);
           // Continue anyway - offline support
         }
 
         setIsLoading(false);
       } catch (error) {
-        console.error('Authentication error:', error);
+        logger.error('Authentication error:', error);
         localStorage.removeItem('mizan_user');
         localStorage.removeItem('mizan_auth_token');
         router.push('/login');

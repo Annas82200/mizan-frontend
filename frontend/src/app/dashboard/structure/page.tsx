@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Building2Icon } from 'lucide-react';
+import { logger } from '@/lib/logger';
 
 interface StructureAnalysisPageProps {}
 
@@ -46,7 +47,7 @@ export default function StructureAnalysisPage({}: StructureAnalysisPageProps) {
 
         setIsLoading(false);
       } catch (error) {
-        console.error('Authentication error:', error);
+        logger.error('Authentication error:', error);
         router.push('/login');
       }
     };
@@ -82,7 +83,7 @@ export default function StructureAnalysisPage({}: StructureAnalysisPageProps) {
         setAnalysisData(structures.length > 0 ? structures[0] : null);
         setError(null);
       } catch (error) {
-        console.error('Error fetching structure analysis:', error);
+        logger.error('Error fetching structure analysis:', error);
         setError(error instanceof Error ? error.message : 'Failed to load analysis data');
       }
     };

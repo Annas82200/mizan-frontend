@@ -18,6 +18,7 @@ import {
   RefreshCw
 } from 'lucide-react';
 import apiClient from '@/lib/api-client';
+import { logger } from '@/lib/logger';
 
 // Helper to format rich text with subtitles
 const formatDescription = (text: string) => {
@@ -192,7 +193,7 @@ export default function CultureAnalysisPage() {
 
         setIsLoading(false);
       } catch (error) {
-        console.error('Authentication error:', error);
+        logger.error('Authentication error:', error);
         router.push('/login');
       }
     };
@@ -211,7 +212,7 @@ export default function CultureAnalysisPage() {
       setError(null);
 
       // ✅ PRODUCTION: Use ApiClient for automatic authentication (hybrid cookie + header)
-      const response = await apiClient.post('/api/analyses/culture', {
+      const response = await apiClient.post<CultureAnalysisOutput>('/api/analyses/culture', {
         tenantId: tenantId,
         targetType: 'company'
       });
@@ -219,7 +220,7 @@ export default function CultureAnalysisPage() {
       const analysisResults = response.data;
       setResults(analysisResults);
     } catch (err: unknown) {
-      console.error('Culture analysis error:', err);
+      logger.error('Culture analysis error:', err);
       setError(err instanceof Error ? err.message : 'Failed to analyze culture');
     } finally {
       setAnalyzing(false);
