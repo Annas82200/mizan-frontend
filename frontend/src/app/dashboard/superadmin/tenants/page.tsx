@@ -54,12 +54,12 @@ export default function TenantManagement() {
       setLoading(true);
       setError(null);
 
-      const response = await superadminService.getTenants();
+      const response = await superadminService.getTenants() as unknown as ApiResponse;
       // Map tenants to include required fields
-      const mappedTenants = ((response as any).tenants || []).map((t: any) => ({
+      const mappedTenants = (response.tenants || []).map((t) => ({
         ...t,
         id: t.id, // ✅ FIXED: No longer need String() conversion - backend returns UUID strings
-        updatedAt: t.updatedAt || t.lastActivity || new Date().toISOString(),
+        updatedAt: t.updatedAt || new Date().toISOString(),
         employeeCount: t.employeeCount || t.userCount || null
       }));
       setTenants(mappedTenants);

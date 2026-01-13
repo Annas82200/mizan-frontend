@@ -57,7 +57,10 @@ export const OrganizationAnalysis: React.FC<OrganizationAnalysisProps> = ({ user
       setLoading(true);
       setError(null);
 
-      const response = await apiClient.skills.getOrganizationAnalysis() as any;
+      const response = await apiClient.skills.getOrganizationAnalysis() as {
+        success: boolean;
+        analysis?: OrganizationAnalysisData;
+      };
 
       if (response.success && response.analysis) {
         setAnalysisData(response.analysis as OrganizationAnalysisData);

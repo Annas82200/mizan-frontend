@@ -268,7 +268,7 @@ export interface FileUploadResponse {
   fileId?: string;
   fileName?: string;
   fileUrl?: string;
-  extractedData?: any;
+  extractedData?: Record<string, unknown>;
 }
 
 // ------------------------------------------------------------------------------

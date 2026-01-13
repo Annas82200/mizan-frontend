@@ -233,7 +233,7 @@ export const SkillsWorkflowManager: React.FC<SkillsWorkflowManagerProps> = ({ us
         strategy: formData.strategy,
         industry: formData.industry,
         organizationName: formData.sessionName
-      }) as ApiResponse<{ analysis: any; assessment: WorkflowSession }>;
+      }) as ApiResponse<{ analysis: Record<string, unknown>; assessment: WorkflowSession }>;
 
       if (response.success) {
         // Close form
@@ -535,7 +535,8 @@ export const SkillsWorkflowManager: React.FC<SkillsWorkflowManagerProps> = ({ us
                     id="status-filter"
                     value={filters.status}
                     onChange={(e) => {
-                      setFilters({ ...filters, status: e.target.value as any });
+                      const value = e.target.value as '' | 'collecting' | 'analyzing' | 'completed' | 'failed';
+                      setFilters({ ...filters, status: value });
                       setCurrentPage(1);
                     }}
                     className="w-full h-10 px-3 rounded-md border border-gray-300"
@@ -553,7 +554,8 @@ export const SkillsWorkflowManager: React.FC<SkillsWorkflowManagerProps> = ({ us
                     id="date-filter"
                     value={filters.dateRange}
                     onChange={(e) => {
-                      setFilters({ ...filters, dateRange: e.target.value as any });
+                      const value = e.target.value as 'all' | '7days' | '30days';
+                      setFilters({ ...filters, dateRange: value });
                       setCurrentPage(1);
                     }}
                     className="w-full h-10 px-3 rounded-md border border-gray-300"

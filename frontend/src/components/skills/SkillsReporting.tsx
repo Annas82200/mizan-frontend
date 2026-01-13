@@ -38,19 +38,19 @@ export const SkillsReporting: React.FC<SkillsReportingProps> = ({ userRole, tena
       setLoading(true);
       setError(null);
 
-      const response: any = await apiClient.skills.getReportPreview(
+      const response = await apiClient.skills.getReportPreview(
         reportType,
         reportType === 'department' ? selectedDepartment : undefined
-      );
+      ) as { success: boolean; data?: ReportPreviewData; error?: string };
 
       if (response.success && response.data) {
         setReportPreview(response.data);
       } else {
         throw new Error(response.error || 'Failed to load report preview');
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       logger.error('Failed to load report preview:', err);
-      setError(err.message || 'Failed to load report preview');
+      setError(err instanceof Error ? err.message : 'Failed to load report preview');
     } finally {
       setLoading(false);
     }
@@ -137,9 +137,9 @@ export const SkillsReporting: React.FC<SkillsReportingProps> = ({ userRole, tena
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
 
-    } catch (err: any) {
+    } catch (err: unknown) {
       logger.error('Export failed:', err);
-      setError(err.message || 'Failed to export report');
+      setError(err instanceof Error ? err.message : 'Failed to export report');
     } finally {
       setExporting(false);
     }

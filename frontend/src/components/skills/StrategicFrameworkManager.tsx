@@ -15,16 +15,44 @@ interface StrategicFrameworkManagerProps {
   userRole: string;
 }
 
+// Skill type for framework skills
+interface FrameworkSkill {
+  name: string;
+  category?: string;
+  level?: string;
+  priority?: number;
+}
+
+// Prioritization item type
+interface PrioritizationItem {
+  skillId?: string;
+  skillName?: string;
+  priority: number;
+  reason?: string;
+}
+
 interface Framework {
   id: string;
   frameworkName: string;
   industry: string;
-  strategicSkills: any[];
-  technicalSkills: any[];
-  softSkills: any[];
-  prioritization: any[];
+  strategicSkills: FrameworkSkill[];
+  technicalSkills: FrameworkSkill[];
+  softSkills: FrameworkSkill[];
+  prioritization: PrioritizationItem[];
   createdAt: string;
   updatedAt: string;
+}
+
+// API response types
+interface FrameworksResponse {
+  success: boolean;
+  frameworks?: Framework[];
+}
+
+interface FrameworkMutationResponse {
+  success: boolean;
+  framework?: Framework;
+  message?: string;
 }
 
 /**
@@ -60,14 +88,14 @@ export const StrategicFrameworkManager: React.FC<StrategicFrameworkManagerProps>
     try {
       setLoading(true);
       setError(null);
-      const response: any = await apiClient.skills.getFrameworks();
+      const response = await apiClient.skills.getFrameworks() as FrameworksResponse;
 
       if (response.success && response.frameworks) {
         setFrameworks(response.frameworks);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       logger.error('Failed to load frameworks:', err);
-      setError(err.message || 'Failed to load frameworks');
+      setError(err instanceof Error ? err.message : 'Failed to load frameworks');
     } finally {
       setLoading(false);
     }
@@ -86,11 +114,11 @@ export const StrategicFrameworkManager: React.FC<StrategicFrameworkManagerProps>
       setLoading(true);
       setError(null);
 
-      const response: any = await apiClient.skills.createFramework({
+      const response = await apiClient.skills.createFramework({
         industry: formData.industry,
         strategy: formData.strategy,
         organizationName: formData.organizationName
-      });
+      }) as FrameworkMutationResponse;
 
       if (response.success) {
         // Reload frameworks
@@ -100,9 +128,9 @@ export const StrategicFrameworkManager: React.FC<StrategicFrameworkManagerProps>
         setFormData({ industry: '', strategy: '', organizationName: '' });
         setShowCreateModal(false);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       logger.error('Failed to create framework:', err);
-      setError(err.message || 'Failed to create framework');
+      setError(err instanceof Error ? err.message : 'Failed to create framework');
     } finally {
       setLoading(false);
     }
@@ -118,10 +146,10 @@ export const StrategicFrameworkManager: React.FC<StrategicFrameworkManagerProps>
       setLoading(true);
       setError(null);
 
-      const response: any = await apiClient.skills.updateFramework(selectedFramework.id, {
+      const response = await apiClient.skills.updateFramework(selectedFramework.id, {
         industry: formData.industry,
         frameworkName: formData.organizationName
-      });
+      }) as FrameworkMutationResponse;
 
       if (response.success) {
         // Reload frameworks
@@ -132,9 +160,9 @@ export const StrategicFrameworkManager: React.FC<StrategicFrameworkManagerProps>
         setFormData({ industry: '', strategy: '', organizationName: '' });
         setShowEditModal(false);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       logger.error('Failed to update framework:', err);
-      setError(err.message || 'Failed to update framework');
+      setError(err instanceof Error ? err.message : 'Failed to update framework');
     } finally {
       setLoading(false);
     }
@@ -150,7 +178,7 @@ export const StrategicFrameworkManager: React.FC<StrategicFrameworkManagerProps>
       setLoading(true);
       setError(null);
 
-      const response: any = await apiClient.skills.deleteFramework(selectedFramework.id);
+      const response = await apiClient.skills.deleteFramework(selectedFramework.id) as FrameworkMutationResponse;
 
       if (response.success) {
         // Reload frameworks
@@ -160,9 +188,9 @@ export const StrategicFrameworkManager: React.FC<StrategicFrameworkManagerProps>
         setSelectedFramework(null);
         setShowDeleteConfirm(false);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       logger.error('Failed to delete framework:', err);
-      setError(err.message || 'Failed to delete framework. This framework may have active assessment sessions.');
+      setError(err instanceof Error ? err.message : 'Failed to delete framework. This framework may have active assessment sessions.');
     } finally {
       setLoading(false);
     }

@@ -85,22 +85,26 @@ export default function SystemAnalytics() {
       ]);
 
       // Map service response to component state interfaces
+      const usageData = usage as unknown as { activeUsers?: number; totalAnalyses?: number; totalApiCalls?: number; featureAdoption?: Record<string, number> };
       setUsageStats({
-        dau: (usage as any).activeUsers || 0,
-        wau: (usage as any).totalAnalyses || 0,
-        mau: (usage as any).totalApiCalls || 0,
-        featureAdoption: (usage as any).featureAdoption || {}
+        dau: usageData.activeUsers || 0,
+        wau: usageData.totalAnalyses || 0,
+        mau: usageData.totalApiCalls || 0,
+        featureAdoption: usageData.featureAdoption || {}
       });
+      const apiData = api as unknown as { totalCalls?: number; avgResponseTime?: number; p95ResponseTime?: number; p99ResponseTime?: number; errorRate?: number; topEndpoints?: Array<{ endpoint: string; calls: number; avgTime: number; errors?: number }> };
       setApiStats({
-        totalCalls: (api as any).totalCalls || 0,
-        avgResponseTime: (api as any).avgResponseTime || 0,
-        p95ResponseTime: (api as any).p95ResponseTime || 0,
-        p99ResponseTime: (api as any).p99ResponseTime || 0,
-        errorRate: (api as any).errorRate || 0,
-        topEndpoints: (api as any).topEndpoints || []
+        totalCalls: apiData.totalCalls || 0,
+        avgResponseTime: apiData.avgResponseTime || 0,
+        p95ResponseTime: apiData.p95ResponseTime || 0,
+        p99ResponseTime: apiData.p99ResponseTime || 0,
+        errorRate: apiData.errorRate || 0,
+        topEndpoints: (apiData.topEndpoints || []).map(ep => ({ ...ep, errors: ep.errors || 0 }))
       });
-      setAgentStats((agents as any).agents || []);
-      setPerformanceMetrics((performance as any).metrics || []);
+      const agentsData = agents as unknown as { agents?: AgentStat[] };
+      setAgentStats(agentsData.agents || []);
+      const performanceData = performance as unknown as { metrics?: PerformanceMetric[] };
+      setPerformanceMetrics(performanceData.metrics || []);
     } catch (err: unknown) {
       logger.error('Error fetching analytics:', err);
       setError(err instanceof Error ? err.message : 'Failed to load analytics data');

@@ -55,7 +55,7 @@ class FrontendLogger {
   /**
    * Format log message with timestamp and context
    */
-  private formatMessage(level: LogLevel, message: string, data?: any): string {
+  private formatMessage(level: LogLevel, message: string, data?: unknown): string {
     const timestamp = new Date().toISOString();
     const prefix = `[${timestamp}] [${level.toUpperCase()}]`;
 
@@ -69,7 +69,7 @@ class FrontendLogger {
   /**
    * Send logs to external service (Sentry for error tracking)
    */
-  private sendToRemoteService(level: LogLevel, message: string, data?: any) {
+  private sendToRemoteService(level: LogLevel, message: string, data?: unknown) {
     if (!this.config.enableRemoteLogging) {
       return;
     }
@@ -114,7 +114,7 @@ class FrontendLogger {
   /**
    * Debug level logging (development only)
    */
-  debug(message: string, ...args: any[]) {
+  debug(message: string, ...args: unknown[]) {
     if (!this.shouldLog('debug')) return;
 
     if (this.isDevelopment) {
@@ -125,7 +125,7 @@ class FrontendLogger {
   /**
    * Info level logging
    */
-  info(message: string, ...args: any[]) {
+  info(message: string, ...args: unknown[]) {
     if (!this.shouldLog('info')) return;
 
     if (this.isDevelopment) {
@@ -138,7 +138,7 @@ class FrontendLogger {
   /**
    * Warning level logging
    */
-  warn(message: string, ...args: any[]) {
+  warn(message: string, ...args: unknown[]) {
     if (!this.shouldLog('warn')) return;
 
     if (this.isDevelopment) {
@@ -151,7 +151,7 @@ class FrontendLogger {
   /**
    * Error level logging (always logged)
    */
-  error(message: string, ...args: any[]) {
+  error(message: string, ...args: unknown[]) {
     if (!this.shouldLog('error')) return;
 
     // Always log errors to console (even in production for debugging)
@@ -163,14 +163,14 @@ class FrontendLogger {
   /**
    * Log method (maps to info)
    */
-  log(message: string, ...args: any[]) {
+  log(message: string, ...args: unknown[]) {
     this.info(message, ...args);
   }
 
   /**
    * Table logging (development only)
    */
-  table(data: any) {
+  table(data: unknown) {
     if (this.isDevelopment) {
       console.table(data);
     }

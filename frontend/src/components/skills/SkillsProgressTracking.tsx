@@ -36,16 +36,16 @@ export const SkillsProgressTracking: React.FC<SkillsProgressTrackingProps> = ({
       setLoading(true);
       setError(null);
 
-      const response: any = await apiClient.skills.getEmployeeProgress(employeeId);
+      const response = await apiClient.skills.getEmployeeProgress(employeeId) as { success: boolean; data?: EmployeeProgressMetrics; error?: string };
 
       if (response.success && response.data) {
         setProgressData(response.data);
       } else {
         throw new Error(response.error || 'Failed to load progress data');
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       logger.error('Failed to fetch progress data:', err);
-      setError(err.message || 'Failed to load progress data');
+      setError(err instanceof Error ? err.message : 'Failed to load progress data');
     } finally {
       setLoading(false);
     }

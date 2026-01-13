@@ -23,6 +23,64 @@ interface Skill {
   yearsOfExperience?: number;
 }
 
+// Gap analysis types
+interface SkillGap {
+  skillName?: string;
+  skill?: string;
+  category?: string;
+  currentLevel?: string;
+  requiredLevel?: string;
+  gapSeverity?: 'critical' | 'high' | 'medium' | 'low';
+  gapScore?: number;
+  recommendations?: string[];
+}
+
+interface StrengthSkill {
+  name?: string;
+  skillName?: string;
+  skill?: string;
+  category?: string;
+  level?: string;
+  proficiencyLevel?: string;
+}
+
+interface GapAnalysisResult {
+  employeeId: string;
+  employeeName: string;
+  overallGapScore: number;
+  criticalGaps: SkillGap[];
+  gaps: SkillGap[];
+  strengths: StrengthSkill[];
+  recommendations: string[];
+  frameworkMissing?: boolean;
+  message?: string;
+  helpText?: string;
+}
+
+// API response types
+interface SkillsResponse {
+  success: boolean;
+  data?: { skills: Skill[] };
+  message?: string;
+}
+
+interface GapAnalysisResponse {
+  success: boolean;
+  data?: GapAnalysisResult;
+  error?: string;
+}
+
+interface UploadResponse {
+  success: boolean;
+  data?: { extractedSkills: Skill[] };
+  message?: string;
+}
+
+interface UpdateSkillsResponse {
+  success: boolean;
+  message?: string;
+}
+
 /**
  * Individual Skills Assessment Component
  * ✅ PRODUCTION-READY: Full API integration
@@ -51,7 +109,7 @@ export const IndividualSkillsAssessment: React.FC<IndividualSkillsAssessmentProp
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Gap analysis state
-  const [gapAnalysis, setGapAnalysis] = useState<any>(null);
+  const [gapAnalysis, setGapAnalysis] = useState<GapAnalysisResult | null>(null);
   const [loadingGapAnalysis, setLoadingGapAnalysis] = useState(false);
   const [gapAnalysisError, setGapAnalysisError] = useState<string | null>(null);
 
@@ -67,7 +125,7 @@ export const IndividualSkillsAssessment: React.FC<IndividualSkillsAssessmentProp
     try {
       setLoading(true);
       setError(null);
-      const response: any = await apiClient.skills.getEmployeeSkills(employeeId);
+      const response = await apiClient.skills.getEmployeeSkills(employeeId) as SkillsResponse;
 
       if (response.success && response.data?.skills) {
         setSkills(response.data.skills);
@@ -76,9 +134,9 @@ export const IndividualSkillsAssessment: React.FC<IndividualSkillsAssessmentProp
           loadGapAnalysis();
         }
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       logger.error('Failed to load skills:', err);
-      setError(err.message || 'Failed to load skills');
+      setError(err instanceof Error ? err.message : 'Failed to load skills');
     } finally {
       setLoading(false);
     }
@@ -92,7 +150,7 @@ export const IndividualSkillsAssessment: React.FC<IndividualSkillsAssessmentProp
       setLoadingGapAnalysis(true);
       setGapAnalysisError(null);
 
-      const response: any = await apiClient.skills.getEmployeeGapAnalysis(employeeId);
+      const response = await apiClient.skills.getEmployeeGapAnalysis(employeeId) as GapAnalysisResponse;
 
       if (response.success && response.data) {
         // Check if framework is missing
@@ -104,9 +162,9 @@ export const IndividualSkillsAssessment: React.FC<IndividualSkillsAssessmentProp
           setGapAnalysis(response.data);
         }
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       logger.error('Failed to load gap analysis:', err);
-      setGapAnalysisError(err.message || 'Failed to load gap analysis');
+      setGapAnalysisError(err instanceof Error ? err.message : 'Failed to load gap analysis');
     } finally {
       setLoadingGapAnalysis(false);
     }
@@ -137,14 +195,14 @@ export const IndividualSkillsAssessment: React.FC<IndividualSkillsAssessmentProp
       setError(null);
       setUploadProgress(10);
 
-      const response: any = await apiClient.skills.uploadResume(file, employeeId);
+      const response = await apiClient.skills.uploadResume(file, employeeId) as UploadResponse;
       setUploadProgress(100);
 
       if (response.success && response.data?.extractedSkills) {
         // Merge extracted skills with existing skills (avoid duplicates)
         const existingSkillNames = skills.map(s => s.name.toLowerCase());
         const newSkills = response.data.extractedSkills.filter(
-          (s: Skill) => !existingSkillNames.includes(s.name.toLowerCase())
+          (s) => !existingSkillNames.includes(s.name.toLowerCase())
         );
 
         const updatedSkills = [...skills, ...newSkills];
@@ -160,9 +218,9 @@ export const IndividualSkillsAssessment: React.FC<IndividualSkillsAssessmentProp
       }
 
       setTimeout(() => setUploadProgress(0), 2000);
-    } catch (err: any) {
+    } catch (err: unknown) {
       logger.error('Resume upload failed:', err);
-      setError(err.message || 'Failed to upload resume');
+      setError(err instanceof Error ? err.message : 'Failed to upload resume');
       setUploadProgress(0);
     } finally {
       setLoading(false);
@@ -206,15 +264,15 @@ export const IndividualSkillsAssessment: React.FC<IndividualSkillsAssessmentProp
    */
   const saveSkills = async (skillsToSave: Skill[]) => {
     try {
-      const response: any = await apiClient.skills.updateEmployeeSkills(employeeId, skillsToSave);
+      const response = await apiClient.skills.updateEmployeeSkills(employeeId, skillsToSave) as UpdateSkillsResponse;
 
       if (response.success) {
         return true;
       }
-      throw new Error(response.error || 'Failed to save skills');
-    } catch (err: any) {
+      throw new Error(response.message || 'Failed to save skills');
+    } catch (err: unknown) {
       logger.error('Failed to save skills:', err);
-      setError(err.message || 'Failed to save skills');
+      setError(err instanceof Error ? err.message : 'Failed to save skills');
       return false;
     }
   };
@@ -270,9 +328,9 @@ export const IndividualSkillsAssessment: React.FC<IndividualSkillsAssessmentProp
 
       // Update local state
       setSkills(skills.filter(s => s.name !== skillName));
-    } catch (err: any) {
+    } catch (err: unknown) {
       logger.error('Failed to delete skill:', err);
-      setError(err.message || 'Failed to delete skill');
+      setError(err instanceof Error ? err.message : 'Failed to delete skill');
     } finally {
       setLoading(false);
     }
@@ -655,7 +713,7 @@ export const IndividualSkillsAssessment: React.FC<IndividualSkillsAssessmentProp
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      {gapAnalysis.criticalGaps.map((gap: any, index: number) => (
+                      {gapAnalysis.criticalGaps.map((gap, index) => (
                         <div key={index} className="p-4 bg-red-50 border border-red-200 rounded-lg">
                           <div className="flex items-start justify-between">
                             <div className="flex-1">
@@ -698,7 +756,7 @@ export const IndividualSkillsAssessment: React.FC<IndividualSkillsAssessmentProp
                   </CardHeader>
                   <CardContent>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {gapAnalysis.strengths.map((strength: any, index: number) => (
+                      {gapAnalysis.strengths.map((strength, index) => (
                         <div key={index} className="p-4 bg-green-50 border border-green-200 rounded-lg">
                           <h4 className="font-semibold text-gray-900">{strength.skillName || strength.skill}</h4>
                           <p className="text-sm text-gray-600 mt-1">

@@ -95,7 +95,10 @@ export const DepartmentAnalysis: React.FC<DepartmentAnalysisProps> = ({ userRole
       setLoading(true);
       setError(null);
 
-      const response = await apiClient.skills.getDepartmentAnalysis(deptId) as any;
+      const response = await apiClient.skills.getDepartmentAnalysis(deptId) as {
+        success: boolean;
+        analysis?: DepartmentAnalysisData;
+      };
 
       if (response.success && response.analysis) {
         setAnalysisData(response.analysis as DepartmentAnalysisData);

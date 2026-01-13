@@ -142,7 +142,13 @@ export const SkillsBotInterface: React.FC<SkillsBotInterfaceProps> = ({ userRole
 
     try {
       // Real API call to Skills BOT service using apiClient
-      const response: any = await apiClient.skills.queryBot(userQuery, { userRole });
+      const response = await apiClient.skills.queryBot(userQuery, { userRole }) as {
+        success: boolean;
+        response?: {
+          answer?: string;
+          suggestions?: string[];
+        };
+      };
 
       if (response.success && response.response) {
         const botData = response.response;

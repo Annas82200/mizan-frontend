@@ -83,7 +83,7 @@ How can I assist you today?`,
         intent: string;
         confidence: number;
         suggestions: string[];
-        data?: any;
+        data?: Record<string, unknown>;
       }>('/api/performance/bot/query', {
         query: queryText,
         context: {

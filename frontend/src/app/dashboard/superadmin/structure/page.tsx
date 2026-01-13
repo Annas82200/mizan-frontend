@@ -216,8 +216,9 @@ export default function StructureAnalysisPage() {
       // Extract just the analysis fields we need
       if (structureData.success) {
         // Remove wrapper fields and keep only analysis data
-        const { success, dataSaved, analysisCompleted, employeesCreated, id, ...analysisData } = structureData as any;
-        setResults(analysisData as StructureAnalysisOutput);
+        const fullResponse = structureData as unknown as Record<string, unknown>;
+        const { success: _success, dataSaved: _dataSaved, analysisCompleted: _analysisCompleted, employeesCreated: _employeesCreated, id: _id, ...analysisData } = fullResponse;
+        setResults(analysisData as unknown as StructureAnalysisOutput);
       } else {
         throw new Error(structureData.error || 'Analysis failed');
       }

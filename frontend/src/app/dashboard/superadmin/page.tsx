@@ -104,18 +104,39 @@ export default function SuperadminHome() {
         fetchWithRetry(() => superadminService.getActivity({ limit: 5 }))
       ]);
 
-      if (statsResponse) setStats({
-        ...statsResponse,
-        monthlyRevenue: (statsResponse as any).monthlyRevenue || statsResponse.totalRevenue / 12,
-        platformHealth: (statsResponse as any).platformHealth || 95
-      });
-      if (tenantsResponse) setTenants((tenantsResponse.tenants || []).map((t: any) => ({
-        ...t,
-        employeeCount: t.employeeCount || t.userCount || 0,
-        updatedAt: t.updatedAt || t.lastActivity || new Date().toISOString()
-      })));
-      if (revenueResponse) setRevenueData((revenueResponse as any).data || (revenueResponse as any).monthlyRevenue || []);
-      if (activityResponse) setActivities(Array.isArray(activityResponse) ? activityResponse : (activityResponse as any).activities || []);
+      if (statsResponse) {
+        const statsData = statsResponse as unknown as { totalTenants: number; totalUsers: number; totalRevenue?: number; monthlyRevenue?: number; platformHealth?: number };
+        setStats({
+          totalTenants: statsData.totalTenants,
+          totalUsers: statsData.totalUsers,
+          monthlyRevenue: statsData.monthlyRevenue || (statsData.totalRevenue || 0) / 12,
+          platformHealth: statsData.platformHealth || 95
+        });
+      }
+      if (tenantsResponse) {
+        const tenantData = tenantsResponse as unknown as { tenants?: Array<{ id: string; name: string; plan: string; status: string; employeeCount?: number | null; userCount?: number; updatedAt?: string; lastActivity?: string }> };
+        setTenants((tenantData.tenants || []).map((t) => ({
+          id: t.id,
+          name: t.name,
+          plan: t.plan,
+          status: t.status,
+          employeeCount: t.employeeCount || t.userCount || 0,
+          updatedAt: t.updatedAt || t.lastActivity || new Date().toISOString()
+        })));
+      }
+      if (revenueResponse) {
+        const revenueResponseData = revenueResponse as unknown as { data?: RevenueData[]; monthlyRevenue?: Array<{ month: string; revenue?: number; mrr?: number; arr?: number }> };
+        const revenueArray = revenueResponseData.data || revenueResponseData.monthlyRevenue || [];
+        setRevenueData(revenueArray.map(r => ({
+          month: r.month,
+          mrr: (r as RevenueData).mrr || (r as { revenue?: number }).revenue || 0,
+          arr: (r as RevenueData).arr || 0
+        })));
+      }
+      if (activityResponse) {
+        const activityData = activityResponse as unknown as ActivityItem[] | { activities?: ActivityItem[] };
+        setActivities(Array.isArray(activityData) ? activityData : activityData.activities || []);
+      }
     } catch (err: unknown) {
       logger.error('Error fetching dashboard data:', err);
 

@@ -45,6 +45,62 @@ interface Employee {
   hasCompletedSurvey: boolean;
 }
 
+interface EmployeeReport {
+  employeeId?: string;
+  employeeName?: string;
+  personalValues?: {
+    strengths?: string[];
+    limitingFactors?: string[];
+    interpretation?: string;
+    cylinderMapping?: {
+      values: Array<{
+        value: string;
+        cylinder: number;
+        cylinderName: string;
+        type: 'enabling' | 'limiting';
+      }>;
+      cylinders: {
+        [key: string]: {
+          name: string;
+          count: number;
+          values: string[];
+          type: string[];
+        };
+      };
+    };
+  };
+  cultureAlignment?: {
+    interpretation?: string;
+    alignmentStrength?: 'strong' | 'moderate' | 'weak';
+  };
+  visionForGrowth?: {
+    meaning?: string;
+    opportunities?: string[];
+  };
+  engagement?: {
+    score?: number;
+    interpretation?: string;
+    analysis?: string;
+    factors?: string[];
+  };
+  recognition?: {
+    score?: number;
+    interpretation?: string;
+    analysis?: string;
+    impact?: string;
+  };
+  recommendations?: Array<string | {
+    category?: string;
+    title?: string;
+    description: string;
+    actionItems?: string[];
+  }>;
+  reflectionQuestions?: Array<{
+    question: string;
+    purpose: string;
+  }>;
+}
+
 interface EmployeeAnalysis {
   employeeId: string;
   employeeName: string;
@@ -192,7 +248,7 @@ export function IndividualEmployeeView({ tenantId, tenantName }: IndividualEmplo
       // ✅ PRODUCTION: Use apiClient for automatic authentication (Phase 1 Security)
       // ApiClient automatically adds Authorization header from localStorage + httpOnly cookies
       const apiClient = new ApiClient();
-      const data = await apiClient.request<{ success: boolean; report: any }>(
+      const data = await apiClient.request<{ success: boolean; report: EmployeeReport }>(
         `/api/culture-assessment/report/employee/${employee.id}`
       );
 
@@ -209,7 +265,7 @@ export function IndividualEmployeeView({ tenantId, tenantName }: IndividualEmplo
           strengths: data.report.personalValues?.strengths || [],
           limitingFactors: data.report.personalValues?.limitingFactors || [],
           meaning: data.report.personalValues?.interpretation || 'Analysis in progress...',
-          cylinderMapping: data.report.personalValues?.cylinderMapping || null
+          cylinderMapping: data.report.personalValues?.cylinderMapping || undefined
         },
         alignmentAnalysis: {
           personalVsCurrent: {
@@ -246,7 +302,7 @@ export function IndividualEmployeeView({ tenantId, tenantName }: IndividualEmplo
           return {
             category: 'Development',
             title: rec.title || 'Recommendation',
-            description: rec.description || rec,
+            description: rec.description,
             actionItems: rec.actionItems || []
           };
         }),

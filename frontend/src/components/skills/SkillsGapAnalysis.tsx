@@ -163,7 +163,17 @@ export const SkillsGapAnalysis: React.FC<SkillsGapAnalysisProps> = ({ userRole }
       setError(null);
       setFrameworkMissing(null);
 
-      const response = await apiClient.skills.getEmployeeGapAnalysis(empId) as any;
+      const response = await apiClient.skills.getEmployeeGapAnalysis(empId) as {
+        success: boolean;
+        error?: string;
+        data?: {
+          frameworkMissing?: boolean;
+          message?: string;
+          helpText?: string;
+          recommendations?: string[];
+          gapAnalysis?: EmployeeGapAnalysis;
+        };
+      };
 
       if (response.success && response.data) {
         // Check if framework is missing
@@ -568,7 +578,10 @@ export const SkillsGapAnalysis: React.FC<SkillsGapAnalysisProps> = ({ userRole }
                   <select
                     id="severity-filter"
                     value={filters.severity || ''}
-                    onChange={(e) => setFilters({ ...filters, severity: e.target.value as any || undefined })}
+                    onChange={(e) => {
+                      const value = e.target.value as 'critical' | 'high' | 'medium' | 'low' | '';
+                      setFilters({ ...filters, severity: value || undefined });
+                    }}
                     className="w-full h-10 px-3 rounded-md border border-gray-300"
                   >
                     <option value="">All Severities</option>

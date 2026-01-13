@@ -10,6 +10,67 @@ interface DepartmentAggregatedViewProps {
   tenantName: string;
 }
 
+interface CompanyReportData {
+  totalEmployees?: number;
+  responseRate?: number;
+  healthySurveyQuestion?: string;
+  overallVerdict?: string;
+  entropyScore?: number;
+  healthScore?: number;
+  intendedCulture?: {
+    values?: string[];
+    interpretation?: string;
+    cylinders?: number[];
+  };
+  currentReality?: {
+    values?: string[];
+    interpretation?: string;
+    healthyCylinders?: number[];
+    unhealthyCylinders?: number[];
+  };
+  gaps?: {
+    intendedVsCurrent?: {
+      score?: number;
+      analysis?: string;
+      affectedCylinders?: number[];
+    };
+    intendedVsDesired?: {
+      score?: number;
+      analysis?: string;
+      misalignment?: boolean;
+    };
+    currentVsDesired?: {
+      score?: number;
+      analysis?: string;
+      urgentChanges?: string[];
+    };
+  };
+  engagement?: {
+    average?: number;
+    interpretation?: string;
+    byDepartment?: Array<{ dept: string; score: number }>;
+  };
+  recognition?: {
+    average?: number;
+    interpretation?: string;
+    byDepartment?: Array<{ dept: string; score: number }>;
+  };
+  threats?: Array<{
+    type: string;
+    severity: 'critical' | 'high' | 'medium';
+    description: string;
+  }>;
+  recommendations?: Array<{
+    priority: 'critical' | 'high' | 'medium';
+    category: string;
+    title: string;
+    description: string;
+    actionItems: string[];
+    expectedImpact: string;
+    timeframe: string;
+  }>;
+}
+
 interface DepartmentAnalysis {
   department: string;
   employeeCount: number;
@@ -91,8 +152,7 @@ export function DepartmentAggregatedView({ tenantId, tenantName }: DepartmentAgg
       const data = response.data;
 
       // Transform the backend report structure to frontend expected structure
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const report = data.report as any || {};
+      const report = (data.report || {}) as unknown as CompanyReportData;
 
       const transformedAnalysis: DepartmentAnalysis = {
         department: selectedDepartment === 'all' ? 'Organization' : selectedDepartment,

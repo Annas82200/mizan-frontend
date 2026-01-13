@@ -48,12 +48,12 @@ export function TenantSelector({
       setLoading(true);
       setError(null);
 
-      const response = await superadminService.getTenants();
+      const response = await superadminService.getTenants() as { tenants?: Tenant[] };
       // Map tenants to ensure correct types
-      const mappedTenants = ((response as any).tenants || []).map((t: any) => ({
+      const mappedTenants = (response.tenants || []).map((t) => ({
         ...t,
         id: t.id, // ✅ FIXED: No longer need String() conversion - backend returns UUID strings
-        updatedAt: t.updatedAt || t.lastActivity || new Date().toISOString()
+        updatedAt: (t as Tenant & { updatedAt?: string; lastActivity?: string }).updatedAt || (t as Tenant & { lastActivity?: string }).lastActivity || new Date().toISOString()
       }));
       setTenants(mappedTenants);
     } catch (err: unknown) {
@@ -344,9 +344,9 @@ export function EmployeeSelector({
         tenantId,
         page: 1,
         limit: 100
-      });
+      }) as { employees?: Array<{ id: string; name: string; email: string; position?: string; department?: string }> };
       // Map the service response to match the component's Employee interface
-      const mappedEmployees = (response.employees || []).map((emp: any) => ({
+      const mappedEmployees = (response.employees || []).map((emp) => ({
         id: emp.id, // ✅ FIXED: No longer need String() conversion - backend returns UUID strings
         name: emp.name,
         email: emp.email,

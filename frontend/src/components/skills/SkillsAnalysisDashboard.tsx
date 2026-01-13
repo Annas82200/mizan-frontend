@@ -91,12 +91,12 @@ async function calculateSkillsTrend(
       return 'stable';
     }
 
-    const scores = data.assessments
-      .map((a: any) => ({
+    const scores = (data.assessments as Array<{ assessedAt: string; score: number }>)
+      .map((a) => ({
         date: new Date(a.assessedAt),
         score: a.score
       }))
-      .sort((a: any, b: any) => a.date.getTime() - b.date.getTime());
+      .sort((a, b) => a.date.getTime() - b.date.getTime());
 
     const currentScore = scores[scores.length - 1].score;
     const previousScore = scores[scores.length - 2].score;
@@ -139,14 +139,22 @@ export const SkillsAnalysisDashboard: React.FC<SkillsAnalysisDashboardProps> = (
       setError(null);
 
       // Use apiClient to fetch real dashboard stats (pass tenantId for superadmin)
-      const response: any = await apiClient.skills.getDashboardStats(tenantId || undefined);
+      const response = await apiClient.skills.getDashboardStats(tenantId || undefined) as {
+        success: boolean;
+        stats?: {
+          overview: { totalEmployees: number; totalAssessments: number };
+          gaps: { critical: number };
+          distribution: { byCategory: Record<string, { averageScore?: number; gapCount?: number }> };
+          recentAssessments: Array<{ id?: string; overallScore?: number; createdAt: string }>;
+        };
+      };
 
       if (response.success && response.stats) {
         const backendStats = response.stats;
 
         // Map backend stats to frontend DashboardStats interface
         // First create the basic stats structure
-        const baseCategories = Object.entries(backendStats.distribution.byCategory || {}).map(([category, data]: [string, any]) => ({
+        const baseCategories = Object.entries(backendStats.distribution.byCategory || {}).map(([category, data]) => ({
           category,
           score: data.averageScore || 0, // Real average score from skills levels
           gapCount: data.gapCount || 0, // Real gap count from skills_gaps table
@@ -167,7 +175,7 @@ export const SkillsAnalysisDashboard: React.FC<SkillsAnalysisDashboardProps> = (
           criticalGaps: backendStats.gaps.critical || 0,
           activeLearningPaths: 0, // Will be calculated from LXP module later
           strategicReadiness: 75, // Default until we calculate from assessments
-          recentActivities: backendStats.recentAssessments.map((assessment: any, index: number) => ({
+          recentActivities: backendStats.recentAssessments.map((assessment, index) => ({
             id: assessment.id || `activity-${index}`,
             type: 'assessment',
             description: `Skills assessment completed - Score: ${assessment.overallScore || 'N/A'}`,
