@@ -96,23 +96,43 @@ export const Sidebar: React.FC<SidebarProps> = ({ role, isOpen, onClose }) => {
         children: [
           {
             label: 'Structure',
-            href: '/dashboard/superadmin/structure',
+            href: '/dashboard/structure',
             icon: <StructureIcon className="w-4 h-4" />,
           },
           {
             label: 'Culture',
-            href: '/dashboard/superadmin/culture',
+            href: '/dashboard/culture',
             icon: <CultureIcon className="w-4 h-4" />,
           },
           {
+            label: 'Skills',
+            href: '/dashboard/skills',
+            icon: <SkillsIcon className="w-4 h-4" />,
+          },
+          {
             label: 'Performance',
-            href: '/dashboard/superadmin/performance',
+            href: '/dashboard/performance',
             icon: <PerformanceIcon className="w-4 h-4" />,
           },
           {
-            label: 'Skills',
-            href: '/dashboard/superadmin/skills',
-            icon: <SkillsIcon className="w-4 h-4" />,
+            label: 'LXP (Learning)',
+            href: '/dashboard/lxp',
+            icon: <LXPIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Hiring',
+            href: '/dashboard/hiring',
+            icon: <HiringIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Bonus',
+            href: '/dashboard/bonus',
+            icon: <BonusIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Talent',
+            href: '/dashboard/talent',
+            icon: <TalentIcon className="w-4 h-4" />,
           },
         ],
       },
