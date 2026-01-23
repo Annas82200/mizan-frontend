@@ -713,7 +713,7 @@ export const superadminService = {
         }
       });
 
-      // If the endpoint doesn't exist yet, return mock data structure
+      // Return response data with safe defaults for missing fields
       return {
         employees: response.data?.employees || [],
         total: response.data?.total || 0,

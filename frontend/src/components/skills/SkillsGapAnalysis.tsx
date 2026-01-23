@@ -273,12 +273,18 @@ export const SkillsGapAnalysis: React.FC<SkillsGapAnalysisProps> = ({ userRole }
   };
 
   /**
-   * Handle recommend training (prepare for Phase 4 LXP integration)
+   * Handle recommend training - Navigate to LXP with skill gap context
    */
-  const handleRecommendTraining = (gap: SkillGap) => {
-    // Placeholder for future LXP integration
+  const handleRecommendTraining = async (gap: SkillGap) => {
     logger.debug('Recommend training for gap:', gap);
-    alert(`Training recommendation feature coming in Phase 4!\n\nSkill: ${gap.skillName}\nSeverity: ${gap.gapSeverity}`);
+
+    try {
+      // Navigate to LXP courses page with skill filter
+      const skillParam = encodeURIComponent(gap.skillName);
+      window.location.href = `/dashboard/lxp/courses?skill=${skillParam}&severity=${gap.gapSeverity}`;
+    } catch (error) {
+      logger.error('Error navigating to training:', error);
+    }
   };
 
   const filteredGaps = getFilteredGaps(view === 'organization' ? organizationGaps : selectedEmployeeAnalysis?.gaps || []);
