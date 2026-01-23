@@ -38,3 +38,5 @@ export { WorkflowIcon } from './WorkflowIcon';
 export { EventIcon } from './EventIcon';
 export { ModelIcon } from './ModelIcon';
 export { SocialMediaIcon } from './SocialMediaIcon';
+export { BonusIcon } from './BonusIcon';
+export { TalentIcon } from './TalentIcon';

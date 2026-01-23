@@ -20,6 +20,8 @@ import {
   TeamsIcon,
   SettingsIcon,
   SocialMediaIcon,
+  BonusIcon,
+  TalentIcon,
 } from '@/components/icons';
 
 interface NavItem {
@@ -133,23 +135,217 @@ export const Sidebar: React.FC<SidebarProps> = ({ role, isOpen, onClose }) => {
     admin: [
       {
         label: 'Dashboard',
-        href: '/dashboard/admin',
+        href: '/dashboard',
         icon: <DashboardIcon className="w-5 h-5" />,
       },
       {
         label: 'Structure',
-        href: '/dashboard/admin/structure',
+        href: '/dashboard/structure',
         icon: <StructureIcon className="w-5 h-5" />,
       },
       {
         label: 'Culture',
-        href: '/dashboard/admin/culture',
+        href: '/dashboard/culture',
         icon: <CultureIcon className="w-5 h-5" />,
+        children: [
+          {
+            label: 'Survey',
+            href: '/dashboard/culture/survey',
+            icon: <CultureIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Results',
+            href: '/dashboard/culture/results',
+            icon: <CultureIcon className="w-4 h-4" />,
+          },
+        ],
       },
       {
         label: 'Skills',
-        href: '/dashboard/admin/skills',
+        href: '/dashboard/skills',
         icon: <SkillsIcon className="w-5 h-5" />,
+        children: [
+          {
+            label: 'Profiles',
+            href: '/dashboard/skills/profiles',
+            icon: <SkillsIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Assessment',
+            href: '/dashboard/skills/assessment',
+            icon: <SkillsIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Gap Analysis',
+            href: '/dashboard/skills/gaps',
+            icon: <SkillsIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Strategic Skills',
+            href: '/dashboard/skills/strategic',
+            icon: <SkillsIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Skills Bot',
+            href: '/dashboard/skills/bot',
+            icon: <SkillsIcon className="w-4 h-4" />,
+          },
+        ],
+      },
+      {
+        label: 'Performance',
+        href: '/dashboard/performance',
+        icon: <PerformanceIcon className="w-5 h-5" />,
+        children: [
+          {
+            label: 'Goals',
+            href: '/dashboard/performance/goals',
+            icon: <PerformanceIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Evaluations',
+            href: '/dashboard/performance/evaluations',
+            icon: <PerformanceIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Meetings',
+            href: '/dashboard/performance/meetings',
+            icon: <PerformanceIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Calibration',
+            href: '/dashboard/performance/calibration',
+            icon: <PerformanceIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Performance Bot',
+            href: '/dashboard/performance/bot',
+            icon: <PerformanceIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Settings',
+            href: '/dashboard/performance/settings',
+            icon: <SettingsIcon className="w-4 h-4" />,
+          },
+        ],
+      },
+      {
+        label: 'LXP (Learning)',
+        href: '/dashboard/lxp',
+        icon: <LXPIcon className="w-5 h-5" />,
+        children: [
+          {
+            label: 'Courses',
+            href: '/dashboard/lxp/courses',
+            icon: <LXPIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Learning Paths',
+            href: '/dashboard/lxp/learning-paths',
+            icon: <LXPIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'My Progress',
+            href: '/dashboard/lxp/progress',
+            icon: <LXPIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Recommendations',
+            href: '/dashboard/lxp/recommendations',
+            icon: <LXPIcon className="w-4 h-4" />,
+          },
+        ],
+      },
+      {
+        label: 'Hiring',
+        href: '/dashboard/hiring',
+        icon: <HiringIcon className="w-5 h-5" />,
+        children: [
+          {
+            label: 'Requisitions',
+            href: '/dashboard/hiring/requisitions',
+            icon: <HiringIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Job Postings',
+            href: '/dashboard/hiring/jobs',
+            icon: <HiringIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Applications',
+            href: '/dashboard/hiring/applications',
+            icon: <HiringIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Interviews',
+            href: '/dashboard/hiring/interviews',
+            icon: <HiringIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Compensation',
+            href: '/dashboard/hiring/compensation',
+            icon: <HiringIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Hiring Bot',
+            href: '/dashboard/hiring/bot',
+            icon: <HiringIcon className="w-4 h-4" />,
+          },
+        ],
+      },
+      {
+        label: 'Bonus',
+        href: '/dashboard/bonus',
+        icon: <BonusIcon className="w-5 h-5" />,
+        children: [
+          {
+            label: 'Calculation',
+            href: '/dashboard/bonus/calculation',
+            icon: <BonusIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Distribution',
+            href: '/dashboard/bonus/distribution',
+            icon: <BonusIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Criteria',
+            href: '/dashboard/bonus/criteria',
+            icon: <BonusIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Analytics',
+            href: '/dashboard/bonus/analytics',
+            icon: <BonusIcon className="w-4 h-4" />,
+          },
+        ],
+      },
+      {
+        label: 'Talent',
+        href: '/dashboard/talent',
+        icon: <TalentIcon className="w-5 h-5" />,
+        children: [
+          {
+            label: 'Identification',
+            href: '/dashboard/talent/identification',
+            icon: <TalentIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Succession',
+            href: '/dashboard/talent/succession',
+            icon: <TalentIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Development',
+            href: '/dashboard/talent/development',
+            icon: <TalentIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Analytics',
+            href: '/dashboard/talent/analytics',
+            icon: <TalentIcon className="w-4 h-4" />,
+          },
+        ],
       },
       {
         label: 'Team',
@@ -165,7 +361,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ role, isOpen, onClose }) => {
     employee: [
       {
         label: 'Dashboard',
-        href: '/dashboard/employee',
+        href: '/dashboard',
         icon: <DashboardIcon className="w-5 h-5" />,
       },
       {
@@ -174,14 +370,102 @@ export const Sidebar: React.FC<SidebarProps> = ({ role, isOpen, onClose }) => {
         icon: <span className="text-lg">◉</span>,
       },
       {
-        label: 'My Growth',
-        href: '/dashboard/employee/growth',
+        label: 'Skills',
+        href: '/dashboard/skills',
         icon: <SkillsIcon className="w-5 h-5" />,
+        children: [
+          {
+            label: 'My Profile',
+            href: '/dashboard/skills/profiles',
+            icon: <SkillsIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Assessment',
+            href: '/dashboard/skills/assessment',
+            icon: <SkillsIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Gap Analysis',
+            href: '/dashboard/skills/gaps',
+            icon: <SkillsIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Skills Bot',
+            href: '/dashboard/skills/bot',
+            icon: <SkillsIcon className="w-4 h-4" />,
+          },
+        ],
       },
       {
         label: 'Performance',
-        href: '/dashboard/employee/performance',
+        href: '/dashboard/performance',
         icon: <PerformanceIcon className="w-5 h-5" />,
+        children: [
+          {
+            label: 'My Goals',
+            href: '/dashboard/performance/goals',
+            icon: <PerformanceIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Evaluations',
+            href: '/dashboard/performance/evaluations',
+            icon: <PerformanceIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Meetings',
+            href: '/dashboard/performance/meetings',
+            icon: <PerformanceIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Performance Bot',
+            href: '/dashboard/performance/bot',
+            icon: <PerformanceIcon className="w-4 h-4" />,
+          },
+        ],
+      },
+      {
+        label: 'Learning (LXP)',
+        href: '/dashboard/lxp',
+        icon: <LXPIcon className="w-5 h-5" />,
+        children: [
+          {
+            label: 'Browse Courses',
+            href: '/dashboard/lxp/courses',
+            icon: <LXPIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Learning Paths',
+            href: '/dashboard/lxp/learning-paths',
+            icon: <LXPIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'My Progress',
+            href: '/dashboard/lxp/progress',
+            icon: <LXPIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Recommendations',
+            href: '/dashboard/lxp/recommendations',
+            icon: <LXPIcon className="w-4 h-4" />,
+          },
+        ],
+      },
+      {
+        label: 'Culture',
+        href: '/dashboard/culture',
+        icon: <CultureIcon className="w-5 h-5" />,
+        children: [
+          {
+            label: 'Survey',
+            href: '/dashboard/culture/survey',
+            icon: <CultureIcon className="w-4 h-4" />,
+          },
+          {
+            label: 'Results',
+            href: '/dashboard/culture/results',
+            icon: <CultureIcon className="w-4 h-4" />,
+          },
+        ],
       },
       {
         label: 'My Team',
