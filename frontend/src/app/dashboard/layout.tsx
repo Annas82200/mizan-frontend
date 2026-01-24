@@ -18,15 +18,17 @@ export default function MainDashboardLayout({
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [userRole, setUserRole] = useState<UserRole>('admin');
+  const [isSuperadminRoute, setIsSuperadminRoute] = useState(false);
 
   useEffect(() => {
-    // Skip auth check for superadmin routes - they have their own layout
+    // Check if this is a superadmin route - they have their own layout
     if (pathname?.startsWith('/dashboard/superadmin')) {
-      setIsAuthenticated(true);
-      setUserRole('superadmin');
+      setIsSuperadminRoute(true);
       setIsLoading(false);
       return;
     }
+
+    setIsSuperadminRoute(false);
 
     const checkAuth = () => {
       try {
@@ -59,8 +61,6 @@ export default function MainDashboardLayout({
         }
 
         // Step 4: If we have valid user data with a role, trust it
-        // The backend will validate on actual API calls
-        // This prevents unnecessary redirects due to network issues
         if (user.role) {
           logger.debug('[Auth] User authenticated via localStorage:', user.role);
           setIsAuthenticated(true);
@@ -82,6 +82,11 @@ export default function MainDashboardLayout({
 
     checkAuth();
   }, [router, pathname]);
+
+  // For superadmin routes, just pass through - superadmin layout handles everything
+  if (isSuperadminRoute) {
+    return <>{children}</>;
+  }
 
   if (isLoading) {
     return (
