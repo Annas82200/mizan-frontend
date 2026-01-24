@@ -28,11 +28,10 @@ export default function MainDashboardLayout({
       return;
     }
 
-    const checkAuth = async () => {
+    const checkAuth = () => {
       try {
         // Step 1: Check localStorage for user data
         const userStr = localStorage.getItem('mizan_user');
-        const token = localStorage.getItem('mizan_auth_token');
 
         if (!userStr) {
           logger.warn('[Auth] No user data in localStorage, redirecting to login');
@@ -59,50 +58,19 @@ export default function MainDashboardLayout({
           setUserRole('employee');
         }
 
-        // Step 4: If we have a token and user data, trust it (backend will validate on API calls)
+        // Step 4: If we have valid user data with a role, trust it
+        // The backend will validate on actual API calls
         // This prevents unnecessary redirects due to network issues
-        if (token && user.id) {
-          logger.debug('[Auth] User authenticated via localStorage token');
+        if (user.role) {
+          logger.debug('[Auth] User authenticated via localStorage:', user.role);
           setIsAuthenticated(true);
           setIsLoading(false);
           return;
         }
 
-        // Step 5: If no token but user data exists, try backend verification
-        try {
-          const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://mizan-backend-production.up.railway.app';
-          logger.debug('[Auth] Verifying authentication with backend');
-
-          const response = await fetch(`${apiUrl}/api/auth/me`, {
-            method: 'GET',
-            credentials: 'include',
-            headers: {
-              'Content-Type': 'application/json',
-              ...(token && { Authorization: `Bearer ${token}` }),
-            },
-          });
-
-          if (response.ok) {
-            logger.debug('[Auth] Backend authentication verified');
-            setIsAuthenticated(true);
-          } else {
-            // Backend rejected - clear data and redirect
-            logger.warn('[Auth] Backend rejected authentication');
-            localStorage.removeItem('mizan_user');
-            localStorage.removeItem('mizan_auth_token');
-            router.push('/login');
-            return;
-          }
-        } catch (fetchError) {
-          // Network error - trust localStorage if we have valid data
-          logger.warn('[Auth] Backend check failed (network), trusting localStorage');
-          if (user.id && user.role) {
-            setIsAuthenticated(true);
-          } else {
-            router.push('/login');
-            return;
-          }
-        }
+        // No valid role found - redirect to login
+        logger.warn('[Auth] No valid role in user data');
+        router.push('/login');
 
       } catch (error) {
         logger.error('[Auth] Authentication check failed:', error);

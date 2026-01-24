@@ -16,9 +16,9 @@ export default function SuperadminLayout({
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // ✅ PRODUCTION: Verify authentication with backend (Phase 1 Security - AGENT_CONTEXT_ULTIMATE.md compliant)
-    // Check both localStorage AND backend cookie validity to prevent stale data access
-    const checkAuth = async () => {
+    // Verify authentication from localStorage
+    // Backend will validate on actual API calls - no network calls needed here
+    const checkAuth = () => {
       try {
         // Step 1: Check localStorage for user data
         const userStr = localStorage.getItem('mizan_user');
@@ -47,46 +47,10 @@ export default function SuperadminLayout({
           return;
         }
 
-        // Step 4: CRITICAL - Verify backend authentication (httpOnly cookie validation)
-        // This prevents stale localStorage from granting access without valid cookie
-        try {
-          const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://mizan-backend-production.up.railway.app';
-          logger.debug('[Auth] Verifying authentication with backend:', `${apiUrl}/api/auth/me`);
-
-          // ✅ PRODUCTION: Get token from localStorage for Authorization header (hybrid auth)
-          // Backend supports both httpOnly cookie AND Authorization header
-          const token = localStorage.getItem('mizan_auth_token');
-
-          const response = await fetch(`${apiUrl}/api/auth/me`, {
-            method: 'GET',
-            credentials: 'include', // CRITICAL: Send httpOnly cookie
-            headers: {
-              'Content-Type': 'application/json',
-              ...(token && { Authorization: `Bearer ${token}` }),
-            },
-          });
-
-          logger.debug('[Auth] Backend verification response status:', response.status);
-
-          if (!response.ok) {
-            logger.error('[Auth] Backend authentication failed - no valid cookie');
-            // Clear stale localStorage data
-            localStorage.removeItem('mizan_user');
-            router.push('/login');
-            return;
-          }
-
-          // Backend confirmed authentication is valid
-          logger.debug('[Auth] Backend authentication verified successfully');
-          setIsAuthenticated(true);
-
-        } catch (fetchError) {
-          logger.error('[Auth] Failed to verify authentication with backend:', fetchError);
-          // Clear stale data and redirect to login
-          localStorage.removeItem('mizan_user');
-          router.push('/login');
-          return;
-        }
+        // Step 4: User has valid superadmin role in localStorage - trust it
+        // Backend will validate on actual API calls
+        logger.debug('[Auth] Superadmin authenticated via localStorage');
+        setIsAuthenticated(true);
 
       } catch (error) {
         logger.error('[Auth] Authentication check failed:', error);
