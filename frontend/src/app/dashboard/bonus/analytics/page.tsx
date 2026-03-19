@@ -204,9 +204,9 @@ export default function BonusAnalyticsPage() {
         const quarter = ((currentQuarter - quarterOffset % 4 + 3) % 4) + 1;
         trends.push({
           period: `Q${quarter} ${year}`,
-          totalDistributed: Math.round(totalDistributed * (0.8 + Math.random() * 0.4)),
-          averageBonus: Math.round(overview.summary.averageBonus * (0.9 + Math.random() * 0.2)),
-          employeesRewarded: Math.round(overview.summary.paidCount * (0.85 + Math.random() * 0.3)),
+          totalDistributed: Math.round(totalDistributed * (1 - quarterOffset * 0.05)),
+          averageBonus: Math.round(overview.summary.averageBonus * (1 - quarterOffset * 0.03)),
+          employeesRewarded: Math.round(overview.summary.paidCount * (1 - quarterOffset * 0.02)),
         });
       }
       setTrendData(trends.reverse());

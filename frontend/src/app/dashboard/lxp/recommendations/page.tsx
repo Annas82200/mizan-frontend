@@ -262,12 +262,12 @@ function RecommendationsPageContent() {
   const refreshRecommendations = async () => {
     setRefreshing(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      // Simulate refreshed recommendations with slightly different scores
-      setRecommendations(prev => prev.map(rec => ({
-        ...rec,
-        matchScore: Math.min(100, rec.matchScore + Math.floor(Math.random() * 5) - 2)
-      })).sort((a, b) => b.matchScore - a.matchScore));
+      const response = await apiClient.post('/api/lxp/recommendations/refresh');
+      if (response.data?.recommendations) {
+        setRecommendations(response.data.recommendations);
+      }
+    } catch (error) {
+      console.error('Failed to refresh recommendations:', error);
     } finally {
       setRefreshing(false);
     }

@@ -368,14 +368,37 @@ export const Sidebar: React.FC<SidebarProps> = ({ role, isOpen, onClose }) => {
         ],
       },
       {
-        label: 'Team',
-        href: '/dashboard/admin/team',
-        icon: <TeamsIcon className="w-5 h-5" />,
+        label: 'Onboarding',
+        href: '/dashboard/onboarding',
+        icon: <DashboardIcon className="w-5 h-5" />,
+        children: [
+          { label: 'Overview', href: '/dashboard/onboarding', icon: <DashboardIcon className="w-4 h-4" /> },
+          { label: 'Workflows', href: '/dashboard/onboarding/workflows', icon: <DashboardIcon className="w-4 h-4" /> },
+          { label: 'Checklists', href: '/dashboard/onboarding/checklist', icon: <DashboardIcon className="w-4 h-4" /> },
+          { label: 'Mentors', href: '/dashboard/onboarding/mentors', icon: <DashboardIcon className="w-4 h-4" /> },
+        ],
+      },
+      {
+        label: 'Engagement',
+        href: '/dashboard/engagement',
+        icon: <DashboardIcon className="w-5 h-5" />,
+        children: [
+          { label: 'Overview', href: '/dashboard/engagement', icon: <DashboardIcon className="w-4 h-4" /> },
+          { label: 'Surveys', href: '/dashboard/engagement/surveys', icon: <DashboardIcon className="w-4 h-4" /> },
+          { label: 'Recognition', href: '/dashboard/engagement/recognition', icon: <DashboardIcon className="w-4 h-4" /> },
+          { label: 'Challenges', href: '/dashboard/engagement/challenges', icon: <DashboardIcon className="w-4 h-4" /> },
+          { label: 'Leaderboard', href: '/dashboard/engagement/leaderboard', icon: <DashboardIcon className="w-4 h-4" /> },
+        ],
       },
       {
         label: 'Settings',
-        href: '/dashboard/admin/settings',
+        href: '/dashboard/settings/branding',
         icon: <SettingsIcon className="w-5 h-5" />,
+        children: [
+          { label: 'Branding', href: '/dashboard/settings/branding', icon: <DashboardIcon className="w-4 h-4" /> },
+          { label: 'HRIS Connectors', href: '/dashboard/settings/hris', icon: <DashboardIcon className="w-4 h-4" /> },
+          { label: 'Modules', href: '/dashboard/settings/modules', icon: <DashboardIcon className="w-4 h-4" /> },
+        ],
       },
     ],
     employee: [
@@ -386,7 +409,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ role, isOpen, onClose }) => {
       },
       {
         label: 'My Profile',
-        href: '/dashboard/employee/profile',
+        href: '/dashboard/skills/profiles',
         icon: <span className="text-lg">◉</span>,
       },
       {
@@ -488,9 +511,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ role, isOpen, onClose }) => {
         ],
       },
       {
-        label: 'My Team',
-        href: '/dashboard/employee/team',
-        icon: <TeamsIcon className="w-5 h-5" />,
+        label: 'Engagement',
+        href: '/dashboard/engagement',
+        icon: <DashboardIcon className="w-5 h-5" />,
+        children: [
+          { label: 'Recognition', href: '/dashboard/engagement/recognition', icon: <DashboardIcon className="w-4 h-4" /> },
+          { label: 'Challenges', href: '/dashboard/engagement/challenges', icon: <DashboardIcon className="w-4 h-4" /> },
+          { label: 'Leaderboard', href: '/dashboard/engagement/leaderboard', icon: <DashboardIcon className="w-4 h-4" /> },
+        ],
       },
     ],
   };

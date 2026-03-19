@@ -199,9 +199,9 @@ export default function BonusCalculationPage() {
           employeeName: rec.employeeName,
           department: rec.department || 'Unknown',
           position: formatBonusType(rec.bonusType),
-          performanceScore: 4.0 + Math.random() * 0.8, // Would come from performance data
-          tenureYears: Math.floor(Math.random() * 8) + 1,
-          salaryBand: ['L3', 'L4', 'L5', 'L6'][Math.floor(Math.random() * 4)],
+          performanceScore: rec.performanceScore || rec.overallScore || 0,
+          tenureYears: rec.tenureYears || 0,
+          salaryBand: rec.salaryBand || rec.level || 'N/A',
           baseBonus: rec.recommendedAmount * 0.9,
           adjustedBonus: rec.recommendedAmount,
           bonusPercentage: 20,
@@ -260,8 +260,8 @@ export default function BonusCalculationPage() {
 
     setIsCalculating(true);
     try {
-      // Simulate calculation process
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      // Run real calculation via API
+      await apiClient.post(`/api/bonus/calculation/${selectedConfig.id}/run`);
 
       // Update config status
       setConfigs(prev =>
