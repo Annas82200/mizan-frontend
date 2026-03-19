@@ -31,7 +31,7 @@ export default function OnboardingPage() {
     setIsLoading(true);
     try {
       const response = await apiClient.get('/api/onboarding/assignments');
-      const assignments = response.data.assignments || [];
+      const assignments = (response.data as { assignments?: OnboardingAssignment[] }).assignments || [];
       const active = assignments.filter((a: OnboardingAssignment) => a.status === 'in_progress');
       const overdue = assignments.filter((a: OnboardingAssignment) => a.status === 'overdue');
       const avgCompletion = active.length > 0
@@ -42,7 +42,7 @@ export default function OnboardingPage() {
       let mentorRate = 0;
       try {
         const mentorRes = await apiClient.get('/api/onboarding/mentors');
-        const mentors = mentorRes.data?.mentors || [];
+        const mentors = (mentorRes.data as { mentors?: Array<{ status: string }> })?.mentors || [];
         const matched = mentors.filter((m: { status: string }) => m.status === 'active' || m.status === 'accepted');
         mentorRate = assignments.length > 0 ? Math.round((matched.length / assignments.length) * 100) : 0;
       } catch { /* mentor endpoint optional */ }

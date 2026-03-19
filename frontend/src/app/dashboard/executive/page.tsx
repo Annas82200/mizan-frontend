@@ -29,7 +29,7 @@ export default function ExecutiveDashboardPage() {
     setIsLoading(true);
     try {
       const response = await apiClient.get('/api/analytics/executive');
-      setMetrics(response.data);
+      setMetrics(response.data as ExecutiveMetrics);
     } catch (err) {
       setError('Failed to load executive dashboard metrics');
     } finally {
