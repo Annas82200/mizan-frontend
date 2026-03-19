@@ -446,9 +446,9 @@ function CoursesPageContent() {
 
   const handleSubmitCourse = async () => {
     if (isEditing && selectedCourse) {
-      await apiClient.put(`/api/lxp/courses/${selectedCourse.id}`, formData);
+      await apiClient.put(`/api/lxp/courses/${selectedCourse.id}`, formData as unknown as Record<string, unknown>);
     } else {
-      await apiClient.post('/api/lxp/courses', formData);
+      await apiClient.post('/api/lxp/courses', formData as unknown as Record<string, unknown>);
     }
 
     if (isEditing && selectedCourse) {
