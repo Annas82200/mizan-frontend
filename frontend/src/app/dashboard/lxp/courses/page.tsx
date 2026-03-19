@@ -445,8 +445,11 @@ function CoursesPageContent() {
   };
 
   const handleSubmitCourse = async () => {
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 500));
+    if (isEditing && selectedCourse) {
+      await apiClient.put(`/api/lxp/courses/${selectedCourse.id}`, formData);
+    } else {
+      await apiClient.post('/api/lxp/courses', formData);
+    }
 
     if (isEditing && selectedCourse) {
       setCourses(prev => prev.map(course =>

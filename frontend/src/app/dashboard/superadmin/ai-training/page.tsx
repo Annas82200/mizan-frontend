@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import apiClient from '@/lib/api-client';
 import { logger } from '@/lib/logger';
 import {
   Brain,
@@ -146,13 +147,13 @@ export default function AITrainingPage() {
 
     setTesting(true);
     try {
-      // Simulate AI response
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      setTestResult(
-        `**Analysis Result:**\n\nBased on the 7-Cylinder framework, the organization shows strong performance in:\n\n• **Cylinder 5 (Integrity & Justice)**: 85% alignment with stated values\n• **Cylinder 6 (Collaboration & Unity)**: 78% team cohesion score\n• **Cylinder 3 (Growth & Achievement)**: 72% employee development engagement\n\nAreas for improvement:\n\n• **Cylinder 1 (Safety & Survival)**: Only 58% feel psychologically safe\n• **Cylinder 7 (Vision & Purpose)**: 62% understand strategic direction\n\n**Recommendations:**\n1. Implement anonymous feedback channels to increase psychological safety\n2. Conduct quarterly vision workshops to improve strategic alignment\n3. Establish cross-functional collaboration initiatives`
-      );
+      const response = await apiClient.post('/api/assistant/message', {
+        message: testPrompt,
+      });
+      setTestResult(response.data?.content || 'No response received');
     } catch (err) {
       logger.error('Test error:', err);
+      setTestResult('Error: Failed to get AI response. Check API keys and connectivity.');
     } finally {
       setTesting(false);
     }

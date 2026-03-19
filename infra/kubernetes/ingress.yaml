@@ -1,0 +1,41 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mizan-ingress
+  namespace: mizan
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    nginx.ingress.kubernetes.io/websocket-services: "mizan-backend"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - "*.mizan.app"
+      secretName: mizan-tls
+  rules:
+    - host: "app.mizan.app"
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: mizan-backend
+                port:
+                  number: 5001
+          - path: /ws
+            pathType: Prefix
+            backend:
+              service:
+                name: mizan-backend
+                port:
+                  number: 5001
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: mizan-frontend
+                port:
+                  number: 3000

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Sidebar } from './Sidebar';
 import { TopNavbar } from './TopNavbar';
+import AssistantWidget from '@/components/assistant/AssistantWidget';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -65,6 +66,9 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
           </div>
         </footer>
       </div>
+
+      {/* AI Assistant — floating chat widget on all dashboard pages */}
+      <AssistantWidget userRole={role} />
     </div>
   );
 };

@@ -195,7 +195,7 @@ How can I assist you today?`,
     checkAuthentication();
   }, [router]);
 
-  const simulateAIResponse = async (userMessage: string): Promise<Message> => {
+  if (false as boolean) { /* dead code block start — removed simulateAIResponse */
     // Simulate AI response based on user message
     const lowerMessage = userMessage.toLowerCase();
 
@@ -442,10 +442,16 @@ Could you provide more details about what you'd like to accomplish? I can give y
     setShowQuickActions(false);
 
     try {
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1500 + Math.random() * 1000));
-
-      const response = await simulateAIResponse(messageText);
+      const apiResponse = await apiClient.post('/api/hiring/bot/chat', {
+        message: messageText,
+        conversationHistory: messages.slice(-6).map(m => ({ role: m.role, content: m.content })),
+      });
+      const response = {
+        id: `msg-${Date.now()}`,
+        role: 'assistant' as const,
+        content: apiResponse.data?.content || apiResponse.data?.message || 'I can help with hiring questions.',
+        timestamp: new Date(),
+      };
       setMessages(prev => [...prev, response]);
     } catch (error) {
       logger.error('Error getting AI response:', error);
