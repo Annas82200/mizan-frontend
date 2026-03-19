@@ -106,7 +106,7 @@ export default function ManagerDashboardPage() {
                         <p className="text-sm font-medium text-gray-700">{member.skillsScore}%</p>
                       </div>
                       {!member.lastOneOnOne && (
-                        <Clock className="h-4 w-4 text-yellow-500" title="No recent 1:1" />
+                        <span title="No recent 1:1"><Clock className="h-4 w-4 text-yellow-500" /></span>
                       )}
                     </div>
                   </div>
