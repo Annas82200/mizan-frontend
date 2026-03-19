@@ -208,7 +208,7 @@ function ProgressPageContent() {
         date.setDate(date.getDate() - (6 - i));
         return {
           date: date.toISOString().split('T')[0],
-          minutes: data.streak?.thisWeek?.[i] || 0
+          minutes: Number(data.streak?.thisWeek?.[i]) || 0
         };
       });
 
