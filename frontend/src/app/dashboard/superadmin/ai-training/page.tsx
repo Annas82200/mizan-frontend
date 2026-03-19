@@ -150,7 +150,7 @@ export default function AITrainingPage() {
       const response = await apiClient.post('/api/assistant/message', {
         message: testPrompt,
       });
-      setTestResult(response.data?.content || 'No response received');
+      setTestResult((response.data as { content?: string })?.content || 'No response received');
     } catch (err) {
       logger.error('Test error:', err);
       setTestResult('Error: Failed to get AI response. Check API keys and connectivity.');
