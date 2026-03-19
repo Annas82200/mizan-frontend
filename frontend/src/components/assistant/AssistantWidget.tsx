@@ -55,7 +55,7 @@ export default function AssistantWidget({ userRole = 'employee' }: AssistantWidg
         conversationId,
       });
 
-      const data = response.data;
+      const data = response.data as { conversationId: string; messageId: string; content: string; suggestedActions?: Array<{ id: string; label: string; type: string }> };
       setConversationId(data.conversationId);
 
       const assistantMessage: Message = {

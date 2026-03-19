@@ -39,7 +39,7 @@ export default function BrandingSettingsPage() {
     setIsLoading(true);
     try {
       const response = await apiClient.get('/api/branding');
-      setBranding(response.data);
+      setBranding(response.data as BrandingConfig);
     } catch (err) {
       setError('Failed to load branding configuration');
     } finally {
@@ -52,8 +52,8 @@ export default function BrandingSettingsPage() {
     setIsSaving(true);
     setSuccessMsg('');
     try {
-      const response = await apiClient.put('/api/branding', branding);
-      setBranding(response.data);
+      const response = await apiClient.put('/api/branding', branding as unknown as Record<string, unknown>);
+      setBranding(response.data as BrandingConfig);
       setSuccessMsg('Branding saved successfully');
       setTimeout(() => setSuccessMsg(''), 3000);
     } catch (err) {

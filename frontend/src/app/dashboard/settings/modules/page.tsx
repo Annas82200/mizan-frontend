@@ -38,7 +38,7 @@ export default function ModuleSettingsPage() {
     setIsLoading(true);
     try {
       const response = await apiClient.get('/api/modules');
-      setModules(response.data.modules);
+      setModules((response.data as { modules: ModuleConfig[] }).modules);
     } catch (err) {
       setError('Failed to load module configuration');
     } finally {

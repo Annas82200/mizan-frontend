@@ -35,7 +35,7 @@ export default function ManagerDashboardPage() {
     setIsLoading(true);
     try {
       const response = await apiClient.get('/api/analytics/manager');
-      setMetrics(response.data);
+      setMetrics(response.data as ManagerMetrics);
     } catch (err) {
       setError('Failed to load manager dashboard');
     } finally {

@@ -31,7 +31,7 @@ export default function HRISSettingsPage() {
     setIsLoading(true);
     try {
       const response = await apiClient.get('/api/hris/connectors');
-      setConnectors(response.data.connectors);
+      setConnectors((response.data as { connectors: Connector[] }).connectors);
     } catch (err) {
       setError('Failed to load HRIS connectors');
     } finally {
@@ -56,10 +56,11 @@ export default function HRISSettingsPage() {
   const testConnection = async (connectorId: string) => {
     try {
       const response = await apiClient.post(`/api/hris/connectors/${connectorId}/test`);
-      if (response.data.success) {
+      const testResult = response.data as { success: boolean; message?: string };
+      if (testResult.success) {
         loadConnectors();
       } else {
-        setError(`Connection test failed: ${response.data.message}`);
+        setError(`Connection test failed: ${testResult.message}`);
       }
     } catch (err) {
       setError('Connection test failed');

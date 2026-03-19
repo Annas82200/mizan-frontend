@@ -32,8 +32,10 @@ export default function EngagementPage() {
         apiClient.get('/api/engagement/recognition/feed'),
         apiClient.get('/api/engagement/points'),
       ]);
-      setFeed(feedRes.data.feed || []);
-      setTotalPoints(pointsRes.data.totalPoints || 0);
+      const feedData = feedRes.data as { feed?: RecognitionItem[] };
+      const pointsData = pointsRes.data as { totalPoints?: number };
+      setFeed(feedData.feed || []);
+      setTotalPoints(pointsData.totalPoints || 0);
     } catch (err) {
       setError('Failed to load engagement data');
     } finally {

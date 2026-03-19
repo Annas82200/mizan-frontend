@@ -263,8 +263,9 @@ function RecommendationsPageContent() {
     setRefreshing(true);
     try {
       const response = await apiClient.post('/api/lxp/recommendations/refresh');
-      if (response.data?.recommendations) {
-        setRecommendations(response.data.recommendations);
+      const refreshData = response.data as { recommendations?: typeof recommendations };
+      if (refreshData?.recommendations) {
+        setRecommendations(refreshData.recommendations);
       }
     } catch (error) {
       console.error('Failed to refresh recommendations:', error);

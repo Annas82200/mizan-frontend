@@ -449,7 +449,7 @@ Could you provide more details about what you'd like to accomplish? I can give y
       const response = {
         id: `msg-${Date.now()}`,
         role: 'assistant' as const,
-        content: apiResponse.data?.content || apiResponse.data?.message || 'I can help with hiring questions.',
+        content: (apiResponse.data as { content?: string; message?: string })?.content || (apiResponse.data as { message?: string })?.message || 'I can help with hiring questions.',
         timestamp: new Date(),
       };
       setMessages(prev => [...prev, response]);
