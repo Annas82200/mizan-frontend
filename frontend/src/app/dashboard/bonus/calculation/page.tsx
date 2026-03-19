@@ -136,6 +136,11 @@ export default function BonusCalculationPage() {
         approvedBy?: string;
         approvedAt?: string;
         createdAt: string;
+        performanceScore?: number;
+        overallScore?: number;
+        tenureYears?: number;
+        salaryBand?: string;
+        level?: string;
       }
 
       interface RecommendationsResponse {
